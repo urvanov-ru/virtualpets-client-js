@@ -3,7 +3,6 @@
 export default class AchievementInfoGameObject {
 
 
-
   static get ORIGINAL_NEW_ACHIEVEMENT_X() { return 20; }
   static get ORIGINAL_NEW_ACHIEVEMENT_Y() { return 300; }
 
@@ -18,15 +17,12 @@ export default class AchievementInfoGameObject {
   static get NEW_ACHIEVEMENT_SHOW_TIME() { return 5 * 1000; }
   static get ORIGINAL_FONT_SIZE() { return 20; }
 
-
-
   newAchievementStartTime = 0;
 
   newAchievementLabel = null;
   achievementLabel = null;
   achievementDescriptionLabel = null;
   achievementBackground = null;
-
 
   step() {
     if (this.newAchievementStartTime != 0) {
@@ -50,7 +46,6 @@ export default class AchievementInfoGameObject {
     this.newAchievementLabel.setVisible(true);
     this.achievementBackground.setVisible(true);
   };
-
 
 }
 

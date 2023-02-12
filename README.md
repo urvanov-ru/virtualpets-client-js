@@ -1,6 +1,6 @@
 
 
-# ${projectname}
+# VirtualPets Client JS
 
 
 
