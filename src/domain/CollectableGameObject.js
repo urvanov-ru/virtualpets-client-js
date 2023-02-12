@@ -2,12 +2,12 @@
 
 export default class CollectableGameObject extends GameObject {
 
-  static TIME_TO_LIFE() { return 10000; }
-  static TIME_TO_MOVE_TO_RUCKSACK() { return 500; }
-  static TIME_TO_JUMP_FROM_CREATION_POINT() { return 500; }
-  static SM_X() { return 100; }
-  static SM_Y() { return 100; }
-  static SM_JUMP_Z() { return 100; }
+  static get TIME_TO_LIFE() { return 10000; }
+  static get TIME_TO_MOVE_TO_RUCKSACK() { return 500; }
+  static get TIME_TO_JUMP_FROM_CREATION_POINT() { return 500; }
+  static get SM_X() { return 100; }
+  static get SM_Y() { return 100; }
+  static get SM_JUMP_Z() { return 100; }
 
   createdAt = new Date().getTime();
   movingToRucksack = false;
