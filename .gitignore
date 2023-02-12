@@ -1,0 +1,8 @@
+dist
+.jshintrc
+node_modules
+.npmignore
+.project
+.settings
+/**/*.java
+
