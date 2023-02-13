@@ -13,6 +13,7 @@ import CollectableGameObject from './domain/CollectableGameObject.js';
 import Dimension from './domain/Dimension.js';
 import DressingRoomData from './domain/DressingRoomData.js';
 import EventListener from './domain/EventListener.js';
+import TownData from './domain/TownData.js';
 
 
 let o = new AchievementInfoGameObject();
