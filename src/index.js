@@ -14,6 +14,7 @@ import Dimension from './domain/Dimension.js';
 import DressingRoomData from './domain/DressingRoomData.js';
 import EventListener from './domain/EventListener.js';
 import TownData from './domain/TownData.js';
+import TreasuryData from './domain/TreasuryData.js';
 
 
 let o = new AchievementInfoGameObject();
