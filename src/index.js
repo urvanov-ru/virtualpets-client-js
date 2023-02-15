@@ -18,6 +18,7 @@ import TreasuryData from './domain/TreasuryData.js';
 import TileType from './domain/TileType.js';
 import RucksackGameObject from './domain/RucksackGameObject.js';
 import ProgressBarGameObject from './domain/ProgressBarGameObject.js';
+import Point from './domain/Point.js';
 
 
 let o = new AchievementInfoGameObject();
