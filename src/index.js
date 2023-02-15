@@ -19,6 +19,7 @@ import TileType from './domain/TileType.js';
 import RucksackGameObject from './domain/RucksackGameObject.js';
 import ProgressBarGameObject from './domain/ProgressBarGameObject.js';
 import Point from './domain/Point.js';
+import PopupMenuGameObject from './domain/PopupMenuGameObject.js';
 
 
 let o = new AchievementInfoGameObject();
