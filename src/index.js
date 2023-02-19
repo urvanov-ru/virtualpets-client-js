@@ -25,6 +25,7 @@ import MouseMoveListener from './domain/MouseMoveListener.js';
 import HiddenObjectsGameData from './domain/HiddenObjectsGameData.js';
 import LabelGameObject from './domain/LabelGameObject.js';
 import MenuItem from './domain/MenuItem.js';
+import MouseMoveArg from './domain/MouseMoveArg.js';
 
 
 let o = new AchievementInfoGameObject();
