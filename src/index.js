@@ -1,3 +1,4 @@
+
 import AchievementInfoGameObject from './domain/AchievementInfoGameObject.js';
 import AddPrivateChatArg from './domain/AddPrivateChatArg.js'
 import AnimationOverArg from './domain/AnimationOverArg.js'
@@ -22,6 +23,7 @@ import Point from './domain/Point.js';
 import PopupMenuGameObject from './domain/PopupMenuGameObject.js';
 import MouseMoveListener from './domain/MouseMoveListener.js';
 import HiddenObjectsGameData from './domain/HiddenObjectsGameData.js';
+import LabelGameObject from './domain/LabelGameObject.js';
 
 
 let o = new AchievementInfoGameObject();
