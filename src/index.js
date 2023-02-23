@@ -27,6 +27,8 @@ import LabelGameObject from './domain/LabelGameObject.js';
 import MenuItem from './domain/MenuItem.js';
 import MouseMoveArg from './domain/MouseMoveArg.js';
 import HighlightGameObject from './domain/HighlightGameObject.js';
+import BoxGameObject from './domain/BoxGameObject.js';
+import RoomData from './domain/RoomData.js';
 
 
 let o = new AchievementInfoGameObject();
