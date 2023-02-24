@@ -29,6 +29,7 @@ import MouseMoveArg from './domain/MouseMoveArg.js';
 import HighlightGameObject from './domain/HighlightGameObject.js';
 import BoxGameObject from './domain/BoxGameObject.js';
 import RoomData from './domain/RoomData.js';
+import PetGameObject from './domain/PetGameObject.js';
 
 
 let o = new AchievementInfoGameObject();
