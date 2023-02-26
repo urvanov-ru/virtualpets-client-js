@@ -30,6 +30,7 @@ import HighlightGameObject from './domain/HighlightGameObject.js';
 import BoxGameObject from './domain/BoxGameObject.js';
 import RoomData from './domain/RoomData.js';
 import PetGameObject from './domain/PetGameObject.js';
+import LevelInfoGameObject from './domain/LevelInfoGameObject.js';
 
 
 let o = new AchievementInfoGameObject();
