@@ -32,6 +32,9 @@ import BoxGameObject from './domain/BoxGameObject.js';
 import RoomData from './domain/RoomData.js';
 import PetGameObject from './domain/PetGameObject.js';
 import LevelInfoGameObject from './domain/LevelInfoGameObject.js';
+import MessageBoxInnerGameObject from './domain/MessageBoxInnerGameObject.js';
+import MessageBoxGameObject from './domain/MessageBoxGameObject.js';
+import ExperienceGameObject from './domain/ExperienceGameObject.js';
 
 
 let o = new AchievementInfoGameObject();
