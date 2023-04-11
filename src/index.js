@@ -1,4 +1,5 @@
 
+// domain
 import AchievementInfoGameObject from './domain/AchievementInfoGameObject.js';
 import AddPrivateChatArg from './domain/AddPrivateChatArg.js'
 import AnimationOverArg from './domain/AnimationOverArg.js'
@@ -36,6 +37,10 @@ import MessageBoxInnerGameObject from './domain/MessageBoxInnerGameObject.js';
 import MessageBoxGameObject from './domain/MessageBoxGameObject.js';
 import ExperienceGameObject from './domain/ExperienceGameObject.js';
 import JournalGameObject from './domain/JournalGameObject.js';
+
+
+// tiles
+import TilesEngine from './tiles/TilesEngine.js';
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
