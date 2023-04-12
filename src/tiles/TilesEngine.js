@@ -11,9 +11,9 @@ export default class TilesEngine {
 
   tiles = null; // [][]
 
-  tileWidth = 0;
+  _tileWidth = 0;
 
-  tileHeight = 0;
+  _tileHeight = 0;
 
   gameObjects = new Set();
 
@@ -47,8 +47,8 @@ export default class TilesEngine {
   
   #initWidthHeightTileWTileH(width, height, tileWidth, tileHeight) {
     initTiles(width, height);
-    this.tileWidth = tileWidth;
-    this.tileHeight = tileHeight;
+    this._tileWidth = tileWidth;
+    this._tileHeight = tileHeight;
   }
 
   createAndFillTiles(width, height) {
@@ -61,14 +61,14 @@ export default class TilesEngine {
 
   #initTilesTileWTileH(tiles, tileWidth, tileHeight) {
     this.tiles = tiles;
-    this.tileWidth = tileWidth;
-    this.tileHeight = tileHeight;
+    this._tileWidth = tileWidth;
+    this._tileHeight = tileHeight;
   }
 
   #initTiles(tiles) {
     this.tiles = tiles;
-    this.tileWidth = DEFAULT_TILE_WIDTH;
-    this.tileHeight = DEFAULT_TILE_HEIGHT;
+    this._tileWidth = DEFAULT_TILE_WIDTH;
+    this._tileHeight = DEFAULT_TILE_HEIGHT;
   }
 
   #initWidthHeight(width, height) {
@@ -87,6 +87,14 @@ export default class TilesEngine {
 
   translateToTileCoordinates(x, y) {
     return new Point(Math.trunc(x / tileWidth), Math.trunc(y / tileHeight));
+  }
+  
+  get tileWidth() {
+    return this._tileWidth;
+  }
+  
+  get tileHeight() {
+    return this._tileHeight;
   }
 
   findPath(start, dest) {
@@ -315,7 +323,7 @@ export default class TilesEngine {
   }
 
   translateFromTileCoordinates(point) {
-    return new Point(point.x * getTileWidth(),
+    return new Point(point.x * this.tileWidth(),
         point.y * this.tileHeight);
   }
     
