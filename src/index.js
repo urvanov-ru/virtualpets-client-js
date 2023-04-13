@@ -37,6 +37,7 @@ import MessageBoxInnerGameObject from './domain/MessageBoxInnerGameObject.js';
 import MessageBoxGameObject from './domain/MessageBoxGameObject.js';
 import ExperienceGameObject from './domain/ExperienceGameObject.js';
 import JournalGameObject from './domain/JournalGameObject.js';
+import GameObjectRenderBase from './view/domain/GameObjectRenderBase.js';
 
 
 // tiles
