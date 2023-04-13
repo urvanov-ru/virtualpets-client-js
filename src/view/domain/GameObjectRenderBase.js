@@ -27,6 +27,6 @@ export default class GameObjectRenderBase {
   } 
   
   draw(independentCanvas) {
-    throw "Method draw not implemented";
+    throw "Method 'draw' is not implemented";
   }
 }
