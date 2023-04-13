@@ -1,11 +1,11 @@
 
 export default class LabelGameObjectRenderBase extends GameObjectRenderBase {
     
-  _labelGameObject;
+  #labelGameObject;
     
   constructor(go) {
     super(go);
-    this._labelGameObject = go;
+    this.#labelGameObject = go;
   }
     
   step() {
@@ -17,6 +17,6 @@ export default class LabelGameObjectRenderBase extends GameObjectRenderBase {
   }
 
   get labelGameObject() {
-    return this._labelGameObject;
+    return this.#labelGameObject;
   }
 }

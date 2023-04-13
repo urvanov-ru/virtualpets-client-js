@@ -1,11 +1,11 @@
 
 export default class PopupMenuGameObjectRenderBase extends GameObjectRenderBase {
 
-  _popupMenuGameObject;
+  #popupMenuGameObject;
     
   constructor(go) {
     super(go);
-    this._popupMenuGameObject = go;
+    this.#popupMenuGameObject = go;
   }
 
   step() {
@@ -17,6 +17,6 @@ export default class PopupMenuGameObjectRenderBase extends GameObjectRenderBase 
   }
 
   get popupMenuGameObject() {
-    return this._popupMenuGameObject;
+    return this.#popupMenuGameObject;
   }
 }

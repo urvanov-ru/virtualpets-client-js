@@ -1,17 +1,17 @@
 
 export default class ProgressBarGameObjectRenderBase extends GameObjectRenderBase {
 
-  _progressBarGameObject;
+  #progressBarGameObject;
     
   constructor(go) {
     super(go);
-    this._progressBarGameObject = go;
+    this.#progressBarGameObject = go;
   }
 
   step() {
   }
 
   get progressBarGameObject() {
-	this._progressBarGameObject;
+	this.#progressBarGameObject;
   }
 }
