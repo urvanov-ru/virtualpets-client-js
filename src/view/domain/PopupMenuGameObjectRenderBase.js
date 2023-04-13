@@ -1,15 +1,11 @@
-package ru.urvanov.virtualpets.client.view.domain;
-
-import ru.urvanov.virtualpets.client.domain.PopupMenuGameObject;
-import ru.urvanov.virtualpets.client.viewimpl.IndependentCanvas;
 
 export default class PopupMenuGameObjectRenderBase extends GameObjectRenderBase {
 
-  popupMenuGameObject;
+  _popupMenuGameObject;
     
   constructor(go) {
     super(go);
-    this.popupMenuGameObject = go;
+    this._popupMenuGameObject = go;
   }
 
   step() {
@@ -20,4 +16,7 @@ export default class PopupMenuGameObjectRenderBase extends GameObjectRenderBase 
 	throw "Method 'draw' is not implemented";
   }
 
+  get popupMenuGameObject() {
+    return this._popupMenuGameObject;
+  }
 }

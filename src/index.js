@@ -39,6 +39,8 @@ import ExperienceGameObject from './domain/ExperienceGameObject.js';
 import JournalGameObject from './domain/JournalGameObject.js';
 import GameObjectRenderBase from './view/domain/GameObjectRenderBase.js';
 import LabelGameObjectRenderBase from './view/domain/LabelGameObjectRenderBase.js';
+import PopupMenuGameObjectRenderBase from './view/domain/PopupMenuGameObjectRenderBase.js';
+import ProgressBarGameObjectRenderBase from './view/domain/ProgressBarGameObjectRenderBase.js';
 
 
 // tiles

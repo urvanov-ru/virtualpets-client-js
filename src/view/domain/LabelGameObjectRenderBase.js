@@ -1,11 +1,11 @@
 
 export default class LabelGameObjectRenderBase extends GameObjectRenderBase {
     
-  labelGameObject;
+  _labelGameObject;
     
   constructor(go) {
     super(go);
-    this.labelGameObject = go;
+    this._labelGameObject = go;
   }
     
   step() {
@@ -16,7 +16,7 @@ export default class LabelGameObjectRenderBase extends GameObjectRenderBase {
 	throw "Method 'draw' is not implemeneted"
   }
 
-  getLabelGameObject() {
-    return labelGameObject;
+  get labelGameObject() {
+    return this._labelGameObject;
   }
 }
