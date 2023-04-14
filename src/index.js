@@ -50,6 +50,7 @@ import PopupMenuGameObjectRenderBase from './view/domain/PopupMenuGameObjectRend
 import ProgressBarGameObjectRenderBase from './view/domain/ProgressBarGameObjectRenderBase.js';
 import AfternoonTeaView from './view/AfternoonTeaView.js';
 import DressingRoomView from './view/DressingRoomView.js';
+import RoomView from './view/RoomView.js';
 
 
 let o = new AchievementInfoGameObject();
