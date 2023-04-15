@@ -52,6 +52,7 @@ import AfternoonTeaView from './view/AfternoonTeaView.js';
 import DressingRoomView from './view/DressingRoomView.js';
 import RoomView from './view/RoomView.js';
 import TownView from './view/TownView.js';
+import TreasureView from './view/TreasureView.js';
 
 
 let o = new AchievementInfoGameObject();
