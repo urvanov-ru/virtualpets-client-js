@@ -1,5 +1,5 @@
 
-export default class TreasuryView extends GameEngineImpl {
+export default class TreasuryView extends GameEngine {
 
 
 }

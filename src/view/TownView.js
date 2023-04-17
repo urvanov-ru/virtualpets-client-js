@@ -1,5 +1,5 @@
 
-export default class TownView extends GameEngineImpl {
+export default class TownView extends GameEngine {
 
 
 }

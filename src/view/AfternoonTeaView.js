@@ -1,4 +1,4 @@
 
-export default class AfternoonTeaViewImpl extends GameEngineImpl {
+export default class AfternoonTeaViewImpl extends GameEngine {
 
 }

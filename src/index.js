@@ -55,6 +55,7 @@ import TownView from './view/TownView.js';
 import TreasuryView from './view/TreasuryView.js';
 import RubbishView from './view/RubbishView.js';
 import ResourceManager from './view/ResourceManager.js';
+import GameEngine from './view/GameEngine.js';
 
 
 let o = new AchievementInfoGameObject();

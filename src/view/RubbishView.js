@@ -1,3 +1,3 @@
 
-export default class RubbishView extends GameEngineImpl {
+export default class RubbishView extends GameEngine {
 }

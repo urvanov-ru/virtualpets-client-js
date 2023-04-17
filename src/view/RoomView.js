@@ -1,4 +1,4 @@
-export default class RoomView extends GameEngineImpl {
+export default class RoomView extends GameEngine {
    
   #roomData;
 

@@ -1,5 +1,5 @@
 
-export default class DressingRoomViewImpl extends GameEngineImpl {
+export default class DressingRoomViewImpl extends GameEngine {
 
 
 }
