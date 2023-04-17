@@ -57,6 +57,10 @@ import RubbishView from './view/RubbishView.js';
 import ResourceManager from './view/ResourceManager.js';
 import GameEngine from './view/GameEngine.js';
 
+// localization
+import StringConstants from './localization/StringConstants.js';
+
+
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
