@@ -62,6 +62,7 @@ import StringConstants from './localization/StringConstants.js';
 
 // settings
 import Settings from './settings/Settings.js';
+import MemorySettings from './settings/MemorySettings.js';
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
