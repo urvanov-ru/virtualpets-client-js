@@ -60,7 +60,8 @@ import GameEngine from './view/GameEngine.js';
 // localization
 import StringConstants from './localization/StringConstants.js';
 
-
+// settings
+import Settings from './settings/Settings.js';
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
