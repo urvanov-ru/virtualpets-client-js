@@ -1,8 +1,8 @@
 
-export default class PreferencesSettings extends Settings {
+export default class LocalStorageSettings extends Settings {
 
 
-  static get NODE_PATH() { return "ru.urvanov.virtualpets."; }
+  static get PREFIX() { return "ru.urvanov.virtualpets."; }
 
   /**
    * Вызывает метод load().
@@ -12,7 +12,7 @@ export default class PreferencesSettings extends Settings {
   }
 
   #getFromLocalStorage(settingName, defaultValue) {
-    const result = localStorage[NODE_PATH + settingName];
+    const result = localStorage[PREFIX + settingName];
     if (result !== undefined) {
       return result;
     }
@@ -20,7 +20,7 @@ export default class PreferencesSettings extends Settings {
   }
   
   #setToLocalStorage(settingName, value) {
-    localStorage[NODE_PATH + settingName] = value;
+    localStorage[PREFIX + settingName] = value;
   }
 
   /**
