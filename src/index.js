@@ -68,6 +68,7 @@ import LocalStorageSettings from './settings/LocalStorageSettings.js';
 
 // resources
 import ProgressInfo from './resources/ProgressInfo.js';
+import ResourceHolder from './resources/ResourceHolder.js';
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
