@@ -54,7 +54,6 @@ import RoomView from './view/RoomView.js';
 import TownView from './view/TownView.js';
 import TreasuryView from './view/TreasuryView.js';
 import RubbishView from './view/RubbishView.js';
-import ResourceManager from './view/ResourceManager.js';
 import GameEngine from './view/GameEngine.js';
 
 // localization
@@ -69,6 +68,8 @@ import LocalStorageSettings from './settings/LocalStorageSettings.js';
 // resources
 import ProgressInfo from './resources/ProgressInfo.js';
 import ResourceHolder from './resources/ResourceHolder.js';
+import ResourceManager from './view/ResourceManager.js';
+
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
