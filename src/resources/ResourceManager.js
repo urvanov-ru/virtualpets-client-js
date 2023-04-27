@@ -897,6 +897,7 @@ export default class ResourceManager {
       }
     }
     for (const key of keysToRemove) {
+      document.body.remove(mapResources.get(key));
       mapResources.delete(key);
     }
   }
