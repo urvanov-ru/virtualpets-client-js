@@ -762,7 +762,7 @@ export default class ResourceManager {
     return smilesInGroupCount.length;
   }
 
-  getSmilesInGroupCount(int group) {
+  getSmilesInGroupCount(group) {
     return smilesInGroupCount[group];
   }
 
@@ -840,18 +840,13 @@ export default class ResourceManager {
    */
   set applicationHome(applicationHomeArg) {
     this.#applicationHome = applicationHomeArg;
-    try {
-      const separator = '/';
-      this.#resourcesPath = applicationHome.getApplicationHome()
-          + separator + ".."
-          + separator + ".."
-          + separator + "data"
-          + separator + "resources.zip";
+    const separator = '/';
+    this.#resourcesPath = this.#applicationHome.getApplicationHome()
+        + separator + ".."
+        + separator + ".."
+        + separator + "data"
+        + separator + "resources.zip";
       
-      resourcesZipFileHandler = new ZipFileHandler(resourcesPath);
-    } catch (UnsupportedEncodingException | MalformedURLException e) {
-      log.error("setApplicationHome failed.", e);
-    }
   }
 
   putResource(resourceId, resourceHolder) {
