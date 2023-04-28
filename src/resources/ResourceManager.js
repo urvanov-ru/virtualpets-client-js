@@ -897,7 +897,7 @@ export default class ResourceManager {
       }
     }
     for (const key of keysToRemove) {
-      document.body.remove(mapResources.get(key));
+      document.body.removeChild(mapResources.get(key));
       mapResources.delete(key);
     }
   }
@@ -910,7 +910,9 @@ export default class ResourceManager {
    * Освобождает занятые ресурсы.
    */
   destroy() {
+    for (const key of mapResources.keys) {
+      document.body.removeChild(mapResources.get(key));
+    }
     mapResources.clear();
-    resourcesZipFileHandler.close();
   }
 }
