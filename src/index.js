@@ -71,6 +71,7 @@ import ResourceHolder from './resources/ResourceHolder.js';
 import ResourceManager from './resources/ResourceManager.js';
 import ResourceLoader from './resources/ResourceLoader.js';
 import BaseGameLoadWorker from './resources/BaseGameLoadWorker.js';
+import RoomLoadWorker from './resources/RoomLoadWorker.js';
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
