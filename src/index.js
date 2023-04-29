@@ -70,6 +70,7 @@ import ProgressInfo from './resources/ProgressInfo.js';
 import ResourceHolder from './resources/ResourceHolder.js';
 import ResourceManager from './resources/ResourceManager.js';
 import ResourceLoader from './resources/ResourceLoader.js';
+import BaseGameLoadWorker from './resources/BaseGameLoadWorker.js';
 
 let o = new AchievementInfoGameObject();
 o.achievementLabel = 'test';
