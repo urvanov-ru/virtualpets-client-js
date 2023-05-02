@@ -1,4 +1,5 @@
 
+import GameObject from './GameObject.js';
 
 
 export default class BuildMenuGameObject extends GameObject {

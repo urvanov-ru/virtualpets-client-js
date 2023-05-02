@@ -1,3 +1,5 @@
+import BaseGameLoadWorker from './BaseGameLoadWorker.js';
+
 
 export default class RoomLoadWorker extends BaseGameLoadWorker {
   static get MAX_INDEX() { return 142; }

@@ -1,3 +1,4 @@
+import GameObjectRenderBase from './GameObjectRenderBase.js';
 
 export default class LabelGameObjectRenderBase extends GameObjectRenderBase {
     

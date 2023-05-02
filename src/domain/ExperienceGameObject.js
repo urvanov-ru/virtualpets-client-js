@@ -1,3 +1,5 @@
+import GameObject from './GameObject.js';
+
 
 export default class ExperienceGameObject extends GameObject { // implements HighlightGameObject
   static get TIME_TO_LIFE() { return 10000; }

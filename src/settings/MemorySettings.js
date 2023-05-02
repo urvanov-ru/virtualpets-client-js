@@ -1,3 +1,5 @@
+import Settings from './Settings.js';
+
 
 export default class MemorySettings extends Settings {
 

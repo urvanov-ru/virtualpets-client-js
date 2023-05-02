@@ -1,3 +1,5 @@
+import GameObject from './GameObject.js';
+
 
 export default class JournalGameObject extends GameObject { //  implements HighlightGameObject
 

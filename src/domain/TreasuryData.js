@@ -1,3 +1,4 @@
+import HiddenObjectsGameData from './HiddenObjectsGameData.js';
 
 
 export default class TreasuryData extends HiddenObjectsGameData {

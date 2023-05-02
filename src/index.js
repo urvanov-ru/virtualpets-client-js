@@ -1,5 +1,6 @@
 
 // domain
+import GameObject from './domain/GameObject.js';
 import AchievementInfoGameObject from './domain/AchievementInfoGameObject.js';
 import AddPrivateChatArg from './domain/AddPrivateChatArg.js'
 import AnimationOverArg from './domain/AnimationOverArg.js'
@@ -73,9 +74,17 @@ import ResourceLoader from './resources/ResourceLoader.js';
 import BaseGameLoadWorker from './resources/BaseGameLoadWorker.js';
 import RoomLoadWorker from './resources/RoomLoadWorker.js';
 
-let o = new AchievementInfoGameObject();
-o.achievementLabel = 'test';
-alert(o.achievementLabel);
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "green";
+  ctx.fillRect(10, 10, 150, 100);
+});
+
+
+
 
 //let addPrivateChatArg = new AddPrivateChatArg();
 

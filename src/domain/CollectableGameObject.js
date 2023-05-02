@@ -1,3 +1,4 @@
+import GameObject from './GameObject.js';
 
 
 export default class CollectableGameObject extends GameObject {

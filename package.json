@@ -4,17 +4,25 @@
   "description": "",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build" : "webpack"
+    "test": "tape test/*.js",
+    "build": "webpack",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "tape": "^5.6.3",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "npm-watch": "^0.11.0",
+    "test": "^3.3.0",
+    "watch": "^1.0.2"
   }
 }

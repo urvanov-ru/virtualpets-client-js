@@ -1,3 +1,5 @@
+import GameObjectRenderBase from './GameObjectRenderBase.js';
+
 
 export default class PopupMenuGameObjectRenderBase extends GameObjectRenderBase {
 
