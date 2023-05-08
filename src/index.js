@@ -75,7 +75,7 @@ import BaseGameLoadWorker from './resources/BaseGameLoadWorker.js';
 import RoomLoadWorker from './resources/RoomLoadWorker.js';
 
 // controller
-import RoomController from './controller/RoomController.js';
+// import RoomController from './controller/RoomController.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
   const canvas = document.getElementById("canvas");
