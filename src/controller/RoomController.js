@@ -668,28 +668,25 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  private void showUpgradeMachineWithDrinks() {
+  showUpgradeMachineWithDrinks() {
     try {
 
-      roomData.setSituation(Situation.UPGRADE_MACHINE_WITH_DRINKS_COST);
-      MessageSource messageSource = getMessageSource();
-      String text = messageSource.getMessage(StringConstants.DRINK, null,
-          null);
-      int newMachineWithDrinksId = roomData.getMachineWithDrinksId() + 1;
-      Map<BuildingMaterialType, Integer> costs = roomData
-          .getBuildMenuCosts().getMachineWithDrinksCosts()
+      this.roomData.situation = Situation.UPGRADE_MACHINE_WITH_DRINKS_COST;
+      const text = this.messageSource.getMessage(StringConstants.DRINK, null, null);
+      const newMachineWithDrinksId = this.roomData.machineWithDrinksId + 1;
+      const costs = roomData
+          .buildMenuCosts.machineWithDrinksCosts
           .get(newMachineWithDrinksId - 1);
-      showUpgrade(text, costs, (aaa) -> {
-        startUpgrade(roomData.getMachineWithDrinks());
-      }, (bbb) -> {
-        roomData.setSituation(Situation.NORMAL);
+      this.showUpgrade(text, costs, (aaa) => {
+        this.startUpgrade(roomData.machineWithDrinks);
+      }, (bbb) => {
+        this.roomData.situation = Situation.NORMAL;
       });
 
-    } catch (Exception ex) {
-      log.error("showUpgradeRefrigerator failed. ", ex);
-      String message = getMessageSource().getMessage(
-          StringConstants.ERROR, null, null);
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
+    } catch (ex) {
+      console.error("showUpgradeRefrigerator failed. %o", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null);
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     }
   }
 
