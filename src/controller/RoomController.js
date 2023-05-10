@@ -741,36 +741,36 @@ export default class RoomController extends BaseGameController{
     return machineWithDrinks;
   }
 
-  private class UpgradeMachineWithDrinksBackgroundWork extends
-      BackgroundWork<Void, Void, Void> {
+//  private class UpgradeMachineWithDrinksBackgroundWork extends
+//      BackgroundWork<Void, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.upgradeMachineWithDrinks();
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("UpgradeMachineWithDrinks failed", ex);
+//      trayIcon.showTrayMessage(
+//          messageSource.getMessage(StringConstants.ERROR, null, null),
+//          MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.upgradeMachineWithDrinks();
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("UpgradeMachineWithDrinks failed", ex);
-      trayIcon.showTrayMessage(
-          messageSource.getMessage(StringConstants.ERROR, null, null),
-          MessageType.ERROR);
-    }
-  }
-
-  private void upgradeMachineWithDrinks() {
-    UpgradeMachineWithDrinksBackgroundWork work = new UpgradeMachineWithDrinksBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  upgradeMachineWithDrinks() {
+    //const work = new UpgradeMachineWithDrinksBackgroundWork();
+    //work.view = roomView;
+    //const ces = new ConnectionExceptionSettings();
+    //ces.restart = true;
+    //work.connectionExceptionSettings = ces;
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private void initializeFood() {
