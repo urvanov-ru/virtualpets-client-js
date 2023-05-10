@@ -690,68 +690,54 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  private BuildingGameObject initializeMachineWithDrinks(int level) {
-    BuildingGameObject machineWithDrinks = new BuildingGameObject();
-    machineWithDrinks.setDimension(new Dimension(
-        RoomData.ORIGINAL_DRINK_WIDTH, RoomData.ORIGINAL_DRINK_HEIGHT));
-    int[][] imgids = new int[2][];
-    imgids[HighlightGameObject.OBJECT_NORMAL] = new int[1];
-    imgids[HighlightGameObject.OBJECT_NORMAL][0] = ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_1
-        + level - 1;
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT] = new int[1];
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT][0] = ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_1_HIGHLIGHT
-        + level - 1;
-    machineWithDrinks.setAnimationImageIds(imgids);
-    machineWithDrinks.setPosition(new Point(RoomData.ORIGINAL_WATER_X,
-        RoomData.ORIGINAL_WATER_Y));
-    machineWithDrinks.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showHandCursor();
-        roomView.setToolTipText(getMessageSource().getMessage(
-            StringConstants.DRINK, null, null));
-        setHighlightObject(machineWithDrinks);
-      }
-
+  initializeMachineWithDrinks(level) {
+    const machineWithDrinks = new BuildingGameObject();
+    machineWithDrinks.dimension = new Dimension(
+        RoomData.ORIGINAL_DRINK_WIDTH, RoomData.ORIGINAL_DRINK_HEIGHT);
+    const imgids = [[ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_1
+        + level - 1 ][ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_1_HIGHLIGHT
+        + level - 1 ]];
+    machineWithDrinks.animationImageIds = imgids;
+    machineWithDrinks.position = new Point(RoomData.ORIGINAL_WATER_X,
+        RoomData.ORIGINAL_WATER_Y);
+    machineWithDrinks.addMouseMoveListener((mouseMoveArg) => {
+      roomView.showHandCursor();
+      roomView.setToolTipText(getMessageSource().getMessage(
+          StringConstants.DRINK, null, null));
+      setHighlightObject(machineWithDrinks);
     });
-    machineWithDrinks.addClickedListener(new ClickedListener() {
-
-      @Override
-      public void clicked(ClickedArg arg) {
-        drinkClicked(arg);
-      }
-
+    machineWithDrinks.addClickedListener((clickedArg) => {
+      drinkClicked(arg);
     });
     machineWithDrinks
-        .addBuildListener(() -> {
-          roomData.setSituation(Situation.NORMAL);
-          ru.urvanov.virtualpets.shared.domain.Point tilesPosition = new ru.urvanov.virtualpets.shared.domain.Point();
-          Point point = this.tilesEngine
+        .addBuildListener(() => {
+          roomData.situation = Situation.NORMAL;
+          const tilesPosition = new Point();
+          const point = this.tilesEngine
               .translateToTileCoordinates(machineWithDrinks);
-          tilesPosition.setX(point.getX());
-          tilesPosition.setY(point.getY());
-          buildMachineWithDrinks(tilesPosition);
+          tilesPosition.x = point.x;
+          tilesPosition.y = point.y;
+          this.buildMachineWithDrinks(tilesPosition);
         });
-    machineWithDrinks.addUpgradeListener(() -> {
-      roomData.setSituation(Situation.NORMAL);
-      upgradeMachineWithDrinks();
+    machineWithDrinks.addUpgradeListener(() => {
+      this.roomData.situation = Situation.NORMAL;
+      this.upgradeMachineWithDrinks();
     });
     machineWithDrinks
-        .addMoveListener(() -> {
-          roomData.setSituation(Situation.NORMAL);
-          ru.urvanov.virtualpets.shared.domain.Point tilesPosition = new ru.urvanov.virtualpets.shared.domain.Point();
-          Point point = this.tilesEngine
+        .addMoveListener(() => {
+          roomData.situation = Situation.NORMAL;
+          const tilesPosition = new Point();
+          const point = this.tilesEngine
               .translateToTileCoordinates(machineWithDrinks);
-          tilesPosition.setX(point.getX());
-          tilesPosition.setY(point.getY());
-          moveMachineWithDrinks(tilesPosition);
+          tilesPosition.x = point.x;
+          tilesPosition.y = point.y;
+          this.moveMachineWithDrinks(tilesPosition);
         });
-    machineWithDrinks.setTileTypes(new TileType[][] { { TileType.NORMAL,
-        TileType.NORMAL, TileType.WALL } });
-    machineWithDrinks.setVisible(false);
-    addGameObject(machineWithDrinks);
-    roomData.setMachineWithDrinks(machineWithDrinks);
+    machineWithDrinks.tileTypes = [[ TileType.NORMAL,
+        TileType.NORMAL, TileType.WALL ]];
+    machineWithDrinks.visible = false;
+    this.addGameObject(machineWithDrinks);
+    this.roomData.machineWithDrinks = machineWithDrinks;
     return machineWithDrinks;
   }
 
