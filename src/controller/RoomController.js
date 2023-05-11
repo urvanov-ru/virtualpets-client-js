@@ -1153,37 +1153,37 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class UpgradeBookcaseBackgroundWork extends
-      BackgroundWork<Void, Void, Void> {
+//  private class UpgradeBookcaseBackgroundWork extends
+//      BackgroundWork<Void, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.upgradeBookcase();
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("UpgradeBookcaseBackgroundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ":" + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//      getRoomInfo();
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.upgradeBookcase();
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("UpgradeBookcaseBackgroundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-      getRoomInfo();
-    }
-  }
-
-  private void upgradeBookcase() {
-    UpgradeBookcaseBackgroundWork work = new UpgradeBookcaseBackgroundWork();
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    work.setView(roomView);
-    backgroundWorkManager.startBackgroundWork(work);
+  upgradeBookcase() {
+    //UpgradeBookcaseBackgroundWork work = new UpgradeBookcaseBackgroundWork();
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //work.setView(roomView);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class BuildRefrigeratorBackgroundWork
