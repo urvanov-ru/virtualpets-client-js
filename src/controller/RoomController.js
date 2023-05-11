@@ -948,107 +948,105 @@ export default class RoomController extends BaseGameController{
     roomData.refrigeratorPopupMenu = refrigeratorPopupMenu;
   }
 
-  private class GetBuildMenuCostsBackgroundWork extends
-      BackgroundWork<Void, RoomBuildMenuCosts, Void> {
+//  private class GetBuildMenuCostsBackgroundWork extends
+//      BackgroundWork<Void, RoomBuildMenuCosts, Void> {
+//
+//    @Override
+//    public RoomBuildMenuCosts doInBackground() throws Exception {
+//      return roomService.getBuildMenuCosts();
+//    }
+//
+//    @Override
+//    public void completed(RoomBuildMenuCosts result) {
+//      RoomControllerImpl.this.setBuildMenuCosts(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("GetBuildMenuCostsBackgroundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ":" + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//
+//  }
 
-    @Override
-    public RoomBuildMenuCosts doInBackground() throws Exception {
-      return roomService.getBuildMenuCosts();
-    }
-
-    @Override
-    public void completed(RoomBuildMenuCosts result) {
-      RoomControllerImpl.this.setBuildMenuCosts(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("GetBuildMenuCostsBackgroundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-
+  getBuildMenuCosts() {
+    //GetBuildMenuCostsBackgroundWork work = new GetBuildMenuCostsBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  protected void getBuildMenuCosts() {
-    GetBuildMenuCostsBackgroundWork work = new GetBuildMenuCostsBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+//  private class MoveMachineWithDrinksBackgroundWork
+//      extends
+//      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.moveMachineWithDrinks(getArgument());
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("MoveMachineWithDrinksBackgroundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ":" + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//      getRoomInfo();
+//    }
+//  }
+
+  moveMachineWithDrinks(arg) {
+    //MoveMachineWithDrinksBackgroundWork work = new MoveMachineWithDrinksBackgroundWork();
+    //work.setArgument(arg);
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class MoveMachineWithDrinksBackgroundWork
-      extends
-      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//  private class BuildMachineWithDrinksBackgroundWork
+//      extends
+//      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.buildMachineWithDrinks(getArgument());
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("BuildMachineWithDrinksBackgroundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ":" + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//      getRoomInfo();
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.moveMachineWithDrinks(getArgument());
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("MoveMachineWithDrinksBackgroundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-      getRoomInfo();
-    }
-  }
-
-  protected void moveMachineWithDrinks(
-      ru.urvanov.virtualpets.shared.domain.Point arg) {
-    MoveMachineWithDrinksBackgroundWork work = new MoveMachineWithDrinksBackgroundWork();
-    work.setArgument(arg);
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    backgroundWorkManager.startBackgroundWork(work);
-  }
-
-  private class BuildMachineWithDrinksBackgroundWork
-      extends
-      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
-
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.buildMachineWithDrinks(getArgument());
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("BuildMachineWithDrinksBackgroundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-      getRoomInfo();
-    }
-  }
-
-  protected void buildMachineWithDrinks(
-      ru.urvanov.virtualpets.shared.domain.Point arg) {
-    BuildMachineWithDrinksBackgroundWork work = new BuildMachineWithDrinksBackgroundWork();
-    work.setArgument(arg);
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  buildMachineWithDrinks(arg) {
+    //BuildMachineWithDrinksBackgroundWork work = new BuildMachineWithDrinksBackgroundWork();
+    //work.setArgument(arg);
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class MoveBookcaseBackgroundWork
