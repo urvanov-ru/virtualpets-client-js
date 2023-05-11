@@ -1120,37 +1120,37 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class UpgradeRefrigeratorBackgroundWork extends
-      BackgroundWork<Void, Void, Void> {
+//  private class UpgradeRefrigeratorBackgroundWork extends
+//      BackgroundWork<Void, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.upgradeRefrigerator();
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("UpgradeRefrigeratorBackgroundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ":" + ex.toString();
+//     trayIcon.showTrayMessage(message, MessageType.ERROR);
+//      getRoomInfo();
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.upgradeRefrigerator();
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("UpgradeRefrigeratorBackgroundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-      getRoomInfo();
-    }
-  }
-
-  protected void upgradeRefrigerator() {
-    UpgradeRefrigeratorBackgroundWork work = new UpgradeRefrigeratorBackgroundWork();
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    work.setView(roomView);
-    backgroundWorkManager.startBackgroundWork(work);
+  upgradeRefrigerator() {
+    //UpgradeRefrigeratorBackgroundWork work = new UpgradeRefrigeratorBackgroundWork();
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //work.setView(roomView);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class UpgradeBookcaseBackgroundWork extends
