@@ -773,12 +773,12 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private void initializeFood() {
-    GameObject food = new GameObject();
-    food.setPosition(new Point(RoomData.ORIGINAL_FOOD_X,
-        RoomData.ORIGINAL_FOOD_Y));
-    food.setVisible(false);
-    int[][] imgids = new int[20][];
+  initializeFood() {
+    const food = new GameObject();
+    food.position = new Point(RoomData.ORIGINAL_FOOD_X,
+        RoomData.ORIGINAL_FOOD_Y);
+    food.visible = false;
+    const imgids = new Array(20);
     imgids[RoomData.FOOD_CARROT] = initializeFoodImageIds(
         ResourceManagerBase.IMAGE_CARROT_1,
         ResourceManagerBase.IMAGE_CARROT_2,
@@ -903,49 +903,49 @@ export default class RoomController extends BaseGameController{
         ResourceManagerBase.IMAGE_ORANGE_JUICE_3,
         ResourceManagerBase.IMAGE_ORANGE_JUICE_4,
         ResourceManagerBase.IMAGE_ORANGE_JUICE_5);
-    food.setAnimationImageIds(imgids);
-    food.setLoopAnimation(true);
-    addGameObject(food);
-    roomData.setFood(food);
+    food.animationImageIds = imgids;
+    food.loopAnimation = true;
+    this.addGameObject(food);
+    this.roomData.food = food;
   }
 
-  private int[] initializeFoodImageIds(int... ids) {
-    final int COUNT = 100;
-    int[] result = new int[COUNT];
-    for (int n = 0; n < COUNT; n++) {
-      result[n] = ids[(int) ((double) n / COUNT * ids.length)];
+  initializeFoodImageIds(...ids) {
+    const COUNT = 100;
+    const result = new Array(COUNT);
+    for (const n = 0; n < COUNT; n++) {
+      result[n] = ids[ n / COUNT * ids.length];
     }
     return result;
   }
 
-  private void initializeRefrigeratorPopupMenu() {
-    PopupMenuGameObject refrigeratorPopupMenu = new PopupMenuGameObject();
-    List<MenuItem> refrigeratorMenuItems = new ArrayList<MenuItem>();
-    MenuItem refrigeratorUseItem = new MenuItem();
-    refrigeratorUseItem.setText(this.getMessageSource().getMessage(
-        StringConstants.USE, null, null));
-    refrigeratorUseItem.addClickedListener(arg -> RoomControllerImpl.this
-        .setRefrigeratorInnerVisible(true));
+  initializeRefrigeratorPopupMenu() {
+    const refrigeratorPopupMenu = new PopupMenuGameObject();
+    const refrigeratorMenuItems = [];
+    const refrigeratorUseItem = new MenuItem();
+    refrigeratorUseItem.text = this.messageSource.getMessage(
+        StringConstants.USE, null, null);
+    refrigeratorUseItem.addClickedListener((arg) => this
+        .refrigeratorInnerVisible = true);
     refrigeratorMenuItems.add(refrigeratorUseItem);
-    MenuItem refrigeratorUpgradeItem = new MenuItem();
-    refrigeratorUpgradeItem.setText(getMessageSource().getMessage(
+    const refrigeratorUpgradeItem = new MenuItem();
+    refrigeratorUpgradeItem.text = this.messageSource.getMessage(
         StringConstants.UPGRADE, null, null));
     refrigeratorUpgradeItem
-        .addClickedListener(arg -> RoomControllerImpl.this
+        .addClickedListener((arg) => this
             .showUpgradeRefrigerator());
     refrigeratorMenuItems.add(refrigeratorUpgradeItem);
-    MenuItem refrigeratorMoveItem = new MenuItem();
-    refrigeratorMoveItem.setText(getMessageSource().getMessage(
+    const refrigeratorMoveItem = new MenuItem();
+    refrigeratorMoveItem.text = messageSource.getMessage(
         StringConstants.MOVE, null, null));
-    refrigeratorMoveItem.addClickedListener(arg -> {
-      roomData.setSituation(Situation.MOVE_REFRIGERATOR);
-      RoomControllerImpl.this.startMove(roomData.getRefrigerator());
+    refrigeratorMoveItem.addClickedListener((arg) => {
+      this.roomData.situation = Situation.MOVE_REFRIGERATOR;
+      this.startMove(this.roomData.getRefrigerator());
     });
-    refrigeratorPopupMenu.setMenuItems(refrigeratorMenuItems);
+    refrigeratorPopupMenu.menuItems = refrigeratorMenuItems;
     refrigeratorMenuItems.add(refrigeratorMoveItem);
 
-    addGameObject(refrigeratorPopupMenu);
-    roomData.setRefrigeratorPopupMenu(refrigeratorPopupMenu);
+    this.addGameObject(refrigeratorPopupMenu);
+    roomData.refrigeratorPopupMenu = refrigeratorPopupMenu;
   }
 
   private class GetBuildMenuCostsBackgroundWork extends
