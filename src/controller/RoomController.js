@@ -1049,40 +1049,39 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class MoveBookcaseBackgroundWork
-      extends
-      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//  private class MoveBookcaseBackgroundWork
+//      extends
+//      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.moveBookcase(getArgument());
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("MoveBookcaseBackgroundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ":" + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//      getRoomInfo();
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.moveBookcase(getArgument());
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("MoveBookcaseBackgroundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-      getRoomInfo();
-    }
-  }
-
-  protected void moveBookcase(
-      ru.urvanov.virtualpets.shared.domain.Point arg) {
-    MoveBookcaseBackgroundWork work = new MoveBookcaseBackgroundWork();
-    work.setArgument(arg);
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  moveBookcase(arg) {
+    //MoveBookcaseBackgroundWork work = new MoveBookcaseBackgroundWork();
+    //work.setArgument(arg);
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class BuildBookcaseBackgroundWork
