@@ -1574,37 +1574,37 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class DrinkBackgroundWork extends
-      BackgroundWork<DrinkArg, Void, Object> {
+//  private class DrinkBackgroundWork extends
+//      BackgroundWork<DrinkArg, Void, Object> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      petService.drink(getArgument());
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      RoomControllerImpl.this.getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("DrinkBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      petService.drink(getArgument());
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      RoomControllerImpl.this.getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("DrinkBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
-
-  private void drink(DrinkArg arg) {
-    DrinkBackgroundWork work = new DrinkBackgroundWork();
-    work.setArgument(arg);
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  drink(arg) {
+    //DrinkBackgroundWork work = new DrinkBackgroundWork();
+    //work.setArgument(arg);
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(false);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class OpenBoxNewbieBackgroundWork extends
