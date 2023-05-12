@@ -1508,36 +1508,36 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class EducationBackgroundWork extends
-      BackgroundWork<Void, Void, Object> {
+//  private class EducationBackgroundWork extends
+//      BackgroundWork<Void, Void, Object> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      petService.education();
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//      RoomControllerImpl.this.getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("EducationBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      petService.education();
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-      RoomControllerImpl.this.getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("EducationBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
-
-  protected void education() {
-    EducationBackgroundWork work = new EducationBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  education() {
+    //EducationBackgroundWork work = new EducationBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(false);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class SatietyBackgroundWork extends
