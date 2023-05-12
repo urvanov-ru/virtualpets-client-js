@@ -1350,100 +1350,100 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private void setRoomInfo(GetRoomInfoResult result) {
+  set roomInfo(getRoomInfoResult) {
     // petInfo = result;
-    if (result.getJournalOnFloor() == false) {
-      getJournal().setVisible(true);
+    if (getRoomInfoResult.journalOnFloor == false) {
+      this.journal.visible = true;
     } else
-      roomData.getJournalOnFloor().setVisible(true);
+      this.roomData.journalOnFloor.visible = true;
 
-    getJournal().setVisible(result.getHaveJournal());
-    this.getBuildMenu().setVisible(result.getHaveHammer());
-    this.getRucksack().setVisible(result.getHaveRucksack());
-    roomData.getArrowRight().setVisible(result.getHaveToTownArrow());
-    roomData.getSatietyLabel().setVisible(result.getHaveIndicators());
-    roomData.getDrinkLabel().setVisible(result.getHaveIndicators());
-    roomData.getEducationLabel().setVisible(result.getHaveIndicators());
-    roomData.getMoodLabel().setVisible(result.getHaveIndicators());
-    roomData.getSatietyProgressBar().setVisible(result.getHaveIndicators());
-    roomData.getDrinkProgressBar().setVisible(result.getHaveIndicators());
-    roomData.getEducationProgressBar().setVisible(
-        result.getHaveIndicators());
-    roomData.getMoodProgressBar().setVisible(result.getHaveIndicators());
+    journal.visible = getRoomInfogetRoomInfoResult.haveJournal;
+    this.buildMenu.visible = getRoomInfoResult.haveHammer;
+    this.rucksack.visible = getRoomInfoResult.haveRucksack;
+    this.roomData.arrowRight.visible = getRoomInfoResult.haveToTownArrow;
+    this.roomData.satietyLabel.visible = getRoomInfoResult.haveIndicators;
+    this.roomData.drinkLabel.visible = getRoomInfoResult.haveIndicators;
+    this.roomData.educationLabel.visible = getRoomInfoResult.haveIndicators;
+    this.roomData.moodLabel.visible = getRoomInfoResult.haveIndicators;
+    this.roomData.satietyProgressBar.visible = getRoomInfoResult.haveIndicators;
+    this.roomData.drinkProgressBar.visible = getRoomInfoResult.haveIndicators;
+    this.roomData.educationProgressBar.visible = 
+        getRoomInfoResult.haveIndicators;
+    this.roomData.moodProgressBar.visible = getRoomInfoResult.haveIndicators;
 
-    GameObject[] boxes = roomData.getBoxes();
-    boolean[] boxesNewbie = result.getBoxesNewbie();
-    for (int n = 0; n < boxesNewbie.length && n < RoomData.BOXES_COUNT; n++) {
-      boxes[n].setVisible(boxesNewbie[n]);
+    const boxes = roomData.boxes;
+    const boxesNewbie = getRoomInfoResult.boxesNewbie;
+    for (let n = 0; n < boxesNewbie.length && n < RoomData.BOXES_COUNT; n++) {
+      boxes[n].visible = boxesNewbie[n];
     }
-    roomData.getSatietyProgressBar().setValue(result.getSatiety());
-    roomData.getDrinkProgressBar().setValue(result.getDrink());
-    roomData.getEducationProgressBar().setValue(result.getEducation());
-    roomData.getMoodProgressBar().setValue(result.getMood());
-    getJournal().getNewEntriesCountLabel().setText(
-        result.getNewJournalEntriesCount() == 0 ? "" : ""
-            + result.getNewJournalEntriesCount());
-    getJournal().getNewEntriesCountLabel().setVisible(
-        result.getNewJournalEntriesCount() > 0);
-    Integer hatId = result.getHatId();
-    Integer clothId = result.getClothId();
-    Integer bowId = result.getBowId();
-    Map<Integer, ClothGameObject> clothObjects = roomData.getClothObjects();
+    this.roomData.satietyProgressBar.value = getRoomInfoResult.satiety;
+    this.roomData.drinkProgressBar.value = getRoomInfoResult.drink;
+    this.roomData.educationProgressBar.value = getRoomInfoResult.education;
+    this.roomData.moodProgressBar.value = getRoomInfoResult.mood;
+    this.journal.newEntriesCountLabel.text = 
+        getRoomInfoResult.newJournalEntriesCount == 0 ? "" : ""
+            + getRoomInfoResult.newJournalEntriesCount;
+    this.journal.newEntriesCountLabel.visible = 
+        getRoomInfoResult.newJournalEntriesCount > 0;
+    const hatId = getRoomInfoResult.hatId;
+    const clothId = getRoomInfoResult.clothId;
+    const bowId = getRoomInfoResult.bowId;
+    const clothObjects = roomData.getClothObjects();
     if (hatId != null) {
-      ClothGameObject hat = clothObjects.get(hatId);
-      hat.setVisible(true);
-      roomData.getPet().setHat(hat);
+      const hat = clothObjects.get(hatId);
+      hat.visible = true;
+      this.roomData.pet.hat = hat;
     }
     if (clothId != null) {
-      ClothGameObject cloth = clothObjects.get(clothId);
-      cloth.setVisible(true);
-      roomData.getPet().setCloth(cloth);
+      const cloth = clothObjects.get(clothId);
+      cloth.visible = true;
+      this.roomData.pet.cloth = cloth;
     }
     if (bowId != null) {
-      ClothGameObject bow = clothObjects.get(bowId);
-      bow.setVisible(true);
-      roomData.getPet().setBow(bow);
+      const bow = clothObjects.get(bowId);
+      bow.visible = true;
+      this.roomData.pet.bow = bow;
     }
-    roomData.setRefrigeratorId(result.getRefrigeratorId());
-    if (roomData.getRefrigeratorId() != null) {
-      setRefrigeratorLevel(roomData.getRefrigeratorId() - 1);
-      roomData.getRefrigerator().setPosition(
+    this.roomData.refrigeratorId = getRoomInfoResult.refrigeratorId;
+    if (roomData.refrigeratorId != null) {
+      this.refrigeratorLevel = roomData.refrigeratorId - 1;
+      this.roomData.refrigerator.position(
           this.tilesEngine.translateFromTileCoordinates(
-              roomData.getRefrigerator(),
-              new Point(result.getRefrigeratorX(), result
-                  .getRefrigeratorY())));
+              this.roomData.refrigerator,
+              new Point(getRoomInfoResult.refrigeratorX, result
+                  .refrigeratorY)));
     }
-    roomData.setBookcaseId(result.getBookcaseId());
-    if (roomData.getBookcaseId() != null) {
-      setBookcaseLevel(roomData.getBookcaseId() - 1);
-      roomData.getBookcase().setVisible(true);
-      roomData.getBookcase().setPosition(
-          this.tilesEngine.translateFromTileCoordinates(roomData
-              .getBookcase(), new Point(result.getBookcaseX(),
-              result.getBookcaseY())));
+    this.roomData.bookcaseId = getRoomInfoResult.bookcaseId;
+    if (roomData.bookcaseId != null) {
+      this.bookcaseLevel = roomData.bookcaseId - 1;
+      this.roomData.bookcase.visible = true;
+      this.roomData.bookcase.position = 
+          this.tilesEngine.translateFromTileCoordinates(this.roomData
+              .getBookcase(), new Point(getRoomInfoResult.getBookcaseX(),
+              getRoomInfoResult.getBookcaseY()));
     }
-    roomData.setMachineWithDrinksId(result.getMachineWithDrinksId());
-    if (roomData.getMachineWithDrinksId() != null) {
-      setMachineWithDrinksLevel(roomData.getMachineWithDrinksId() - 1);
-      roomData.getMachineWithDrinks().setVisible(true);
-      roomData.getMachineWithDrinks().setPosition(
+    this.roomData.setMachineWithDrinksId(getRoomInfoResult.machineWithDrinksId);
+    if (roomData.machineWithDrinksId != null) {
+      this.machineWithDrinksLevel = this.roomData.machineWithDrinksId - 1;
+      roomData.machineWithDrinks.visible = true;
+      roomData.machineWithDrinks.position = 
           this.tilesEngine.translateFromTileCoordinates(
-              roomData.getMachineWithDrinks(),
-              new Point(result.getMachineWithDrinksX(), result
-                  .getMachineWithDrinksY())));
+              roomData.machineWithDrinks,
+              new Point(getRoomInfoResult.machineWithDrinksX, result
+                  .machineWithDrinksY));
     }
     
-    updateAchievementInfo(result.getAchievements());
+    this.updateAchievementInfo(getRoomInfoResult.achievements);
 
   }
 
-  protected void getRoomInfoWithDelay() {
-    GetRoomInfoWithDelayBackgroundWork work = new GetRoomInfoWithDelayBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  getRoomInfoWithDelay() {
+    //GetRoomInfoWithDelayBackgroundWork work = new GetRoomInfoWithDelayBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class ShowRefrigeratorBackgroundWork extends
