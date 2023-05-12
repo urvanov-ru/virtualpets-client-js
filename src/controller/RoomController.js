@@ -1254,100 +1254,100 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
   
-  getRoomBackgroundWork() {
-    roomService.getRoomInfo()
-      .then(response => response.json())
-  .then(commits => alert(commits[0].author.login));
-  }
+//  getRoomBackgroundWork() {
+//    roomService.getRoomInfo()
+//      .then(response => response.json())
+//  .then(commits => alert(commits[0].author.login));
+//  }
+//
+//  private class GetRoomInfoBackgroundWork extends
+//      BackgroundWork<Void, GetRoomInfoResult, Void> {
+//
+//    @Override
+//    public GetRoomInfoResult doInBackground() throws Exception {
+//      
+//      synchronized (getRoomInfoMonitor) {
+//        while (getRoomInfoInProgress) {
+//          getRoomInfoMonitor.wait();
+//       }
+//        getRoomInfoInProgress = true;
+//      }
+//      return roomService.getRoomInfo();
+//    }
+//
+//    @Override
+//    public void completed(GetRoomInfoResult result) {
+//      synchronized (getRoomInfoMonitor) {
+//        getRoomInfoInProgress = false;
+//        getRoomInfoMonitor.notifyAll();
+//      }
+//      RoomControllerImpl.this.setRoomInfo(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//    	synchronized (getRoomInfoMonitor) {
+//        getRoomInfoInProgress = false;
+//        getRoomInfoMonitor.notifyAll();
+//      }
+//     log.error("GetPetInfoBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-  private class GetRoomInfoBackgroundWork extends
-      BackgroundWork<Void, GetRoomInfoResult, Void> {
+//  private class GetRoomInfoWithDelayBackgroundWork extends
+//      BackgroundWork<Void, GetRoomInfoResult, Void> {
+//
+//    @Override
+//    public GetRoomInfoResult doInBackground() throws Exception {
+//      Thread.sleep(3600000);
+//      synchronized (getRoomInfoMonitor) {
+//        while (getRoomInfoInProgress) {
+//          getRoomInfoMonitor.wait();
+//        }
+//      }
+//      return roomService.getRoomInfo();
+//    }
+//
+//    @Override
+//    public void completed(GetRoomInfoResult result) {
+//   	synchronized (getRoomInfoMonitor) {
+//        getRoomInfoInProgress = false;
+//        getRoomInfoMonitor.notifyAll();
+//      }
+//      RoomControllerImpl.this.setRoomInfo(result);
+//      getRoomInfoWithDelay();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//    	synchronized (getRoomInfoMonitor) {
+//        getRoomInfoInProgress = false;
+//        getRoomInfoMonitor.notifyAll();
+//      }
+//      if (ex instanceof ConnectionException) {
+//        trayIcon.setConnectionAlive(false);
+//      } else {
+//        log.error("GetPetInfoWithDelayBackgroundWork failed.", ex);
+//        String message = messageSource.getMessage(
+//            StringConstants.ERROR, null, null)
+//            + ": "
+//            + ex.toString();
+//        trayIcon.showTrayMessage(message, MessageType.ERROR);
+//      }
+//      getRoomInfoWithDelay();
+//    }
+//  }
 
-    @Override
-    public GetRoomInfoResult doInBackground() throws Exception {
-      
-      synchronized (getRoomInfoMonitor) {
-        while (getRoomInfoInProgress) {
-          getRoomInfoMonitor.wait();
-        }
-        getRoomInfoInProgress = true;
-      }
-      return roomService.getRoomInfo();
-    }
-
-    @Override
-    public void completed(GetRoomInfoResult result) {
-      synchronized (getRoomInfoMonitor) {
-        getRoomInfoInProgress = false;
-        getRoomInfoMonitor.notifyAll();
-      }
-      RoomControllerImpl.this.setRoomInfo(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-    	synchronized (getRoomInfoMonitor) {
-        getRoomInfoInProgress = false;
-        getRoomInfoMonitor.notifyAll();
-      }
-      log.error("GetPetInfoBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
-
-  private class GetRoomInfoWithDelayBackgroundWork extends
-      BackgroundWork<Void, GetRoomInfoResult, Void> {
-
-    @Override
-    public GetRoomInfoResult doInBackground() throws Exception {
-      Thread.sleep(3600000);
-      synchronized (getRoomInfoMonitor) {
-        while (getRoomInfoInProgress) {
-          getRoomInfoMonitor.wait();
-        }
-      }
-      return roomService.getRoomInfo();
-    }
-
-    @Override
-    public void completed(GetRoomInfoResult result) {
-    	synchronized (getRoomInfoMonitor) {
-        getRoomInfoInProgress = false;
-        getRoomInfoMonitor.notifyAll();
-      }
-      RoomControllerImpl.this.setRoomInfo(result);
-      getRoomInfoWithDelay();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-    	synchronized (getRoomInfoMonitor) {
-        getRoomInfoInProgress = false;
-        getRoomInfoMonitor.notifyAll();
-      }
-      if (ex instanceof ConnectionException) {
-        trayIcon.setConnectionAlive(false);
-      } else {
-        log.error("GetPetInfoWithDelayBackgroundWork failed.", ex);
-        String message = messageSource.getMessage(
-            StringConstants.ERROR, null, null)
-            + ": "
-            + ex.toString();
-        trayIcon.showTrayMessage(message, MessageType.ERROR);
-      }
-      getRoomInfoWithDelay();
-    }
-  }
-
-  protected void getRoomInfo() {
-    GetRoomInfoBackgroundWork work = new GetRoomInfoBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  getRoomInfo() {
+    //GetRoomInfoBackgroundWork work = new GetRoomInfoBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private void setRoomInfo(GetRoomInfoResult result) {
