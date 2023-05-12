@@ -1220,39 +1220,38 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class MoveRefrigeratorBackgroundWork
-      extends
-      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//  private class MoveRefrigeratorBackgroundWork
+//      extends
+//      BackgroundWork<ru.urvanov.virtualpets.shared.domain.Point, Void, Void> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      roomService.moveRefrigerator(getArgument());
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("MoveRefrigeratorBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      roomService.moveRefrigerator(getArgument());
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("MoveRefrigeratorBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
-
-  protected void moveRefrigerator(
-      ru.urvanov.virtualpets.shared.domain.Point arg) {
-    MoveRefrigeratorBackgroundWork work = new MoveRefrigeratorBackgroundWork();
-    work.setArgument(arg);
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  moveRefrigerator(arg) {
+    //MoveRefrigeratorBackgroundWork work = new MoveRefrigeratorBackgroundWork();
+    //work.setArgument(arg);
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
   
   getRoomBackgroundWork() {
