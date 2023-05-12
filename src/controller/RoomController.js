@@ -1407,11 +1407,11 @@ export default class RoomController extends BaseGameController{
     this.roomData.refrigeratorId = getRoomInfoResult.refrigeratorId;
     if (roomData.refrigeratorId != null) {
       this.refrigeratorLevel = roomData.refrigeratorId - 1;
-      this.roomData.refrigerator.position(
+      this.roomData.refrigerator.position = 
           this.tilesEngine.translateFromTileCoordinates(
               this.roomData.refrigerator,
               new Point(getRoomInfoResult.refrigeratorX, result
-                  .refrigeratorY)));
+                  .refrigeratorY));
     }
     this.roomData.bookcaseId = getRoomInfoResult.bookcaseId;
     if (roomData.bookcaseId != null) {
@@ -1419,10 +1419,10 @@ export default class RoomController extends BaseGameController{
       this.roomData.bookcase.visible = true;
       this.roomData.bookcase.position = 
           this.tilesEngine.translateFromTileCoordinates(this.roomData
-              .getBookcase(), new Point(getRoomInfoResult.getBookcaseX(),
-              getRoomInfoResult.getBookcaseY()));
+              .bookcase, new Point(getRoomInfoResult.bookcaseX,
+              getRoomInfoResult.bookcaseY));
     }
-    this.roomData.setMachineWithDrinksId(getRoomInfoResult.machineWithDrinksId);
+    this.roomData.machineWithDrinksId(getRoomInfoResult.machineWithDrinksId);
     if (roomData.machineWithDrinksId != null) {
       this.machineWithDrinksLevel = this.roomData.machineWithDrinksId - 1;
       roomData.machineWithDrinks.visible = true;
@@ -1446,66 +1446,66 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class ShowRefrigeratorBackgroundWork extends
-      BackgroundWork<Void, GetPetFoodsResult, Void> {
+//  private class ShowRefrigeratorBackgroundWork extends
+//      BackgroundWork<Void, GetPetFoodsResult, Void> {
+//
+//    @Override
+//    public GetPetFoodsResult doInBackground() throws Exception {
+//      return foodService.getPetFoods();
+//    }
+//
+//    @Override
+//    public void completed(GetPetFoodsResult result) {
+//      setFoods(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("ShowRefrigeratorBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public GetPetFoodsResult doInBackground() throws Exception {
-      return foodService.getPetFoods();
-    }
-
-    @Override
-    public void completed(GetPetFoodsResult result) {
-      setFoods(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("ShowRefrigeratorBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
+  showRefrigerator() {
+    //ShowRefrigeratorBackgroundWork work = new ShowRefrigeratorBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  protected void showRefrigerator() {
-    ShowRefrigeratorBackgroundWork work = new ShowRefrigeratorBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
-  }
+//  private class ShowBookcaseBackgroundWork extends
+//      BackgroundWork<Void, GetPetBooksResult, Void> {
+//
+//    @Override
+//    public GetPetBooksResult doInBackground() throws Exception {
+//      return bookService.getPetBooks();
+//    }
+//
+//    @Override
+//    public void completed(GetPetBooksResult result) {
+///     setBooks(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("ShowBookcaseBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-  private class ShowBookcaseBackgroundWork extends
-      BackgroundWork<Void, GetPetBooksResult, Void> {
-
-    @Override
-    public GetPetBooksResult doInBackground() throws Exception {
-      return bookService.getPetBooks();
-    }
-
-    @Override
-    public void completed(GetPetBooksResult result) {
-      setBooks(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("ShowBookcaseBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
-
-  private void showBookcase() {
-    ShowBookcaseBackgroundWork work = new ShowBookcaseBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  showBookcase() {
+    //ShowBookcaseBackgroundWork work = new ShowBookcaseBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class EducationBackgroundWork extends
