@@ -1540,38 +1540,38 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class SatietyBackgroundWork extends
-      BackgroundWork<SatietyArg, Void, Object> {
+//  private class SatietyBackgroundWork extends
+//      BackgroundWork<SatietyArg, Void, Object> {
+//
+//    @Override
+//    public Void doInBackground() throws Exception {
+//      petService.satiety(getArgument());
+//      return null;
+//    }
+//
+//    @Override
+//    public void completed(Void result) {
+//    	RoomControllerImpl.this.getRoomInfo();
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("SatietyBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//
+//  }
 
-    @Override
-    public Void doInBackground() throws Exception {
-      petService.satiety(getArgument());
-      return null;
-    }
-
-    @Override
-    public void completed(Void result) {
-    	RoomControllerImpl.this.getRoomInfo();
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("SatietyBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-
-  }
-
-  protected void satiety(SatietyArg satietyArg) {
-    SatietyBackgroundWork work = new SatietyBackgroundWork();
-    work.setView(roomView);
-    work.setArgument(satietyArg);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  satiety(satietyArg) {
+    //SatietyBackgroundWork work = new SatietyBackgroundWork();
+    //work.setView(roomView);
+    //work.setArgument(satietyArg);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(false);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private class DrinkBackgroundWork extends
