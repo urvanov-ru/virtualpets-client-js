@@ -1722,197 +1722,170 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  public BuildMenuGameObject initializeBuildMenu() {
-    BuildMenuGameObject buildMenu = super.initializeBuildMenu();
-    GameObject[] buildMenuItems = new GameObject[RoomData.BUILD_MENU_ITEM_COUNT];
-    for (int n = 0; n < buildMenuItems.length; n++) {
+  initializeBuildMenu() {
+    const buildMenu = super.initializeBuildMenu();
+    const buildMenuItems = new Array(RoomData.BUILD_MENU_ITEM_COUNT);
+    for (const n = 0; n < buildMenuItems.length; n++) {
       buildMenuItems[n] = new GameObject();
       buildMenuItems[n]
-          .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_BUILD_MENU_ITEM } });
-      buildMenuItems[n].setPosition(new Point(250 + 100 * n, 250));
-      buildMenuItems[n].setZ(MENU_Z_ORDER);
-      buildMenuItems[n].addMouseMoveListener(new MouseMoveListener() {
-
-        @Override
-        public void mouseMove(MouseMoveArg arg) {
-          roomView.showDefaultCursor();
-          roomView.setToolTipText("");
-          setHighlightObject(null);
-        }
+          .animationImageIds([[ ResourceManagerBase.IMAGE_BUILD_MENU_ITEM ]]);
+      buildMenuItems[n].position = new Point(250 + 100 * n, 250);
+      buildMenuItems[n].z = BaseGameController.MENU_Z_ORDER;
+      buildMenuItems[n].addMouseMoveListener((mouseMoveArg) => {
+        roomView.showDefaultCursor();
+        roomView.setToolTipText("");
+        setHighlightObject(null);
       });
-      buildMenuItems[n].setVisible(false);
-      addGameObject(buildMenuItems[n]);
+      buildMenuItems[n].visible = false;
+      this.addGameObject(buildMenuItems[n]);
     }
-    GameObject[] buildObjects = new GameObject[RoomData.BUILD_MENU_ITEM_COUNT];
+    const buildObjects = new Array(RoomData.BUILD_MENU_ITEM_COUNT);
 
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_BUILD_REFRIGERATOR_1 } });
-    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].setPosition(new Point(
-        250, 250));
-    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].setZ(MENU_Z_ORDER);
-    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].setVisible(false);
+        .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_REFRIGERATOR_1 ]];
+    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].position = new Point(250, 250));
+    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].z = BaseGameController.MENU_Z_ORDER;
+    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].visible = false;
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
-        .addMouseMoveListener(new MouseMoveListener() {
-
-          @Override
-          public void mouseMove(MouseMoveArg arg) {
+        .addMouseMoveListener((mouseMoveArg) => {
             roomView.showHandCursor();
-            roomView.setToolTipText("");
-            setHighlightObject(null);
-            showBuildObjectToolTip(0, arg.getMousePosition());
+            roomView.toolTipText = "";
+            this.highlightObject = null;
+            showBuildObjectToolTip(0, arg.mousePosition);
           }
         });
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
-        .addClickedListener(new ClickedListener() {
-
-          @Override
-          public void clicked(ClickedArg arg) {
-            BuildingGameObject refrigerator = roomData
-                .getRefrigerator();
+        .addClickedListener((ClickedArg arg) => {
+            const refrigerator = this.roomData.refrigerator;
             if (refrigerator != null) {
               return;
             }
-            if (roomData.getMachineWithDrinks() == null
-                || !roomData.getMachineWithDrinks().isVisible()) {
+            if (this.roomData.machineWithDrinks == null
+                || !roomData.machineWithDrinks.visible) {
               return;
             }
-            if (checkBuildingMaterialsCount(0)) {
+            if (this.checkBuildingMaterialsCount(0)) {
 
-              hideBuildMenuInner(getBuildMenu());
+              this.hideBuildMenuInner(buildMenu);
 
-              setRefrigeratorLevel(0);
-              roomData.setRefrigeratorId(1);
+              this.refrigeratorLevel = 0;
+              this.roomData.refrigeratorId = 1;
               // TODO: ???
               // refrigerator.setCurrentAnimationId(0);
               // refrigerator.setVisible(true);
-              roomData.setSituation(Situation.SELECT_REFRIGERATOR_POSITION);
-              refrigerator = roomData.getRefrigerators()[0];
-              RoomControllerImpl.this.startBuild(refrigerator);
+              this.roomData.situation = RoomData.SITUATION_SELECT_REFRIGERATOR_POSITION;
+              this.refrigerator = this.roomData.refrigerators[0];
+              this.startBuild(refrigerator);
             } else {
-              String message = getMessageSource().getMessage(
+              const message = this.messageSource.getMessage(
                   StringConstants.INSUFFICIENT_RESOURCES,
                   null, null);
               trayIcon.showTrayMessage(message, MessageType.INFO);
             }
           }
         });
-    addGameObject(buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]);
+    this.addGameObject(buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]);
 
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_BUILD_MACHINE_WITH_DRINKS } });
+        .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_MACHINE_WITH_DRINKS ]];
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
-        .setPosition(new Point(350, 250));
+        .position = new Point(350, 250);
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
-        .setZ(MENU_Z_ORDER);
-    buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS].setVisible(false);
+        .z = BaseGameController.MENU_Z_ORDER;
+    buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS].visible = false;
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
-        .addMouseMoveListener(new MouseMoveListener() {
-
-          @Override
-          public void mouseMove(MouseMoveArg arg) {
-            roomView.showHandCursor();
-            roomView.setToolTipText("");
-            setHighlightObject(null);
-            showBuildObjectToolTip(1, arg.getMousePosition());
+        .addMouseMoveListener((mouseMoveArg) => {
+            this.roomView.showHandCursor();
+            this.roomView.toolTipText = "";
+            this.highlightObject = null;
+            this.showBuildObjectToolTip(1, arg.mousePosition);
           }
         });
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
-        .addClickedListener(new ClickedListener() {
-
-          @Override
-          public void clicked(ClickedArg arg) {
-            BuildingGameObject machineWithDrinks = roomData
-                .getMachineWithDrinks();
+        .addClickedListener((clickedArg) => {
+            const machineWithDrinks = this.roomData
+                .machineWithDrinks;
             if (machineWithDrinks != null
-                && machineWithDrinks.isVisible()) {
+                && machineWithDrinks.visible) {
               return;
             }
-            if (checkBuildingMaterialsCount(1)) {
-              hideBuildMenuInner(getBuildMenu());
+            if (this.checkBuildingMaterialsCount(1)) {
+              this.hideBuildMenuInner(buildMenu);
               // TODO: ???
               // drink.setCurrentAnimationId(0);
-              setMachineWithDrinksLevel(0);
-              machineWithDrinks = roomData.getMachineWithDrinks();
-              roomData.setSituation(Situation.SELECT_DRINK_POSITION);
-              RoomControllerImpl.this
-                  .startBuild(machineWithDrinks);
+              this.machineWithDrinksLevel = 0;
+              machineWithDrinks = this.roomData.machineWithDrinks;
+              roomData.situation = RoomData.SITUATION_SELECT_DRINK_POSITION;
+              this.startBuild(machineWithDrinks);
             } else {
-              String message = getMessageSource().getMessage(
+              const message = this.messageSource.getMessage(
                   StringConstants.INSUFFICIENT_RESOURCES,
                   null, null);
-              trayIcon.showTrayMessage(message, MessageType.INFO);
+              this.trayIcon.showTrayMessage(message, MessageType.INFO);
             }
           }
         });
-    addGameObject(buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]);
+    this.addGameObject(buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]);
 
     buildObjects[RoomData.BUILD_MENU_BOOKCASE] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_BOOKCASE]
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_BUILD_BOOKCASE } });
-    buildObjects[RoomData.BUILD_MENU_BOOKCASE].setPosition(new Point(450,
-        250));
-    buildObjects[RoomData.BUILD_MENU_BOOKCASE].setZ(MENU_Z_ORDER);
-    buildObjects[RoomData.BUILD_MENU_BOOKCASE].setVisible(false);
+        .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_BOOKCASE ]];
+    buildObjects[RoomData.BUILD_MENU_BOOKCASE].position = new Point(450,
+        250);
+    buildObjects[RoomData.BUILD_MENU_BOOKCASE].z = BaseGameController.MENU_Z_ORDER;
+    buildObjects[RoomData.BUILD_MENU_BOOKCASE].visible = false;
     buildObjects[RoomData.BUILD_MENU_BOOKCASE]
-        .addMouseMoveListener(new MouseMoveListener() {
-
-          @Override
-          public void mouseMove(MouseMoveArg arg) {
-            roomView.showHandCursor();
-            roomView.setToolTipText("");
-            setHighlightObject(null);
-            showBuildObjectToolTip(2, arg.getMousePosition());
+        .addMouseMoveListener((mouseMoveArg) => {
+            this.roomView.showHandCursor();
+            this.roomView.toolTipText = "";
+            this.highlightObject = null;
+            this.showBuildObjectToolTip(2, arg.mousePosition);
           }
         });
     buildObjects[RoomData.BUILD_MENU_BOOKCASE]
-        .addClickedListener(new ClickedListener() {
-
-          @Override
-          public void clicked(ClickedArg arg) {
-            BuildingGameObject bookcase = roomData.getBookcase();
-            if (bookcase != null && bookcase.isVisible()) {
+        .addClickedListener((clickedArg) => {
+            const bookcase = this.roomData.bookcase;
+            if (bookcase != null && bookcase.visible) {
               return;
             }
-            if (roomData.getMachineWithDrinks() == null
-                || !roomData.getMachineWithDrinks().isVisible()
-                || roomData.getRefrigerator() == null
-                || !roomData.getRefrigerator().isVisible()) {
+            if (this.roomData.machineWithDrinks == null
+                || !this.roomData.machineWithDrinks.isVisible()
+                || this.roomData.refrigerator == null
+                || !this.roomData.refrigerator.visible) {
               return;
             }
-            if (checkBuildingMaterialsCount(2)) {
-              hideBuildMenuInner(getBuildMenu());
+            if (this.checkBuildingMaterialsCount(2)) {
+              this.hideBuildMenuInner(buildMenu);
               // TODO: ???
               // bookcase.setCurrentAnimationId(0);
-              setBookcaseLevel(0);
-              bookcase = roomData.getBookcase();
-              roomData.setSituation(Situation.SELECT_BOOKCASE_POSITION);
-              RoomControllerImpl.this.startBuild(bookcase);
+              this.bookcaseLevel = 0;
+              const bookcase = this.roomData.bookcase;
+              this.roomData.situation = RoomData.SITUATION_SELECT_BOOKCASE_POSITION;
+              this.startBuild(bookcase);
             } else {
-              String message = getMessageSource().getMessage(
+              const message = this.messageSource.getMessage(
                   StringConstants.INSUFFICIENT_RESOURCES,
                   null, null);
-              trayIcon.showTrayMessage(message, MessageType.INFO);
+              this.trayIcon.showTrayMessage(message, MessageType.INFO);
             }
           }
         });
-    addGameObject(buildObjects[RoomData.BUILD_MENU_BOOKCASE]);
+    this.addGameObject(buildObjects[RoomData.BUILD_MENU_BOOKCASE]);
 
-    buildMenu.setMenuItems(buildMenuItems);
-    buildMenu.setBuildObjects(buildObjects);
-    MessageSource messageSource = getMessageSource();
-    String[] names = {
-        messageSource.getMessage(StringConstants.REFRIGERATOR, null,
+    buildMenu.menuItems = buildMenuItems;
+    buildMenu.buildObjects = buildObjects;
+    const names = {
+        this.messageSource.getMessage(StringConstants.REFRIGERATOR, null,
             null),
-        messageSource.getMessage(StringConstants.WATER_SOURCE, null,
+        this.messageSource.getMessage(StringConstants.WATER_SOURCE, null,
             null),
-        messageSource.getMessage(StringConstants.BOOKCASE, null, null) };
-    buildMenu.setNames(names);
-    int[][] costs = new int[buildMenuItems.length][buildMenu
-        .getBuildingMaterialObjects().length];
-    buildMenu.setCosts(costs);
-    buildMenu.setVisible(false);
+        this.messageSource.getMessage(StringConstants.BOOKCASE, null, null) };
+    buildMenu.names = names;
+    const costs = Array.from({ length:  buildMenu.buildingMaterialObjects.length}).map(() => Array.from({ length: buildMenuItems.length }).fill(0));
+    buildMenu.costs = costs;
+    buildMenu.visible = false;
     return buildMenu;
   }
 
