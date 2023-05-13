@@ -1889,12 +1889,12 @@ export default class RoomController extends BaseGameController{
     return buildMenu;
   }
 
-  private void initRefrigerators() {
-    BuildingGameObject[] refrigerators = new BuildingGameObject[RoomData.REFRIGERATOR_MAX_LEVEL];
-    for (int n = 0; n < RoomData.REFRIGERATOR_MAX_LEVEL; n++) {
-      refrigerators[n] = initRefrigerator(n + 1);
+  initRefrigerators() {
+    const refrigerators = new Array[RoomData.REFRIGERATOR_MAX_LEVEL];
+    for (let n = 0; n < RoomData.REFRIGERATOR_MAX_LEVEL; n++) {
+      refrigerators[n] = this.initRefrigerator(n + 1);
     }
-    roomData.setRefrigerators(refrigerators);
+    this.roomData.refrigerators = refrigerators;
   }
 
   private BuildingGameObject initRefrigerator(int refrigeratorLevel) {
