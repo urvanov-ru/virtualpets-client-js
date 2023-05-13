@@ -1646,42 +1646,32 @@ export default class RoomController extends BaseGameController{
 
   initializeNewbieBoxes() {
     const boxes = new BoxGameObject[RoomData.BOXES_COUNT];
-    for (int n = 0; n < RoomData.BOXES_COUNT; n++) {
-      BoxGameObject box = roomData.new BoxGameObject();
-      int[][] imgids = new int[1][];
-      imgids[0] = new int[1];
-      imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_BOX;
-      box.setAnimationImageIds(imgids);
-      box.setTileTypes(new TileType[][] { { TileType.NORMAL,
-          TileType.WALL } });
-      box.setIndex(n);
-      box.addMouseMoveListener(new MouseMoveListener() {
-        @Override
-        public void mouseMove(MouseMoveArg arg) {
-          roomView.showHandCursor();
-          roomView.setToolTipText(getMessageSource().getMessage(
-              StringConstants.USE, null, null));
-        }
+    for (let n = 0; n < RoomData.BOXES_COUNT; n++) {
+      const box = new BoxGameObject();
+      const imgids = [[ ResourceManagerBase.IMAGE_ROOM_BOX ]];
+      box.animationImageIds = imgids;
+      box.tileTypes = [[ TileType.NORMAL, TileType.WALL ]];
+      box.index = n;
+      box.addMouseMoveListener((mouseMoveArg) => {
+        roomView.showHandCursor();
+        roomView.setToolTipText(getMessageSource().getMessage(
+          StringConstants.USE, null, null));
       });
-      box.addClickedListener(new ClickedListener() {
-        @Override
-        public void clicked(final ClickedArg arg) {
-          showProgressBar(100, boxClickedArg -> {
-            openBox(((BoxGameObject) arg.getSender()).getIndex());
-          });
-        }
+      box.addClickedListener((clickedArg) => {
+       showProgressBar(100, boxClickedArg -> {
+        openBox(((BoxGameObject) arg.getSender()).getIndex());
       });
-      box.setVisible(false);
-      addGameObject(box);
+      box.visible = false;
+      this.addGameObject(box);
       boxes[n] = box;
     }
-    boxes[0].setPosition(new Point(RoomData.ORIGINAL_BOX_0_X,
-        RoomData.ORIGINAL_BOX_0_Y));
-    boxes[1].setPosition(new Point(RoomData.ORIGINAL_BOX_1_X,
-        RoomData.ORIGINAL_BOX_1_Y));
-    boxes[2].setPosition(new Point(RoomData.ORIGINAL_BOX_2_X,
-        RoomData.ORIGINAL_BOX_2_Y));
-    roomData.setBoxes(boxes);
+    boxes[0].position = new Point(RoomData.ORIGINAL_BOX_0_X,
+        RoomData.ORIGINAL_BOX_0_Y);
+    boxes[1].position = new Point(RoomData.ORIGINAL_BOX_1_X,
+        RoomData.ORIGINAL_BOX_1_Y);
+    boxes[2].position(new Point(RoomData.ORIGINAL_BOX_2_X,
+        RoomData.ORIGINAL_BOX_2_Y);
+    this.roomData.boxies = boxes;
   }
 
   private void initializeMachineWithDrinksPopupMenu() {
