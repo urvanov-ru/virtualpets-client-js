@@ -1704,21 +1704,21 @@ export default class RoomController extends BaseGameController{
     machineWithDrinksPopupMenu.menuItems(machineWithDrinksMenuItems);
     machineWithDrinksPopupMenu.visible = false;
     this.addGameObject(machineWithDrinksPopupMenu);
-    roomData.machineWithDrinksPopupMenu = machineWithDrinksPopupMenu;
+    this.roomData.machineWithDrinksPopupMenu = machineWithDrinksPopupMenu;
   }
 
-  private void drinkClicked(ClickedArg arg) {
-    switch (roomData.getSituation()) {
+  drinkClicked(clickedArg) {
+    switch (this.roomData.situation) {
     case NORMAL:
-      roomData.getMachineWithDrinksPopupMenu().setVisible(true);
+      this.roomData.machineWithDrinksPopupMenu.visible = true;
     default:
       break;
     }
   }
 
-  protected void bookcaseClicked(ClickedArg arg) {
-    if (roomData.getSituation() == Situation.NORMAL) {
-      roomData.getBookcasePopupMenu().setVisible(true);
+  bookcaseClicked(clickedArg) {
+    if (this.roomData.situation == RoomData.SITUATION_NORMAL) {
+      roomData.bookcasePopupMenu.visible = true;
     }
   }
 
