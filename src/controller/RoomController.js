@@ -1674,39 +1674,37 @@ export default class RoomController extends BaseGameController{
     this.roomData.boxies = boxes;
   }
 
-  private void initializeMachineWithDrinksPopupMenu() {
-    MessageSource messageSource = getMessageSource();
-    PopupMenuGameObject machineWithDrinksPopupMenu = new PopupMenuGameObject();
-    List<MenuItem> machineWithDrinksMenuItems = new ArrayList<MenuItem>();
-    MenuItem machineWithDrinksUseItem = new MenuItem();
-    machineWithDrinksUseItem.setText(messageSource.getMessage(
+  initializeMachineWithDrinksPopupMenu() {
+    const machineWithDrinksPopupMenu = new PopupMenuGameObject();
+    const machineWithDrinksMenuItems = [];
+    const machineWithDrinksUseItem = new MenuItem();
+    machineWithDrinksUseItem.text = this.messageSource.getMessage(
         StringConstants.USE, null, null));
-    machineWithDrinksUseItem.addClickedListener(drinkUseClickedArg -> {
-      setMachineWithDrinksInnerVisible(true);
+    machineWithDrinksUseItem.addClickedListener((drinkUseClickedArg) => {
+      machineWithDrinksInnerVisible = true;
     });
 
     machineWithDrinksMenuItems.add(machineWithDrinksUseItem);
 
-    MenuItem machineWithDrinksUpgradeItem = new MenuItem();
-    machineWithDrinksUpgradeItem.setText(messageSource.getMessage(
+    const machineWithDrinksUpgradeItem = new MenuItem();
+    machineWithDrinksUpgradeItem.text = this.messageSource.getMessage(
         StringConstants.UPGRADE, null, null));
     machineWithDrinksUpgradeItem
-        .addClickedListener(arg -> RoomControllerImpl.this
-            .showUpgradeMachineWithDrinks());
+        .addClickedListener((arg) => this.showUpgradeMachineWithDrinks());
     machineWithDrinksMenuItems.add(machineWithDrinksUpgradeItem);
 
-    MenuItem machineWithDrinksMoveItem = new MenuItem();
-    machineWithDrinksMoveItem.setText(messageSource.getMessage(
+    const machineWithDrinksMoveItem = new MenuItem();
+    machineWithDrinksMoveItem.text = this.messageSource.getMessage(
         StringConstants.MOVE, null, null));
-    machineWithDrinksMoveItem.addClickedListener(drinkMoveClickedArg -> {
-      roomData.setSituation(Situation.MOVE_DRINK);
-      RoomControllerImpl.this.startMove(roomData.getMachineWithDrinks());
+    machineWithDrinksMoveItem.addClickedListener((drinkMoveClickedArg) => {
+      this.roomData.situation = Situation.MOVE_DRINK;
+      this.startMove(roomData.machineWithDrinks);
     });
     machineWithDrinksMenuItems.add(machineWithDrinksMoveItem);
-    machineWithDrinksPopupMenu.setMenuItems(machineWithDrinksMenuItems);
-    machineWithDrinksPopupMenu.setVisible(false);
-    addGameObject(machineWithDrinksPopupMenu);
-    roomData.setMachineWithDrinksPopupMenu(machineWithDrinksPopupMenu);
+    machineWithDrinksPopupMenu.menuItems(machineWithDrinksMenuItems);
+    machineWithDrinksPopupMenu.visible = false;
+    this.addGameObject(machineWithDrinksPopupMenu);
+    roomData.machineWithDrinksPopupMenu = machineWithDrinksPopupMenu;
   }
 
   private void drinkClicked(ClickedArg arg) {
