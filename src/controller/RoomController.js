@@ -1607,116 +1607,45 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class OpenBoxNewbieBackgroundWork extends
-      BackgroundWork<Integer, OpenBoxNewbieResult, Void> {
+//  private class OpenBoxNewbieBackgroundWork extends
+//      BackgroundWork<Integer, OpenBoxNewbieResult, Void> {
+//
+//    @Override
+//    public OpenBoxNewbieResult doInBackground() throws Exception {
+//      return roomService.openBoxNewbie(getArgument());
+//    }
+//
+//    @Override
+//    public void completed(OpenBoxNewbieResult result) {
+//      createOpenBoxReward(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("OpenBoxNewbieBackgoundWork failed", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public OpenBoxNewbieResult doInBackground() throws Exception {
-      return roomService.openBoxNewbie(getArgument());
-    }
-
-    @Override
-    public void completed(OpenBoxNewbieResult result) {
-      createOpenBoxReward(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("OpenBoxNewbieBackgoundWork failed", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
+  openBox(index) {
+    //OpenBoxNewbieBackgroundWork work = new OpenBoxNewbieBackgroundWork();
+    //work.setView(roomView);
+    //work.setArgument(index);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(false);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  protected void openBox(int index) {
-    OpenBoxNewbieBackgroundWork work = new OpenBoxNewbieBackgroundWork();
-    work.setView(roomView);
-    work.setArgument(index);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
-  }
-
-  /**
-   * @return the roomView
-   */
-  public RoomView getRoomView() {
-    return roomView;
-  }
-
-  /**
-   * @param roomView
-   *      the roomView to set
-   */
-  public void setRoomView(RoomView roomView) {
-    this.setBaseGameView(roomView);
+  set roomView(roomView) {
+    this.baseGameView = roomView;
     this.roomView = roomView;
   }
 
-  /**
-   * @return the petService
-   */
-  public PetService getPetService() {
-    return petService;
-  }
-
-  /**
-   * @param petService
-   *      the petService to set
-   */
-  public void setPetService(PetService petService) {
-    this.petService = petService;
-  }
-
-  /**
-   * @return the roomService
-   */
-  public RoomService getRoomService() {
-    return roomService;
-  }
-
-  /**
-   * @param roomService
-   *      the roomService to set
-   */
-  public void setRoomService(RoomService roomService) {
-    this.roomService = roomService;
-  }
-
-  /**
-   * @return the gameController
-   */
-  public GameController getGameController() {
-    return gameController;
-  }
-
-  /**
-   * @param gameController
-   *      the gameController to set
-   */
-  public void setGameController(GameController gameController) {
-    this.gameController = gameController;
-  }
-
-  /**
-   * @return the foodService
-   */
-  public FoodService getFoodService() {
-    return foodService;
-  }
-
-  /**
-   * @param foodService
-   *      the foodService to set
-   */
-  public void setFoodService(FoodService foodService) {
-    this.foodService = foodService;
-  }
-
-  private void initializeNewbieBoxes() {
-    BoxGameObject[] boxes = new BoxGameObject[RoomData.BOXES_COUNT];
+  initializeNewbieBoxes() {
+    const boxes = new BoxGameObject[RoomData.BOXES_COUNT];
     for (int n = 0; n < RoomData.BOXES_COUNT; n++) {
       BoxGameObject box = roomData.new BoxGameObject();
       int[][] imgids = new int[1][];
