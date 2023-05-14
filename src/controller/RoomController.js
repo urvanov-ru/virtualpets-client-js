@@ -1945,9 +1945,9 @@ export default class RoomController extends BaseGameController{
     return go;
   }
 
-  private void refrigeratorClicked(ClickedArg arg) {
-    if (roomData.getSituation() == Situation.NORMAL) {
-      roomData.getRefrigeratorPopupMenu().setVisible(true);
+  refrigeratorClicked(clickedArg) {
+    if (roomData.situation == Situation.NORMAL) {
+      roomData.refrigeratorPopupMenu.visible = true;
     }
   }
 
