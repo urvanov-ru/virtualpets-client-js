@@ -1897,63 +1897,51 @@ export default class RoomController extends BaseGameController{
     this.roomData.refrigerators = refrigerators;
   }
 
-  private BuildingGameObject initRefrigerator(int refrigeratorLevel) {
-    final BuildingGameObject go = new BuildingGameObject();
-    go.setDimension(new Dimension(RoomData.ORIGINAL_REFRIGERATOR_WIDTH,
-        RoomData.ORIGINAL_REFRIGERATOR_HEIGHT));
-    go.setPosition(new Point(RoomData.ORIGINAL_REFRIGERATOR_X,
-        RoomData.ORIGINAL_REFRIGERATOR_Y));
-    int[][] imgids = new int[2][];
-    imgids[HighlightGameObject.OBJECT_NORMAL] = new int[1];
-    imgids[HighlightGameObject.OBJECT_NORMAL][0] = ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_1
-        + refrigeratorLevel - 1;
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT] = new int[1];
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT][0] = ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_1_HIGHLIGHT
-        + refrigeratorLevel - 1;
-    go.setAnimationImageIds(imgids);
-    go.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        refrigeratorClicked(arg);
-      }
+  initRefrigerator(refrigeratorLevel) {
+    const go = new BuildingGameObject();
+    go.dimension = new Dimension(RoomData.ORIGINAL_REFRIGERATOR_WIDTH,
+        RoomData.ORIGINAL_REFRIGERATOR_HEIGHT);
+    go.position = new Point(RoomData.ORIGINAL_REFRIGERATOR_X,
+        RoomData.ORIGINAL_REFRIGERATOR_Y);
+    const imgids = new [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_1
+        + refrigeratorLevel - 1]
+        [ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_1_HIGHLIGHT
+        + refrigeratorLevel - 1]];
+    go.animationImageIds = imgids;
+    go.addClickedListener((clickedArg) => {
+      refrigeratorClicked(arg);
     });
-    go.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showHandCursor();
-        roomView.setToolTipText(getMessageSource().getMessage(
-            StringConstants.FEED, null, null));
-        setHighlightObject(go);
-      }
-
+    go.addMouseMoveListener((mouseMoveArg) => {
+      roomView.showHandCursor();
+      roomView.setToolTipText(getMessageSource().getMessage(
+          StringConstants.FEED, null, null));
+      setHighlightObject(go);
     });
-    go.addBuildListener(() -> {
-      roomData.setSituation(Situation.NORMAL);
-      ru.urvanov.virtualpets.shared.domain.Point point = new ru.urvanov.virtualpets.shared.domain.Point();
-      Point tilesPoint = tilesEngine.translateToTileCoordinates(roomData
-          .getRefrigerator());
-      point.setX(tilesPoint.getX());
-      point.setY(tilesPoint.getY());
-      RoomControllerImpl.this.buildRefrigerator(point);
+    go.addBuildListener(() => {
+      roomData.situation = Situation.NORMAL;
+      const point = new Point();
+      const tilesPoint = tilesEngine.translateToTileCoordinates(roomData.refrigerator);
+      point.x = tilesPoint.x;
+      point.y = tilesPoint.y;
+      this.buildRefrigerator(point);
     });
-    go.addUpgradeListener(() -> {
-      roomData.setSituation(Situation.NORMAL);
-      RoomControllerImpl.this.upgradeRefrigerator();
+    go.addUpgradeListener(() => {
+      roomData.situation = Situation.NORMAL;
+      this.upgradeRefrigerator();
     });
-    go.addMoveListener(() -> {
-      roomData.setSituation(Situation.NORMAL);
-      ru.urvanov.virtualpets.shared.domain.Point point = new ru.urvanov.virtualpets.shared.domain.Point();
-      Point tilesPoint = tilesEngine.translateToTileCoordinates(roomData
-          .getRefrigerator());
-      point.setX(tilesPoint.getX());
-      point.setY(tilesPoint.getY());
-      RoomControllerImpl.this.moveRefrigerator(point);
+    go.addMoveListener(() => {
+      roomData.situation = Situation.NORMAL;
+      const point = new Point();
+      const tilesPoint = tilesEngine.translateToTileCoordinates(roomData
+          .Refrigerator);
+      point.x = tilesPoint.x;
+      point.y = tilesPoint.y;
+      this.moveRefrigerator(point);
     });
-    addGameObject(go);
-    go.setTileTypes(new TileType[][] { { TileType.NORMAL, TileType.NORMAL,
-        TileType.NORMAL, TileType.NORMAL, TileType.WALL } });
-    go.setVisible(false);
+    this.addGameObject(go);
+    go.tileTypes = [[ TileType.NORMAL, TileType.NORMAL,
+        TileType.NORMAL, TileType.NORMAL, TileType.WALL ]];
+    go.visible = false;
     return go;
   }
 
