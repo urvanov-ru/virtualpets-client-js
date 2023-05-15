@@ -1,4 +1,5 @@
 import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerObject.js';
+import RefrigeratorInnerObject from './room/domain/RefrigeratorInnerObject.js';
 
 
 export default class RoomController extends BaseGameController{
