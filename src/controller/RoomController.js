@@ -2038,102 +2038,80 @@ export default class RoomController extends BaseGameController{
         ResourceManager.IMAGE_WATERMELON_1);
   }
 
-  private void initializeMachineWithDrinksInnerObjects() {
-    GameObject machineWithDrinksInner = new GameObject();
-    machineWithDrinksInner.setPosition(new Point(0, 0));
-    machineWithDrinksInner.setZ(MENU_Z_ORDER);
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER;
-    machineWithDrinksInner.setAnimationImageIds(imgids);
-    machineWithDrinksInner.setVisible(false);
-    machineWithDrinksInner.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showDefaultCursor();
-        setHighlightObject(null);
-        roomView.setToolTipText("");
-      }
+  initializeMachineWithDrinksInnerObjects() {
+    const machineWithDrinksInner = new GameObject();
+    machineWithDrinksInner.position = new Point(0, 0);
+    machineWithDrinksInner.z = BaseGameController.MENU_Z_ORDER;
+    const imgids = [[ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER ]];
+    machineWithDrinksInner.animationImageIds = imgids;
+    machineWithDrinksInner.visible = false;
+    machineWithDrinksInner.addMouseMoveListener((mouseMoveArg) => {
+      this.roomView.showDefaultCursor();
+      this.highlightObject = null;
+      this.roomView.toolTipText = "";
     });
-    addGameObject(machineWithDrinksInner);
-    roomData.setMachineWithDrinksInner(machineWithDrinksInner);
+    this.addGameObject(machineWithDrinksInner);
+    this.roomData.machineWithDrinksInner = machineWithDrinksInner;
 
-    GameObject[] machineWithDrinksInnerItems = new GameObject[RoomData.MACHINE_WITH_DRINKS_MAX_LEVEL];
-    for (int n = 0; n < RoomData.MACHINE_WITH_DRINKS_MAX_LEVEL; n++) {
-      GameObject go = new GameObject();
-      go.setPosition(new Point(
+    const machineWithDrinksInnerItems = new Array(RoomData.MACHINE_WITH_DRINKS_MAX_LEVEL);
+    for (let n = 0; n < RoomData.MACHINE_WITH_DRINKS_MAX_LEVEL; n++) {
+      const go = new GameObject();
+      go.position = new Point(
           RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_X
               + RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y
               * (n % 2),
           RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_Y
               + RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y
-              * (n / 2)));
-      go.setZ(MENU_Z_ORDER);
-      imgids = new int[1][];
-      imgids[0] = new int[1];
-      imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER_ITEM;
-      go.setAnimationImageIds(imgids);
-      go.setVisible(false);
-      go.addMouseMoveListener(new MouseMoveListener() {
-        @Override
-        public void mouseMove(MouseMoveArg arg) {
-          roomView.showDefaultCursor();
-          setHighlightObject(null);
-          roomView.setToolTipText("");
-        }
+              * (n / 2));
+      go.z = MENU_Z_ORDER;
+      imgids = [[ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER_ITEM ]];
+      go.animationImageIds = imgids;
+      go.visible = false;
+      go.addMouseMoveListener((mouseMoveArg) => {
+        this.roomView.showDefaultCursor();
+        this.highlightObject = null;
+        this.roomView.toolTipText"";
       });
-      addGameObject(go);
+      this.addGameObject(go);
       machineWithDrinksInnerItems[n] = go;
     }
-    roomData.setMachineWithDrinksInnerItems(machineWithDrinksInnerItems);
+    this.roomData.machineWithDrinksInnerItems = machineWithDrinksInnerItems;
 
-    HighlightGameObjectImpl machineWithDrinksClose = new HighlightGameObjectImpl();
-    machineWithDrinksClose.setPosition(new Point(
+    const machineWithDrinksClose = new HighlightGameObject();
+    machineWithDrinksClose.position = new Point(
         RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_X,
-        RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_Y));
-    machineWithDrinksClose.setZ(MENU_Z_ORDER + 1);
-    imgids = new int[2][];
-    imgids[HighlightGameObject.OBJECT_NORMAL] = new int[1];
-    imgids[HighlightGameObject.OBJECT_NORMAL][0] = ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE;
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT] = new int[1];
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT][0] = ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE_HIGHLIGHT;
-    machineWithDrinksClose.setAnimationImageIds(imgids);
-    machineWithDrinksClose.setVisible(false);
-    machineWithDrinksClose.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showHandCursor();
-        setHighlightObject(machineWithDrinksClose);
-        roomView.setToolTipText("");
-      }
+        RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_Y);
+    machineWithDrinksClose.z = BaseGameController.MENU_Z_ORDER + 1;
+    imgids = [[ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE ] [ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE_HIGHLIGHT ]];
+    machineWithDrinksClose.animationImageIds = imgids;
+    machineWithDrinksClose.visible = false;
+    machineWithDrinksClose.addMouseMoveListener((mouseMoveArg) => {
+      this.roomView.showHandCursor();
+      this.highlightObject = machineWithDrinksClose;
+      this.roomView.toolTipText = "";
     });
-    machineWithDrinksClose.addClickedListener(new ClickedListener() {
-
-      @Override
-      public void clicked(ClickedArg arg) {
-        setMachineWithDrinksInnerVisible(false);
-      }
-
+    machineWithDrinksClose.addClickedListener((clickedArg) => {
+      this.machineWithDrinksInnerVisible = false;
     });
-    addGameObject(machineWithDrinksClose);
-    roomData.setMachineWithDrinksClose(machineWithDrinksClose);
+    this.addGameObject(machineWithDrinksClose);
+    this.roomData.machineWithDrinksClose = machineWithDrinksClose;
 
-    GameObject[] machineWithDrinksInnerObjects = new GameObject[6];
-    LabelGameObject[] machineWithDrinksInnerObjectLabels = new LabelGameObject[6];
-    roomData.setMachineWithDrinksInnerObjects(machineWithDrinksInnerObjects);
-    roomData.setMachineWithDrinksInnerObjectLabels(machineWithDrinksInnerObjectLabels);
-    initializeMachineWithDrinksInnerObject(DrinkType.WATER,
-        ResourceManagerBase.IMAGE_WATER_1);
-    initializeMachineWithDrinksInnerObject(DrinkType.MILK,
-        ResourceManagerBase.IMAGE_MILK_1);
-    initializeMachineWithDrinksInnerObject(DrinkType.BOTTLE,
-        ResourceManagerBase.IMAGE_BOTTLE_1);
-    initializeMachineWithDrinksInnerObject(DrinkType.TEA,
-        ResourceManagerBase.IMAGE_TEA_1);
-    initializeMachineWithDrinksInnerObject(DrinkType.COFFEE,
-        ResourceManagerBase.IMAGE_COFFEE_1);
-    initializeMachineWithDrinksInnerObject(DrinkType.ORANGE_JUICE,
-        ResourceManagerBase.IMAGE_ORANGE_JUICE_1);
+    const machineWithDrinksInnerObjects = new Array(6);
+    const machineWithDrinksInnerObjectLabels = new Array(6);
+    roomData.machineWithDrinksInnerObjects = machineWithDrinksInnerObjects;
+    roomData.machineWithDrinksInnerObjectLabels = machineWithDrinksInnerObjectLabels;
+    this.initializeMachineWithDrinksInnerObject(DrinkType.WATER,
+        ResourceManager.IMAGE_WATER_1);
+    this.initializeMachineWithDrinksInnerObject(DrinkType.MILK,
+        ResourceManager.IMAGE_MILK_1);
+    this.initializeMachineWithDrinksInnerObject(DrinkType.BOTTLE,
+        ResourceManager.IMAGE_BOTTLE_1);
+    this.initializeMachineWithDrinksInnerObject(DrinkType.TEA,
+        ResourceManager.IMAGE_TEA_1);
+    this.initializeMachineWithDrinksInnerObject(DrinkType.COFFEE,
+        ResourceManager.IMAGE_COFFEE_1);
+    this.initializeMachineWithDrinksInnerObject(DrinkType.ORANGE_JUICE,
+        ResourceManager.IMAGE_ORANGE_JUICE_1);
   }
 
   private class MachineWithDrinksInnerObject extends GameObject {
