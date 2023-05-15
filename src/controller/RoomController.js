@@ -2185,98 +2185,68 @@ export default class RoomController extends BaseGameController{
     this.roomData.machineWithDrinksInnerObjectLabels[drinkId] = gol;
   }
 
-  private class RefrigeratorInnerObject extends GameObject {
-    private FoodType foodType;
+  initRefrigeratoInnerObject(foodType, resourceId) {
+    const go = new RefrigeratorInnerObject();
+    const gol = new LabelGameObject();
 
-    /**
-     * @return the foodType
-     */
-    public FoodType getFoodType() {
-      return foodType;
-    }
-
-    /**
-     * @param foodType
-     *      the foodType to set
-     */
-    public void setFoodType(FoodType foodType) {
-      this.foodType = foodType;
-    }
-  }
-
-  private void initRefrigeratoInnerObject(FoodType foodType, int resourceId) {
-    RefrigeratorInnerObject go = new RefrigeratorInnerObject();
-    LabelGameObject gol = new LabelGameObject();
-
-    go.setFoodType(foodType);
-    int foodId = foodType.ordinal();
-    int x = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_X + (foodId % 3)
+    go.foodType = foodType;
+    const foodId = foodType.ordinal();
+    const x = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_X + (foodId % 3)
         * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_X;
-    int y = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_Y + foodId / 3
+    const y = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_Y + foodId / 3
         * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_Y;
-    go.setPosition(new Point(x, y));
-    gol.setPosition(new Point(x, y + 40));
-    gol.setVisible(false);
-    gol.setZ(MENU_Z_ORDER + 2);
-    addGameObject(gol);
+    go.position = new Point(x, y);
+    gol.position = new Point(x, y + 40);
+    gol.visible = false;
+    gol.z = BaseGameController.MENU_Z_ORDER + 2;
+    this.addGameObject(gol);
 
-    go.setZ(MENU_Z_ORDER + 1);
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceId;
-    go.setAnimationImageIds(imgids);
-    go.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showHandCursor();
-        roomView.setToolTipText("");
-      }
+    go.z = BaseGameController.MENU_Z_ORDER + 1;
+    const imgids = [[ resourceId ]];
+    go.animationImageIds = imgids;
+    go.addMouseMoveListener((mouseMoveArg) => {
+      this.roomView.showHandCursor();
+      this.roomView.toolTipText = "";
     });
-    go.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        RefrigeratorInnerObject rio = (RefrigeratorInnerObject) arg
-            .getSender();
-        int foodId = rio.getFoodType().ordinal();
-        int[] refrigeratorInnerCounts = roomData
+    go.addClickedListener((clickedArg) => {
+        const rio = arg.getSender();
+        const foodId = rio.foodType.ordinal();
+        const refrigeratorInnerCounts = this.roomData
             .getRefrigeratorInnerCounts();
         refrigeratorInnerCounts[foodId]--;
-        LabelGameObject[] refrigeratorInnerObjectLabels = roomData
-            .getRefrigeratorInnerObjectLabels();
-        refrigeratorInnerObjectLabels[foodId].setText(String
-            .valueOf(refrigeratorInnerCounts[foodId]));
-        setRefrigeratorInnerVisible(false);
-        roomView.showHandCursor();
-        PetGameObject pet = roomData.getPet();
-        pet.setPosition(new Point(RoomData.ORIGINAL_PET_X,
-            RoomData.ORIGINAL_PET_Y));
-        pet.setMove(null);
-        pet.setState(PetGameObject.STATE_EAT);
-        GameObject food = roomData.getFood();
-        food.setState(foodId);
-        food.setVisible(true);
-        food.setZ(pet.getZ() + 1);
-        roomData.setSituation(Situation.ANIMATION);
-        showProgressBar(
+        const refrigeratorInnerObjectLabels = this.roomData.refrigeratorInnerObjectLabels;
+        refrigeratorInnerObjectLabels[foodId].text = refrigeratorInnerCounts[foodId];
+        this.refrigeratorInnerVisible = false;
+        this.roomView.showHandCursor();
+        const pet = roomData.pet;
+        pet.position = new Point(RoomData.ORIGINAL_PET_X,
+            RoomData.ORIGINAL_PET_Y);
+        pet.move = null;
+        pet.state = PetGameObject.STATE_EAT;
+        const food = roomData.food;
+        food.state = foodId;
+        food.visible = true;
+        food.z = pet.z + 1;
+        this.roomData.situation = Situation.ANIMATION;
+        this.showProgressBar(
             100,
-            (animationOverArg) -> {
-              roomData.setSituation(Situation.NORMAL);
-              food.setVisible(false);
-              pet.setState(PetGameObject.STATE_NORMAL);
-              SatietyArg satietyArg = new SatietyArg();
-              satietyArg.setFoodType(foodType);
-              satiety(satietyArg);
-              roomData.getSatietyProgressBar().setValue(
-                  roomData.getSatietyProgressBar()
-                      .getMaxValue());
+            (animationOverArg) => {
+              this.roomData.situation = Situation.NORMAL;
+              food.visible = false;
+              pet.state = PetGameObject.STATE_NORMAL;
+              const satietyArg = new SatietyArg();
+              satietyArg.foodType = foodType;
+              this.satiety(satietyArg);
+              this.roomData.satietyProgressBar.value = 
+                  this.roomData.satietyProgressBar
+                      .maxValue;
             });
       }
     });
-    go.setVisible(false);
-    addGameObject(go);
-    roomData.getRefrigeratorInnerObjects()[foodId] = go;
-    roomData.getRefrigeratorInnerObjectLabels()[foodId] = gol;
+    go.visible = false;
+    this.addGameObject(go);
+    this.roomData.refrigeratorInnerObjects[foodId] = go;
+    this.roomData.getRefrigeratorInnerObjectLabels[foodId] = gol;
   }
 
   private void setMachineWithDrinksInnerVisible(boolean b) {
