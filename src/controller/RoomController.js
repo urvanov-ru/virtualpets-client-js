@@ -2250,43 +2250,43 @@ export default class RoomController extends BaseGameController{
     this.roomData.getRefrigeratorInnerObjectLabels[foodId] = gol;
   }
 
-  private void setMachineWithDrinksInnerVisible(boolean b) {
-    GameObject machineWithDrinksInner = roomData
-        .getMachineWithDrinksInner();
-    GameObject[] machineWithDrinksInnerItems = roomData
-        .getMachineWithDrinksInnerItems();
-    GameObject[] machineWithDrinksInnerObjects = roomData
-        .getMachineWithDrinksInnerObjects();
-    LabelGameObject[] machineWithDrinksInnerObjectLabels = roomData
-        .getMachineWithDrinksInnerObjectLabels();
-    int[] machineWithDrinksInnerCounts = roomData
-        .getMachineWithDrinksInnerCounts();
-    HighlightGameObjectImpl machineWithDrinksClose = roomData
-        .getMachineWithDrinksClose();
+  set machineWithDrinksInnerVisible(b) {
+    const machineWithDrinksInner = this.roomData
+        .machineWithDrinksInner;
+    const machineWithDrinksInnerItems = this.roomData
+        .machineWithDrinksInnerItems;
+    const machineWithDrinksInnerObjects = this.roomData
+        .machineWithDrinksInnerObjects;
+    const machineWithDrinksInnerObjectLabels = this.roomData
+        .machineWithDrinksInnerObjectLabels;
+    const machineWithDrinksInnerCounts = this.roomData
+        .machineWithDrinksInnerCounts;
+    const machineWithDrinksClose = this.roomData
+        .machineWithDrinksClose;
 
-    machineWithDrinksInner.setVisible(b);
-    for (int n = 0; n < machineWithDrinksInnerItems.length; n++) {
-      if (n < roomData.getMachineWithDrinksId()) {
-        machineWithDrinksInnerItems[n].setVisible(b);
+    machineWithDrinksInner.visible = b;
+    for (let n = 0; n < machineWithDrinksInnerItems.length; n++) {
+      if (n < this.roomData.machineWithDrinksId) {
+        machineWithDrinksInnerItems[n].visible = b;
       }
     }
-    for (int n = 0; n < machineWithDrinksInnerObjects.length; n++) {
+    for (let n = 0; n < machineWithDrinksInnerObjects.length; n++) {
       if (machineWithDrinksInnerCounts[n] > 0) {
-        machineWithDrinksInnerObjects[n].setVisible(b);
-        machineWithDrinksInnerObjectLabels[n].setVisible(b);
+        machineWithDrinksInnerObjects[n].visible = b;
+        machineWithDrinksInnerObjectLabels[n].visible = b;
       } else {
-        machineWithDrinksInnerObjects[n].setVisible(false);
-        machineWithDrinksInnerObjectLabels[n].setVisible(false);
+        machineWithDrinksInnerObjects[n].visible = false;
+        machineWithDrinksInnerObjectLabels[n].visible = false;
       }
     }
-    machineWithDrinksClose.setVisible(b);
-    if (!roomData.isMachineWithDrinksInnerCountsInitialized()) {
-      showMachineWithDrinks();
+    machineWithDrinksClose.visible = b;
+    if (!roomData.machineWithDrinksInnerCountsInitialized) {
+      this.showMachineWithDrinks();
     }
-    roomData.getMoodProgressBar().setVisible(!b);
-    roomData.getSatietyProgressBar().setVisible(!b);
-    roomData.getDrinkProgressBar().setVisible(!b);
-    roomData.getEducationProgressBar().setVisible(!b);
+    this.roomData.moodProgressBar.visible = !b;
+    this.roomData.satietyProgressBar.visible = !b;
+    this.roomData.drinkProgressBar.visible = !b;
+    this.roomData.educationProgressBar.visible = !b;
   }
 
   private class ShowMachineWithDrinksBackgroundWork extends
