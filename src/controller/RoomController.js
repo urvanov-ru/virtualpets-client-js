@@ -1,3 +1,5 @@
+import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerObject.js';
+
 
 export default class RoomController extends BaseGameController{
 
@@ -2114,95 +2116,73 @@ export default class RoomController extends BaseGameController{
         ResourceManager.IMAGE_ORANGE_JUICE_1);
   }
 
-  private class MachineWithDrinksInnerObject extends GameObject {
-    private DrinkType drinkType;
+  initializeMachineWithDrinksInnerObject(drinkType, resourceId) {
+    const go = new MachineWithDrinksInnerObject();
+    const gol = new LabelGameObject();
 
-    public DrinkType getDrinkType() {
-      return drinkType;
-    }
-
-    public void setDrinkType(DrinkType drinkType) {
-      this.drinkType = drinkType;
-    }
-
-  }
-
-  private void initializeMachineWithDrinksInnerObject(DrinkType drinkType,
-      int resourceId) {
-    MachineWithDrinksInnerObject go = new MachineWithDrinksInnerObject();
-    LabelGameObject gol = new LabelGameObject();
-
-    go.setDrinkType(drinkType);
-    int drinkId = drinkType.ordinal();
-    int x = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_X
+    go.drinkType = drinkType;
+    const drinkId = drinkType.ordinal();
+    const x = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_X
         + (drinkId % 2)
         * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_X;
-    int y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y + drinkId
-        / 2 * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
-    go.setPosition(new Point(x, y));
-    gol.setPosition(new Point(x, y + 40));
-    gol.setVisible(false);
-    gol.setZ(MENU_Z_ORDER + 2);
-    addGameObject(gol);
+    const y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y + drinkId
+       / 2 * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
+    go.position = new Point(x, y);
+    gol.position = new Point(x, y + 40);
+    gol.visible = false;
+    gol.z = BaseGameController.MENU_Z_ORDER + 2;
+    this.addGameObject(gol);
 
-    go.setZ(MENU_Z_ORDER + 1);
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceId;
-    go.setAnimationImageIds(imgids);
-    go.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showHandCursor();
-        roomView.setToolTipText("");
+    go.z = BaseGameController.MENU_Z_ORDER + 1;
+    const imgids = [[ resourceId ]];
+    go.animationImageIds = imgids;
+    go.addMouseMoveListener((mouseMoveArg) => {
+        this.roomView.showHandCursor();
+        this.roomView.toolTipText = "";
       }
     });
-    go.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        MachineWithDrinksInnerObject rio = (MachineWithDrinksInnerObject) arg
+    go.addClickedListener((clickedArg) => {
+        const rio = (MachineWithDrinksInnerObject) clickedArg
             .getSender();
-        int foodId = rio.getDrinkType().ordinal();
-        int[] machineWithDrinksInnerCounts = roomData
+        const foodId = rio.drinkType.ordinal();
+        const machineWithDrinksInnerCounts = this.roomData
             .getMachineWithDrinksInnerCounts();
         machineWithDrinksInnerCounts[foodId]--;
-        LabelGameObject[] machineWithDrinksInnerObjectLabels = roomData
+        const machineWithDrinksInnerObjectLabels = this.roomData
             .getMachineWithDrinksInnerObjectLabels();
-        machineWithDrinksInnerObjectLabels[foodId].setText(String
-            .valueOf(machineWithDrinksInnerCounts[foodId]));
-        setMachineWithDrinksInnerVisible(false);
-        roomView.showHandCursor();
-        PetGameObject pet = roomData.getPet();
-        pet.setPosition(new Point(RoomData.ORIGINAL_PET_X,
+        machineWithDrinksInnerObjectLabels[foodId].text = "" + machineWithDrinksInnerCounts[foodId];
+        this.machineWithDrinksInnerVisible = false;
+        this.roomView.showHandCursor();
+        const pet = this.roomData.pet;
+        pet.position = new Point(RoomData.ORIGINAL_PET_X,
             RoomData.ORIGINAL_PET_Y));
-        pet.setMove(null);
-        pet.setState(PetGameObject.STATE_EAT);
-        GameObject food = roomData.getFood();
-        food.setState(RoomData.FOOD_DRINK + foodId);
-        food.setVisible(true);
-        food.setZ(pet.getZ() + 1);
-        roomData.setSituation(Situation.ANIMATION);
-        showProgressBar(
+        pet.move = null;
+        pet.state = PetGameObject.STATE_EAT;
+        const food = roomData.food;
+        food.state = RoomData.FOOD_DRINK + foodId;
+        food.visible = true;
+        food.z = pet.z + 1;
+        roomData.situation = Situation.ANIMATION;
+        this.showProgressBar(
             100,
             (animationOverArg) -> {
-              roomData.setSituation(Situation.NORMAL);
-              food.setVisible(false);
-              pet.setState(PetGameObject.STATE_NORMAL);
-              DrinkArg drinkArg = new DrinkArg();
-              drinkArg.setDrinkType(rio.getDrinkType());
-              drink(drinkArg);
-              ProgressBarGameObject drinkProgressBar = roomData
+              this.roomData.situation = Situation.NORMAL;
+              food.visible = false;
+              pet.state = PetGameObject.STATE_NORMAL;
+              const drinkArg = new DrinkArg();
+              drinkArg.drinkType = rio.drinkType;
+              this.drink(drinkArg);
+              const drinkProgressBar = this.roomData
                   .getDrinkProgressBar();
-              drinkProgressBar.setValue(drinkProgressBar
-                  .getMaxValue());
+              drinkProgressBar.value = drinkProgressBar
+                  .maxValue;
             });
       }
     });
-    go.setVisible(false);
-    addGameObject(go);
-    roomData.getMachineWithDrinksInnerObjects()[drinkId] = go;
-    roomData.getMachineWithDrinksInnerObjectLabels()[drinkId] = gol;
+    go.visible = false;
+    this.addGameObject(go);
+    this.roomData.machineWithDrinksInnerObjects[drinkId] = go;
+    this.roomData.machineWithDrinksInnerObjectLabels[drinkId] = gol;
   }
 
   private class RefrigeratorInnerObject extends GameObject {
