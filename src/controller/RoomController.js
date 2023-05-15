@@ -1946,118 +1946,96 @@ export default class RoomController extends BaseGameController{
   }
 
   refrigeratorClicked(clickedArg) {
-    if (roomData.situation == Situation.NORMAL) {
-      roomData.refrigeratorPopupMenu.visible = true;
+    if (this.roomData.situation == Situation.NORMAL) {
+      this.roomData.refrigeratorPopupMenu.visible = true;
     }
   }
 
-  private void initRefrigeratorInnerObjects() {
-    GameObject refrigeratorInner = new GameObject();
-    refrigeratorInner.setPosition(new Point(0, 0));
-    refrigeratorInner.setZ(MENU_Z_ORDER);
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_INNER;
-    refrigeratorInner.setAnimationImageIds(imgids);
-    refrigeratorInner.setVisible(false);
-    refrigeratorInner.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
+  initRefrigeratorInnerObjects() {
+    const refrigeratorInner = new GameObject();
+    this.refrigeratorInner.position = new Point(0, 0);
+    this.refrigeratorInner.z = BaseGameController.MENU_Z_ORDER;
+    const imgids = [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_INNER ]];
+    refrigeratorInner.animationImageIds = imgids;
+    refrigeratorInner.visible = false;
+    refrigeratorInner.addMouseMoveListener((mouseMoveArg) => {
+      this.roomView.showDefaultCursor();
+      this.highlightObject = null;
+      this.roomView.toolTipText = "";
+    });
+    this.addGameObject(refrigeratorInner);
+    this.roomData.refrigeratorInner = refrigeratorInner;
+
+    const refrigeratorInnerItems = new Array(RoomData.REFRIGERATOR_MAX_LEVEL);
+    for (let n = 0; n < RoomData.REFRIGERATOR_MAX_LEVEL; n++) {
+      const go = new GameObject();
+      go.position = new Point(RoomData.ORIGINAL_REFRIGERATOR_INNER_X,
+          n * 100);
+      go.z = MENU_Z_ORDER;
+      imgids = [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_INNER_ITEM ]];
+      go.animationImageIds = imgids;
+      go.visible = false;
+      go.addMouseMoveListener((mouseMoveArg) => {
         roomView.showDefaultCursor();
         setHighlightObject(null);
         roomView.setToolTipText("");
-      }
-    });
-    addGameObject(refrigeratorInner);
-    roomData.setRefrigeratorInner(refrigeratorInner);
-
-    GameObject[] refrigeratorInnerItems = new GameObject[RoomData.REFRIGERATOR_MAX_LEVEL];
-    for (int n = 0; n < RoomData.REFRIGERATOR_MAX_LEVEL; n++) {
-      GameObject go = new GameObject();
-      go.setPosition(new Point(RoomData.ORIGINAL_REFRIGERATOR_INNER_X,
-          n * 100));
-      go.setZ(MENU_Z_ORDER);
-      imgids = new int[1][];
-      imgids[0] = new int[1];
-      imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_INNER_ITEM;
-      go.setAnimationImageIds(imgids);
-      go.setVisible(false);
-      go.addMouseMoveListener(new MouseMoveListener() {
-        @Override
-        public void mouseMove(MouseMoveArg arg) {
-          roomView.showDefaultCursor();
-          setHighlightObject(null);
-          roomView.setToolTipText("");
-        }
       });
-      addGameObject(go);
+      this.addGameObject(go);
       refrigeratorInnerItems[n] = go;
     }
-    roomData.setRefrigeratorInnerItems(refrigeratorInnerItems);
+    this.roomData.refrigeratorInnerItems = refrigeratorInnerItems;
 
-    HighlightGameObjectImpl refrigeratorClose = new HighlightGameObjectImpl();
-    refrigeratorClose.setPosition(new Point(
+    const refrigeratorClose = new HighlightGameObject();
+    refrigeratorClose.position = new Point(
         RoomData.ORIGINAL_REFRIGERATOR_CLOSE_X,
-        RoomData.ORIGINAL_REFRIGERATOR_CLOSE_Y));
-    refrigeratorClose.setZ(MENU_Z_ORDER + 1);
-    imgids = new int[2][];
-    imgids[HighlightGameObject.OBJECT_NORMAL] = new int[1];
-    imgids[HighlightGameObject.OBJECT_NORMAL][0] = ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_CLOSE;
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT] = new int[1];
-    imgids[HighlightGameObject.OBJECT_HIGHLIGHT][0] = ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_CLOSE_HIGHLIGHT;
-    refrigeratorClose.setAnimationImageIds(imgids);
-    refrigeratorClose.setVisible(false);
-    refrigeratorClose.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showHandCursor();
-        setHighlightObject(refrigeratorClose);
-        roomView.setToolTipText("");
-      }
+        RoomData.ORIGINAL_REFRIGERATOR_CLOSE_Y);
+    refrigeratorClose.z = MENU_Z_ORDER + 1;
+    imgids = [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_CLOSE ][ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_CLOSE_HIGHLIGHT ]];
+    refrigeratorClose.animationImageIds = imgids;
+    refrigeratorClose.visible = false;
+    refrigeratorClose.addMouseMoveListener((mouseMoveArg) => {
+      this.roomView.showHandCursor();
+      this.highlightObject = refrigeratorClose;
+      this.roomView.toolTipText = "";
     });
-    refrigeratorClose.addClickedListener(new ClickedListener() {
-
-      @Override
-      public void clicked(ClickedArg arg) {
-        setRefrigeratorInnerVisible(false);
-      }
-
+    refrigeratorClose.addClickedListener((clickedArg) => {
+      this.refrigeratorInnerVisible = false;
     });
-    addGameObject(refrigeratorClose);
-    roomData.setRefrigeratorClose(refrigeratorClose);
+    this.addGameObject(refrigeratorClose);
+    this.roomData.refrigeratorClose = refrigeratorClose;
 
-    GameObject[] refrigeratorInnerObjects = new GameObject[14];
-    LabelGameObject[] refrigeratorInnerObjectLabels = new LabelGameObject[14];
-    roomData.setRefrigeratorInnerObjects(refrigeratorInnerObjects);
-    roomData.setRefrigeratorInnerObjectLabels(refrigeratorInnerObjectLabels);
-    initRefrigeratoInnerObject(FoodType.CARROT,
-        ResourceManagerBase.IMAGE_CARROT_1);
-    initRefrigeratoInnerObject(FoodType.DRY_FOOD,
-        ResourceManagerBase.IMAGE_DRY_FOOD_1);
-    initRefrigeratoInnerObject(FoodType.FISH,
-        ResourceManagerBase.IMAGE_FISH_1);
-    initRefrigeratoInnerObject(FoodType.ICE_CREAM,
-        ResourceManagerBase.IMAGE_ICE_CREAM_1);
-    initRefrigeratoInnerObject(FoodType.APPLE,
-        ResourceManagerBase.IMAGE_APPLE_1);
-    initRefrigeratoInnerObject(FoodType.CABBAGE,
-        ResourceManagerBase.IMAGE_CABBAGE_1);
-    initRefrigeratoInnerObject(FoodType.CHOCOLATE,
-        ResourceManagerBase.IMAGE_CHOCOLATE_1);
-    initRefrigeratoInnerObject(FoodType.FRENCH_FRIES,
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_1);
-    initRefrigeratoInnerObject(FoodType.JAPANESE_ROLLS,
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_1);
-    initRefrigeratoInnerObject(FoodType.PIE,
-        ResourceManagerBase.IMAGE_PIE_1);
-    initRefrigeratoInnerObject(FoodType.POTATOES,
-        ResourceManagerBase.IMAGE_POTATOES_1);
-    initRefrigeratoInnerObject(FoodType.SANDWICH,
-        ResourceManagerBase.IMAGE_SANDWICH_1);
-    initRefrigeratoInnerObject(FoodType.BANANA,
-        ResourceManagerBase.IMAGE_BANANA_1);
-    initRefrigeratoInnerObject(FoodType.WATERMELON,
-        ResourceManagerBase.IMAGE_WATERMELON_1);
+    const refrigeratorInnerObjects = new Array(14);
+    const refrigeratorInnerObjectLabels = new Array(14);
+    this.roomData.refrigeratorInnerObjects = refrigeratorInnerObjects;
+    this.roomData.refrigeratorInnerObjectLabels = refrigeratorInnerObjectLabels;
+    this.initRefrigeratoInnerObject(FoodType.CARROT,
+        ResourceManager.IMAGE_CARROT_1);
+    this.initRefrigeratoInnerObject(FoodType.DRY_FOOD,
+        ResourceManager.IMAGE_DRY_FOOD_1);
+    this.initRefrigeratoInnerObject(FoodType.FISH,
+        ResourceManager.IMAGE_FISH_1);
+    this.initRefrigeratoInnerObject(FoodType.ICE_CREAM,
+        ResourceManager.IMAGE_ICE_CREAM_1);
+    this.initRefrigeratoInnerObject(FoodType.APPLE,
+        ResourceManager.IMAGE_APPLE_1);
+    this.initRefrigeratoInnerObject(FoodType.CABBAGE,
+        ResourceManager.IMAGE_CABBAGE_1);
+    this.initRefrigeratoInnerObject(FoodType.CHOCOLATE,
+        ResourceManager.IMAGE_CHOCOLATE_1);
+    this.initRefrigeratoInnerObject(FoodType.FRENCH_FRIES,
+        ResourceManager.IMAGE_FRENCH_FRIES_1);
+    this.initRefrigeratoInnerObject(FoodType.JAPANESE_ROLLS,
+        ResourceManager.IMAGE_JAPANESE_ROLLS_1);
+    this.initRefrigeratoInnerObject(FoodType.PIE,
+        ResourceManager.IMAGE_PIE_1);
+    this.initRefrigeratoInnerObject(FoodType.POTATOES,
+        ResourceManager.IMAGE_POTATOES_1);
+    this.initRefrigeratoInnerObject(FoodType.SANDWICH,
+        ResourceManager.IMAGE_SANDWICH_1);
+    this.initRefrigeratoInnerObject(FoodType.BANANA,
+        ResourceManager.IMAGE_BANANA_1);
+    this.initRefrigeratoInnerObject(FoodType.WATERMELON,
+        ResourceManager.IMAGE_WATERMELON_1);
   }
 
   private void initializeMachineWithDrinksInnerObjects() {
