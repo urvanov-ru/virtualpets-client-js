@@ -2382,35 +2382,35 @@ export default class RoomController extends BaseGameController{
     this.roomData.educationProgressBar.visible = !b;
   }
 
-  private void setBookcaseInnerVisible(boolean b) {
-    GameObject bookcaseInner = roomData.getBookcaseInner();
-    GameObject[] bookcaseInnerItems = roomData.getBookcaseInnerItems();
-    GameObject[] bookcaseInnerObjects = roomData.getBookcaseInnerObjects();
-    boolean[] books = roomData.getBookcaseInnerBooks();
-    HighlightGameObjectImpl bookcaseClose = roomData.getBookcaseClose();
+  set bookcaseInnerVisible(b) {
+    const bookcaseInner = this.roomData.bookcaseInner;
+    const bookcaseInnerItems = this.roomData.bookcaseInnerItems;
+    const bookcaseInnerObjects = this.roomData.bookcaseInnerObjects;
+    const books = this.roomData.bookcaseInnerBooks;
+    const bookcaseClose = this.roomData.bookcaseClose;
 
-    bookcaseInner.setVisible(b);
-    for (int n = 0; n < bookcaseInnerItems.length; n++) {
-      if (n < roomData.getRefrigeratorId()) {
-        bookcaseInnerItems[n].setVisible(b);
+    bookcaseInner.visible = b;
+    for (let n = 0; n < bookcaseInnerItems.length; n++) {
+      if (n < this.roomData.refrigeratorId) {
+        bookcaseInnerItems[n].visible = b;
       }
     }
-    for (int n = 0; n < bookcaseInnerObjects.length; n++) {
-      bookcaseInnerObjects[n].setVisible(b);
+    for (let n = 0; n < bookcaseInnerObjects.length; n++) {
+      bookcaseInnerObjects[n].visible = b;
       if (books[n]) {
-        bookcaseInnerObjects[n].setVisible(b);
+        bookcaseInnerObjects[n].visible = b;
       } else {
-        bookcaseInnerObjects[n].setVisible(false);
+        bookcaseInnerObjects[n].visible = false;
       }
     }
-    bookcaseClose.setVisible(b);
-    if (!roomData.isBookcaseInnerBooksInitialized()) {
-      showBookcase();
+    bookcaseClose.visible = b;
+    if (!this.roomData.bookcaseInnerBooksInitialized) {
+      this.showBookcase();
     }
-    roomData.getMoodProgressBar().setVisible(!b);
-    roomData.getSatietyProgressBar().setVisible(!b);
-    roomData.getDrinkProgressBar().setVisible(!b);
-    roomData.getEducationProgressBar().setVisible(!b);
+    this.roomData.moodProgressBar.visible = !b;
+    this.roomData.satietyProgressBar.visible = !b;
+    this.roomData.drinkProgressBar.visible = !b;
+    this.roomData.educationProgressBar.visible = !b;
   }
 
   private void initializeBook() {
