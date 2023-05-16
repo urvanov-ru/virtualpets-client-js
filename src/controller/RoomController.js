@@ -2320,30 +2320,29 @@ export default class RoomController extends BaseGameController{
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private void setDrinks(GetPetDrinksResult result) {
-    int[] machineWithDrinksInnerCounts = roomData
-        .getMachineWithDrinksInnerCounts();
-    GameObject machineWithDrinksInner = roomData
-        .getMachineWithDrinksInner();
-    GameObject[] machineWithDrinksInnerObjects = roomData
-        .getMachineWithDrinksInnerObjects();
-    LabelGameObject[] machineWithDrinksInnerObjectLabels = roomData
-        .getMachineWithDrinksInnerObjectLabels();
-    Map<DrinkType, Integer> drinkCounts = result.getDrinkCounts();
-    for (Entry<DrinkType, Integer> entry : drinkCounts.entrySet()) {
-      int drinkId = entry.getKey().ordinal();
-      int drinkCount = entry.getValue();
+  set drinks(result) {
+    const machineWithDrinksInnerCounts = this.roomData
+        .machineWithDrinksInnerCounts();
+    const machineWithDrinksInner = this.roomData
+        .machineWithDrinksInner;
+    const machineWithDrinksInnerObjects = this.roomData
+        .machineWithDrinksInnerObjects;
+    const machineWithDrinksInnerObjectLabels = this.roomData
+        .machineWithDrinksInnerObjectLabels;
+    const drinkCounts = result.drinkCounts;
+    for (let entry of drinkCounts.entries()) {
+      const drinkId = entry.key.ordinal();
+      const drinkCount = entry.value;
       machineWithDrinksInnerCounts[drinkId] = drinkCount;
-      if (machineWithDrinksInner.isVisible()) {
+      if (machineWithDrinksInner.visible) {
         machineWithDrinksInnerObjects[drinkId]
-            .setVisible(drinkCount > 0);
+            .visible = drinkCount > 0;
         machineWithDrinksInnerObjectLabels[drinkId]
-            .setVisible(drinkCount > 0);
-        machineWithDrinksInnerObjectLabels[drinkId].setText(String
-            .valueOf(drinkCount));
+            .visible = drinkCount > 0;
+        machineWithDrinksInnerObjectLabels[drinkId].text = "" + drinkCount;
       }
     }
-    roomData.setMachineWithDrinksInnerCountsInitialized(true);
+    this.roomData.machineWithDrinksInnerCountsInitialized = true;
   }
 
   private void setRefrigeratorInnerVisible(boolean b) {
