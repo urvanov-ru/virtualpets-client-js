@@ -2413,28 +2413,24 @@ export default class RoomController extends BaseGameController{
     this.roomData.educationProgressBar.visible = !b;
   }
 
-  private void initializeBook() {
-    GameObject book = new GameObject();
-    int[][] imgids = new int[RoomData.MAX_BOOKS_COUNT][];
+  initializeBook() {
+    const book = new GameObject();
+    const imgids = new Array(RoomData.MAX_BOOKS_COUNT);
 
-    for (int n = 0; n < RoomData.MAX_BOOKS_COUNT; n++) {
-      imgids[n] = new int[1];
-      imgids[n][0] = ResourceManagerBase.IMAGE_BOOK_1 + n;
+    for (let n = 0; n < RoomData.MAX_BOOKS_COUNT; n++) {
+      imgids[n] = new Array(1);
+      imgids[n][0] = ResourceManager.IMAGE_BOOK_1 + n;
     }
-    book.setAnimationImageIds(imgids);
-    book.setPosition(new Point(RoomData.ORIGINAL_BOOK_1_X,
-        RoomData.ORIGINAL_BOOK_1_Y));
-    book.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        roomView.showDefaultCursor();
-        roomView.setToolTipText("");
-      }
+    book.animationImageIds = imgids;
+    book.position = new Point(RoomData.ORIGINAL_BOOK_1_X,
+        RoomData.ORIGINAL_BOOK_1_Y);
+    book.addMouseMoveListener((mouseMoveArg) => {
+      this.roomView.showDefaultCursor();
+      this.roomView.toolTipText = "";
     });
-    book.setVisible(false);
-    addGameObject(book);
-    roomData.setBook(book);
+    book.visible = false;
+    this.addGameObject(book);
+    this.roomData.book = book;
   }
 
   public void showProgressBar(int maxValue, AnimationOverListener listener) {
