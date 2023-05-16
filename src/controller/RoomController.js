@@ -2345,41 +2345,41 @@ export default class RoomController extends BaseGameController{
     this.roomData.machineWithDrinksInnerCountsInitialized = true;
   }
 
-  private void setRefrigeratorInnerVisible(boolean b) {
-    GameObject refrigeratorInner = roomData.getRefrigeratorInner();
-    GameObject[] refrigeratorInnerItems = roomData
-        .getRefrigeratorInnerItems();
-    GameObject[] refrigeratorInnerObjects = roomData
-        .getRefrigeratorInnerObjects();
-    LabelGameObject[] refrigeratorInnerObjectLabels = roomData
-        .getRefrigeratorInnerObjectLabels();
-    int[] refrigeratorInnerCounts = roomData.getRefrigeratorInnerCounts();
-    HighlightGameObjectImpl refrigeratorClose = roomData
-        .getRefrigeratorClose();
+  set refrigeratorInnerVisible(b) {
+    const refrigeratorInner = this.roomData.refrigeratorInner;
+    const refrigeratorInnerItems = this.roomData
+        .refrigeratorInnerItems;
+    const refrigeratorInnerObjects = this.roomData
+        .refrigeratorInnerObjects;
+    const refrigeratorInnerObjectLabels = this.roomData
+        .refrigeratorInnerObjectLabels;
+    const refrigeratorInnerCounts = this.roomData.refrigeratorInnerCounts;
+    const refrigeratorClose = this.roomData
+        .refrigeratorClose;
 
-    refrigeratorInner.setVisible(b);
-    for (int n = 0; n < refrigeratorInnerItems.length; n++) {
-      if (n < roomData.getRefrigeratorId()) {
-        refrigeratorInnerItems[n].setVisible(b);
+    refrigeratorInner.visible = b;
+    for (const n = 0; n < refrigeratorInnerItems.length; n++) {
+      if (n < roomData.refrigeratorId) {
+        refrigeratorInnerItems[n].visible = b;
       }
     }
-    for (int n = 0; n < refrigeratorInnerObjects.length; n++) {
+    for (const n = 0; n < refrigeratorInnerObjects.length; n++) {
       if (refrigeratorInnerCounts[n] > 0) {
-        refrigeratorInnerObjects[n].setVisible(b);
-        refrigeratorInnerObjectLabels[n].setVisible(b);
+        refrigeratorInnerObjects[n].visible = b;
+        refrigeratorInnerObjectLabels[n].visible = b;
       } else {
-        refrigeratorInnerObjects[n].setVisible(false);
-        refrigeratorInnerObjectLabels[n].setVisible(false);
+        refrigeratorInnerObjects[n].visible = false;
+        refrigeratorInnerObjectLabels[n].visible = false;
       }
     }
-    refrigeratorClose.setVisible(b);
-    if (!roomData.isRefrigeratorInnerCountsInitialized()) {
-      showRefrigerator();
+    refrigeratorClose.visible = b;
+    if (!roomData.refrigeratorInnerCountsInitialized) {
+      this.showRefrigerator();
     }
-    roomData.getMoodProgressBar().setVisible(!b);
-    roomData.getSatietyProgressBar().setVisible(!b);
-    roomData.getDrinkProgressBar().setVisible(!b);
-    roomData.getEducationProgressBar().setVisible(!b);
+    this.roomData.moodProgressBar.visible = !b;
+    this.roomData.satietyProgressBar.visible = !b;
+    this.roomData.drinkProgressBar.visible = !b;
+    this.roomData.educationProgressBar.visible = !b;
   }
 
   private void setBookcaseInnerVisible(boolean b) {
