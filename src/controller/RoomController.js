@@ -2433,12 +2433,12 @@ export default class RoomController extends BaseGameController{
     this.roomData.book = book;
   }
 
-  public void showProgressBar(int maxValue, AnimationOverListener listener) {
-    ProgressBarGameObject progressBar = roomData.getProgressBar();
-    progressBar.setMaxValue(maxValue);
-    progressBar.setValue(0);
-    roomData.setProgressBarOverListener(listener);
-    progressBar.setVisible(true);
+  showProgressBar(maxValue, listener) {
+    const progressBar = this.roomData.progressBar;
+    progressBar.maxValue = maxValue;
+    progressBar.value = 0;
+    roomData.progressBarOverListener = listener;
+    progressBar.visible = true;
   }
 
   public void setFoods(GetPetFoodsResult result) {
