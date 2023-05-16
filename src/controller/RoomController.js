@@ -2289,35 +2289,35 @@ export default class RoomController extends BaseGameController{
     this.roomData.educationProgressBar.visible = !b;
   }
 
-  private class ShowMachineWithDrinksBackgroundWork extends
-      BackgroundWork<Void, GetPetDrinksResult, Void> {
+//  private class ShowMachineWithDrinksBackgroundWork extends
+//      BackgroundWork<Void, GetPetDrinksResult, Void> {
+//
+//    @Override
+//    public GetPetDrinksResult doInBackground() throws Exception {
+//      return drinkService.getPetDrinks();
+//    }
+//
+//    @Override
+//    public void completed(GetPetDrinksResult result) {
+//      setDrinks(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("ShowMachineWithDrinksBackgroundWork failed.", ex);
+//      trayIcon.showTrayMessage(
+//          messageSource.getMessage(StringConstants.ERROR, null, null),
+//          MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public GetPetDrinksResult doInBackground() throws Exception {
-      return drinkService.getPetDrinks();
-    }
-
-    @Override
-    public void completed(GetPetDrinksResult result) {
-      setDrinks(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("ShowMachineWithDrinksBackgroundWork failed.", ex);
-      trayIcon.showTrayMessage(
-          messageSource.getMessage(StringConstants.ERROR, null, null),
-          MessageType.ERROR);
-    }
-  }
-
-  private void showMachineWithDrinks() {
-    ShowMachineWithDrinksBackgroundWork work = new ShowMachineWithDrinksBackgroundWork();
-    work.setView(roomView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  showMachineWithDrinks() {
+    //ShowMachineWithDrinksBackgroundWork work = new ShowMachineWithDrinksBackgroundWork();
+    //work.setView(roomView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   private void setDrinks(GetPetDrinksResult result) {
