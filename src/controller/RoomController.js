@@ -2487,14 +2487,14 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  private void setBookcaseLevel(int level) {
-    roomData.setBookcase(roomData.getBookcases()[level]);
-    GameObject bookcase = roomData.getBookcase();
+  set bookcaseLevel(int level) {
+    this.roomData.bookcase = this.roomData.bookcases[level];
+    const bookcase = this.roomData.bookcase;
     if (bookcase != null) {
-      bookcase.setVisible(false);
-      bookcase.setVisible(true);
+      bookcase.visible = false;
+      bookcase.visible = true;
       if (level > 0) {
-        roomData.getBookcases()[level - 1].setVisible(false);
+        this.roomData.bookcases[level - 1].visible = false;
       }
     }
   }
