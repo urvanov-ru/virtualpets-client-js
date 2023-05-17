@@ -2512,23 +2512,23 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  public void createOpenBoxReward(OpenBoxNewbieResult result) {
-    BoxGameObject[] boxes = roomData.getBoxes();
-    GameObject box = boxes[result.getIndex()];
-    box.setVisible(false);
-    RucksackGameObject rucksack = getRucksack();
-    BuildingMaterialGameObject[] bmgos = rucksack.getBuildingMaterials();
-    for (Entry<BuildingMaterialType, Integer> pair : result
-        .getBuildingMaterials().entrySet()) {
-      BuildingMaterialGameObject bmgo = bmgos[pair.getKey().ordinal()];
-      bmgo.setBuildingMaterialCount(bmgo.getBuildingMaterialCount()
-          + pair.getValue());
-      for (int n = 0; n < pair.getValue(); n++) {
-        Point position = box.getPosition();
-        Dimension dimension = box.getDimension();
-        addCollectableGameObject(pair.getKey(), position.getX()
-            + dimension.getWidth() / 2,
-            position.getY() + dimension.getWidth() / 2);
+  createOpenBoxReward(openBoxNewbieResult) {
+    const boxes = this.roomData.boxes;
+    const box = boxes[openBoxNewbieResult.index];
+    box.visible = false;
+    const rucksack = this.rucksack;
+    const bmgos = rucksack.buildingMaterials;
+    for (let pair of openBoxNewbieResult
+        .buildingMaterials.entries()s) {
+      const bmgo = bmgos[pair.key.ordinal()];
+      bmgo.buildingMaterialCount = bmgo.buildingMaterialCount
+          + pair.value);
+      for (let n = 0; n < pair.value; n++) {
+        const position = box.position;
+        const dimension = box.getDimension();
+        this.addCollectableGameObject(pair.key, position.x
+            + dimension.width / 2,
+            position.y + dimension.width / 2);
       }
     }
   }
