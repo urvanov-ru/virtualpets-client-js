@@ -2499,15 +2499,15 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  private void setMachineWithDrinksLevel(int level) {
-    roomData.setMachineWithDrinks(roomData.getMachineWithDrinksArray()[level]);
-    GameObject machineWithDrinks = roomData.getMachineWithDrinks();
+  set machineWithDrinksLevel(level) {
+    this.roomData.machineWithDrinks = this.roomData.machineWithDrinksArray[level]);
+    const machineWithDrinks = this.roomData.machineWithDrinks;
     if (machineWithDrinks != null) {
-      machineWithDrinks.setVisible(false);
-      machineWithDrinks.setVisible(true);
+      machineWithDrinks.visible = false;
+      machineWithDrinks.visible = true;
       if (level > 0) {
-        roomData.getMachineWithDrinksArray()[level - 1]
-            .setVisible(false);
+        this.roomData.machineWithDrinksArray[level - 1]
+            .visible = false;
       }
     }
   }
