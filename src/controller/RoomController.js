@@ -2475,14 +2475,14 @@ export default class RoomController extends BaseGameController{
     this.roomData.bookcaseInnerBooksInitialized = true;
   }
 
-  private void setRefrigeratorLevel(int level) {
-    roomData.setRefrigerator(roomData.getRefrigerators()[level]);
-    GameObject refrigerator = roomData.getRefrigerator();
+  set refrigeratorLevel(level) {
+    this.roomData.refrigerator = this.roomData.refrigerators[level];
+    const refrigerator = this.roomData.refrigerator;
     if (refrigerator != null) {
-      refrigerator.setVisible(false);
-      refrigerator.setVisible(true);
+      refrigerator.visible = false;
+      refrigerator.visible = true;
       if (level > 0) {
-        roomData.getRefrigerators()[level - 1].setVisible(false);
+        this.roomData.refrigerators[level - 1].visible = false;
       }
     }
   }
