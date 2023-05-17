@@ -2441,26 +2441,25 @@ export default class RoomController extends BaseGameController{
     progressBar.visible = true;
   }
 
-  public void setFoods(GetPetFoodsResult result) {
-    int[] refrigeratorInnerCounts = roomData.getRefrigeratorInnerCounts();
-    GameObject refrigeratorInner = roomData.getRefrigeratorInner();
-    GameObject[] refrigeratorInnerObjects = roomData
-        .getRefrigeratorInnerObjects();
-    LabelGameObject[] refrigeratorInnerObjectLabels = roomData
-        .getRefrigeratorInnerObjectLabels();
-    Map<FoodType, Integer> foodCounts = result.getFoodCounts();
-    for (Entry<FoodType, Integer> entry : foodCounts.entrySet()) {
-      int foodId = entry.getKey().ordinal();
-      int foodCount = entry.getValue();
+  set foods(getPetFoodResult) {
+    const refrigeratorInnerCounts = this.roomData.refrigeratorInnerCounts;
+    const refrigeratorInner = this.roomData.refrigeratorInner;
+    const refrigeratorInnerObjects = this.roomData
+        .refrigeratorInnerObjects;
+    const refrigeratorInnerObjectLabels = this.roomData
+        .refrigeratorInnerObjectLabels;
+    const foodCounts = getPetFoodResult.foodCounts;
+    for (let entry of foodCounts.entries()) {
+      const foodId = entry.key.ordinal();
+      const foodCount = entry.value;
       refrigeratorInnerCounts[foodId] = foodCount;
-      if (refrigeratorInner.isVisible()) {
-        refrigeratorInnerObjects[foodId].setVisible(foodCount > 0);
-        refrigeratorInnerObjectLabels[foodId].setVisible(foodCount > 0);
-        refrigeratorInnerObjectLabels[foodId].setText(String
-            .valueOf(foodCount));
+      if (refrigeratorInner.visible) {
+        refrigeratorInnerObjects[foodId].visible = foodCount > 0;
+        refrigeratorInnerObjectLabels[foodId].visible = foodCount > 0;
+        refrigeratorInnerObjectLabels[foodId].text = "" + foodCount;
       }
     }
-    roomData.setRefrigeratorInnerCountsInitialized(true);
+    this.roomData.refrigeratorInnerCountsInitialized = true;
   }
 
   public void setBooks(GetPetBooksResult result) {
