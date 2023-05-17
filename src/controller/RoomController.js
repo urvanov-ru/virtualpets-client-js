@@ -2462,17 +2462,17 @@ export default class RoomController extends BaseGameController{
     this.roomData.refrigeratorInnerCountsInitialized = true;
   }
 
-  public void setBooks(GetPetBooksResult result) {
-    roomData.setBookcaseInnerBooks(result.getBooks());
-    boolean[] books = roomData.getBookcaseInnerBooks();
-    GameObject bookcaseInner = roomData.getBookcaseInner();
-    GameObject[] bookcaseInnerObjects = roomData.getBookcaseInnerObjects();
-    for (int n = 0; n < books.length; n++) {
-      if (bookcaseInner.isVisible()) {
-        bookcaseInnerObjects[n].setVisible(books[n]);
+  set books(getPetBooksResult) {
+    this.roomData.bookcaseInnerBooks = result.books;
+    const books = this.roomData.bookcaseInnerBooks;
+    const bookcaseInner = this.roomData.bookcaseInner;
+    const bookcaseInnerObjects = this.roomData.bookcaseInnerObjects;
+    for (let n = 0; n < books.length; n++) {
+      if (bookcaseInner.visible) {
+        bookcaseInnerObjects[n].visible = books[n];
       }
     }
-    roomData.setBookcaseInnerBooksInitialized(true);
+    this.roomData.bookcaseInnerBooksInitialized = true;
   }
 
   private void setRefrigeratorLevel(int level) {
