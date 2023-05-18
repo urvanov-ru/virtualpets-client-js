@@ -377,7 +377,7 @@ export default class RoomController extends BaseGameController{
     const imgids = [[ ResourceManagerBase.IMAGE_ROOM_BOOKCASE_INNER ]];
     bookcaseInner.animationImageIds = imgids;
     bookcaseInner.visible = false;
-    bookcaseInner.addMouseMoveListener((MouseMoveArg arg) => {
+    bookcaseInner.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showDefaultCursor();
       this.highlightObject = null;
       this.roomView.toolTipText = "";
