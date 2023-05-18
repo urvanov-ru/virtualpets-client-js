@@ -2533,80 +2533,56 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  private void showUpgradeRefrigerator() {
+  showUpgradeRefrigerator() {
     try {
 
-      roomData.setSituation(Situation.UPGRADE_REFRIGERATOR_COST);
-      MessageSource messageSource = getMessageSource();
-      String text = messageSource.getMessage(
+      this.roomData.situation = Situation.UPGRADE_REFRIGERATOR_COST;
+      const text = this.messageSource.getMessage(
           StringConstants.REFRIGERATOR, null, null);
 
-      int newRefrigeratorId = roomData.getRefrigeratorId() + 1;
-      Map<BuildingMaterialType, Integer> costs = roomData
-          .getBuildMenuCosts().getRefrigeratorCosts()
+      const newRefrigeratorId = this.roomData.refrigeratorId + 1;
+      const costs = this.roomData
+          .buildMenuCosts.refrigeratorCosts
           .get(newRefrigeratorId - 1);
-      showUpgrade(text, costs, (aaa) -> {
-        startUpgrade(roomData.getRefrigerator());
+      this.showUpgrade(text, costs, (aaa) -> {
+        this.startUpgrade(this.roomData.refrigerator);
       }, (bbb) -> {
-        roomData.setSituation(Situation.NORMAL);
+        this.roomData.situation = Situation.NORMAL;
       });
 
-    } catch (Exception ex) {
-      log.error("showUpgradeRefrigerator failed. ", ex);
-      String message = getMessageSource().getMessage(
+    } catch (ex) {
+      console.error("showUpgradeRefrigerator failed. %o", ex);
+      const message = getMessageSource().getMessage(
           StringConstants.ERROR, null, null);
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     }
   }
 
-  public void setBuildMenuCosts(RoomBuildMenuCosts result) {
-    this.roomData.setBuildMenuCosts(result);
-    BuildMenuGameObject buildMenu = this.getBuildMenu();
-    Map<BuildingMaterialType, Integer> refrigeratorCost = result
-        .getRefrigeratorCosts().get(0);
-    int[][] costs = buildMenu.getCosts();
-    for (Entry<BuildingMaterialType, Integer> entry : refrigeratorCost
-        .entrySet()) {
-      costs[0][entry.getKey().ordinal()] = entry.getValue() == null ? 0
-          : entry.getValue();
+  set buildMenuCosts(roomBuildMenuCosts) {
+    this.roomData.buildMenuCosts = result;
+    const buildMenu = this.buildMenu;
+    const refrigeratorCost = roomBuildMenuCosts
+        .refrigeratorCosts.get(0);
+    const costs = buildMenu.costs;
+    for (const entry of refrigeratorCost
+        .entries()) {
+      costs[0][entry.key.ordinal()] = entry.value == null ? 0
+          : entry.value;
     }
-    Map<BuildingMaterialType, Integer> bookcaseCost = result
-        .getBookcaseCosts().get(0);
-    for (Entry<BuildingMaterialType, Integer> entry : bookcaseCost
-        .entrySet()) {
-      costs[2][entry.getKey().ordinal()] = entry.getValue() == null ? 0
-          : entry.getValue();
+    const bookcaseCost = result
+        .bookcaseCosts.get(0);
+    for (const entry of bookcaseCost
+        .entries()) {
+      costs[2][entry.key.ordinal()] = entry.value == null ? 0
+          : entry.value;
     }
-    Map<BuildingMaterialType, Integer> machineWithDrinksCost = result
-        .getMachineWithDrinksCosts().get(0);
-    for (Entry<BuildingMaterialType, Integer> entry : machineWithDrinksCost
-        .entrySet()) {
-      costs[1][entry.getKey().ordinal()] = entry.getValue() == null ? 0
-          : entry.getValue();
+    const machineWithDrinksCost = result
+        .machineWithDrinksCosts.get(0);
+    for (const entry of machineWithDrinksCost
+        .entries()) {
+      costs[1][entry.key.ordinal()] = entry.value == null ? 0
+          : entry.value;
     }
   }
 
-  public BookService getBookService() {
-    return bookService;
-  }
-
-  public void setBookService(BookService bookService) {
-    this.bookService = bookService;
-  }
-
-  public DrinkService getDrinkService() {
-    return drinkService;
-  }
-
-  public void setDrinkService(DrinkService drinkService) {
-    this.drinkService = drinkService;
-  }
-
-  public JournalEntryService getJournalEntryService() {
-    return journalEntryService;
-  }
-
-  public void setJournalEntryService(JournalEntryService journalEntryService) {
-    this.journalEntryService = journalEntryService;
-  }
 }
