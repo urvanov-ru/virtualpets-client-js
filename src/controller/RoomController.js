@@ -629,14 +629,14 @@ export default class RoomController extends BaseGameController{
 
     const bookcaseUpgradeItem = new MenuItem();
     bookcaseUpgradeItem.text = this.messageSource.getMessage(
-        StringConstants.UPGRADE, null, null));
+        StringConstants.UPGRADE, null, null);
     bookcaseUpgradeItem.addClickedListener((arg) => RoomControllerImpl.this
         .showUpgradeBookcase());
     bookcaseMenuItems.add(bookcaseUpgradeItem);
 
     const bookcaseMoveItem = new MenuItem();
     bookcaseMoveItem.text = this.messageSource.getMessage(
-        StringConstants.MOVE, null, null));
+        StringConstants.MOVE, null, null);
     bookcaseMoveItem.addClickedListener((bookcaseMoveClickedArg) => {
       this.roomData.setSituation(Situation.MOVE_BOOKCASE);
       this.startMove(roomData.getBookcase());
@@ -650,22 +650,21 @@ export default class RoomController extends BaseGameController{
 
   showUpgradeBookcase() {
     try {
-      roomData.setSituation(Situation.UPGRADE_BOOKCASE_COST);
-      MessageSource messageSource = getMessageSource();
-      String text = messageSource.getMessage(StringConstants.BOOKCASE,
+      this.roomData.situation = Situation.UPGRADE_BOOKCASE_COST;
+      const text = this.messageSource.getMessage(StringConstants.BOOKCASE,
           null, null);
-      int newBookcaseId = roomData.getBookcaseId() + 1;
-      Map<BuildingMaterialType, Integer> costs = roomData
-          .getBuildMenuCosts().getBookcaseCosts()
+      const newBookcaseId = roomData.bookcaseId + 1;
+      const costs = this.roomData
+          .buildMenuCosts.bookcaseCosts
           .get(newBookcaseId - 1);
-      showUpgrade(text, costs, (aaa) -> {
-        startUpgrade(roomData.getBookcase());
-      }, (bbb) -> {
+      this.showUpgrade(text, costs, (aaa) => {
+        this.startUpgrade(roomData.bookcase);
+      }, (bbb) => {
         roomData.setSituation(Situation.NORMAL);
       });
 
     } catch (ex) {
-      log.error("showUpgradeRefrigerator failed. %o", ex);
+      console.error("showUpgradeRefrigerator failed. %o", ex);
       const message = this.messageSource.getMessage(
           StringConstants.ERROR, null, null);
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
@@ -933,7 +932,7 @@ export default class RoomController extends BaseGameController{
     refrigeratorMenuItems.add(refrigeratorUseItem);
     const refrigeratorUpgradeItem = new MenuItem();
     refrigeratorUpgradeItem.text = this.messageSource.getMessage(
-        StringConstants.UPGRADE, null, null));
+        StringConstants.UPGRADE, null, null);
     refrigeratorUpgradeItem
         .addClickedListener((arg) => this
             .showUpgradeRefrigerator());
