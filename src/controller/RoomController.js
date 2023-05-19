@@ -939,7 +939,7 @@ export default class RoomController extends BaseGameController{
     refrigeratorMenuItems.add(refrigeratorUpgradeItem);
     const refrigeratorMoveItem = new MenuItem();
     refrigeratorMoveItem.text = messageSource.getMessage(
-        StringConstants.MOVE, null, null));
+        StringConstants.MOVE, null, null);
     refrigeratorMoveItem.addClickedListener((arg) => {
       this.roomData.situation = Situation.MOVE_REFRIGERATOR;
       this.startMove(this.roomData.getRefrigerator());
@@ -948,7 +948,7 @@ export default class RoomController extends BaseGameController{
     refrigeratorMenuItems.add(refrigeratorMoveItem);
 
     this.addGameObject(refrigeratorPopupMenu);
-    roomData.refrigeratorPopupMenu = refrigeratorPopupMenu;
+    this.roomData.refrigeratorPopupMenu = refrigeratorPopupMenu;
   }
 
 //  private class GetBuildMenuCostsBackgroundWork extends
@@ -1661,7 +1661,7 @@ export default class RoomController extends BaseGameController{
           StringConstants.USE, null, null));
       });
       box.addClickedListener((clickedArg) => {
-       showProgressBar(100, boxClickedArg -> {
+       this.showProgressBar(100, boxClickedArg -> {
         openBox(((BoxGameObject) arg.getSender()).getIndex());
       });
       box.visible = false;
