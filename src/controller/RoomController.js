@@ -1,5 +1,6 @@
 import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerObject.js';
 import RefrigeratorInnerObject from './room/domain/RefrigeratorInnerObject.js';
+import RoomData from './domain/RoomData.js';
 
 
 export default class RoomController extends BaseGameController{
@@ -386,7 +387,7 @@ export default class RoomController extends BaseGameController{
     this.roomData.setBookcaseInner(bookcaseInner);
 
     const bookcaseInnerItems = new Array(RoomData.BOOKCASE_MAX_LEVEL);
-    this.roomData.bookcaseInnerBooks = new Array(RoomData.MAX_BOOKS_COUNT]);
+    this.roomData.bookcaseInnerBooks = new Array(RoomData.MAX_BOOKS_COUNT);
     for (let n = 0; n < RoomData.BOOKCASE_MAX_LEVEL; n++) {
       const go = new GameObject();
       go.position = new Point(RoomData.ORIGINAL_BOOKCASE_INNER_X, n * 100);
@@ -394,10 +395,10 @@ export default class RoomController extends BaseGameController{
       const imgids = new [[ ResourceManagerBase.IMAGE_ROOM_BOOKCASE_INNER_ITEM ]];
       go.animationImageIds = imgids;
       go.visible = false;
-      go.addMouseMoveListener((MouseMoveArg arg) => {
-        roomView.showDefaultCursor();
-        setHighlightObject(null);
-        roomView.setToolTipText("");
+      go.addMouseMoveListener((mouseMoveArg) => {
+        this.roomView.showDefaultCursor();
+        this.highlightObject = null;
+        this.roomView.toolTipTex = "";
       });
       this.addGameObject(go);
       this.bookcaseInnerItems[n] = go;
@@ -408,15 +409,15 @@ export default class RoomController extends BaseGameController{
     bookcaseClose.position = new Point(RoomData.ORIGINAL_BOOKCASE_CLOSE_X,
         RoomData.ORIGINAL_BOOKCASE_CLOSE_Y);
     bookcaseClose.z = MENU_Z_ORDER + 1;
-    const imgids = [[ResourceManagerBase.IMAGE_ROOM_BOOKCASE_CLOSE][ResourceManagerBase.IMAGE_ROOM_BOOKCASE_CLOSE_HIGHLIGHT]];
+    imgids = [[ResourceManagerBase.IMAGE_ROOM_BOOKCASE_CLOSE][ResourceManagerBase.IMAGE_ROOM_BOOKCASE_CLOSE_HIGHLIGHT]];
     bookcaseClose.animationImageIds = imgids;
     bookcaseClose.visible = false;
-    bookcaseClose.addMouseMoveListener((MouseMoveArg arg) => {
+    bookcaseClose.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();
       this.highlightObject = bookcaseClose;
       this.roomView.toolTipText = "";
     });
-    bookcaseClose.addClickedListener((ClickedArg arg) => {
+    bookcaseClose.addClickedListener((clickedArg) => {
       setBookcaseInnerVisible(false);
     });
     this.addGameObject(bookcaseClose);
@@ -456,11 +457,11 @@ export default class RoomController extends BaseGameController{
     go.z = MENU_Z_ORDER + 1;
     const imgids = [[ resourceId ]];
     go.animationImageIds = imgids;
-    go.addMouseMoveListener((MouseMoveArg arg) => {
+    go.addMouseMoveListener((mouseMoveArg) => {
       roomView.showHandCursor();
       roomView.setToolTipText("");
     });
-    go.addClickedListener((ClickedArg arg) => {
+    go.addClickedListener((clickedArg) => {
       this.bookcaseInnerVisible = false;
       const pet = roomData.pet;
       pet.position = new Point(RoomData.ORIGINAL_PET_X,
@@ -484,7 +485,7 @@ export default class RoomController extends BaseGameController{
             const educationProgressBar = this.roomData
                 .educationProgressBar;
             this.educationProgressBar.value = educationProgressBar
-                .maxValue);
+                .maxValue;
           });
     });
     go.visible = false;
@@ -621,8 +622,8 @@ export default class RoomController extends BaseGameController{
     const bookcaseUseItem = new MenuItem();
     bookcaseUseItem.text = this.messageSource.getMessage(
         StringConstants.USE, null, null);
-    bookcaseUseItem.addClickedListener((arg => {
-      RoomControllerImpl.this.setBookcaseInnerVisible(true);
+    bookcaseUseItem.addClickedListener((arg) => {
+      this.bookcaseInnerVisible = true;
     });
     bookcaseMenuItems.add(bookcaseUseItem);
 
