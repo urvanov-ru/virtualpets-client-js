@@ -1,6 +1,6 @@
 import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerObject.js';
 import RefrigeratorInnerObject from './room/domain/RefrigeratorInnerObject.js';
-import RoomData from './domain/RoomData.js';
+import RoomData from '../domain/RoomData.js';
 
 
 export default class RoomController extends BaseGameController{
@@ -2068,7 +2068,7 @@ export default class RoomController extends BaseGameController{
       go.addMouseMoveListener((mouseMoveArg) => {
         this.roomView.showDefaultCursor();
         this.highlightObject = null;
-        this.roomView.toolTipText"";
+        this.roomView.toolTipText = "";
       });
       this.addGameObject(go);
       machineWithDrinksInnerItems[n] = go;
@@ -2135,11 +2135,9 @@ export default class RoomController extends BaseGameController{
     go.addMouseMoveListener((mouseMoveArg) => {
         this.roomView.showHandCursor();
         this.roomView.toolTipText = "";
-      }
     });
     go.addClickedListener((clickedArg) => {
-        const rio = (MachineWithDrinksInnerObject) clickedArg
-            .getSender();
+        const rio = clickedArg.sender;
         const foodId = rio.drinkType.ordinal();
         const machineWithDrinksInnerCounts = this.roomData
             .getMachineWithDrinksInnerCounts();
@@ -2151,7 +2149,7 @@ export default class RoomController extends BaseGameController{
         this.roomView.showHandCursor();
         const pet = this.roomData.pet;
         pet.position = new Point(RoomData.ORIGINAL_PET_X,
-            RoomData.ORIGINAL_PET_Y));
+            RoomData.ORIGINAL_PET_Y);
         pet.move = null;
         pet.state = PetGameObject.STATE_EAT;
         const food = roomData.food;
@@ -2161,7 +2159,7 @@ export default class RoomController extends BaseGameController{
         roomData.situation = Situation.ANIMATION;
         this.showProgressBar(
             100,
-            (animationOverArg) -> {
+            (animationOverArg) => {
               this.roomData.situation = Situation.NORMAL;
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
@@ -2169,11 +2167,10 @@ export default class RoomController extends BaseGameController{
               drinkArg.drinkType = rio.drinkType;
               this.drink(drinkArg);
               const drinkProgressBar = this.roomData
-                  .getDrinkProgressBar();
+                  .drinkProgressBar;
               drinkProgressBar.value = drinkProgressBar
                   .maxValue;
             });
-      }
     });
     go.visible = false;
     this.addGameObject(go);
@@ -2237,7 +2234,6 @@ export default class RoomController extends BaseGameController{
                   this.roomData.satietyProgressBar
                       .maxValue;
             });
-      }
     });
     go.visible = false;
     this.addGameObject(go);
@@ -2482,7 +2478,7 @@ export default class RoomController extends BaseGameController{
     }
   }
 
-  set bookcaseLevel(int level) {
+  set bookcaseLevel(level) {
     this.roomData.bookcase = this.roomData.bookcases[level];
     const bookcase = this.roomData.bookcase;
     if (bookcase != null) {
@@ -2495,7 +2491,7 @@ export default class RoomController extends BaseGameController{
   }
 
   set machineWithDrinksLevel(level) {
-    this.roomData.machineWithDrinks = this.roomData.machineWithDrinksArray[level]);
+    this.roomData.machineWithDrinks = this.roomData.machineWithDrinksArray[level];
     const machineWithDrinks = this.roomData.machineWithDrinks;
     if (machineWithDrinks != null) {
       machineWithDrinks.visible = false;
@@ -2514,10 +2510,10 @@ export default class RoomController extends BaseGameController{
     const rucksack = this.rucksack;
     const bmgos = rucksack.buildingMaterials;
     for (let pair of openBoxNewbieResult
-        .buildingMaterials.entries()s) {
+        .buildingMaterials.entries()) {
       const bmgo = bmgos[pair.key.ordinal()];
       bmgo.buildingMaterialCount = bmgo.buildingMaterialCount
-          + pair.value);
+          + pair.value;
       for (let n = 0; n < pair.value; n++) {
         const position = box.position;
         const dimension = box.getDimension();
@@ -2539,9 +2535,9 @@ export default class RoomController extends BaseGameController{
       const costs = this.roomData
           .buildMenuCosts.refrigeratorCosts
           .get(newRefrigeratorId - 1);
-      this.showUpgrade(text, costs, (aaa) -> {
+      this.showUpgrade(text, costs, (aaa) => {
         this.startUpgrade(this.roomData.refrigerator);
-      }, (bbb) -> {
+      }, (bbb) => {
         this.roomData.situation = Situation.NORMAL;
       });
 
