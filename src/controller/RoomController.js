@@ -1661,8 +1661,9 @@ export default class RoomController extends BaseGameController{
           StringConstants.USE, null, null));
       });
       box.addClickedListener((clickedArg) => {
-       this.showProgressBar(100, boxClickedArg -> {
-        openBox(((BoxGameObject) arg.getSender()).getIndex());
+       this.showProgressBar(100, boxClickedArg => {
+        this.openBox(arg.sender.index);
+        });
       });
       box.visible = false;
       this.addGameObject(box);
@@ -1672,7 +1673,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_BOX_0_Y);
     boxes[1].position = new Point(RoomData.ORIGINAL_BOX_1_X,
         RoomData.ORIGINAL_BOX_1_Y);
-    boxes[2].position(new Point(RoomData.ORIGINAL_BOX_2_X,
+    boxes[2].position = new Point(RoomData.ORIGINAL_BOX_2_X,
         RoomData.ORIGINAL_BOX_2_Y);
     this.roomData.boxies = boxes;
   }
