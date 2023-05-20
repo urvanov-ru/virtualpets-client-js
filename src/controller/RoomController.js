@@ -1683,7 +1683,7 @@ export default class RoomController extends BaseGameController{
     const machineWithDrinksMenuItems = [];
     const machineWithDrinksUseItem = new MenuItem();
     machineWithDrinksUseItem.text = this.messageSource.getMessage(
-        StringConstants.USE, null, null));
+        StringConstants.USE, null, null);
     machineWithDrinksUseItem.addClickedListener((drinkUseClickedArg) => {
       machineWithDrinksInnerVisible = true;
     });
@@ -1692,14 +1692,14 @@ export default class RoomController extends BaseGameController{
 
     const machineWithDrinksUpgradeItem = new MenuItem();
     machineWithDrinksUpgradeItem.text = this.messageSource.getMessage(
-        StringConstants.UPGRADE, null, null));
+        StringConstants.UPGRADE, null, null);
     machineWithDrinksUpgradeItem
         .addClickedListener((arg) => this.showUpgradeMachineWithDrinks());
     machineWithDrinksMenuItems.add(machineWithDrinksUpgradeItem);
 
     const machineWithDrinksMoveItem = new MenuItem();
     machineWithDrinksMoveItem.text = this.messageSource.getMessage(
-        StringConstants.MOVE, null, null));
+        StringConstants.MOVE, null, null);
     machineWithDrinksMoveItem.addClickedListener((drinkMoveClickedArg) => {
       this.roomData.situation = Situation.MOVE_DRINK;
       this.startMove(roomData.machineWithDrinks);
@@ -1748,19 +1748,18 @@ export default class RoomController extends BaseGameController{
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
         .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_REFRIGERATOR_1 ]];
-    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].position = new Point(250, 250));
+    buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].position = new Point(250, 250);
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].z = BaseGameController.MENU_Z_ORDER;
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].visible = false;
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
         .addMouseMoveListener((mouseMoveArg) => {
-            roomView.showHandCursor();
-            roomView.toolTipText = "";
+            this.roomView.showHandCursor();
+            this.roomView.toolTipText = "";
             this.highlightObject = null;
-            showBuildObjectToolTip(0, arg.mousePosition);
-          }
+            this.showBuildObjectToolTip(0, arg.mousePosition);
         });
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
-        .addClickedListener((ClickedArg arg) => {
+        .addClickedListener((clickedArg) => {
             const refrigerator = this.roomData.refrigerator;
             if (refrigerator != null) {
               return;
@@ -1787,7 +1786,6 @@ export default class RoomController extends BaseGameController{
                   null, null);
               trayIcon.showTrayMessage(message, MessageType.INFO);
             }
-          }
         });
     this.addGameObject(buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]);
 
@@ -1805,7 +1803,6 @@ export default class RoomController extends BaseGameController{
             this.roomView.toolTipText = "";
             this.highlightObject = null;
             this.showBuildObjectToolTip(1, arg.mousePosition);
-          }
         });
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
         .addClickedListener((clickedArg) => {
@@ -1829,7 +1826,6 @@ export default class RoomController extends BaseGameController{
                   null, null);
               this.trayIcon.showTrayMessage(message, MessageType.INFO);
             }
-          }
         });
     this.addGameObject(buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]);
 
@@ -1846,7 +1842,6 @@ export default class RoomController extends BaseGameController{
             this.roomView.toolTipText = "";
             this.highlightObject = null;
             this.showBuildObjectToolTip(2, arg.mousePosition);
-          }
         });
     buildObjects[RoomData.BUILD_MENU_BOOKCASE]
         .addClickedListener((clickedArg) => {
@@ -1874,18 +1869,17 @@ export default class RoomController extends BaseGameController{
                   null, null);
               this.trayIcon.showTrayMessage(message, MessageType.INFO);
             }
-          }
         });
     this.addGameObject(buildObjects[RoomData.BUILD_MENU_BOOKCASE]);
 
     buildMenu.menuItems = buildMenuItems;
     buildMenu.buildObjects = buildObjects;
-    const names = {
+    const names = [
         this.messageSource.getMessage(StringConstants.REFRIGERATOR, null,
             null),
         this.messageSource.getMessage(StringConstants.WATER_SOURCE, null,
             null),
-        this.messageSource.getMessage(StringConstants.BOOKCASE, null, null) };
+        this.messageSource.getMessage(StringConstants.BOOKCASE, null, null) ];
     buildMenu.names = names;
     const costs = Array.from({ length:  buildMenu.buildingMaterialObjects.length}).map(() => Array.from({ length: buildMenuItems.length }).fill(0));
     buildMenu.costs = costs;
