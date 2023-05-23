@@ -66,20 +66,17 @@ export default class BaseGameController {
   }
 
   initializeProgressBar() {
-    this.#progressBar = new ProgressBarGameObject() {
-      @Override
-      public void step() {
-        if (isVisible()) {
-          setValue(getValue() + 1);
-          if (getValue() == getMaxValue())
-            this.fireAnimationOver(new AnimationOverArg());
-        }
-      }
+    this.#progressBar = new ProgressBarGameObject();
+    this.#progressBar.step = function() {
+      if (this.visible) {
+        this.value = value + 1;
+        if (this.value == maxValue())
+          this.fireAnimationOver(new AnimationOverArg());
     };
-    progressBar.setVisible(false);
-    progressBar.setPosition(new Point(300, 500));
-    progressBar.setDimension(new Dimension(200, 20));
-    addGameObject(progressBar);
+    this.#progressBar.visible = false;
+    this.#progressBar.position = new Point(300, 500);
+    this.#progressBar.dimension = new Dimension(200, 20);
+    this.addGameObject(progressBar);
   }
 
   private void mouseClicked(ClickedArg arg) {
