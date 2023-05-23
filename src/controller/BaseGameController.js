@@ -70,7 +70,7 @@ export default class BaseGameController {
     this.#progressBar.step = function() {
       if (this.visible) {
         this.value = value + 1;
-        if (this.value == maxValue())
+        if (this.value == this.maxValue)
           this.fireAnimationOver(new AnimationOverArg());
     };
     this.#progressBar.visible = false;
@@ -185,82 +185,6 @@ export default class BaseGameController {
     ces.setRestart(true);
     work.setConnectionExceptionSettings(ces);
     backgroundWorkManager.startBackgroundWork(work);
-  }
-
-  /**
-   * @return the baseGameView
-   */
-  public BaseGameView getBaseGameView() {
-    return baseGameView;
-  }
-
-  /**
-   * @param baseGameView
-   *      the baseGameView to set
-   */
-  public void setBaseGameView(BaseGameView baseGameView) {
-    this.baseGameView = baseGameView;
-  }
-
-  /**
-   * @return the backgroundWorkManager
-   */
-  public BackgroundWorkManager getBackgroundWorkManager() {
-    return backgroundWorkManager;
-  }
-
-  /**
-   * @param backgroundWorkManager
-   *      the backgroundWorkManager to set
-   */
-  public void setBackgroundWorkManager(
-      BackgroundWorkManager backgroundWorkManager) {
-    this.backgroundWorkManager = backgroundWorkManager;
-  }
-
-  /**
-   * @return the messageSource
-   */
-  public MessageSource getMessageSource() {
-    return messageSource;
-  }
-
-  /**
-   * @param messageSource
-   *      the messageSource to set
-   */
-  public void setMessageSource(MessageSource messageSource) {
-    this.messageSource = messageSource;
-  }
-
-  /**
-   * @return the rucksackService
-   */
-  public RucksackService getRucksackService() {
-    return rucksackService;
-  }
-
-  /**
-   * @param rucksackService
-   *      the rucksackService to set
-   */
-  public void setRucksackService(RucksackService rucksackService) {
-    this.rucksackService = rucksackService;
-  }
-
-  /**
-   * @return the trayIcon
-   */
-  public TrayIcon getTrayIcon() {
-    return trayIcon;
-  }
-
-  /**
-   * @param trayIcon
-   *      the trayIcon to set
-   */
-  public void setTrayIcon(TrayIcon trayIcon) {
-    this.trayIcon = trayIcon;
   }
 
   public Map<Integer, ClothGameObject> initializeClothGameObjects() {
@@ -1842,14 +1766,6 @@ export default class BaseGameController {
                   + achievementCodes[0].name()
                   + "_DESCRIPTION", null, null));
     }
-  }
-
-  public JournalEntryService getJournalEntryService() {
-    return journalEntryService;
-  }
-
-  public void setJournalEntryService(JournalEntryService journalEntryService) {
-    this.journalEntryService = journalEntryService;
   }
 
   public GameObject initializeLoading() {
