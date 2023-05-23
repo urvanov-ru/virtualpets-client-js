@@ -54,23 +54,19 @@ export default class BaseGameController {
 
   #achievementInfo;
 
-  @Override
-  public void initialize() {
-    this.addShowRucksackInnerListener(new SimpleEvent<BaseGameView, Void>() {
-      @Override
-      public void eventFired(BaseGameView sender, Void data) {
-        getRucksackInner();
-      }
+  initialize() {
+    this.addShowRucksackInnerListener((sender, data) => {
+      getRucksackInner();
     });
-    initializeProgressBar();
+    this.initializeProgressBar();
+    this.baseGameView
+        .addClickedListener((arg) => {this.mouseClicked(arg);});
     baseGameView
-        .addClickedListener(BaseGameControllerImpl.this::mouseClicked);
-    baseGameView
-        .addMouseMoveListener(BaseGameControllerImpl.this::mouseMoved);
+        .addMouseMoveListener((arg) => {this.mouseMoved(arg);});
   }
 
-  private void initializeProgressBar() {
-    progressBar = new ProgressBarGameObject() {
+  initializeProgressBar() {
+    this.#progressBar = new ProgressBarGameObject() {
       @Override
       public void step() {
         if (isVisible()) {
