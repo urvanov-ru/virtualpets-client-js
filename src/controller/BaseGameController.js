@@ -30,29 +30,29 @@ export default class BaseGameController {
   static get ORIGINAL_JOURNAL_CLOSE_X() { return 700; }
   static get ORIGINAL_JOURNAL_CLOSE_Y() { return 10; }
 
-  private RucksackGameObject rucksack;
+  rucksack;
 
-  private BuildMenuGameObject buildMenu;
+  buildMenu;
 
-  private JournalGameObject journal;
+  journal;
 
-  protected TilesEngine tilesEngine;
+  tilesEngine;
 
-  private String insufficientResourcesString;
+  #insufficientResourcesString;
 
-  private List<SimpleEvent<BaseGameView, Void>> showRucksackInnerListeners = new ArrayList<SimpleEvent<BaseGameView, Void>>();
+  #showRucksackInnerListeners = []; //new ArrayList<SimpleEvent<BaseGameView, Void>>();
 
-  private List<GameObject> gameObjects = new ArrayList<GameObject>();
+  #gameObjects = []; // new ArrayList<GameObject>();
 
-  private PetGameObject pet;
+  #pet;
 
-  private ProgressBarGameObject progressBar;
+  #progressBar;
 
-  private MessageBoxGameObject messageBox;
+  #messageBox;
 
-  private LevelInfoGameObject levelInfo;
+  #levelInfo;
 
-  private AchievementInfoGameObject achievementInfo;
+  #achievementInfo;
 
   @Override
   public void initialize() {
