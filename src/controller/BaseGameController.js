@@ -187,17 +187,17 @@ export default class BaseGameController {
     //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  public Map<Integer, ClothGameObject> initializeClothGameObjects() {
-    Map<Integer, ClothGameObject> map = new HashMap<Integer, ClothGameObject>();
-    map.put(1, initializeClothGameObject(1));
-    map.put(2, initializeClothGameObject(2));
-    map.put(3, initializeClothGameObject(3));
-    map.put(4, initializeClothGameObject(4));
-    map.put(5, initializeClothGameObject(5));
-    map.put(6, initializeClothGameObject(6));
-    map.put(7, initializeClothGameObject(7));
-    map.put(8, initializeClothGameObject(8));
-    map.put(9, initializeClothGameObject(9));
+  initializeClothGameObjects() {
+    const map = new Map(); // new HashMap<Integer, ClothGameObject>();
+    map.set(1, initializeClothGameObject(1));
+    map.set(2, initializeClothGameObject(2));
+    map.set(3, initializeClothGameObject(3));
+    map.set(4, initializeClothGameObject(4));
+    map.set(5, initializeClothGameObject(5));
+    map.set(6, initializeClothGameObject(6));
+    map.set(7, initializeClothGameObject(7));
+    map.set(8, initializeClothGameObject(8));
+    map.set(9, initializeClothGameObject(9));
     return map;
   }
 
