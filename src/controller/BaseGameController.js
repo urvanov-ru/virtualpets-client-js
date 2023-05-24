@@ -79,23 +79,23 @@ export default class BaseGameController {
     this.addGameObject(progressBar);
   }
 
-  private void mouseClicked(ClickedArg arg) {
+  mouseClicked(clickedArg) {
     if (this.buildingGameObject != null
-        && buildingState == BuildingState.SELECT_POSITION) {
-      arg.setHandled(true);
-      buildingState = BuildingState.MOVE_PET;
-      Point moveTilesTarget = tilesEngine
+        && this.buildingState == BuildingState.SELECT_POSITION) {
+      clickedArg.handled = true;
+      this.buildingState = BuildingState.MOVE_PET;
+      const moveTilesTarget = this.tilesEngine
           .translateToTileCoordinates(buildingGameObject);
-      buildingGameObject.setVisible(false);
-      Point petTileCoordinates = tilesEngine
+      this.buildingGameObject.visible = false;
+      const petTileCoordinates = this.tilesEngine
           .translateToTileCoordinates(pet);
-      Point[] tilesMovePath = tilesEngine.findPath(petTileCoordinates,
+      const tilesMovePath = this.tilesEngine.findPath(petTileCoordinates,
           moveTilesTarget);
       if (tilesMovePath != null) {
-        Point[] movePath = new Point[tilesMovePath.length];
-        for (int n = 0; n < movePath.length; n++) {
-          Point tilePoint = tilesMovePath[n];
-          movePath[n] = tilesEngine.translateFromTileCoordinates(pet,
+        const movePath = new Point[tilesMovePath.length];
+        for (let n = 0; n < movePath.length; n++) {
+          const tilePoint = tilesMovePath[n];
+          movePath[n] = this.tilesEngine.translateFromTileCoordinates(pet,
               tilePoint);
         }
         // buildingGameObject
@@ -106,29 +106,29 @@ export default class BaseGameController {
             movePath,
             () -> {
               // Начать постройку.
-              buildingState = BuildingState.BUILDING;
-              progressBar.setVisible(true);
-              progressBar.setValue(0);
-              progressBar.removeAllAnimationOverListeners();
-              progressBar
-                  .addAnimationOverListener(progressBarOverListener -> {
-                    buildingState = BuildingState.OVER;
-                    progressBar.setVisible(false);
+              this.buildingState = BuildingState.BUILDING;
+              this.progressBar.visible = true;
+              this.progressBar.value = 0;
+              this.progressBar.removeAllAnimationOverListeners();
+              this.progressBar
+                  .addAnimationOverListener((progressBarOverListener) => {
+                    this.buildingState = BuildingState.OVER;
+                    this.progressBar.visible = false;
                     this.buildingGameObject
-                        .setVisible(false);
-                    buildingGameObject.fireBuildEvent();
+                        .visible = false;
+                    this.buildingGameObject.fireBuildEvent();
                     this.buildingGameObject = null;
 
                   });
             });
-        buildingGameObject.setVisible(false);
+        this.buildingGameObject.visible = false;
       }
     } else if (movingState == MovingState.SELECT_POSITION
         && movingGameObject != null) {
-      arg.setHandled(true);
-      movingGameObject.fireMoveEvent();
-      movingGameObject = null;
-      movingState = MovingState.IDDLE;
+      clickedArg.handled = true;
+      this.movingGameObject.fireMoveEvent();
+      this.movingGameObject = null;
+      this.movingState = MovingState.IDDLE;
     }
   }
 
@@ -1216,8 +1216,8 @@ export default class BaseGameController {
     IDDLE, STARTED, SELECT_POSITION, MOVE_PET, BUILDING, OVER
   }
 
-  private BuildingState buildingState = BuildingState.IDDLE;
-  private BuildingGameObject buildingGameObject = null;
+  buildingState = BuildingState.IDDLE;
+  buildingGameObject = null;
 
   @Override
   public void startBuild(BuildingGameObject go) {
