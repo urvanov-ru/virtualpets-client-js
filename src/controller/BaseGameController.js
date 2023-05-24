@@ -202,15 +202,15 @@ export default class BaseGameController {
   }
 
   initializeClothGameObject(int clothId) {
-    const resourceIds = [ 0, ResourceManagerBase.IMAGE_CAT_HAT_1,
-        ResourceManagerBase.IMAGE_CAT_HAT_2,
-        ResourceManagerBase.IMAGE_CAT_HAT_3,
-        ResourceManagerBase.IMAGE_CAT_CLOTH_1,
-        ResourceManagerBase.IMAGE_CAT_CLOTH_2,
-        ResourceManagerBase.IMAGE_CAT_CLOTH_3,
-        ResourceManagerBase.IMAGE_CAT_BOW_1,
-        ResourceManagerBase.IMAGE_CAT_BOW_2,
-        ResourceManagerBase.IMAGE_CAT_BOW_3 ];
+    const resourceIds = [ 0, ResourceManager.IMAGE_CAT_HAT_1,
+        ResourceManager.IMAGE_CAT_HAT_2,
+        ResourceManager.IMAGE_CAT_HAT_3,
+        ResourceManager.IMAGE_CAT_CLOTH_1,
+        ResourceManager.IMAGE_CAT_CLOTH_2,
+        ResourceManager.IMAGE_CAT_CLOTH_3,
+        ResourceManager.IMAGE_CAT_BOW_1,
+        ResourceManager.IMAGE_CAT_BOW_2,
+        ResourceManager.IMAGE_CAT_BOW_3 ];
     const imgids = new int[1][];
     imgids[0] = new int[1];
     imgids[0][0] = resourceIds[clothId];
