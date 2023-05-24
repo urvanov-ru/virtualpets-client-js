@@ -221,10 +221,10 @@ export default class BaseGameController {
     return go;
   }
 
-  public Map<Integer, BookGameObject> initializeBookGameObjects() {
-    Map<Integer, BookGameObject> map = new HashMap<Integer, BookGameObject>();
-    for (int n = 1; n <= 18; n++)
-      map.put(n, initializeBookGameObject(n));
+  initializeBookGameObjects() {
+    const map = new Map(); // new HashMap<Integer, BookGameObject>();
+    for (let n = 1; n <= 18; n++)
+      map.set(n, initializeBookGameObject(n));
     return map;
   }
 
