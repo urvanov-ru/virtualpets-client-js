@@ -228,32 +228,30 @@ export default class BaseGameController {
     return map;
   }
 
-  private BookGameObject initializeBookGameObject(int bookId) {
-    int[] resourceIds = { 0, ResourceManagerBase.IMAGE_BOOK_1,
-        ResourceManagerBase.IMAGE_BOOK_2,
-        ResourceManagerBase.IMAGE_BOOK_3,
-        ResourceManagerBase.IMAGE_BOOK_4,
-        ResourceManagerBase.IMAGE_BOOK_5,
-        ResourceManagerBase.IMAGE_BOOK_6,
-        ResourceManagerBase.IMAGE_BOOK_7,
-        ResourceManagerBase.IMAGE_BOOK_8,
-        ResourceManagerBase.IMAGE_BOOK_9,
-        ResourceManagerBase.IMAGE_BOOK_10,
-        ResourceManagerBase.IMAGE_BOOK_11,
-        ResourceManagerBase.IMAGE_BOOK_12,
-        ResourceManagerBase.IMAGE_BOOK_13,
-        ResourceManagerBase.IMAGE_BOOK_14,
-        ResourceManagerBase.IMAGE_BOOK_15,
-        ResourceManagerBase.IMAGE_BOOK_16,
-        ResourceManagerBase.IMAGE_BOOK_17,
-        ResourceManagerBase.IMAGE_BOOK_18 };
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceIds[bookId];
-    BookGameObject bookGameObject = new BookGameObject();
-    bookGameObject.setAnimationImageIds(imgids);
-    bookGameObject.setBookId(bookId);
-    addGameObject(bookGameObject);
+  initializeBookGameObject(int bookId) {
+    const resourceIds = [ 0, ResourceManager.IMAGE_BOOK_1,
+        ResourceManager.IMAGE_BOOK_2,
+        ResourceManager.IMAGE_BOOK_3,
+        ResourceManager.IMAGE_BOOK_4,
+        ResourceManager.IMAGE_BOOK_5,
+        ResourceManager.IMAGE_BOOK_6,
+        ResourceManager.IMAGE_BOOK_7,
+        ResourceManager.IMAGE_BOOK_8,
+        ResourceManager.IMAGE_BOOK_9,
+        ResourceManager.IMAGE_BOOK_10,
+        ResourceManager.IMAGE_BOOK_11,
+        ResourceManager.IMAGE_BOOK_12,
+        ResourceManager.IMAGE_BOOK_13,
+        ResourceManager.IMAGE_BOOK_14,
+        ResourceManager.IMAGE_BOOK_15,
+        ResourceManager.IMAGE_BOOK_16,
+        ResourceManager.IMAGE_BOOK_17,
+        ResourceManager.IMAGE_BOOK_18 ];
+    const imgids = [[ resourceIds[bookId] ]];
+    const bookGameObject = new BookGameObject();
+    bookGameObject.animationImageIds = imgids;
+    bookGameObject.bookId = bookId;
+    this.addGameObject(bookGameObject);
     return bookGameObject;
   }
 
