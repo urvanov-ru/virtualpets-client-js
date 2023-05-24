@@ -201,8 +201,8 @@ export default class BaseGameController {
     return map;
   }
 
-  private ClothGameObject initializeClothGameObject(int clothId) {
-    int[] resourceIds = { 0, ResourceManagerBase.IMAGE_CAT_HAT_1,
+  initializeClothGameObject(int clothId) {
+    const resourceIds = [ 0, ResourceManagerBase.IMAGE_CAT_HAT_1,
         ResourceManagerBase.IMAGE_CAT_HAT_2,
         ResourceManagerBase.IMAGE_CAT_HAT_3,
         ResourceManagerBase.IMAGE_CAT_CLOTH_1,
@@ -210,14 +210,14 @@ export default class BaseGameController {
         ResourceManagerBase.IMAGE_CAT_CLOTH_3,
         ResourceManagerBase.IMAGE_CAT_BOW_1,
         ResourceManagerBase.IMAGE_CAT_BOW_2,
-        ResourceManagerBase.IMAGE_CAT_BOW_3 };
-    int[][] imgids = new int[1][];
+        ResourceManagerBase.IMAGE_CAT_BOW_3 ];
+    const imgids = new int[1][];
     imgids[0] = new int[1];
     imgids[0][0] = resourceIds[clothId];
-    ClothGameObject go = new ClothGameObject();
-    go.setAnimationImageIds(imgids);
-    go.setClothId(clothId);
-    addGameObject(go);
+    const go = new ClothGameObject();
+    go.animationImageIds = imgids;
+    go.clothId = clothId;
+    this.addGameObject(go);
     return go;
   }
 
