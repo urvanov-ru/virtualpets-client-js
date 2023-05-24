@@ -255,17 +255,17 @@ export default class BaseGameController {
     return bookGameObject;
   }
 
-  public PetGameObject initializePetGameObject() {
-    PetGameObject pet = new PetGameObject();
+  initializePetGameObject() {
+    const pet = new PetGameObject();
     if (this.pet == null)
       this.pet = pet;
-    pet.setDimension(new Dimension(PetGameObject.WIDTH,
-        PetGameObject.HEIGHT));
-    int[][] imgids = new int[3][];
-    imgids[PetGameObject.STATE_NORMAL] = new int[20];
-    imgids[PetGameObject.STATE_NORMAL][0] = ResourceManagerBase.IMAGE_CAT_NORMAL_1;
-    imgids[PetGameObject.STATE_NORMAL][1] = ResourceManagerBase.IMAGE_CAT_NORMAL_2;
-    imgids[PetGameObject.STATE_NORMAL][2] = ResourceManagerBase.IMAGE_CAT_NORMAL_3;
+    pet.dimension = new Dimension(PetGameObject.WIDTH,
+        PetGameObject.HEIGHT);
+    const imgids = new int[3][];
+    imgids[PetGameObject.STATE_NORMAL] = new Array(20);
+    imgids[PetGameObject.STATE_NORMAL][0] = ResourceManager.IMAGE_CAT_NORMAL_1;
+    imgids[PetGameObject.STATE_NORMAL][1] = ResourceManager.IMAGE_CAT_NORMAL_2;
+    imgids[PetGameObject.STATE_NORMAL][2] = ResourceManager.IMAGE_CAT_NORMAL_3;
     imgids[PetGameObject.STATE_NORMAL][3] = imgids[PetGameObject.STATE_NORMAL][1];
     imgids[PetGameObject.STATE_NORMAL][4] = imgids[PetGameObject.STATE_NORMAL][0];
     imgids[PetGameObject.STATE_NORMAL][5] = imgids[PetGameObject.STATE_NORMAL][0];
@@ -283,29 +283,29 @@ export default class BaseGameController {
     imgids[PetGameObject.STATE_NORMAL][17] = imgids[PetGameObject.STATE_NORMAL][0];
     imgids[PetGameObject.STATE_NORMAL][18] = imgids[PetGameObject.STATE_NORMAL][0];
     imgids[PetGameObject.STATE_NORMAL][19] = imgids[PetGameObject.STATE_NORMAL][0];
-    imgids[PetGameObject.STATE_EDUCATION] = new int[9];
-    imgids[PetGameObject.STATE_EDUCATION][0] = ResourceManagerBase.IMAGE_CAT_EDUCATION_1;
-    imgids[PetGameObject.STATE_EDUCATION][1] = ResourceManagerBase.IMAGE_CAT_EDUCATION_2;
-    imgids[PetGameObject.STATE_EDUCATION][2] = ResourceManagerBase.IMAGE_CAT_EDUCATION_3;
-    imgids[PetGameObject.STATE_EDUCATION][3] = ResourceManagerBase.IMAGE_CAT_EDUCATION_4;
-    imgids[PetGameObject.STATE_EDUCATION][4] = ResourceManagerBase.IMAGE_CAT_EDUCATION_5;
-    imgids[PetGameObject.STATE_EDUCATION][5] = ResourceManagerBase.IMAGE_CAT_EDUCATION_4;
-    imgids[PetGameObject.STATE_EDUCATION][6] = ResourceManagerBase.IMAGE_CAT_EDUCATION_3;
-    imgids[PetGameObject.STATE_EDUCATION][7] = ResourceManagerBase.IMAGE_CAT_EDUCATION_2;
-    imgids[PetGameObject.STATE_EDUCATION][8] = ResourceManagerBase.IMAGE_CAT_EDUCATION_1;
-    imgids[PetGameObject.STATE_EAT] = new int[9];
-    imgids[PetGameObject.STATE_EAT][0] = ResourceManagerBase.IMAGE_CAT_EAT_1;
-    imgids[PetGameObject.STATE_EAT][1] = ResourceManagerBase.IMAGE_CAT_EAT_2;
-    imgids[PetGameObject.STATE_EAT][2] = ResourceManagerBase.IMAGE_CAT_EAT_3;
-    imgids[PetGameObject.STATE_EAT][3] = ResourceManagerBase.IMAGE_CAT_EAT_2;
-    imgids[PetGameObject.STATE_EAT][4] = ResourceManagerBase.IMAGE_CAT_EAT_1;
-    imgids[PetGameObject.STATE_EAT][5] = ResourceManagerBase.IMAGE_CAT_EAT_2;
-    imgids[PetGameObject.STATE_EAT][6] = ResourceManagerBase.IMAGE_CAT_EAT_3;
-    imgids[PetGameObject.STATE_EAT][7] = ResourceManagerBase.IMAGE_CAT_EAT_2;
-    imgids[PetGameObject.STATE_EAT][8] = ResourceManagerBase.IMAGE_CAT_EAT_1;
-    pet.setAnimationImageIds(imgids);
-    pet.setLoopAnimation(true);
-    addGameObject(pet);
+    imgids[PetGameObject.STATE_EDUCATION] = new Array(9);
+    imgids[PetGameObject.STATE_EDUCATION][0] = ResourceManager.IMAGE_CAT_EDUCATION_1;
+    imgids[PetGameObject.STATE_EDUCATION][1] = ResourceManager.IMAGE_CAT_EDUCATION_2;
+    imgids[PetGameObject.STATE_EDUCATION][2] = ResourceManager.IMAGE_CAT_EDUCATION_3;
+    imgids[PetGameObject.STATE_EDUCATION][3] = ResourceManager.IMAGE_CAT_EDUCATION_4;
+    imgids[PetGameObject.STATE_EDUCATION][4] = ResourceManager.IMAGE_CAT_EDUCATION_5;
+    imgids[PetGameObject.STATE_EDUCATION][5] = ResourceManager.IMAGE_CAT_EDUCATION_4;
+    imgids[PetGameObject.STATE_EDUCATION][6] = ResourceManager.IMAGE_CAT_EDUCATION_3;
+    imgids[PetGameObject.STATE_EDUCATION][7] = ResourceManager.IMAGE_CAT_EDUCATION_2;
+    imgids[PetGameObject.STATE_EDUCATION][8] = ResourceManager.IMAGE_CAT_EDUCATION_1;
+    imgids[PetGameObject.STATE_EAT] = new Array(9);
+    imgids[PetGameObject.STATE_EAT][0] = ResourceManager.IMAGE_CAT_EAT_1;
+    imgids[PetGameObject.STATE_EAT][1] = ResourceManager.IMAGE_CAT_EAT_2;
+    imgids[PetGameObject.STATE_EAT][2] = ResourceManager.IMAGE_CAT_EAT_3;
+    imgids[PetGameObject.STATE_EAT][3] = ResourceManager.IMAGE_CAT_EAT_2;
+    imgids[PetGameObject.STATE_EAT][4] = ResourceManager.IMAGE_CAT_EAT_1;
+    imgids[PetGameObject.STATE_EAT][5] = ResourceManager.IMAGE_CAT_EAT_2;
+    imgids[PetGameObject.STATE_EAT][6] = ResourceManager.IMAGE_CAT_EAT_3;
+    imgids[PetGameObject.STATE_EAT][7] = ResourceManager.IMAGE_CAT_EAT_2;
+    imgids[PetGameObject.STATE_EAT][8] = ResourceManager.IMAGE_CAT_EAT_1;
+    pet.animationImageIds = imgids;
+    pet.loopAnimation = true;
+    this.addGameObject(pet);
     return pet;
   }
 
