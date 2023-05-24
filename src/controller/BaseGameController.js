@@ -189,15 +189,15 @@ export default class BaseGameController {
 
   initializeClothGameObjects() {
     const map = new Map(); // new HashMap<Integer, ClothGameObject>();
-    map.set(1, initializeClothGameObject(1));
-    map.set(2, initializeClothGameObject(2));
-    map.set(3, initializeClothGameObject(3));
-    map.set(4, initializeClothGameObject(4));
-    map.set(5, initializeClothGameObject(5));
-    map.set(6, initializeClothGameObject(6));
-    map.set(7, initializeClothGameObject(7));
-    map.set(8, initializeClothGameObject(8));
-    map.set(9, initializeClothGameObject(9));
+    map.set(1, this.initializeClothGameObject(1));
+    map.set(2, this.initializeClothGameObject(2));
+    map.set(3, this.initializeClothGameObject(3));
+    map.set(4, this.initializeClothGameObject(4));
+    map.set(5, this.initializeClothGameObject(5));
+    map.set(6, this.initializeClothGameObject(6));
+    map.set(7, this.initializeClothGameObject(7));
+    map.set(8, this.initializeClothGameObject(8));
+    map.set(9, this.initializeClothGameObject(9));
     return map;
   }
 
@@ -309,17 +309,17 @@ export default class BaseGameController {
     return pet;
   }
 
-  public BuildingMaterialGameObject[] initializeBuildingMaterialGameObjects() {
-    BuildingMaterialGameObject[] a = new BuildingMaterialGameObject[9];
-    a[0] = initializeBuildingMaterialGameObject(BuildingMaterialType.TIMBER);
-    a[1] = initializeBuildingMaterialGameObject(BuildingMaterialType.BOARD);
-    a[2] = initializeBuildingMaterialGameObject(BuildingMaterialType.STONE);
-    a[3] = initializeBuildingMaterialGameObject(BuildingMaterialType.CHIP);
-    a[4] = initializeBuildingMaterialGameObject(BuildingMaterialType.WIRE);
-    a[5] = initializeBuildingMaterialGameObject(BuildingMaterialType.IRON);
-    a[6] = initializeBuildingMaterialGameObject(BuildingMaterialType.OIL);
-    a[7] = initializeBuildingMaterialGameObject(BuildingMaterialType.BLUE_CRYSTAL);
-    a[8] = initializeBuildingMaterialGameObject(BuildingMaterialType.RUBBER);
+  initializeBuildingMaterialGameObjects() {
+    const a = new BuildingMaterialGameObject[9];
+    a[0] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.TIMBER);
+    a[1] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.BOARD);
+    a[2] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.STONE);
+    a[3] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.CHIP);
+    a[4] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.WIRE);
+    a[5] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.IRON);
+    a[6] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.OIL);
+    a[7] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.BLUE_CRYSTAL);
+    a[8] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.RUBBER);
     return a;
   }
 
