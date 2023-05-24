@@ -156,35 +156,35 @@ export default class BaseGameController {
     }
   }
 
-  private class ShowBuildMaterialsBackgroundWork extends
-      BackgroundWork<Void, GetPetRucksackInnerResult, Void> {
+//  private class ShowBuildMaterialsBackgroundWork extends
+//      BackgroundWork<Void, GetPetRucksackInnerResult, Void> {
+//
+//    @Override
+//    public GetPetRucksackInnerResult doInBackground() throws Exception {
+//      return rucksackService.getPetRucksackInner();
+//    }
+//
+//    @Override
+//    public void completed(GetPetRucksackInnerResult result) {
+//      BaseGameControllerImpl.this.setRucksackInner(result);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("ShowBuildMaterialsBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR,
+//          null, null) + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public GetPetRucksackInnerResult doInBackground() throws Exception {
-      return rucksackService.getPetRucksackInner();
-    }
-
-    @Override
-    public void completed(GetPetRucksackInnerResult result) {
-      BaseGameControllerImpl.this.setRucksackInner(result);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("ShowBuildMaterialsBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
-
-  protected void getRucksackInner() {
-    ShowBuildMaterialsBackgroundWork work = new ShowBuildMaterialsBackgroundWork();
-    work.setView(baseGameView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  getRucksackInner() {
+    //ShowBuildMaterialsBackgroundWork work = new ShowBuildMaterialsBackgroundWork();
+    //work.setView(baseGameView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
   public Map<Integer, ClothGameObject> initializeClothGameObjects() {
