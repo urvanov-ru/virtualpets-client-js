@@ -123,8 +123,8 @@ export default class BaseGameController {
             });
         this.buildingGameObject.visible = false;
       }
-    } else if (movingState == MovingState.SELECT_POSITION
-        && movingGameObject != null) {
+    } else if (this.movingState == MovingState.SELECT_POSITION
+        && this.movingGameObject != null) {
       clickedArg.handled = true;
       this.movingGameObject.fireMoveEvent();
       this.movingGameObject = null;
@@ -132,27 +132,27 @@ export default class BaseGameController {
     }
   }
 
-  private void mouseMoved(MouseMoveArg arg) {
+  mouseMoved(mouseMoveArg) {
     if (this.buildingGameObject != null
-        && (buildingState == BuildingState.STARTED || buildingState == BuildingState.SELECT_POSITION)) {
-      buildingState = BuildingState.SELECT_POSITION;
-      buildingGameObject.setPosition(this.tilesEngine
+        && (this.buildingState == BuildingState.STARTED || this.buildingState == BuildingState.SELECT_POSITION)) {
+      this.buildingState = BuildingState.SELECT_POSITION;
+      this.buildingGameObject.position = this.tilesEngine
           .translateFromTileCoordinates(this.buildingGameObject,
               this.tilesEngine.translateToTileCoordinates(arg
-                  .getMousePosition())));
-      arg.setHandled(true);
-    } else if (movingGameObject != null
-        && (movingState == MovingState.STARTED || movingState == MovingState.SELECT_POSITION)) {
-      movingState = MovingState.SELECT_POSITION;
-      movingGameObject.setPosition(this.tilesEngine
+                  .mousePosition));
+      mouseMoveArg.handled = true;
+    } else if (this.movingGameObject != null
+        && (this.movingState == MovingState.STARTED || this.movingState == MovingState.SELECT_POSITION)) {
+      this.movingState = MovingState.SELECT_POSITION;
+      this.movingGameObject.position = this.tilesEngine
           .translateFromTileCoordinates(this.movingGameObject,
               this.tilesEngine.translateToTileCoordinates(arg
-                  .getMousePosition())));
-      arg.setHandled(true);
+                  .mousePosition));
+      mouseMoveArg.handled = true;
     } else if (this.upgradingGameObject != null
-        && upgradingState == UpgradingState.STARTED) {
-      upgradingState = UpgradingState.MOVE_PET;
-      arg.setHandled(true);
+        && this.upgradingState == UpgradingState.STARTED) {
+      this.upgradingState = UpgradingState.MOVE_PET;
+      mouseMoveArg.handled = true;
     }
   }
 
