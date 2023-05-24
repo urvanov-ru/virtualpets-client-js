@@ -323,37 +323,34 @@ export default class BaseGameController {
     return a;
   }
 
-  public BuildingMaterialGameObject initializeBuildingMaterialGameObject(
-      BuildingMaterialType buildingMaterialType) {
-    BuildingMaterialGameObject go = new BuildingMaterialGameObject();
-    go.setDimension(new Dimension(64, 64));
-    go.setBuildingMaterialType(buildingMaterialType);
-    go.setVisible(false);
-    go.setZ(MENU_Z_ORDER);
-    addGameObject(go);
-    Map<BuildingMaterialType, Integer> resourceIds = new HashMap<BuildingMaterialType, Integer>();
-    resourceIds.put(BuildingMaterialType.TIMBER,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_TIMBER);
-    resourceIds.put(BuildingMaterialType.BOARD,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_BOARD);
-    resourceIds.put(BuildingMaterialType.STONE,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_STONE);
-    resourceIds.put(BuildingMaterialType.CHIP,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_CHIP);
-    resourceIds.put(BuildingMaterialType.WIRE,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_WIRE);
-    resourceIds.put(BuildingMaterialType.IRON,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_IRON);
-    resourceIds.put(BuildingMaterialType.OIL,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_OIL);
-    resourceIds.put(BuildingMaterialType.BLUE_CRYSTAL,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_BLUE_CRYSTAL);
-    resourceIds.put(BuildingMaterialType.RUBBER,
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_RUBBER);
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceIds.get(go.getBuildingMaterialType());
-    go.setAnimationImageIds(imgids);
+  initializeBuildingMaterialGameObject(buildingMaterialType) {
+    const go = new BuildingMaterialGameObject();
+    go.dimension = new Dimension(64, 64);
+    go.buildingMaterialType = buildingMaterialType;
+    go.visible = false;
+    go.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(go);
+    const resourceIds = new Map(); // HashMap<BuildingMaterialType, Integer>();
+    resourceIds.set(BuildingMaterialType.TIMBER,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_TIMBER);
+    resourceIds.set(BuildingMaterialType.BOARD,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_BOARD);
+    resourceIds.set(BuildingMaterialType.STONE,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_STONE);
+    resourceIds.set(BuildingMaterialType.CHIP,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_CHIP);
+    resourceIds.set(BuildingMaterialType.WIRE,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_WIRE);
+    resourceIds.set(BuildingMaterialType.IRON,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_IRON);
+    resourceIds.set(BuildingMaterialType.OIL,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_OIL);
+    resourceIds.set(BuildingMaterialType.BLUE_CRYSTAL,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_BLUE_CRYSTAL);
+    resourceIds.set(BuildingMaterialType.RUBBER,
+        ResourceManager.IMAGE_BUILDING_MATERIAL_RUBBER);
+    const imgids = [[ resourceIds.get(go.getBuildingMaterialType()) ]];
+    go.animationImageIds = imgids;
     return go;
   }
 
