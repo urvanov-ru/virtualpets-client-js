@@ -354,18 +354,16 @@ export default class BaseGameController {
     return go;
   }
 
-  private GameObject initializeRucksackMenuItem(int index) {
-    GameObject go = new GameObject();
-    int imgids[][] = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_BUILDING_MATERIAL_MENU_ITEM;
-    go.setAnimationImageIds(imgids);
-    Point position = new Point((index % 3) * 100 + 250,
+  initializeRucksackMenuItem(index) {
+    const go = new GameObject();
+    const imgids = [[ ResourceManagerBase.IMAGE_BUILDING_MATERIAL_MENU_ITEM ]];
+    go.animationImageIds = imgids;
+    const position = new Point((index % 3) * 100 + 250,
         (index / 3) * 100 + 150);
-    go.setPosition(position);
-    go.setZ(MENU_Z_ORDER);
-    go.setVisible(false);
-    addGameObject(go);
+    go.position = position;
+    go.z = BaseGameController.MENU_Z_ORDER;
+    go.visible = false;
+    this.addGameObject(go);
     return go;
   }
 
