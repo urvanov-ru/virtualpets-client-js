@@ -367,14 +367,14 @@ export default class BaseGameController {
     return go;
   }
 
-  private LabelGameObject initializeRucksackMenuItemLabel(int index) {
-    LabelGameObject lgo = new LabelGameObject();
-    lgo.setText("");
-    lgo.setVisible(false);
-    lgo.setPosition(new Point((index % 3) * 100 + 250,
-        (index / 3) * 100 + 60 + 150));
-    lgo.setZ(MENU_Z_ORDER);
-    addGameObject(lgo);
+  initializeRucksackMenuItemLabel(index) {
+    const lgo = new LabelGameObject();
+    lgo.text = "";
+    lgo.visible = false;
+    lgo.position = new Point((index % 3) * 100 + 250,
+        (index / 3) * 100 + 60 + 150);
+    lgo.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(lgo);
     return lgo;
   }
 
