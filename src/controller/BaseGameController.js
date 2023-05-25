@@ -356,7 +356,7 @@ export default class BaseGameController {
 
   initializeRucksackMenuItem(index) {
     const go = new GameObject();
-    const imgids = [[ ResourceManagerBase.IMAGE_BUILDING_MATERIAL_MENU_ITEM ]];
+    const imgids = [[ ResourceManager.IMAGE_BUILDING_MATERIAL_MENU_ITEM ]];
     go.animationImageIds = imgids;
     const position = new Point((index % 3) * 100 + 250,
         (index / 3) * 100 + 150);
@@ -378,97 +378,70 @@ export default class BaseGameController {
     return lgo;
   }
 
-  public RucksackGameObject initializeRucksack() {
-    GameObject rucksackInner = new GameObject();
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_RUCKSACK_INNER;
-    rucksackInner.setAnimationImageIds(imgids);
-    rucksackInner.setZ(MENU_Z_ORDER);
-    rucksackInner.setVisible(false);
+  initializeRucksack() {
+    const rucksackInner = new GameObject();
+    const imgids = [[ ResourceManager.IMAGE_RUCKSACK_INNER ]];
+    rucksackInner.animationImageIds = imgids;
+    rucksackInner.z = BaseGameController.MENU_Z_ORDER;
+    rucksackInner.visible = false;
 
-    HighlightGameObjectImpl closeObject = new HighlightGameObjectImpl();
-    imgids = new int[2][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_RUCKSACK_CLOSE;
-    imgids[1] = new int[1];
-    imgids[1][0] = ResourceManagerBase.IMAGE_RUCKSACK_CLOSE_HIGHLIGHT;
-    closeObject.setAnimationImageIds(imgids);
-    closeObject.setZ(MENU_Z_ORDER);
-    closeObject.setPosition(new Point(ORIGINAL_RUCKSACK_CLOSE_X,
-        ORIGINAL_RUCKSACK_CLOSE_Y));
-    closeObject.setVisible(false);
+    const closeObject = new HighlightGameObjectImpl();
+    closeObject.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK_CLOSE ][ ResourceManager.IMAGE_RUCKSACK_CLOSE_HIGHLIGHT ]];
+    closeObject.z = BaseGameController.MENU_Z_ORDER;
+    closeObject.position = new Point(BaseGameController.ORIGINAL_RUCKSACK_CLOSE_X,
+        BaseGameController.ORIGINAL_RUCKSACK_CLOSE_Y);
+    closeObject.visible = false;
 
-    rucksack = new RucksackGameObject();
-    imgids = new int[2][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_RUCKSACK;
-    imgids[1] = new int[1];
-    imgids[1][0] = ResourceManagerBase.IMAGE_RUCKSACK_HIGHLIGHT;
-    rucksack.setAnimationImageIds(imgids);
-    rucksack.setPosition(new Point(ORIGINAL_RUCKSACK_X, ORIGINAL_RUCKSACK_Y));
-    rucksack.setInner(rucksackInner);
+    this.rucksack = new RucksackGameObject();
+    this.rucksack.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK ][ ResourceManager.IMAGE_RUCKSACK_HIGHLIGHT ]];
+    this.rucksack.position = new Point(BaseGameController.ORIGINAL_RUCKSACK_X, BaseGameController.ORIGINAL_RUCKSACK_Y);
+    this.rucksack.inner = rucksackInner;
 
-    rucksack.setClose(closeObject);
+    this.rucksack.close = closeObject;
 
-    addGameObject(rucksack);
-    addGameObject(rucksackInner);
-    addGameObject(closeObject);
+    this.addGameObject(rucksack);
+    this.addGameObject(rucksackInner);
+    this.addGameObject(closeObject);
 
-    GameObject[] rucksackMenuItems = new GameObject[RUCKSACK_MENU_ITEM_COUNT];
-    LabelGameObject[] rucksackMenuItemLabels = new LabelGameObject[RUCKSACK_MENU_ITEM_COUNT];
-    for (int n = 0; n < rucksackMenuItems.length; n++) {
-      rucksackMenuItems[n] = initializeRucksackMenuItem(n);
-      rucksackMenuItemLabels[n] = initializeRucksackMenuItemLabel(n);
+    const rucksackMenuItems = new Array(RUCKSACK_MENU_ITEM_COUNT);
+    const rucksackMenuItemLabels = new Array(RUCKSACK_MENU_ITEM_COUNT);
+    for (let n = 0; n < rucksackMenuItems.length; n++) {
+      rucksackMenuItems[n] = this.initializeRucksackMenuItem(n);
+      rucksackMenuItemLabels[n] = this.initializeRucksackMenuItemLabel(n);
     }
-    rucksack.setMenuItems(rucksackMenuItems);
-    rucksack.setMenuItemLabels(rucksackMenuItemLabels);
+    this.rucksack.menuItems = rucksackMenuItems;
+    this.rucksack.menuItemLabels = rucksackMenuItemLabels;
 
-    BuildingMaterialGameObject[] buildMaterials = initializeBuildingMaterialGameObjects();
-    for (int n = 0; n < buildMaterials.length; n++) {
-      buildMaterials[n].setPosition(new Point((n % 3) * 100 + 250 + 18,
-          (n / 3) * 100 + 150 + 18));
+    const buildMaterials = this.initializeBuildingMaterialGameObjects();
+    for (let n = 0; n < buildMaterials.length; n++) {
+      buildMaterials[n].position = new Point((n % 3) * 100 + 250 + 18,
+          (n / 3) * 100 + 150 + 18);
     }
-    rucksack.setBuildMaterials(buildMaterials);
+    this.rucksack.buildMaterials = buildMaterials;
 
-    rucksack.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        showRucksackInner(getRucksack());
-        fireShowRucksackInner();
-      }
+    this.rucksack.addClickedListener((clickedArg) => {
+      this.showRucksackInner(getRucksack());
+      this.fireShowRucksackInner();
     });
 
-    rucksack.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        setHighlightObject(getRucksack());
-        baseGameView.showHandCursor();
-        baseGameView.setToolTipText("");
-      }
+    this.rucksack.addMouseMoveListener((mouseMoveArg) => {
+      this.setHighlightObject(getRucksack());
+      this.baseGameView.showHandCursor();
+      this.baseGameView.setToolTipText("");
     });
 
-    rucksack.getClose().addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        hideRucksackInner(getRucksack());
-      }
+    this.rucksack.close.addClickedListener((clickedArg) => {
+      this.hideRucksackInner(this.rucksack);
     });
-    closeObject.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        setHighlightObject(getRucksack().getClose());
-        baseGameView.showHandCursor();
-        baseGameView.setToolTipText("");
-      }
+    closeObject.addMouseMoveListener((mouseMoveArg) => {
+      this.highlightObject = this.rucksack.close;
+      this.baseGameView.showHandCursor();
+      this.baseGameView.toolTipText = "";
     });
-    rucksackInner.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        setHighlightObject(null);
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
-      }
+    rucksackInner.addMouseMoveListener((mouseMoveArg) => {
+      this.highlightObject = null;
+      this.baseGameView.showDefaultCursor();
+      this.baseGameView.toolTipText = "";
     });
     return rucksack;
   }
@@ -582,7 +555,7 @@ export default class BaseGameController {
   public CollectableGameObject addCollectableGameObject(
       BuildingMaterialType bmt, int x, int y) {
     return addCollectableGameObject(
-        ResourceManagerBase.IMAGE_BUILDING_MATERIAL_TIMBER
+        ResourceManager.IMAGE_BUILDING_MATERIAL_TIMBER
             + bmt.ordinal(), x, y);
 
   }
@@ -618,7 +591,7 @@ export default class BaseGameController {
     ExperienceGameObject go = new ExperienceGameObject();
     int[][] imgids = new int[1][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_EXPERIENCE;
+    imgids[0][0] = ResourceManager.IMAGE_EXPERIENCE;
     go.setAnimationImageIds(imgids);
     go.setPosition(new Point(x, y));
     go.addMouseMoveListener(new MouseMoveListener() {
@@ -666,7 +639,7 @@ export default class BaseGameController {
     GameObject buildMenuInner = new GameObject();
     int[][] imgids = new int[1][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_BUILD_MENU_INNER;
+    imgids[0][0] = ResourceManager.IMAGE_BUILD_MENU_INNER;
     buildMenuInner.setAnimationImageIds(imgids);
     buildMenuInner.setZ(MENU_Z_ORDER);
     buildMenuInner.setVisible(false);
@@ -681,9 +654,9 @@ export default class BaseGameController {
     HighlightGameObjectImpl closeObject = new HighlightGameObjectImpl();
     imgids = new int[2][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_BUILD_MENU_CLOSE;
+    imgids[0][0] = ResourceManager.IMAGE_BUILD_MENU_CLOSE;
     imgids[1] = new int[1];
-    imgids[1][0] = ResourceManagerBase.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT;
+    imgids[1][0] = ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT;
     closeObject.setAnimationImageIds(imgids);
     closeObject.setPosition(new Point(ORIGINAL_BUILD_MENU_CLOSE_X,
         ORIGINAL_BUILD_MENU_CLOSE_Y));
@@ -700,9 +673,9 @@ export default class BaseGameController {
 
     imgids = new int[2][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_HAMMER;
+    imgids[0][0] = ResourceManager.IMAGE_HAMMER;
     imgids[1] = new int[1];
-    imgids[1][0] = ResourceManagerBase.IMAGE_HAMMER_HIGHLIGHT;
+    imgids[1][0] = ResourceManager.IMAGE_HAMMER_HIGHLIGHT;
     buildMenu.setAnimationImageIds(imgids);
 
     addGameObject(buildMenu);
@@ -752,7 +725,7 @@ export default class BaseGameController {
     });
     GameObject buildMenuToolTip = new GameObject();
     buildMenuToolTip
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_BUILD_MENU_TOOLTIP } });
+        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_BUILD_MENU_TOOLTIP } });
     buildMenuToolTip.setVisible(false);
     buildMenuToolTip.setZ(MENU_Z_ORDER + 1);
     addGameObject(buildMenuToolTip);
@@ -916,9 +889,9 @@ export default class BaseGameController {
     journal = new JournalGameObject();
     journal.setPosition(new Point(ORIGINAL_JOURNAL_X, ORIGINAL_JOURNAL_Y));
     journal.setAnimationImageIds(new int[][] {
-        { ResourceManagerBase.IMAGE_JOURNAL },
+        { ResourceManager.IMAGE_JOURNAL },
 
-        { ResourceManagerBase.IMAGE_JOURNAL_HIGHLIGHT } });
+        { ResourceManager.IMAGE_JOURNAL_HIGHLIGHT } });
     journal.addClickedListener(new ClickedListener() {
 
       @Override
@@ -938,7 +911,7 @@ export default class BaseGameController {
     GameObject journalInner = new GameObject();
     journalInner.setZ(MENU_Z_ORDER);
     journalInner
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_JOURNAL_INNER } });
+        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_JOURNAL_INNER } });
     journalInner.addMouseMoveListener(new MouseMoveListener() {
 
       @Override
@@ -957,8 +930,8 @@ export default class BaseGameController {
     close.setPosition(new Point(ORIGINAL_JOURNAL_CLOSE_X,
         ORIGINAL_JOURNAL_CLOSE_Y));
     close.setAnimationImageIds(new int[][] {
-        { ResourceManagerBase.IMAGE_BUILD_MENU_CLOSE },
-        { ResourceManagerBase.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT } });
+        { ResourceManager.IMAGE_BUILD_MENU_CLOSE },
+        { ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT } });
     close.setZ(MENU_Z_ORDER + 1);
     close.addClickedListener(new ClickedListener() {
 
@@ -985,8 +958,8 @@ export default class BaseGameController {
         JournalGameObject.ORIGINAL_ARROW_RIGHT_Y));
     arrowLeft.setZ(MENU_Z_ORDER + 1);
     arrowLeft.setAnimationImageIds(new int[][] {
-        { ResourceManagerBase.IMAGE_JOURNAL_ARROW_LEFT },
-        { ResourceManagerBase.IMAGE_JOURNAL_ARROW_LEFT_HIGHLIGHT } });
+        { ResourceManager.IMAGE_JOURNAL_ARROW_LEFT },
+        { ResourceManager.IMAGE_JOURNAL_ARROW_LEFT_HIGHLIGHT } });
     arrowLeft.addClickedListener(new ClickedListener() {
       @Override
       public void clicked(ClickedArg arg) {
@@ -1007,8 +980,8 @@ export default class BaseGameController {
         JournalGameObject.ORIGINAL_ARROW_RIGHT_Y));
     arrowRight.setZ(MENU_Z_ORDER + 1);
     arrowRight.setAnimationImageIds(new int[][] {
-        { ResourceManagerBase.IMAGE_JOURNAL_ARROW_RIGHT },
-        { ResourceManagerBase.IMAGE_JOURNAL_ARROW_RIGHT_HIGHLIGHT } });
+        { ResourceManager.IMAGE_JOURNAL_ARROW_RIGHT },
+        { ResourceManager.IMAGE_JOURNAL_ARROW_RIGHT_HIGHLIGHT } });
     arrowRight.addClickedListener(ca -> {
       journalNextPage();
     });
@@ -1053,14 +1026,14 @@ export default class BaseGameController {
     GameObject leftLoading = new GameObject();
     leftLoading.setZ(MENU_Z_ORDER);
     int[][] loadingImgIds = { {
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_1,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_2,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_3,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_4,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_5,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_6,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_7,
-        ResourceManagerBase.IMAGE_JOURNAL_LOADING_8 } };
+        ResourceManager.IMAGE_JOURNAL_LOADING_1,
+        ResourceManager.IMAGE_JOURNAL_LOADING_2,
+        ResourceManager.IMAGE_JOURNAL_LOADING_3,
+        ResourceManager.IMAGE_JOURNAL_LOADING_4,
+        ResourceManager.IMAGE_JOURNAL_LOADING_5,
+        ResourceManager.IMAGE_JOURNAL_LOADING_6,
+        ResourceManager.IMAGE_JOURNAL_LOADING_7,
+        ResourceManager.IMAGE_JOURNAL_LOADING_8 } };
     leftLoading.setAnimationImageIds(loadingImgIds);
     leftLoading.setPosition(new Point(
         JournalGameObject.ORIGINAL_LEFT_LOADING_X,
@@ -1282,7 +1255,7 @@ export default class BaseGameController {
     messageBox = new MessageBoxGameObject();
     int[][] imgids = new int[1][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_MESSAGE_BOX;
+    imgids[0][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX;
     messageBox.setAnimationImageIds(imgids);
     messageBox.setPosition(new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_X, -600));
@@ -1301,9 +1274,9 @@ export default class BaseGameController {
     HighlightGameObjectImpl messageBoxOkButton = new HighlightGameObjectImpl();
     imgids = new int[2][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_MESSAGE_BOX_BUTTON;
+    imgids[0][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON;
     imgids[1] = new int[1];
-    imgids[1][0] = ResourceManagerBase.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT;
+    imgids[1][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT;
     messageBoxOkButton.setAnimationImageIds(imgids);
     messageBoxOkButton.setPosition(new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_BUTTON_X,
@@ -1334,9 +1307,9 @@ export default class BaseGameController {
     HighlightGameObjectImpl messageBoxCancelButton = new HighlightGameObjectImpl();
     imgids = new int[2][];
     imgids[0] = new int[1];
-    imgids[0][0] = ResourceManagerBase.IMAGE_ROOM_MESSAGE_BOX_BUTTON;
+    imgids[0][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON;
     imgids[1] = new int[1];
-    imgids[1][0] = ResourceManagerBase.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT;
+    imgids[1][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT;
     messageBoxCancelButton.setAnimationImageIds(imgids);
     messageBoxCancelButton.setPosition(new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_X,
@@ -1616,7 +1589,7 @@ export default class BaseGameController {
   public void initializeLevelInfo() {
     levelInfo = new LevelInfoGameObject();
     levelInfo
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_EXPERIENCE } });
+        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_EXPERIENCE } });
     levelInfo.setPosition(new Point(-100, -100));
     levelInfo.setExperience(-1);
     LabelGameObject levelLabel = new LabelGameObject();
@@ -1696,13 +1669,13 @@ export default class BaseGameController {
   public void initializeAchievementInfo() {
     achievementInfo = new AchievementInfoGameObject();
     achievementInfo
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_ACHIEVEMENT } });
+        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_ACHIEVEMENT } });
     achievementInfo.setPosition(new Point(-100, -100));
     addGameObject(achievementInfo);
 
     GameObject achievementBackground = new GameObject();
     achievementBackground
-        .setAnimationImageIds(new int[][] { { ResourceManagerBase.IMAGE_ACHIEVEMENT_BACKGROUND } });
+        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_ACHIEVEMENT_BACKGROUND } });
     achievementBackground.setPosition(new Point(
         AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_BACKGROUND_X,
         AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_BACKGROUND_Y));
@@ -1763,14 +1736,14 @@ export default class BaseGameController {
 
   public GameObject initializeLoading() {
     GameObject gameObject = new GameObject();
-    int[][] imgids = { { ResourceManagerBase.IMAGE_LOADING_1,
-        ResourceManagerBase.IMAGE_LOADING_2,
-        ResourceManagerBase.IMAGE_LOADING_3,
-        ResourceManagerBase.IMAGE_LOADING_4,
-        ResourceManagerBase.IMAGE_LOADING_5,
-        ResourceManagerBase.IMAGE_LOADING_6,
-        ResourceManagerBase.IMAGE_LOADING_7,
-        ResourceManagerBase.IMAGE_LOADING_8 } };
+    int[][] imgids = { { ResourceManager.IMAGE_LOADING_1,
+        ResourceManager.IMAGE_LOADING_2,
+        ResourceManager.IMAGE_LOADING_3,
+        ResourceManager.IMAGE_LOADING_4,
+        ResourceManager.IMAGE_LOADING_5,
+        ResourceManager.IMAGE_LOADING_6,
+        ResourceManager.IMAGE_LOADING_7,
+        ResourceManager.IMAGE_LOADING_8 } };
     gameObject.setAnimationImageIds(imgids);
     gameObject.setZ(Integer.MAX_VALUE);
     addGameObject(gameObject);
