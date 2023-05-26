@@ -446,23 +446,22 @@ export default class BaseGameController {
     return rucksack;
   }
 
-  public void showRucksackInner(RucksackGameObject rucksack) {
-    GameObject[] rucksackMenuItems = rucksack.getMenuItems();
-    GameObject rucksackInner = rucksack.getInner();
-    BuildingMaterialGameObject[] buildingMaterials = rucksack
-        .getBuildingMaterials();
-    LabelGameObject[] rucksackMenuItemLabels = rucksack.getMenuItemLabels();
-    for (int n = 0; n < rucksackMenuItems.length; n++) {
-      rucksackMenuItems[n].setVisible(true);
+  showRucksackInner(rucksack) {
+    const rucksackMenuItems = this.rucksack.menuItems;
+    const rucksackInner = this.rucksack.inner;
+    const buildingMaterials = this.rucksack.buildingMaterials;
+    const rucksackMenuItemLabels = this.rucksack.menuItemLabels;
+    for (let n = 0; n < rucksackMenuItems.length; n++) {
+      rucksackMenuItems[n].visible = true;
     }
-    rucksackInner.setVisible(true);
-    for (int n = 0; n < buildingMaterials.length; n++) {
-      if (buildingMaterials[n].getBuildingMaterialCount() > 0) {
-        buildingMaterials[n].setVisible(true);
-        rucksackMenuItemLabels[n].setVisible(true);
+    rucksackInner.visible = true;
+    for (let n = 0; n < buildingMaterials.length; n++) {
+      if (buildingMaterials[n].buildingMaterialCount > 0) {
+        buildingMaterials[n].visible = true;
+        rucksackMenuItemLabels[n].visible = true;
       }
     }
-    rucksack.getClose().setVisible(true);
+    rucksack.close.visible = true;
   }
 
   public void hideRucksackInner(RucksackGameObject rucksack) {
