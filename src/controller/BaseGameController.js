@@ -554,24 +554,18 @@ export default class BaseGameController {
     return go;
   }
 
-  public ExperienceGameObject addExperienceGameObject(int x, int y) {
-    ExperienceGameObject go = new ExperienceGameObject();
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_EXPERIENCE;
-    go.setAnimationImageIds(imgids);
-    go.setPosition(new Point(x, y));
-    go.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        ExperienceGameObject go = (ExperienceGameObject) arg
-            .getSender();
-        go.forceTimeToLifeOver();
-      }
+  addExperienceGameObject(x, y) {
+    const go = new ExperienceGameObject();
+    const imgids = [[ ResourceManager.IMAGE_EXPERIENCE ]];
+    go.animationImageIds = imgids;
+    go.position = new Point(x, y);
+    go.addMouseMoveListener((mouseMoveArg) => {
+        const sender = mouseMoveArg.sender;
+        sender.forceTimeToLifeOver();
     });
-    go.setLevelInfo(levelInfo);
-    addGameObject(go);
-    baseGameView.initializeExperienceGameObject(go);
+    go.levelInfo = levelInfo;
+    this.addGameObject(go);
+    this.baseGameView.initializeExperienceGameObject(go);
     return go;
   }
 
