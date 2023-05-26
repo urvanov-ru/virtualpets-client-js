@@ -527,11 +527,10 @@ export default class BaseGameController {
     }
   }
 
-  public CollectableGameObject addCollectableGameObject(
-      BuildingMaterialType bmt, int x, int y) {
+  addCollectableGameObject(buildingMaterialType, x, y) {
     return addCollectableGameObject(
         ResourceManager.IMAGE_BUILDING_MATERIAL_TIMBER
-            + bmt.ordinal(), x, y);
+            + buildingMaterialType.ordinal(), x, y);
 
   }
 
