@@ -528,15 +528,14 @@ export default class BaseGameController {
   }
 
   addCollectableGameObject(buildingMaterialType, x, y) {
-    return addCollectableGameObject(
+    return this.addCollectableGameObject(
         ResourceManager.IMAGE_BUILDING_MATERIAL_TIMBER
             + buildingMaterialType.ordinal(), x, y);
 
   }
 
-  public CollectableGameObject addCollectableGameObject(GameObject go, int x,
-      int y) {
-    return addCollectableGameObject(go.getAnimationImageIds()[0][0], x, y);
+  addCollectableGameObject(gameObject, x, y) {
+    return this.addCollectableGameObject(gameObject.animationImageIds[0][0], x, y);
   }
 
   public CollectableGameObject addCollectableGameObject(int resourceId,
