@@ -538,25 +538,19 @@ export default class BaseGameController {
     return this.addCollectableGameObject(gameObject.animationImageIds[0][0], x, y);
   }
 
-  public CollectableGameObject addCollectableGameObject(int resourceId,
-      int x, int y) {
-    CollectableGameObject go = new CollectableGameObject();
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceId;
-    go.setAnimationImageIds(imgids);
-    go.setPosition(new Point(x, y));
-    go.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        CollectableGameObject go = (CollectableGameObject) arg
-            .getSender();
+  addCollectableGameObject(resourceId, x, y) {
+    const go = new CollectableGameObject();
+    const imgids = [[ resourceId ]];
+    go.animationImageIds = imgids;
+    go.position = new Point(x, y);
+    go.addMouseMoveListener((mouseMoveArg) => {
+        const go = mouseMoveArg.sender;
         go.forceTimeToLifeOver();
       }
     });
-    go.setRucksack(rucksack);
-    addGameObject(go);
-    baseGameView.initializeCollectableGameObject(go);
+    go.rucksack = rucksack;
+    this.addGameObject(go);
+    this.baseGameView.initializeCollectableGameObject(go);
     return go;
   }
 
