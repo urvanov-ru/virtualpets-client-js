@@ -514,18 +514,16 @@ export default class BaseGameController {
     }
   }
 
-  protected <T extends GameObject & HighlightGameObject> void setHighlightObject(
-      T highlightObject) {
-    Collection<GameObject> gameObjects = getGameObjects();
-    for (GameObject go : gameObjects) {
+  set highlightObject(highlightObject) {
+    for (const go of this.gameObjects) {
       if (go instanceof HighlightGameObject) {
-        if (!go.equals(highlightObject)) {
-          go.setState(HighlightGameObject.OBJECT_NORMAL);
+        if (go! = highlightObject) {
+          go.state = HighlightGameObject.OBJECT_NORMAL;
         }
       }
     }
     if (highlightObject != null) {
-      highlightObject.setState(HighlightGameObject.OBJECT_HIGHLIGHT);
+      highlightObject.state = HighlightGameObject.OBJECT_HIGHLIGHT;
     }
   }
 
