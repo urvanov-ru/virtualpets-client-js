@@ -481,29 +481,25 @@ export default class BaseGameController {
     this.rucksack.close.visible = false;
   }
 
-  @Override
-  public void setRucksackInner(GetPetRucksackInnerResult result) {
-    GameObject rucksackInner = rucksack.getInner();
-    BuildingMaterialGameObject[] buildingMaterials = rucksack
-        .getBuildingMaterials();
-    Map<BuildingMaterialType, Integer> buildingMaterialCountsMap = result
-        .getBuildingMaterialCounts();
-    LabelGameObject[] menuItemLabels = rucksack.getMenuItemLabels();
-    for (Entry<BuildingMaterialType, Integer> entry : buildingMaterialCountsMap
-        .entrySet()) {
-      int buildingMaterialId = entry.getKey().ordinal();
-      int buildingMaterialCount = entry.getValue();
+  set rucksackInner(getPetRucksackInnerResult) {
+    const rucksackInner = this.rucksack.inner;
+    const buildingMaterials = this.rucksack.buildingMaterials;
+    const buildingMaterialCountsMap = getPetRucksackInnerResult
+        .buildingMaterialCounts;
+    const menuItemLabels = this.rucksack.menuItemLabels;
+    for (const entry of buildingMaterialCountsMap.entries()) {
+      const buildingMaterialId = entry.key.ordinal();
+      const buildingMaterialCount = entry.value;
       buildingMaterials[buildingMaterialId]
-          .setBuildingMaterialCount(buildingMaterialCount);
-      menuItemLabels[buildingMaterialId].setText(String
-          .valueOf(buildingMaterialCount));
-      if (rucksackInner.isVisible()) {
+          .buildingMaterialCount = buildingMaterialCount;
+      menuItemLabels[buildingMaterialId].text = "" + buildingMaterialCount;
+      if (rucksackInner.visible) {
         buildingMaterials[buildingMaterialId]
-            .setBuildingMaterialCount(buildingMaterialCount);
+            .buildingMaterialCount = buildingMaterialCount;
         buildingMaterials[buildingMaterialId]
-            .setVisible(buildingMaterialCount > 0);
+            .visible = buildingMaterialCount > 0;
         menuItemLabels[buildingMaterialId]
-            .setVisible(buildingMaterialCount > 0);
+            .visible = buildingMaterialCount > 0;
       }
     }
   }
