@@ -464,22 +464,21 @@ export default class BaseGameController {
     rucksack.close.visible = true;
   }
 
-  public void hideRucksackInner(RucksackGameObject rucksack) {
-    GameObject[] rucksackMenuItems = rucksack.getMenuItems();
-    GameObject rucksackInner = rucksack.getInner();
-    BuildingMaterialGameObject[] buildMaterials = rucksack
-        .getBuildingMaterials();
-    LabelGameObject[] rucksackMenuItemLabels = rucksack.getMenuItemLabels();
-    for (int n = 0; n < rucksackMenuItems.length; n++) {
-      rucksackMenuItems[n].setVisible(false);
-      rucksackMenuItemLabels[n].setVisible(false);
+  hideRucksackInner(rucksack) {
+    const rucksackMenuItems = this.rucksack.menuItems;
+    const rucksackInner = this.rucksack.inner;
+    const buildMaterials = this.rucksack.buildingMaterials;
+    const rucksackMenuItemLabels = this.rucksack.menuItemLabels;
+    for (let n = 0; n < rucksackMenuItems.length; n++) {
+      rucksackMenuItems[n].visible = false;
+      rucksackMenuItemLabels[n].visible = false;
     }
-    rucksackInner.setVisible(false);
-    for (BuildingMaterialGameObject bm : buildMaterials) {
-      bm.setVisible(false);
+    rucksackInner.visible = false;
+    for (const bm of buildMaterials) {
+      bm.visible = false;
       ;
     }
-    rucksack.getClose().setVisible(false);
+    this.rucksack.close.visible = false;
   }
 
   @Override
