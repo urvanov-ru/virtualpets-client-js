@@ -504,30 +504,13 @@ export default class BaseGameController {
     }
   }
 
-  /**
-   * @return the rucksack
-   */
-  public RucksackGameObject getRucksack() {
-    return rucksack;
+  addShowRucksackInnerListener(simpleEvent) {
+    this.showRucksackInnerListeners.push(simpleEvent);
   }
 
-  /**
-   * @param rucksack
-   *      the rucksack to set
-   */
-  public void setRucksack(RucksackGameObject rucksack) {
-    this.rucksack = rucksack;
-  }
-
-  @Override
-  public void addShowRucksackInnerListener(
-      SimpleEvent<BaseGameView, Void> simpleEvent) {
-    showRucksackInnerListeners.add(simpleEvent);
-  }
-
-  public void fireShowRucksackInner() {
-    for (SimpleEvent<BaseGameView, Void> listener : showRucksackInnerListeners) {
-      listener.eventFired(baseGameView, null);
+  fireShowRucksackInner() {
+    for (const listener of showRucksackInnerListeners) {
+      listener.eventFired(this.baseGameView, null);
     }
   }
 
