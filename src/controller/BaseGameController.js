@@ -786,170 +786,117 @@ export default class BaseGameController {
     return true;
   }
 
-  /**
-   * @return the buildMenu
-   */
-  public BuildMenuGameObject getBuildMenu() {
-    return buildMenu;
-  }
-
-  /**
-   * @param buildMenu
-   *      the buildMenu to set
-   */
-  public void setBuildMenu(BuildMenuGameObject buildMenu) {
-    this.buildMenu = buildMenu;
-  }
-
-  public JournalGameObject getJournal() {
-    return journal;
-  }
-
-  public void setJournal(JournalGameObject journal) {
-    this.journal = journal;
-  }
-
-  public void initializeJournal() {
-    journal = new JournalGameObject();
-    journal.setPosition(new Point(ORIGINAL_JOURNAL_X, ORIGINAL_JOURNAL_Y));
-    journal.setAnimationImageIds(new int[][] {
-        { ResourceManager.IMAGE_JOURNAL },
-
-        { ResourceManager.IMAGE_JOURNAL_HIGHLIGHT } });
-    journal.addClickedListener(new ClickedListener() {
-
-      @Override
-      public void clicked(ClickedArg arg) {
-        showJournal();
-      }
+  initializeJournal() {
+    this.journal = new JournalGameObject();
+    this.journal.position = new Point(ORIGINAL_JOURNAL_X, ORIGINAL_JOURNAL_Y));
+    this.journal.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL ] [ ResourceManager.IMAGE_JOURNAL_HIGHLIGHT ]];
+    this.journal.addClickedListener((clickedArg) => {
+      this.showJournal();
     });
-    journal.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        baseGameView.showHandCursor();
-        setHighlightObject(getJournal());
-      }
+    this.journal.addMouseMoveListener((mouseMoveArg) => {
+      this.baseGameView.showHandCursor();
+      this.highlightObject = this.journal;
     });
-    addGameObject(journal);
-    GameObject journalInner = new GameObject();
-    journalInner.setZ(MENU_Z_ORDER);
+    this.addGameObject(this.journal);
+    const journalInner = new GameObject();
+    journalInner.z = BaseGameController.MENU_Z_ORDER;
     journalInner
-        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_JOURNAL_INNER } });
-    journalInner.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        baseGameView.showDefaultCursor();
-        setHighlightObject(null);
-        baseGameView.setToolTipText("");
-      }
-
+        .animationImageIds = [[ ResourceManager.IMAGE_JOURNAL_INNER ]];
+    journalInner.addMouseMoveListener((mouseMoveArg) => {
+      this.baseGameView.showDefaultCursor();
+      this.highlightObject = null;
+      this.baseGameView.toolTipText = "";
     });
-    journalInner.setVisible(false);
-    journal.setInner(journalInner);
-    addGameObject(journalInner);
+    journalInner.visible = false;
+    this.journal.inner = journalInner;
+    this.addGameObject(journalInner);
 
-    HighlightGameObjectImpl close = new HighlightGameObjectImpl();
-    close.setPosition(new Point(ORIGINAL_JOURNAL_CLOSE_X,
-        ORIGINAL_JOURNAL_CLOSE_Y));
-    close.setAnimationImageIds(new int[][] {
-        { ResourceManager.IMAGE_BUILD_MENU_CLOSE },
-        { ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT } });
-    close.setZ(MENU_Z_ORDER + 1);
-    close.addClickedListener(new ClickedListener() {
-
-      @Override
-      public void clicked(ClickedArg arg) {
-        hideJournal();
-      }
+    const close = new HighlightGameObjectImpl();
+    close.position = new Point(BaseGameController.ORIGINAL_JOURNAL_CLOSE_X,
+        BaseGameController.ORIGINAL_JOURNAL_CLOSE_Y);
+    close.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ],
+        [ ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT ]];
+    close.z = BaseGameController.MENU_Z_ORDER + 1;
+    close.addClickedListener((clickedArg) => {
+      this.hideJournal();
     });
-    close.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        baseGameView.showHandCursor();
-        setHighlightObject(getJournal().getClose());
-      }
+    close.addMouseMoveListener((mouseMoveArg) => {
+      this.baseGameView.showHandCursor();
+      this.highlightObject = this.journal.close;
     });
-    close.setVisible(false);
-    addGameObject(close);
-    journal.setClose(close);
+    close.visible = false;
+    this.addGameObject(close);
+    this.journal.close = close;
 
-    HighlightGameObjectImpl arrowLeft = new HighlightGameObjectImpl();
-    arrowLeft.setPosition(new Point(
+    const arrowLeft = new HighlightGameObjectImpl();
+    arrowLeft.position = new Point(
         JournalGameObject.ORIGINAL_ARROW_LEFT_X,
-        JournalGameObject.ORIGINAL_ARROW_RIGHT_Y));
-    arrowLeft.setZ(MENU_Z_ORDER + 1);
-    arrowLeft.setAnimationImageIds(new int[][] {
-        { ResourceManager.IMAGE_JOURNAL_ARROW_LEFT },
-        { ResourceManager.IMAGE_JOURNAL_ARROW_LEFT_HIGHLIGHT } });
-    arrowLeft.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        journalPreviousPage();
-      }
+        JournalGameObject.ORIGINAL_ARROW_RIGHT_Y);
+    arrowLeft.z = =(MENU_Z_ORDER + 1;
+    arrowLeft.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL_ARROW_LEFT ],
+        [ ResourceManager.IMAGE_JOURNAL_ARROW_LEFT_HIGHLIGHT ]];
+    arrowLeft.addClickedListener((clickedArg) => {
+      this.journalPreviousPage();
     });
-    arrowLeft.addMouseMoveListener(mma -> {
-      baseGameView.showHandCursor();
-      setHighlightObject(getJournal().getArrowLeft());
+    arrowLeft.addMouseMoveListener(mma => {
+      this.baseGameView.showHandCursor();
+      this.highlightObject = this.journal.getArrowLeft();
     });
-    arrowLeft.setVisible(false);
-    addGameObject(arrowLeft);
-    journal.setArrowLeft(arrowLeft);
+    arrowLeft.visible = false;
+    this.addGameObject(arrowLeft);
+    journal.arrowLeft = arrowLeft;
 
-    HighlightGameObjectImpl arrowRight = new HighlightGameObjectImpl();
-    arrowRight.setPosition(new Point(
+    const arrowRight = new HighlightGameObjectImpl();
+    arrowRight.position = new Point(
         JournalGameObject.ORIGINAL_ARROW_RIGHT_X,
-        JournalGameObject.ORIGINAL_ARROW_RIGHT_Y));
-    arrowRight.setZ(MENU_Z_ORDER + 1);
-    arrowRight.setAnimationImageIds(new int[][] {
-        { ResourceManager.IMAGE_JOURNAL_ARROW_RIGHT },
-        { ResourceManager.IMAGE_JOURNAL_ARROW_RIGHT_HIGHLIGHT } });
-    arrowRight.addClickedListener(ca -> {
-      journalNextPage();
+        JournalGameObject.ORIGINAL_ARROW_RIGHT_Y);
+    arrowRight.z = BaseGameController.MENU_Z_ORDER + 1;
+    arrowRight.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL_ARROW_RIGHT ],
+        [ ResourceManager.IMAGE_JOURNAL_ARROW_RIGHT_HIGHLIGHT ]];
+    arrowRight.addClickedListener(ca => {
+      this.journalNextPage();
     });
-    arrowRight.addMouseMoveListener(mma -> {
-      baseGameView.showHandCursor();
-      setHighlightObject(getJournal().getArrowRight());
+    arrowRight.addMouseMoveListener(mma => {
+      this.baseGameView.showHandCursor();
+      this.highlightObject = this.journal.arrowRight;
     });
-    arrowRight.setVisible(false);
-    addGameObject(arrowRight);
-    journal.setArrowRight(arrowRight);
+    arrowRight.visible = false;
+    this.addGameObject(arrowRight);
+    journal.arrowRight = arrowRight;
 
-    LabelGameObject leftText = new LabelGameObject();
-    leftText.setText("");
-    addGameObject(leftText);
-    leftText.setPosition(new Point(100, 50));
-    leftText.setDimension(new Dimension(250, 450));
-    leftText.setZ(MENU_Z_ORDER);
-    leftText.setVisible(false);
-    journal.setLeftText(leftText);
+    const leftText = new LabelGameObject();
+    leftText.text = "";
+    this.addGameObject(leftText);
+    leftText.position = new Point(100, 50);
+    leftText.dimension = new Dimension(250, 450);
+    leftText.z = BaseGameController.MENU_Z_ORDER;
+    leftText.visible = false;
+    journal.leftText = leftText;
 
-    LabelGameObject rightText = new LabelGameObject();
-    rightText.setText("");
-    addGameObject(rightText);
-    rightText.setPosition(new Point(450, 50));
-    rightText.setDimension(new Dimension(250, 450));
-    rightText.setZ(MENU_Z_ORDER);
-    rightText.setVisible(false);
+    const rightText = new LabelGameObject();
+    rightText.text = "";
+    this.addGameObject(rightText);
+    rightText.position = new Point(450, 50);
+    rightText.dimension = new Dimension(250, 450);
+    rightText.z = BaseGameController.MENU_Z_ORDER;
+    rightText.visible = false;
 
-    LabelGameObject newEntriesCountLabel = new LabelGameObject();
-    newEntriesCountLabel.setPosition(new Point(ORIGINAL_JOURNAL_X + 40,
-        ORIGINAL_JOURNAL_Y + 40));
-    newEntriesCountLabel.setVisible(false);
-    newEntriesCountLabel.setText("");
-    addGameObject(newEntriesCountLabel);
-    journal.setNewEntriesCountLabel(newEntriesCountLabel);
-    journal.setRightText(rightText);
+    const newEntriesCountLabel = new LabelGameObject();
+    newEntriesCountLabel.position = new Point(BaseGameController.ORIGINAL_JOURNAL_X + 40,
+        BaseGameController.ORIGINAL_JOURNAL_Y + 40);
+    newEntriesCountLabel.visible = false;
+    newEntriesCountLabel.text = "";
+    this.addGameObject(newEntriesCountLabel);
+    journal.newEntriesCountLabel = newEntriesCountLabel;
+    journal.rightText =rightText;
 
-    this.getJournal().addClickedListener((journalClickedListenerArg) -> {
+    this.journal.addClickedListener((journalClickedListenerArg) => {
       getJournalEntries();
     });
 
-    GameObject leftLoading = new GameObject();
-    leftLoading.setZ(MENU_Z_ORDER);
-    int[][] loadingImgIds = { {
+    const leftLoading = new GameObject();
+    leftLoading.z = BaseGameController.MENU_Z_ORDER;
+    const loadingImgIds = [[
         ResourceManager.IMAGE_JOURNAL_LOADING_1,
         ResourceManager.IMAGE_JOURNAL_LOADING_2,
         ResourceManager.IMAGE_JOURNAL_LOADING_3,
@@ -957,25 +904,25 @@ export default class BaseGameController {
         ResourceManager.IMAGE_JOURNAL_LOADING_5,
         ResourceManager.IMAGE_JOURNAL_LOADING_6,
         ResourceManager.IMAGE_JOURNAL_LOADING_7,
-        ResourceManager.IMAGE_JOURNAL_LOADING_8 } };
-    leftLoading.setAnimationImageIds(loadingImgIds);
-    leftLoading.setPosition(new Point(
+        ResourceManager.IMAGE_JOURNAL_LOADING_8 ]];
+    leftLoading.animationImageIds = loadingImgIds;
+    leftLoading.position = new Point(
         JournalGameObject.ORIGINAL_LEFT_LOADING_X,
-        JournalGameObject.ORIGINAL_RIGHT_LOADING_Y));
-    leftLoading.setVisible(false);
-    leftLoading.setLoopAnimation(true);
-    addGameObject(leftLoading);
-    journal.setLeftLoading(leftLoading);
-    GameObject rightLoading = new GameObject();
-    rightLoading.setZ(MENU_Z_ORDER);
-    rightLoading.setAnimationImageIds(loadingImgIds);
-    rightLoading.setPosition(new Point(
+        JournalGameObject.ORIGINAL_RIGHT_LOADING_Y);
+    leftLoading.visible = false;
+    leftLoading.loopAnimation = true;
+    this.addGameObject(leftLoading);
+    this.journal.leftLoading = leftLoading;
+    const rightLoading = new GameObject();
+    rightLoading.z = BaseGameController.MENU_Z_ORDER;
+    rightLoading.animationImageIds = loadingImgIds;
+    rightLoading.position = new Point(
         JournalGameObject.ORIGINAL_RIGHT_LOADING_X,
-        JournalGameObject.ORIGINAL_RIGHT_LOADING_Y));
-    rightLoading.setVisible(false);
-    rightLoading.setLoopAnimation(true);
-    addGameObject(rightLoading);
-    journal.setRightLoading(rightLoading);
+        JournalGameObject.ORIGINAL_RIGHT_LOADING_Y);
+    rightLoading.visible = false;
+    rightLoading.loopAnimation = true;
+    this.addGameObject(rightLoading);
+    this.journal.rightLoading = rightLoading;
   }
 
   public void showJournal() {
