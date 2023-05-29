@@ -578,139 +578,104 @@ export default class BaseGameController {
     }
   }
 
-  public void initializeTilesEngine() {
-    tilesEngine = new TilesEngine(6, 8);
+  initializeTilesEngine() {
+    this.tilesEngine = new TilesEngine(6, 8);
   }
 
-  public void initializeTilesEngineForRoom() {
-    tilesEngine = new TilesEngine(6, 9, TilesEngine.DEFAULT_TILE_WIDTH,
+  initializeTilesEngineForRoom() {
+    this.tilesEngine = new TilesEngine(6, 9, TilesEngine.DEFAULT_TILE_WIDTH,
         TilesEngine.DEFAULT_TILE_HEIGHT / 2);
   }
 
-  /**
-   * @return tilesEngine.
-   */
-  public TilesEngine getTilesEngine() {
-    return tilesEngine;
+  getTilesEngine() {
+    return this.tilesEngine;
   }
 
-  public BuildMenuGameObject initializeBuildMenu() {
-    insufficientResourcesString = getMessageSource().getMessage(
+  initializeBuildMenu() {
+    this.insufficientResourcesString = this.messageSource.getMessage(
         StringConstants.INSUFFICIENT_RESOURCES, null, null);
-    GameObject buildMenuInner = new GameObject();
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_BUILD_MENU_INNER;
-    buildMenuInner.setAnimationImageIds(imgids);
-    buildMenuInner.setZ(MENU_Z_ORDER);
-    buildMenuInner.setVisible(false);
-    buildMenuInner.addMouseMoveListener(new MouseMoveListener() {
-
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        hideBuildObjectToolTip();
-      }
+    const buildMenuInner = new GameObject();
+    buildMenuInner.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_INNER ]];
+    buildMenuInner.z = BaseGameController.MENU_Z_ORDER;
+    buildMenuInner.visible = false;
+    buildMenuInner.addMouseMoveListener((mouseMoveArg) => {
+        this.hideBuildObjectToolTip();
     });
 
-    HighlightGameObjectImpl closeObject = new HighlightGameObjectImpl();
-    imgids = new int[2][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_BUILD_MENU_CLOSE;
-    imgids[1] = new int[1];
-    imgids[1][0] = ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT;
-    closeObject.setAnimationImageIds(imgids);
-    closeObject.setPosition(new Point(ORIGINAL_BUILD_MENU_CLOSE_X,
-        ORIGINAL_BUILD_MENU_CLOSE_Y));
-    closeObject.setZ(MENU_Z_ORDER);
-    closeObject.setVisible(false);
+    const closeObject = new HighlightGameObjectImpl();
+    closeObject.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ] [ ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT ]];
+    closeObject.position = new Point(BaseGameController.ORIGINAL_BUILD_MENU_CLOSE_X,
+        BaseGameController.ORIGINAL_BUILD_MENU_CLOSE_Y);
+    closeObject.z = BaseGameController.MENU_Z_ORDER;
+    closeObject.visible = false;
 
-    buildMenu = new BuildMenuGameObject();
-    buildMenu.setPosition(new Point(ORIGINAL_BUILD_MENU_X,
-        ORIGINAL_BUILD_MENU_Y));
+    this.buildMenu = new BuildMenuGameObject();
+    this.buildMenu.position = new Point(ORIGINAL_BUILD_MENU_X,
+        ORIGINAL_BUILD_MENU_Y);
 
-    buildMenu.setInner(buildMenuInner);
+    this.buildMenu.inner = buildMenuInner;
 
-    buildMenu.setClose(closeObject);
+    this.buildMenu.close = closeObject;
 
-    imgids = new int[2][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_HAMMER;
-    imgids[1] = new int[1];
-    imgids[1][0] = ResourceManager.IMAGE_HAMMER_HIGHLIGHT;
-    buildMenu.setAnimationImageIds(imgids);
+    this.buildMenu.animationImageIds = [[ ResourceManager.IMAGE_HAMMER ][ ResourceManager.IMAGE_HAMMER_HIGHLIGHT ]];
 
-    addGameObject(buildMenu);
-    addGameObject(buildMenuInner);
-    addGameObject(closeObject);
+    this.addGameObject(buildMenu);
+    this.addGameObject(buildMenuInner);
+    this.addGameObject(closeObject);
 
-    buildMenu.setMenuItems(new GameObject[0]);
-    buildMenu.setBuildObjects(new GameObject[0]);
+    this.buildMenu.menuItems = new GameObject[0];
+    this.buildMenu.buildObjects = new GameObject[0];
 
-    buildMenu.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        showBuildMenuInner(getBuildMenu());
-      }
+    this.buildMenu.addClickedListener((clickedArg) => {
+        this.showBuildMenuInner(this.buildMenu);
     });
 
-    buildMenu.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        setHighlightObject(getBuildMenu());
-        baseGameView.showHandCursor();
-        baseGameView.setToolTipText("");
-      }
+    this.buildMenu.addMouseMoveListener((mouseMoveArg) => {
+        this.highlightObject(this.buildMenu);
+        this.baseGameView.showHandCursor();
+        this.baseGameView.toolTipText = "";
     });
 
-    buildMenu.getClose().addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        hideBuildMenuInner(getBuildMenu());
-      }
+    this.buildMenu.close.addClickedListener((clickedArg) => {
+        this.hideBuildMenuInner(this.buildMenu);
     });
-    closeObject.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        setHighlightObject(getBuildMenu().getClose());
-        baseGameView.showHandCursor();
-        baseGameView.setToolTipText("");
-      }
+    closeObject.addMouseMoveListener((mouseMoveArg) => {
+        this.highlightObject = this.buildMenu.close;
+        this.baseGameView.showHandCursor();
+        this.baseGameView.toolTipText = "";
     });
-    buildMenuInner.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        setHighlightObject(null);
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
-      }
+    buildMenuInner.addMouseMoveListener((mouseMoveArg) => {
+        this.highlightObject = null;
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
     });
-    GameObject buildMenuToolTip = new GameObject();
+    const buildMenuToolTip = new GameObject();
     buildMenuToolTip
-        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_BUILD_MENU_TOOLTIP } });
-    buildMenuToolTip.setVisible(false);
-    buildMenuToolTip.setZ(MENU_Z_ORDER + 1);
-    addGameObject(buildMenuToolTip);
-    buildMenu.setTooltip(buildMenuToolTip);
-    LabelGameObject toolTipLabel = new LabelGameObject();
-    toolTipLabel.setVisible(false);
-    addGameObject(toolTipLabel);
-    buildMenu.setToolTipLabel(toolTipLabel);
-    LabelGameObject toolTipInsufficientResources = new LabelGameObject();
-    toolTipInsufficientResources.setText(insufficientResourcesString);
-    toolTipInsufficientResources.setVisible(false);
-    addGameObject(toolTipInsufficientResources);
-    buildMenu.setToolTipInsufficientResources(toolTipInsufficientResources);
-    buildMenu.setBuildingMaterialObjects(this
+        .animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_TOOLTIP ]];
+    buildMenuToolTip.visible =false;
+    buildMenuToolTip.z = BaseGameController.MENU_Z_ORDER + 1;
+    this.addGameObject(buildMenuToolTip);
+    this.buildMenu.tooltip = buildMenuToolTip;
+    const toolTipLabel = new LabelGameObject();
+    toolTipLabel.visible = false;
+    this.addGameObject(toolTipLabel);
+    this.buildMenu.toolTipLabel = toolTipLabel;
+    const toolTipInsufficientResources = new LabelGameObject();
+    toolTipInsufficientResources.text = insufficientResourcesString;
+    toolTipInsufficientResources.visible = false;
+    this.addGameObject(toolTipInsufficientResources);
+    this.buildMenu.toolTipInsufficientResources = toolTipInsufficientResources;
+    this.buildMenu.buildingMaterialObjects(this
         .initializeBuildingMaterialGameObjects());
-    LabelGameObject[] costLabels = new LabelGameObject[buildMenu
-        .getBuildingMaterialObjects().length];
-    for (int n = 0; n < buildMenu.getBuildingMaterialObjects().length; n++) {
+    const costLabels = new LabelGameObject[buildMenu
+        .buildingMaterialObjects.length];
+    for (let n = 0; n < this.buildMenu.buildingMaterialObjects.length; n++) {
       costLabels[n] = new LabelGameObject();
-      costLabels[n].setVisible(false);
-      addGameObject(costLabels[n]);
+      costLabels[n].visible = false;
+      this.addGameObject(costLabels[n]);
     }
-    buildMenu.setToolTipCostLabels(costLabels);
-    return buildMenu;
+    this.buildMenu.toolTipCostLabels = costLabels;
+    return this.buildMenu;
   }
 
   public void showBuildMenuInner(BuildMenuGameObject buildMenu) {
