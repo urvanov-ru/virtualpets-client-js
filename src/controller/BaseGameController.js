@@ -693,19 +693,19 @@ export default class BaseGameController {
     this.buildMenu.close.visible = true;
   }
 
-  public void hideBuildMenuInner(BuildMenuGameObject buildMenu) {
-    GameObject[] buildMenuItems = buildMenu.getMenuItems();
-    GameObject buildMenuInner = buildMenu.getInner();
-    GameObject[] buildObjects = buildMenu.getBuildObjects();
-    for (int n = 0; n < buildMenuItems.length; n++) {
-      buildMenuItems[n].setVisible(false);
+  hideBuildMenuInner(buildMenu) {
+    const buildMenuItems = this.buildMenu.menuItems;
+    const buildMenuInner = this.buildMenu.inner;
+    const buildObjects = this.buildMenu.buildObjects;
+    for (let n = 0; n < buildMenuItems.length; n++) {
+      buildMenuItems[n].visible = false;
     }
-    buildMenuInner.setVisible(false);
-    for (GameObject bm : buildObjects) {
-      bm.setVisible(false);
+    buildMenuInner.visible = false;
+    for (const bm of buildObjects) {
+      bm.visible = false;
     }
-    buildMenu.getClose().setVisible(false);
-    hideBuildObjectToolTip();
+    this.buildMenu.close.visible = false;
+    this.hideBuildObjectToolTip();
   }
 
   public void showBuildObjectToolTip(int i, Point mousePosition) {
