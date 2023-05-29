@@ -936,15 +936,15 @@ export default class BaseGameController {
     this.journal.rightLoading.visible = true;
   }
 
-  public void hideJournal() {
-    getJournal().getInner().setVisible(false);
-    getJournal().getClose().setVisible(false);
-    getJournal().getLeftText().setVisible(false);
-    getJournal().getRightText().setVisible(false);
-    getJournal().getArrowLeft().setVisible(false);
-    getJournal().getArrowRight().setVisible(false);
-    getJournal().getLeftLoading().setVisible(false);
-    getJournal().getRightLoading().setVisible(false);
+  hideJournal() {
+    this.journal.inner.visible = false;
+    this.journal.close.visible = false;
+    this.journal.leftText.visible = false;
+    this.journal.rightText.visible = false;
+    this.journal.arrowLeft.visible = false;
+    this.journal.arrowRight.visible = false;
+    this.journal.leftLoading.visible = false;
+    this.journal.rightLoading.visible = false;
   }
 
   private void journalPreviousPage() {
