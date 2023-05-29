@@ -925,15 +925,15 @@ export default class BaseGameController {
     this.journal.rightLoading = rightLoading;
   }
 
-  public void showJournal() {
-    getJournal().getInner().setVisible(true);
-    getJournal().getClose().setVisible(true);
-    getJournal().getLeftText().setVisible(true);
-    getJournal().getRightText().setVisible(true);
-    getJournal().getArrowLeft().setVisible(false);
-    getJournal().getArrowRight().setVisible(false);
-    getJournal().getLeftLoading().setVisible(true);
-    getJournal().getRightLoading().setVisible(true);
+  showJournal() {
+    this.journal.inner.visible = true;
+    this.journal.close.visible = true;
+    this.journal.leftText.visible = true;
+    this.journal.rightText.visible = true;
+    this.journal.arrowLeft.visible = false;
+    this.journal.arrowRight.visible = false;
+    this.journal.leftLoading.visible = true;
+    this.journal.rightLoading.visible = true;
   }
 
   public void hideJournal() {
