@@ -569,11 +569,11 @@ export default class BaseGameController {
     return go;
   }
 
-  public void initializeTilesEngine(TileType[][] tiles) {
+  initializeTilesEngine(tiles) {
     this.tilesEngine = new TilesEngine(tiles);
-    for (GameObject go : gameObjects) {
+    for (const go of gameObjects) {
       if (go.getTileTypes() != null) {
-        tilesEngine.addGameObject(go);
+        this.tilesEngine.addGameObject(go);
       }
     }
   }
