@@ -678,19 +678,19 @@ export default class BaseGameController {
     return this.buildMenu;
   }
 
-  public void showBuildMenuInner(BuildMenuGameObject buildMenu) {
-    GameObject[] buildMenuItems = buildMenu.getMenuItems();
-    GameObject buildMenuInner = buildMenu.getInner();
-    GameObject[] buildObjects = buildMenu.getBuildObjects();
+  showBuildMenuInner(buildMenu) {
+    const buildMenuItems = this.buildMenu.menuItems;
+    const buildMenuInner = this.buildMenu.inner;
+    const buildObjects = this.buildMenu.buildObjects;
 
-    for (int n = 0; n < buildMenuItems.length; n++) {
-      buildMenuItems[n].setVisible(true);
+    for (let n = 0; n < buildMenuItems.length; n++) {
+      buildMenuItems[n].visible = true;
     }
-    buildMenuInner.setVisible(true);
-    for (int n = 0; n < buildObjects.length; n++) {
-      buildObjects[n].setVisible(true);
+    buildMenuInner.visible = true;
+    for (let n = 0; n < buildObjects.length; n++) {
+      buildObjects[n].visible = true;
     }
-    buildMenu.getClose().setVisible(true);
+    this.buildMenu.close.visible = true;
   }
 
   public void hideBuildMenuInner(BuildMenuGameObject buildMenu) {
