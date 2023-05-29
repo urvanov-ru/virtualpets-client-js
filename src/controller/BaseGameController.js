@@ -708,53 +708,53 @@ export default class BaseGameController {
     this.hideBuildObjectToolTip();
   }
 
-  public void showBuildObjectToolTip(int i, Point mousePosition) {
-    buildMenu.setSelectedItemIndex(i);
-    LabelGameObject toolTipLabel = buildMenu.getToolTipLabel();
-    toolTipLabel.setText(buildMenu.getNames()[i]);
-    toolTipLabel.setVisible(true);
-    GameObject toolTip = buildMenu.getToolTip();
-    toolTipLabel.setZ(toolTip.getZ() + 2);
-    toolTip.setVisible(true);
-    toolTip.setPosition(new Point(mousePosition.getX() + 10, mousePosition
-        .getY() + 10));
-    Point toolTipPosition = toolTip.getPosition();
+  showBuildObjectToolTip(i, mousePosition) {
+    this.buildMenu.selectedItemIndex = i;
+    const toolTipLabel = this.buildMenu.toolTipLabel;
+    toolTipLabel.text = this.buildMenu.names[i];
+    toolTipLabel.visible = true;
+    const toolTip = this.buildMenu.toolTip;
+    toolTipLabel.z = toolTip.z + 2;
+    toolTip.visible = true;
+    toolTip.position = new Point(mousePosition.getX() + 10, mousePosition
+        .getY() + 10);
+    const toolTipPosition = toolTip.position;
 
-    GameObject[] buildingMaterials = buildMenu.getBuildingMaterialObjects();
-    LabelGameObject[] costLabels = buildMenu.getToolTipCostLabels();
-    int[] costs = buildMenu.getCosts()[i];
-    int toolTipX = toolTip.getPosition().getX();
-    int buildingMaterialY = toolTipPosition.getY() + toolTipLabel.getSize();
-    buildMenu.getToolTipLabel().setPosition(
-        new Point(toolTipPosition.getX() + 5,
-            toolTipPosition.getY() + 5));
-    buildMenu.getToolTipInsufficientResources()
-        .setPosition(
-            new Point(toolTipPosition.getX() + 5, toolTipPosition
-                .getY()
-                + buildingMaterials[0].getDimension()
-                    .getHeight() + 40));
-    for (int n = 0; n < costs.length; n++) {
-      buildingMaterials[n].setZ(toolTip.getZ() + 1);
-      costLabels[n].setZ(toolTip.getZ() + 1);
+    const buildingMaterials = this.buildMenu.buildingMaterialObjects;
+    const costLabels = this.buildMenu.toolTipCostLabels;
+    const costs = this.buildMenu.costs[i];
+    const toolTipX = toolTip.position.x;
+    const buildingMaterialY = toolTipPosition.y + toolTipLabel.size;
+    this.buildMenu.toolTipLabel.position = 
+        new Point(toolTipPosition.x + 5,
+            toolTipPosition.y + 5);
+    this.buildMenu.toolTipInsufficientResources
+        .position = 
+            new Point(toolTipPosition.x + 5, toolTipPosition
+                .y
+                + buildingMaterials[0].dimension
+                    .height + 40);
+    for (let n = 0; n < costs.length; n++) {
+      buildingMaterials[n].z = toolTip.z + 1;
+      costLabels[n].z = toolTip.z + 1;
       if (costs[n] > 0) {
-        buildingMaterials[n].setVisible(true);
+        buildingMaterials[n].visible = true;
         int x = toolTipX
-            + buildingMaterials[n].getDimension().getWidth() * n;
+            + buildingMaterials[n].dimension.width * n;
         buildingMaterials[n]
-            .setPosition(new Point(x, buildingMaterialY));
-        costLabels[n].setPosition(new Point(x, buildingMaterialY
-            + buildingMaterials[n].getDimension().getHeight()));
-        int haveCount = rucksack.getBuildingMaterials()[n]
-            .getBuildingMaterialCount();
-        int needCount = costs[n];
-        costLabels[n].setText(haveCount + "/" + needCount);
-        costLabels[n].setVisible(true);
+            .position = new Point(x, buildingMaterialY);
+        costLabels[n].position = new Point(x, buildingMaterialY
+            + buildingMaterials[n].dimension.height);
+        const haveCount = this.rucksack.buildingMaterials[n]
+            .buildingMaterialCount;
+        const needCount = costs[n];
+        costLabels[n].text = haveCount + "/" + needCount;
+        costLabels[n].visible = true;
         if (needCount > haveCount)
-          buildMenu.getToolTipInsufficientResources()
-              .setVisible(true);
+          buildMenu.toolTipInsufficientResources
+              .visible = true;
       } else {
-        buildingMaterials[n].setVisible(false);
+        buildingMaterials[n].visible = false;
       }
     }
   }
