@@ -772,15 +772,13 @@ export default class BaseGameController {
     this.buildMenu.toolTipLabel.visible = false;
   }
 
-  public boolean checkBuildingMaterialsCount(int buildObjectIndex) {
-    BuildingMaterialGameObject[] bms = rucksack.getBuildingMaterials();
-    int[] costs = buildMenu.getCosts()[buildObjectIndex];
-    for (int n = 0; n < costs.length; n++) {
-      int cost = costs[n];
+  checkBuildingMaterialsCount(buildObjectIndex) {
+    const bms = this.rucksack.buildingMaterials;
+    const costs = this.buildMenu.costs[buildObjectIndex];
+    for (let n = 0; n < costs.length; n++) {
+      const cost = costs[n];
       if (cost > 0) {
-        BuildingMaterialGameObject bm = bms[n];
-        int count = bm.getBuildingMaterialCount();
-        if (count < cost) {
+        if (bms[n].buildingMaterialCount < cost) {
           return false;
         }
       }
