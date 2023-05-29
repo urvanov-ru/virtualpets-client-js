@@ -759,17 +759,17 @@ export default class BaseGameController {
     }
   }
 
-  public void hideBuildObjectToolTip() {
-    buildMenu.setSelectedItemIndex(null);
-    for (GameObject go : buildMenu.getBuildingMaterialObjects()) {
-      go.setVisible(false);
+  hideBuildObjectToolTip() {
+    this.buildMenu.selectedItemIndex = null;
+    for (const go of this.buildMenu.buildingMaterialObjects) {
+      go.visible = false;
     }
-    for (LabelGameObject lgo : buildMenu.getToolTipCostLabels()) {
-      lgo.setVisible(false);
+    for (const lgo of buildMenu.getToolTipCostLabels()) {
+      lgo.visible = false;
     }
-    buildMenu.getToolTip().setVisible(false);
-    buildMenu.getToolTipInsufficientResources().setVisible(false);
-    buildMenu.getToolTipLabel().setVisible(false);
+    this.buildMenu.toolTip.visible = false);
+    this.buildMenu.toolTipInsufficientResources.visible = false);
+    this.buildMenu.toolTipLabel.visible = false;
   }
 
   public boolean checkBuildingMaterialsCount(int buildObjectIndex) {
