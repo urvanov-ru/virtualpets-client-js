@@ -51,7 +51,7 @@ export default class BaseGameController {
 
   #messageBox;
 
-  #levelInfo;
+  levelInfo;
 
   #achievementInfo;
 
@@ -1394,11 +1394,11 @@ export default class BaseGameController {
   }
 
   initializeLevelInfo() {
-    this.#levelInfo = new LevelInfoGameObject();
-    this.#levelInfo
+    this.levelInfo = new LevelInfoGameObject();
+    this.levelInfo
         .animationImageIds = [[ ResourceManager.IMAGE_EXPERIENCE ]];
-    this.#levelInfo.position = new Point(-100, -100);
-    this.#levelInfo.experience = -1;
+    this.levelInfo.position = new Point(-100, -100);
+    this.levelInfo.experience = -1;
     const levelLabel = new LabelGameObject();
     const experienceProgressBar = new ProgressBarGameObject();
     levelLabel.text = "";
@@ -1414,8 +1414,8 @@ export default class BaseGameController {
         LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_WIDTH,
         LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_HEIGHT);
     this.addGameObject(experienceProgressBar);
-    this.#levelInfo.levelLabel = levelLabel;
-    this.#levelInfo.experienceProgressBar = experienceProgressBar;
+    this.levelInfo.levelLabel = levelLabel;
+    this.levelInfo.experienceProgressBar = experienceProgressBar;
 
     const levelTextLabel = new LabelGameObject();
     const experienceTextLabel = new LabelGameObject();
@@ -1442,12 +1442,8 @@ export default class BaseGameController {
     youHaveReachedLevelLabel.z = BaseGameController.MENU_Z_ORDER - 1;
     youHaveReachedLevelLabel.visible = false;
     this.addGameObject(youHaveReachedLevelLabel);
-    this.#levelInfo.youHaveReachedLevelLabel = youHaveReachedLevelLabel;
+    this.levelInfo.youHaveReachedLevelLabel = youHaveReachedLevelLabel;
     this.addGameObject(levelInfo);
-  }
-
-  public LevelInfoGameObject getLevelInfo() {
-    return this.levelInfo;
   }
 
   public void updateLevelInfo(LevelInfo info, Point experienceCreationPoint) {
