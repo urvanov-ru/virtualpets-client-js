@@ -1,3 +1,4 @@
+import UpgradeInfo from './base/domain/UpgradeInfo.js';
 
 export default class BaseGameController {
 
@@ -1155,10 +1156,10 @@ export default class BaseGameController {
         this.hideMessageBox();
       }
     });
-    messageBoxOkButton.setVisible(false);
-    messageBoxOkButton.setZ(MENU_Z_ORDER);
-    addGameObject(messageBoxOkButton);
-    messageBox.setOkButton(messageBoxOkButton);
+    messageBoxOkButton.visible = false;
+    messageBoxOkButton.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(messageBoxOkButton);
+    messageBox.okButton = messageBoxOkButton;
 
     const messageBoxCancelButton = new HighlightGameObjectImpl();
     messageBoxCancelButton.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON], [ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT ]];
@@ -1184,7 +1185,7 @@ export default class BaseGameController {
     messageBoxCancelButton.visible = false;
     messageBoxCancelButton.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxCancelButton);
-    messageBox.setCancelButton(messageBoxCancelButton);
+    messageBox.cancelButton = messageBoxCancelButton;
 
     const messageBoxOkLabel = new LabelGameObject();
     messageBoxOkLabel.position = new Point(
@@ -1217,49 +1218,15 @@ export default class BaseGameController {
     this.messageBox.texts = labelGameObjects;
   }
 
-  public class UpgradeInfo {
-    BuildingMaterialGameObject[] upgradeBuildingMaterialGameObjects;
-    LabelGameObject[] upgradeBuildingMaterialLabels;
-    boolean upgradeInsufficientResources = false;
+  #messageBoxOkClickedListener = null;
+  #messageBoxCancelClickedListener = null;
 
-    public BuildingMaterialGameObject[] getUpgradeBuildingMaterialGameObjects() {
-      return upgradeBuildingMaterialGameObjects;
-    }
-
-    public void setUpgradeBuildingMaterialGameObjects(
-        BuildingMaterialGameObject[] upgradeBuildingMaterialGameObjects) {
-      this.upgradeBuildingMaterialGameObjects = upgradeBuildingMaterialGameObjects;
-    }
-
-    public LabelGameObject[] getUpgradeBuildingMaterialLabels() {
-      return upgradeBuildingMaterialLabels;
-    }
-
-    public void setUpgradeBuildingMaterialLabels(
-        LabelGameObject[] upgradeBuildingMaterialLabels) {
-      this.upgradeBuildingMaterialLabels = upgradeBuildingMaterialLabels;
-    }
-
-    public boolean isUpgradeInsufficientResources() {
-      return upgradeInsufficientResources;
-    }
-
-    public void setUpgradeInsufficientResources(
-        boolean upgradeInsufficientResources) {
-      this.upgradeInsufficientResources = upgradeInsufficientResources;
-    }
-
-  }
-
-  private ClickedListener messageBoxOkClickedListener = null;
-  private ClickedListener messageBoxCancelClickedListener = null;
-
-  public void showMessageBox(String[] texts,
-      ClickedListener okClickedListener,
-      ClickedListener cancelClickedListener,
-      MessageBoxGameObject.MessageBoxType messageBoxType) {
-    messageBox.setVisible(true);
-    messageBox
+  showMessageBox(texts,
+      okClickedListener,
+      cancelClickedListener,
+      messageBoxType) {
+    this.messageBox.visible = true;
+    this.messageBox
         .setPosition(new Point(messageBox.getPosition().getX(), -600));
     LabelGameObject[] textLabels = messageBox.getTexts();
     for (int n = 0; n < textLabels.length && n < texts.length; n++) {
