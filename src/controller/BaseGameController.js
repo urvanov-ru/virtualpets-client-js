@@ -1122,52 +1122,37 @@ export default class BaseGameController {
     return this.#upgradingGameObject != null;
   }
 
-  public void initializeMessageBox() {
-    messageBox = new MessageBoxGameObject();
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX;
-    messageBox.setAnimationImageIds(imgids);
-    messageBox.setPosition(new Point(
-        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_X, -600));
-    messageBox.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
-        setHighlightObject(null);
+  initializeMessageBox() {
+    this.messageBox = new MessageBoxGameObject();
+    this.messageBox.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX ]];
+    this.messageBox.position = new Point(
+        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_X, -600);
+    this.messageBox.addMouseMoveListener((mouseMoveArg) => {
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
+        this.highlightObject = null;
       }
     });
-    messageBox.setZ(MENU_Z_ORDER);
-    messageBox.setVisible(false);
-    addGameObject(messageBox);
+    this.messageBox.z = BaseGameController.MENU_Z_ORDER;
+    this.messageBox.visible = false;
+    this.addGameObject(messageBox);
 
-    HighlightGameObjectImpl messageBoxOkButton = new HighlightGameObjectImpl();
-    imgids = new int[2][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON;
-    imgids[1] = new int[1];
-    imgids[1][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT;
-    messageBoxOkButton.setAnimationImageIds(imgids);
-    messageBoxOkButton.setPosition(new Point(
+    const messageBoxOkButton = new HighlightGameObjectImpl();
+    messageBoxOkButton.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON ],
+        [ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT ]];
+    messageBoxOkButton.position = new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_BUTTON_X,
-        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_BUTTON_Y));
-    messageBoxOkButton.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        baseGameView.showHandCursor();
-        baseGameView.setToolTipText("");
-        setHighlightObject(messageBoxOkButton);
-      }
+        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_BUTTON_Y);
+    messageBoxOkButton.addMouseMoveListener((mouseMoveArg) => {
+      this.baseGameView.showHandCursor();
+      this.baseGameView.toolTipText = "";
+      this.highlightObject = messageBoxOkButton;
     });
-    messageBoxOkButton.addClickedListener(new ClickedListener() {
-      @Override
-      public void clicked(ClickedArg arg) {
-        if (messageBoxOkClickedListener != null) {
-          messageBoxOkClickedListener.clicked(arg);
-        } else {
-          hideMessageBox();
-        }
+    messageBoxOkButton.addClickedListener((clickedArg) => {
+      if (messageBoxOkClickedListener != null) {
+        messageBoxOkClickedListener.clicked(clickedArg);
+      } else {
+        this.hideMessageBox();
       }
     });
     messageBoxOkButton.setVisible(false);
@@ -1175,77 +1160,61 @@ export default class BaseGameController {
     addGameObject(messageBoxOkButton);
     messageBox.setOkButton(messageBoxOkButton);
 
-    HighlightGameObjectImpl messageBoxCancelButton = new HighlightGameObjectImpl();
-    imgids = new int[2][];
-    imgids[0] = new int[1];
-    imgids[0][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON;
-    imgids[1] = new int[1];
-    imgids[1][0] = ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT;
-    messageBoxCancelButton.setAnimationImageIds(imgids);
-    messageBoxCancelButton.setPosition(new Point(
-        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_X,
-        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_Y));
-    messageBoxCancelButton.addMouseMoveListener(new MouseMoveListener() {
-      @Override
-      public void mouseMove(MouseMoveArg arg) {
-        baseGameView.showHandCursor();
-        baseGameView.setToolTipText("");
-        setHighlightObject(messageBoxCancelButton);
-      }
+    const messageBoxCancelButton = new HighlightGameObjectImpl();
+    messageBoxCancelButton.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON], [ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT ]];
+    messageBoxCancelButton.position = new Point(
+      MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_X,
+      MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_Y);
+    messageBoxCancelButton.addMouseMoveListener((mouseMoveArg) => {
+      this.baseGameView.showHandCursor();
+      this.baseGameView.toolTipText = "";
+      this.highlightObject = messageBoxCancelButton;
     });
     messageBoxCancelButton.addClickedListener((
-        cancelButtonClickedListenerArg) -> {
-      messageBox.setVisible(false);
-      messageBoxOkButton.setVisible(false);
-      messageBoxCancelButton.setVisible(false);
-      messageBox.getOkLabel().setVisible(false);
-      messageBox.getCancelLabel().setVisible(false);
+        cancelButtonClickedListenerArg)  => {
+      this.messageBox.visible = false;
+      messageBoxOkButton.visible = false;
+      messageBoxCancelButton.visible = false;
+      messageBox.okLabel.visible = false;
+      messageBox.cancelLabel.visible = false;
       if (this.messageBoxCancelClickedListener != null)
-        messageBoxCancelClickedListener
+        this.messageBoxCancelClickedListener
             .clicked(cancelButtonClickedListenerArg);
     });
-    messageBoxCancelButton.setVisible(false);
-    messageBoxCancelButton.setZ(MENU_Z_ORDER);
-    addGameObject(messageBoxCancelButton);
+    messageBoxCancelButton.visible = false;
+    messageBoxCancelButton.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(messageBoxCancelButton);
     messageBox.setCancelButton(messageBoxCancelButton);
 
-    LabelGameObject messageBoxOkLabel = new LabelGameObject();
-    messageBoxOkLabel.setPosition(new Point(
+    const messageBoxOkLabel = new LabelGameObject();
+    messageBoxOkLabel.position = new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_LABEL_X,
-        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_LABEL_Y));
-    messageBoxOkLabel.setZ(MENU_Z_ORDER);
-    addGameObject(messageBoxOkLabel);
-    messageBoxOkLabel.setVisible(false);
-    messageBox.setOkLabel(messageBoxOkLabel);
+        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_LABEL_Y);
+    messageBoxOkLabel.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(messageBoxOkLabel);
+    messageBoxOkLabel.visible = false;
+    this.messageBox.setOkLabel(messageBoxOkLabel);
 
-    LabelGameObject messageBoxCancelLabel = new LabelGameObject();
-    messageBoxCancelLabel.setPosition(new Point(
+    const messageBoxCancelLabel = new LabelGameObject();
+    messageBoxCancelLabel.position = new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_X,
-        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_Y));
-    messageBoxCancelLabel.setZ(MENU_Z_ORDER);
-    addGameObject(messageBoxCancelLabel);
-    messageBoxCancelLabel.setVisible(false);
-    messageBox.setCancelLabel(messageBoxCancelLabel);
+        MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_Y);
+    messageBoxCancelLabel.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(messageBoxCancelLabel);
+    messageBoxCancelLabel.visible = false;
+    this.messageBox.setCancelLabel(messageBoxCancelLabel);
 
-    LabelGameObject[] labelGameObjects = new LabelGameObject[3];
-    for (int n = 0; n < labelGameObjects.length; n++) {
-      LabelGameObject labelGameObject = new LabelGameObject();
-      labelGameObject.setPosition(new Point(20, n * 25));
-      labelGameObject.setZ(MENU_Z_ORDER);
-      labelGameObject.setVisible(false);
-      labelGameObject.setText("");
-      addGameObject(labelGameObject);
+    const labelGameObjects = new Array(3);
+    for (let n = 0; n < labelGameObjects.length; n++) {
+      const labelGameObject = new LabelGameObject();
+      labelGameObject.position = new Point(20, n * 25);
+      labelGameObject.z = BaseGameController.MENU_Z_ORDER;
+      labelGameObject.visible = false;
+      labelGameObject.text = "";
+      this.addGameObject(labelGameObject);
       labelGameObjects[n] = labelGameObject;
     }
-    messageBox.setTexts(labelGameObjects);
-  }
-
-  public MessageBoxGameObject getMessageBox() {
-    return messageBox;
-  }
-
-  public void setMessageBox(MessageBoxGameObject messageBox) {
-    this.messageBox = messageBox;
+    this.messageBox.texts = labelGameObjects;
   }
 
   public class UpgradeInfo {
