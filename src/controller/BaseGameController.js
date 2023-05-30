@@ -49,7 +49,7 @@ export default class BaseGameController {
 
   #progressBar;
 
-  #messageBox;
+  messageBox;
 
   levelInfo;
 
@@ -1124,18 +1124,18 @@ export default class BaseGameController {
   }
 
   initializeMessageBox() {
-    this.#messageBox = new MessageBoxGameObject();
-    this.#messageBox.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX ]];
-    this.#messageBox.position = new Point(
+    this.messageBox = new MessageBoxGameObject();
+    this.messageBox.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX ]];
+    this.messageBox.position = new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_X, -600);
-    this.#messageBox.addMouseMoveListener((mouseMoveArg) => {
+    this.messageBox.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
         this.highlightObject = null;
       }
     });
-    this.#messageBox.z = BaseGameController.MENU_Z_ORDER;
-    this.#messageBox.visible = false;
+    this.messageBox.z = BaseGameController.MENU_Z_ORDER;
+    this.messageBox.visible = false;
     this.addGameObject(messageBox);
 
     const messageBoxOkButton = new HighlightGameObjectImpl();
@@ -1173,13 +1173,13 @@ export default class BaseGameController {
     });
     messageBoxCancelButton.addClickedListener((
         cancelButtonClickedListenerArg)  => {
-      this.#messageBox.visible = false;
+      this.messageBox.visible = false;
       messageBoxOkButton.visible = false;
       messageBoxCancelButton.visible = false;
       messageBox.okLabel.visible = false;
       messageBox.cancelLabel.visible = false;
-      if (this.#messageBoxCancelClickedListener != null)
-        this.#messageBoxCancelClickedListener
+      if (this.messageBoxCancelClickedListener != null)
+        this.messageBoxCancelClickedListener
             .clicked(cancelButtonClickedListenerArg);
     });
     messageBoxCancelButton.visible = false;
@@ -1194,7 +1194,7 @@ export default class BaseGameController {
     messageBoxOkLabel.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxOkLabel);
     messageBoxOkLabel.visible = false;
-    this.#messageBox.setOkLabel(messageBoxOkLabel);
+    this.messageBox.setOkLabel(messageBoxOkLabel);
 
     const messageBoxCancelLabel = new LabelGameObject();
     messageBoxCancelLabel.position = new Point(
@@ -1203,7 +1203,7 @@ export default class BaseGameController {
     messageBoxCancelLabel.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxCancelLabel);
     messageBoxCancelLabel.visible = false;
-    this.#messageBox.setCancelLabel(messageBoxCancelLabel);
+    this.messageBox.setCancelLabel(messageBoxCancelLabel);
 
     const labelGameObjects = new Array(3);
     for (let n = 0; n < labelGameObjects.length; n++) {
@@ -1215,7 +1215,7 @@ export default class BaseGameController {
       this.addGameObject(labelGameObject);
       labelGameObjects[n] = labelGameObject;
     }
-    this.#messageBox.texts = labelGameObjects;
+    this.messageBox.texts = labelGameObjects;
   }
 
   #messageBoxOkClickedListener = null;
@@ -1225,31 +1225,31 @@ export default class BaseGameController {
       okClickedListener,
       cancelClickedListener,
       messageBoxType) {
-    this.#messageBox.visible = true;
-    this.#messageBox
+    this.messageBox.visible = true;
+    this.messageBox
         .setPosition(new Point(messageBox.getPosition().getX(), -600));
     LabelGameObject[] textLabels = messageBox.getTexts();
     for (int n = 0; n < textLabels.length && n < texts.length; n++) {
       textLabels[n].setText(texts[n] == null ? "" : texts[n]);
     }
     HighlightGameObjectImpl messageBoxOkButton = messageBox.getOkButton();
-    this.#messageBox.getOkLabel().setText(
+    this.messageBox.getOkLabel().setText(
         messageSource.getMessage(StringConstants.OK, null, null));
-    this.#messageBox.getCancelLabel().setText(
+    this.messageBox.getCancelLabel().setText(
         messageSource.getMessage(StringConstants.CANCEL, null, null));
 
     messageBoxOkButton.setVisible(false);
-    this.#messageBox.setMessageBoxType(messageBoxType);
-    this.#messageBoxOkClickedListener = okClickedListener;
-    this.#messageBoxCancelClickedListener = cancelClickedListener;
+    this.messageBox.setMessageBoxType(messageBoxType);
+    this.messageBoxOkClickedListener = okClickedListener;
+    this.messageBoxCancelClickedListener = cancelClickedListener;
   }
 
   hideMessageBox() {
-    this.#messageBox.visible = false;
-    this.#messageBox.okButton.visible = false;
-    this.#messageBox.cancelButton.visible = false;
-    this.#messageBox.okLabel.visible = false;
-    this.#messageBox.cancelLabel.visible = false;
+    this.messageBox.visible = false;
+    this.messageBox.okButton.visible = false;
+    this.messageBox.cancelButton.visible = false;
+    this.messageBox.okLabel.visible = false;
+    this.messageBox.cancelLabel.visible = false;
   }
 
   #upgradeInfo;
@@ -1263,9 +1263,9 @@ export default class BaseGameController {
         StringConstants.UPGRADE, null, null);
     const messageBoxCancelButtonString = this.messageSource.getMessage(
         StringConstants.CANCEL, null, null);
-    this.#messageBox.okLabel.text = messageBoxOkButtonString;
-    this.#messageBox.cancelLabel.text = messageBoxCancelButtonString;
-    this.#messageBox.innerGameObjects.clear();
+    this.messageBox.okLabel.text = messageBoxOkButtonString;
+    this.messageBox.cancelLabel.text = messageBoxCancelButtonString;
+    this.messageBox.innerGameObjects.clear();
 
     const startX = 25;
     const buildingMaterialX = startX;
@@ -1281,7 +1281,7 @@ export default class BaseGameController {
       innerGameObject.gameObject = bmgo;
       innerGameObject.position = new Point(buildingMaterialX,
           buildingMaterialY);
-      this.#messageBox.innerGameObjects.add(innerGameObject);
+      this.messageBox.innerGameObjects.add(innerGameObject);
 
       const bmgoCount = rucksackBuildingMaterials[buildingMaterialIndex]
           .buildingMaterialCount;
@@ -1333,11 +1333,11 @@ export default class BaseGameController {
             hide = true;
           }
           if (hide) {
-            this.#messageBox.visible = false;
-            this.#messageBox.okButton.visible = false;
-            this.#messageBox.cancelButton.visible = false;
-            this.#messageBox.okLabel.visible = false;
-            this.#messageBox.cancelLabel.visible = false;
+            this.messageBox.visible = false;
+            this.messageBox.okButton.visible = false;
+            this.messageBox.cancelButton.visible = false;
+            this.messageBox.okLabel.visible = false;
+            this.messageBox.cancelLabel.visible = false;
             if (this.upgradeClickedListener != null)
               this.upgradeClickedListener.clicked(aaaa);
           }
@@ -1352,7 +1352,7 @@ export default class BaseGameController {
         .upgradeBuildingMaterialGameObjects = upgradeBuildingMaterialGameObjects;
     const upgradeBuildingMaterialLabels = new LabelGameObject[this.#upgradeInfo
         .upgradeBuildingMaterialGameObjects.length];
-    const messageBoxInnerGameObjects = this.#messageBox
+    const messageBoxInnerGameObjects = this.messageBox
         .innerGameObjects;
 
     for (let n = 0; n < upgradeBuildingMaterialLabels.length; n++) {
@@ -1446,27 +1446,29 @@ export default class BaseGameController {
     this.addGameObject(levelInfo);
   }
 
-  public void updateLevelInfo(LevelInfo info, Point experienceCreationPoint) {
-    if (this.levelInfo.getExperience() >= 0) {
-      for (int n = this.levelInfo.getExperience(); n < info
-          .getExperience(); n++) {
-        addExperienceGameObject(experienceCreationPoint.getX(),
-            experienceCreationPoint.getY());
+  updateLevelInfo(info, experienceCreationPoint) {
+    if (this.levelInfo.experience >= 0) {
+      for (int n = this.levelInfo.experience; n < info
+          .experience; n++) {
+        this.addExperienceGameObject(experienceCreationPoint.x,
+            experienceCreationPoint.y);
       }
     }
-    this.levelInfo.setExperience(info.getExperience());
-    String lastLevel = levelInfo.getLevelLabel().getText();
-    levelInfo.getLevelLabel().setText(String.valueOf(info.getLevel()));
+    this.levelInfo.experience = info.experience;
+    const lastLevel = this.levelInfo.levelLabel.text;
+    levelInfo.levelLabel.text = "" + info.level;
     if (!lastLevel.isEmpty()
-        && !info.getLevel().equals(Integer.valueOf(lastLevel))) {
-      levelInfo.showLevelHasReachedLabel(String.format(messageSource
+        && !info.level == +lastLevel)) {
+        
+        // ${levelInfo.getLevelLabel().getText()}
+      this.levelInfo.showLevelHasReachedLabel(this.messageSource
           .getMessage(StringConstants.YOU_HAVE_REACHED_LEVEL, null,
-              null), levelInfo.getLevelLabel().getText()));
+              null));
     }
-    levelInfo.getExperienceProgressBar().setMaxValue(
+    this.levelInfo.experienceProgressBar.maxValue = 
         info.getMaxExperience() - info.getMinExperience());
-    levelInfo.getExperienceProgressBar().setValue(
-        info.getExperience() - info.getMinExperience());
+    this.levelInfo.experienceProgressBar.value = 
+        info.experience - info.minExperience;
   }
 
   public void initializeAchievementInfo() {
