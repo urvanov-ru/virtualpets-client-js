@@ -947,76 +947,74 @@ export default class BaseGameController {
     this.journal.rightLoading.visible = false;
   }
 
-  private void journalPreviousPage() {
-    int currentPage = getJournal().getCurrentPage();
-    int newCurrentPage = currentPage > 0 ? currentPage -= 2 : 0;
-    getJournal().setCurrentPage(newCurrentPage);
-    updateJournalGameObjectsText();
+  journalPreviousPage() {
+    const currentPage = this.journal.currentPage;
+    const newCurrentPage = currentPage > 0 ? currentPage -= 2 : 0;
+    this.journal.currentPage = newCurrentPage;
+    this.updateJournalGameObjectsText();
   }
 
-  private void journalNextPage() {
-    int currentPage = getJournal().getCurrentPage();
-    int newCurrentPage = currentPage < getJournal().getEntries().length ? currentPage += 2
+  journalNextPage() {
+    const currentPage = this.journal.currentPage;
+    const newCurrentPage = currentPage < this.journal.entries.length ? currentPage += 2
         : currentPage;
-    getJournal().setCurrentPage(newCurrentPage);
-    updateJournalGameObjectsText();
+    this.journal.currentPage = newCurrentPage;
+    this.updateJournalGameObjectsText();
   }
 
-  protected class GetJournalEntriesBackgroundWork extends
-      BackgroundWork<Void, GetPetJournalEntriesResult, Void> {
+//  protected class GetJournalEntriesBackgroundWork extends
+//      BackgroundWork<Void, GetPetJournalEntriesResult, Void> {
+//
+//    @Override
+//    public GetPetJournalEntriesResult doInBackground() throws Exception {
+//      return journalEntryService.getPetJournalEntries(99999999);
+//    }
+//
+//    @Override
+//    public void completed(GetPetJournalEntriesResult result) {
+//      PetJournalEntry[] entries = result.getEntries();
+//      getJournal().setEntries(entries);
+//      getJournal().setCurrentPage(entries.length - 1 >> 1 << 1);
+//      updateJournalGameObjectsText();
+//      getJournal().getLeftLoading().setVisible(false);
+//      getJournal().getRightLoading().setVisible(false);
+//    }
+//
+//    @Override
+//    public void failed(Exception ex) {
+//      log.error("GetJournalEntriesBackgroundWork failed.", ex);
+//      trayIcon.showTrayMessage(
+//          messageSource.getMessage(StringConstants.ERROR, null, null),
+//          MessageType.ERROR);
+//    }
+//  }
 
-    @Override
-    public GetPetJournalEntriesResult doInBackground() throws Exception {
-      return journalEntryService.getPetJournalEntries(99999999);
-    }
-
-    @Override
-    public void completed(GetPetJournalEntriesResult result) {
-      PetJournalEntry[] entries = result.getEntries();
-      getJournal().setEntries(entries);
-      getJournal().setCurrentPage(entries.length - 1 >> 1 << 1);
-      updateJournalGameObjectsText();
-      getJournal().getLeftLoading().setVisible(false);
-      getJournal().getRightLoading().setVisible(false);
-    }
-
-    @Override
-    public void failed(Exception ex) {
-      log.error("GetJournalEntriesBackgroundWork failed.", ex);
-      trayIcon.showTrayMessage(
-          messageSource.getMessage(StringConstants.ERROR, null, null),
-          MessageType.ERROR);
-    }
-  }
-
-  private void updateJournalGameObjectsText() {
-    PetJournalEntry[] entries = getJournal().getEntries();
-    int currentPage = getJournal().getCurrentPage();
+  updateJournalGameObjectsText() {
+    const entries = this.journal.entries;
+    const currentPage = this.journal.currentPage;
     if (entries.length - currentPage > 1) {
-      getJournal().getLeftText().setText(
-          messageSource.getMessage(
+      this.journal.leftText.text = 
+          this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
                   + String.valueOf(entries[currentPage]
-                      .getCode()), null, null));
-      getJournal().getRightText().setText(
+                      .getCode()), null, null);
+      this.journal.rightText.text = 
           messageSource.getMessage(
               "JOURNAL_ENTRY_"
-                  + String.valueOf(entries[currentPage + 1]
-                      .getCode()), null, null));
+                  + entries[currentPage + 1].code, null, null);
     } else if (entries.length - currentPage == 1) {
-      getJournal().getLeftText().setText(
-          messageSource.getMessage(
+      this.journal.leftText.text = 
+          this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
-                  + String.valueOf(entries[currentPage]
-                      .getCode()), null, null));
-      getJournal().getRightText().setText("");
+                  + entries[currentPage].code, null, null);
+      this.journal.rightText.text = "";
     } else {
-      getJournal().getLeftText().setText("");
-      getJournal().getRightText().setText("");
+      this.journal.leftText.text = "";
+      this.journal.rightText.text = "";
     }
-    getJournal().getArrowLeft().setVisible(currentPage != 0);
-    getJournal().getArrowRight().setVisible(
-        currentPage < entries.length - 2);
+    this.journal.arrowLeft.visible = currentPage != 0);
+    this.journal.arrowRight.visible = 
+        currentPage < entries.length - 2;
   }
 
   protected void getJournalEntries() {
