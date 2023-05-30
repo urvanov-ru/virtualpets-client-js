@@ -1379,70 +1379,71 @@ export default class BaseGameController {
         .upgradeBuildingMaterialLabels = upgradeBuildingMaterialLabels;
   }
 
-  private BuildingGameObject movingGameObject = null;
+  #movingGameObject = null;
 
-  private enum MovingState {
-    IDDLE, STARTED, SELECT_POSITION, OVER
-  };
+  static get MOVING_STATE_IDDLE() { return "iddle"; }
+  static get MOVING_STATE_STARTED() { return "started"; }
+  static get MOVING_STATE_SELECT_POSITION() { return "select_position"; }
+  static get MOVING_STATE_OVER() { return "over"; }
 
-  private MovingState movingState = MovingState.IDDLE;
+  #movingState = BaseGameController.MOVING_STATE_IDDLE;
 
-  public void startMove(BuildingGameObject buildingGameObject) {
+  startMove(buildingGameObject) {
     this.movingGameObject = buildingGameObject;
-    movingState = MovingState.STARTED;
+    this.#movingState = MOVING_STATE_STARTED;
   }
 
-  public void initializeLevelInfo() {
-    levelInfo = new LevelInfoGameObject();
-    levelInfo
-        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_EXPERIENCE } });
-    levelInfo.setPosition(new Point(-100, -100));
-    levelInfo.setExperience(-1);
-    LabelGameObject levelLabel = new LabelGameObject();
-    ProgressBarGameObject experienceProgressBar = new ProgressBarGameObject();
-    levelLabel.setText("");
+  initializeLevelInfo() {
+    this.#levelInfo = new LevelInfoGameObject();
+    this.#levelInfo
+        .animationImageIds = [[ ResourceManager.IMAGE_EXPERIENCE ]];
+    this.#levelInfo.position = new Point(-100, -100);
+    this.#levelInfo.experience = -1;
+    const levelLabel = new LabelGameObject();
+    const experienceProgressBar = new ProgressBarGameObject();
+    levelLabel.text = "";
 
-    levelLabel.setPosition(new Point(
+    levelLabel.position = new Point(
         LevelInfoGameObject.ORIGINAL_LEVEL_LABEL_X,
-        LevelInfoGameObject.ORIGINAL_LEVEL_LABEL_Y));
-    addGameObject(levelLabel);
-    experienceProgressBar.setPosition(new Point(
+        LevelInfoGameObject.ORIGINAL_LEVEL_LABEL_Y);
+    this.addGameObject(levelLabel);
+    experienceProgressBar.position(new Point(
         LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_X,
-        LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_Y));
-    experienceProgressBar.setDimension(new Dimension(
+        LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_Y);
+    experienceProgressBar.dimension = new Dimension(
         LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_WIDTH,
-        LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_HEIGHT));
-    addGameObject(experienceProgressBar);
-    levelInfo.setLevelLabel(levelLabel);
-    levelInfo.setExperienceProgressBar(experienceProgressBar);
+        LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_HEIGHT);
+    this.addGameObject(experienceProgressBar);
+    this.#levelInfo.levelLabel = levelLabel;
+    this.#levelInfo.experienceProgressBar = experienceProgressBar;
 
-    LabelGameObject levelTextLabel = new LabelGameObject();
-    LabelGameObject experienceTextLabel = new LabelGameObject();
-    levelTextLabel.setText(messageSource.getMessage(StringConstants.LVL,
-        null, null));
-    experienceTextLabel.setText(messageSource.getMessage(
-        StringConstants.EXP, null, null));
-    levelTextLabel.setPosition(new Point(
+    const levelTextLabel = new LabelGameObject();
+    const experienceTextLabel = new LabelGameObject();
+    levelTextLabel.text = this.messageSource.getMessage(StringConstants.LVL,
+        null, null);
+    experienceTextLabel.text = this.messageSource.getMessage(
+        StringConstants.EXP, null, null);
+    levelTextLabel.position = new Point(
         LevelInfoGameObject.ORIGINAL_LEVEL_TEXT_LABEL_X,
-        LevelInfoGameObject.ORIGINAL_LEVEL_TEXT_LABEL_Y));
-    experienceTextLabel.setPosition(new Point(
+        LevelInfoGameObject.ORIGINAL_LEVEL_TEXT_LABEL_Y);
+    experienceTextLabel.position = new Point(
         LevelInfoGameObject.ORIGINAL_EXPERIENCE_TEXT_LABEL_X,
-        LevelInfoGameObject.ORIGINAL_EXPERIENCE_TEXT_LABEL_Y));
-    addGameObject(levelTextLabel);
-    addGameObject(experienceTextLabel);
-    levelInfo.setLevelTextLabel(levelTextLabel);
-    levelInfo.setExperienceTextLabel(experienceTextLabel);
+        LevelInfoGameObject.ORIGINAL_EXPERIENCE_TEXT_LABEL_Y);
+    this.addGameObject(levelTextLabel);
+    this.addGameObject(experienceTextLabel);
+    levelInfo.levelTextLabel = levelTextLabel;
+    levelInfo.experienceTextLabel = experienceTextLabel;
 
-    LabelGameObject youHaveReachedLevelLabel = new LabelGameObject();
-    youHaveReachedLevelLabel.setSize(50);
-    youHaveReachedLevelLabel.setPosition(new Point(
+    const youHaveReachedLevelLabel = new LabelGameObject();
+    youHaveReachedLevelLabel.size = 50;
+    youHaveReachedLevelLabel.position = new Point(
         LevelInfoGameObject.ORIGINAL_LEVEL_HAVE_REACHED_X,
-        LevelInfoGameObject.ORIGINAL_LEVEL_HAVE_REACHED_Y));
-    youHaveReachedLevelLabel.setZ(MENU_Z_ORDER - 1);
-    youHaveReachedLevelLabel.setVisible(false);
-    addGameObject(youHaveReachedLevelLabel);
-    levelInfo.setYouHaveReachedLevelLabel(youHaveReachedLevelLabel);
-    addGameObject(levelInfo);
+        LevelInfoGameObject.ORIGINAL_LEVEL_HAVE_REACHED_Y);
+    youHaveReachedLevelLabel.z = BaseGameController.MENU_Z_ORDER - 1;
+    youHaveReachedLevelLabel.visible = false;
+    this.addGameObject(youHaveReachedLevelLabel);
+    this.#levelInfo.youHaveReachedLevelLabel = youHaveReachedLevelLabel;
+    this.addGameObject(levelInfo);
   }
 
   public LevelInfoGameObject getLevelInfo() {
