@@ -1252,98 +1252,97 @@ export default class BaseGameController {
     this.messageBox.cancelLabel.visible = false;
   }
 
-  private UpgradeInfo upgradeInfo;
+  #upgradeInfo;
 
-  public void showUpgrade(String text,
-      Map<BuildingMaterialType, Integer> costs,
-      ClickedListener upgradeClickedListener,
-      ClickedListener cancelClickedListener) {
-    upgradeInfo.setUpgradeInsufficientResources(false);
-    String messageBoxOkButtonString = messageSource.getMessage(
+  showUpgrade(text,
+      costs,
+      upgradeClickedListener,
+      cancelClickedListener) {
+    this.#upgradeInfo.upgradeInsufficientResources = false;
+    const messageBoxOkButtonString = this.messageSource.getMessage(
         StringConstants.UPGRADE, null, null);
-    String messageBoxCancelButtonString = messageSource.getMessage(
+    const messageBoxCancelButtonString = this.messageSource.getMessage(
         StringConstants.CANCEL, null, null);
-    messageBox.getOkLabel().setText(messageBoxOkButtonString);
-    messageBox.getCancelLabel().setText(messageBoxCancelButtonString);
-    messageBox.getInnerGameObjects().clear();
+    this.messageBox.okLabel.text = messageBoxOkButtonString;
+    this.messageBox.cancelLabel.text = messageBoxCancelButtonString;
+    this.messageBox.innerGameObjects.clear();
 
-    int startX = 25;
-    int buildingMaterialX = startX;
-    int buildingMaterialY = 130;
-    int index = 0;
-    RucksackGameObject rucksack = getRucksack();
-    BuildingMaterialGameObject[] rucksackBuildingMaterials = rucksack
-        .getBuildingMaterials();
-    for (Entry<BuildingMaterialType, Integer> entry : costs.entrySet()) {
-      int buildingMaterialIndex = entry.getKey().ordinal();
-      BuildingMaterialGameObject bmgo = upgradeInfo
-          .getUpgradeBuildingMaterialGameObjects()[buildingMaterialIndex];
-      MessageBoxGameObject.InnerGameObject innerGameObject = messageBox.new InnerGameObject();
-      innerGameObject.setGameObject(bmgo);
-      innerGameObject.setPosition(new Point(buildingMaterialX,
-          buildingMaterialY));
-      messageBox.getInnerGameObjects().add(innerGameObject);
+    const startX = 25;
+    const buildingMaterialX = startX;
+    const buildingMaterialY = 130;
+    const index = 0;
+    const rucksackBuildingMaterials = this.rucksack
+        .buildingMaterials;
+    for (const entry of costs.entries()) {
+      const buildingMaterialIndex = entry.key.ordinal();
+      const bmgo = this.#upgradeInfo
+          .upgradeBuildingMaterialGameObjects[buildingMaterialIndex];
+      const innerGameObject = new MessageBoxInnerGameObject();
+      innerGameObject.gameObject = bmgo;
+      innerGameObject.position = new Point(buildingMaterialX,
+          buildingMaterialY);
+      this.messageBox.innerGameObjects.add(innerGameObject);
 
-      int bmgoCount = rucksackBuildingMaterials[buildingMaterialIndex]
-          .getBuildingMaterialCount();
-      String haveValue = String.valueOf(bmgoCount);
-      String costValue = String.valueOf(entry.getValue());
-      String str = haveValue + "/" + costValue;
-      LabelGameObject lbl = upgradeInfo
-          .getUpgradeBuildingMaterialLabels()[index];
-      lbl.setText(str);
-      innerGameObject = messageBox.new InnerGameObject();
-      innerGameObject.setGameObject(lbl);
-      innerGameObject.setPosition(new Point(buildingMaterialX,
-          buildingMaterialY + bmgo.getDimension().getHeight()
-              - lbl.getSize()));
-      messageBox.getInnerGameObjects().add(innerGameObject);
+      const bmgoCount = rucksackBuildingMaterials[buildingMaterialIndex]
+          .buildingMaterialCount;
+      const haveValue = "" + bmgoCount;
+      const costValue = "" + entry.getValue;
+      const str = haveValue + "/" + costValue;
+      const lbl = this.#upgradeInfo
+          .upgradeBuildingMaterialLabels[index];
+      lbl.text = str;
+      innerGameObject = new MessageBoxInnerGameObject();
+      innerGameObject.gameObject = lbl;
+      innerGameObject.position = new Point(buildingMaterialX,
+          buildingMaterialY + bmgo.dimension.height
+              - lbl.size));
+      messageBox.innerGameObjects.add(innerGameObject);
 
-      buildingMaterialX += bmgo.getDimension().getWidth();
+      buildingMaterialX += bmgo.dimension.width;
 
-      if (entry.getValue() <= bmgoCount) {
+      if (entry.value <= bmgoCount) {
         // upgradeInfo.getUpgradeBuildingMaterialCostColors()[index] =
         // Color.GREEN;
       } else {
         // upgradeInfo.getUpgradeBuildingMaterialCostColors()[index] =
         // Color.RED;
-        upgradeInfo.setUpgradeInsufficientResources(true);
+        this.#upgradeInfo.upgradeInsufficientResources = true;
       }
       index++;
     }
 
-    String[] messageBoxStrings = new String[messageBox.getTexts().length];
+    const messageBoxStrings = new Array(messageBox.texts.length);
     messageBoxStrings[0] = text;
-    messageBoxStrings[1] = messageSource.getMessage(
+    messageBoxStrings[1] = this.messageSource.getMessage(
         StringConstants.UPGRADE, null, null);
-    if (upgradeInfo.isUpgradeInsufficientResources()) {
+    if (this.#upgradeInfo.upgradeInsufficientResources) {
       messageBoxStrings[2] = insufficientResourcesString;
     }
 
-    showMessageBox(
+    this.showMessageBox(
         messageBoxStrings,
-        (aaaa) -> {
-          boolean hide = false;
+        (aaaa) => {
+          const hide = false;
 
-          if (upgradeInfo.isUpgradeInsufficientResources()) {
-            getTrayIcon().showTrayMessage(
-                getMessageSource().getMessage(
+          if (this.#upgradeInfo.upgradeInsufficientResources) {
+            this.trayIcon.showTrayMessage(
+                this.messageSource.getMessage(
                     StringConstants.INSUFFICIENT_RESOURCES,
                     null, null), MessageType.INFO);
           } else {
             hide = true;
           }
           if (hide) {
-            messageBox.setVisible(false);
-            messageBox.getOkButton().setVisible(false);
-            messageBox.getCancelButton().setVisible(false);
-            messageBox.getOkLabel().setVisible(false);
-            messageBox.getCancelLabel().setVisible(false);
-            if (upgradeClickedListener != null)
-              upgradeClickedListener.clicked(aaaa);
+            this.messageBox.visible = false;
+            this.messageBox.okButton.visible = false;
+            this.messageBox.cancelButton.visible = false;
+            this.messageBox.okLabel.visible = false;
+            this.messageBox.cancelLabel.visible = false;
+            if (this.upgradeClickedListener != null)
+              this.upgradeClickedListener.clicked(aaaa);
           }
         }, cancelClickedListener,
-        MessageBoxGameObject.MessageBoxType.OK_CANCEL_BUTTON);
+        MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON);
   }
 
   public void initializeUpgrade() {
