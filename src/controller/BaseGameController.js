@@ -1073,52 +1073,53 @@ export default class BaseGameController {
 
   #upgradingState = BaseGameController.#UPGRADING_STATE_IDDLE;
   #upgradingGameObject;
+  
+  static get #START_UPGRADE_RESULT_OK() { return "ok"; }
+  static get #START_UPGRADE_RESULT_NO_PATH() { return "no_path"; }
 
-  @Override
-  public StartUpgradeResult startUpgrade(BuildingGameObject go) {
-    Point tilesStart = tilesEngine.translateToTileCoordinates(pet);
-    Point tilesEnd = tilesEngine.translateToTileCoordinates(go);
-    tilesEnd.setY(go.getTileTypes()[0].length + tilesEnd.getY());
-    Point[] tilesPath = tilesEngine.findPath(tilesStart, tilesEnd);
+  startUpgrade(go) {
+    const tilesStart = this.tilesEngine.translateToTileCoordinates(pet);
+    const tilesEnd = this.tilesEngine.translateToTileCoordinates(go);
+    tilesEnd.y = go.tileTypes[0].length + tilesEnd.y;
+    const tilesPath = this.tilesEngine.findPath(tilesStart, tilesEnd);
 
     if (tilesPath != null) {
-      Point[] movePath = new Point[tilesPath.length];
-      for (int n = 0; n < tilesPath.length; n++) {
-        Point tilesPoint = tilesPath[n];
-        movePath[n] = tilesEngine.translateFromTileCoordinates(pet,
+      const movePath = new Point[tilesPath.length];
+      for (let n = 0; n < tilesPath.length; n++) {
+        const tilesPoint = tilesPath[n];
+        movePath[n] = this.tilesEngine.translateFromTileCoordinates(pet,
             tilesPoint);
       }
-      pet.setMove(
+      this.pet.setMove(
           movePath,
-          () -> {
+          () => {
             // Начать улучшение.
-            upgradingState = UpgradingState.UPGRADING;
-            progressBar.setVisible(true);
-            progressBar.setValue(0);
-            progressBar.removeAllAnimationOverListeners();
-            progressBar
-                .addAnimationOverListener(progressBarOverListener -> {
-                  upgradingState = UpgradingState.OVER;
-                  progressBar.setVisible(false);
-                  this.upgradingGameObject.setVisible(true);
-                  upgradingGameObject.fireUpgradeEvent();
-                  this.upgradingGameObject = null;
+            this.#upgradingState = BaseGameController.#UPGRADING_STATE_UPGRADING;
+            this.#progressBar.visible = true;
+            this.#progressBar.value = 0;
+            this.#progressBar.removeAllAnimationOverListeners();
+            this.#progressBar
+                .addAnimationOverListener((progressBarOverListener) => {
+                  this.#upgradingState = BaseGameController.#UPGRADING_STATE_OVER;
+                  this.#progressBar.visible = false;
+                  this.#upgradingGameObject.visible = true;
+                  this.#upgradingGameObject.fireUpgradeEvent();
+                  this.#upgradingGameObject = null;
 
                 });
           });
-      upgradingState = UpgradingState.STARTED;
-      this.upgradingGameObject = go;
-      return StartUpgradeResult.OK;
+      this.#upgradingState = BaseGameController.#UPGRADING_STATE_STARTED;
+      this.#upgradingGameObject = go;
+      return BaseGameController.#START_UPGRADE_RESULT_OK;
     }
-    trayIcon.showTrayMessage(
-        messageSource.getMessage(StringConstants.NO_PATH, null, null),
+    this.trayIcon.showTrayMessage(
+        this.messageSource.getMessage(StringConstants.NO_PATH, null, null),
         MessageType.ERROR);
-    return StartUpgradeResult.NO_PATH;
+    return BaseGameController.#START_UPGRADE_RESULT_NO_PATH;
   }
 
-  @Override
-  public boolean isUpgrading() {
-    return upgradingGameObject != null;
+  isUpgrading() {
+    return this.#upgradingGameObject != null;
   }
 
   public void initializeMessageBox() {
