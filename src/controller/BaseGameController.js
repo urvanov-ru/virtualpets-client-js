@@ -1035,11 +1035,11 @@ export default class BaseGameController {
     }
   }
 
-  public void removeGameObject(GameObject go) {
+  removeGameObject(go) {
     go.release();
-    gameObjects.remove(go);
-    if (this.getTilesEngine() != null && go.getTileTypes() != null) {
-      getTilesEngine().removeGameObject(go);
+    this.gameObjects.remove(go);
+    if (this.tilesEngine != null && go.tileTypes != null) {
+      this.tilesEngine.removeGameObject(go);
     }
   }
 
