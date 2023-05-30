@@ -1233,23 +1233,23 @@ export default class BaseGameController {
       textLabels[n].setText(texts[n] == null ? "" : texts[n]);
     }
     HighlightGameObjectImpl messageBoxOkButton = messageBox.getOkButton();
-    messageBox.getOkLabel().setText(
+    this.messageBox.getOkLabel().setText(
         messageSource.getMessage(StringConstants.OK, null, null));
-    messageBox.getCancelLabel().setText(
+    this.messageBox.getCancelLabel().setText(
         messageSource.getMessage(StringConstants.CANCEL, null, null));
 
     messageBoxOkButton.setVisible(false);
-    messageBox.setMessageBoxType(messageBoxType);
+    this.messageBox.setMessageBoxType(messageBoxType);
     this.messageBoxOkClickedListener = okClickedListener;
     this.messageBoxCancelClickedListener = cancelClickedListener;
   }
 
-  public void hideMessageBox() {
-    messageBox.setVisible(false);
-    messageBox.getOkButton().setVisible(false);
-    messageBox.getCancelButton().setVisible(false);
-    messageBox.getOkLabel().setVisible(false);
-    messageBox.getCancelLabel().setVisible(false);
+  hideMessageBox() {
+    this.messageBox.visible = false;
+    this.messageBox.okButton.visible = false;
+    this.messageBox.cancelButton.visible = false;
+    this.messageBox.okLabel.visible = false;
+    this.messageBox.cancelLabel.visible = false;
   }
 
   private UpgradeInfo upgradeInfo;
