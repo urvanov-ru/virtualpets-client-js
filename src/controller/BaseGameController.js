@@ -1043,35 +1043,36 @@ export default class BaseGameController {
     }
   }
 
-  public Collection<GameObject> getGameObjects() {
-    return this.gameObjects;
+
+  static get #BUILDING_STATE_IDDLE() { return "iddle"; }
+  static get #BUILDING_STATE_STARTED() { return "started"; }
+  static get #BUILDING_STATE_SELECT_POSITION() { return "select_position"; }
+  static get #BUILDING_STATE_MOVE_PET() { return "move_pet"; }
+  static get #BUILDING_STATE_BUILDING() { return "building"; }
+  static get #BUILDING_STATE_OVER() { return "over"; }
+  
+
+  #buildingState = BaseGameController.#BUILDING_STATE_IDDLE;
+  #buildingGameObject = null;
+
+  startBuild(go) {
+    go.visible = true;
+    this.#buildingState = BaseGameController.#BUILDING_STATE_STARTED;
+    this.#buildingGameObject = go;
   }
 
-  private enum BuildingState {
-    IDDLE, STARTED, SELECT_POSITION, MOVE_PET, BUILDING, OVER
+  isBuilding() {
+    return this.#buildingGameObject != null;
   }
 
-  buildingState = BuildingState.IDDLE;
-  buildingGameObject = null;
+  static get #UPGRADING_STATE_IDDLE() { return "iddle"; }
+  static get #UPGRADING_STATE_STARTED() { return "started"; }
+  static get #UPGRADING_STATE_MOVE_PET() { return "move_pet"; }
+  static get #UPGRADING_STATE_UPGRADING() { return "upgrading"; }
+  static get #UPGRADING_STATE_OVER() { return "over"; }
 
-  @Override
-  public void startBuild(BuildingGameObject go) {
-    go.setVisible(true);
-    buildingState = BuildingState.STARTED;
-    this.buildingGameObject = go;
-  }
-
-  @Override
-  public boolean isBuilding() {
-    return buildingGameObject != null;
-  }
-
-  private enum UpgradingState {
-    IDDLE, STARTED, MOVE_PET, UPGRADING, OVER
-  }
-
-  private UpgradingState upgradingState = UpgradingState.IDDLE;
-  private BuildingGameObject upgradingGameObject;
+  #upgradingState = BaseGameController.#UPGRADING_STATE_IDDLE;
+  #upgradingGameObject;
 
   @Override
   public StartUpgradeResult startUpgrade(BuildingGameObject go) {
