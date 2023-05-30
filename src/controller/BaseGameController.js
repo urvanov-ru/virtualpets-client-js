@@ -1017,21 +1017,21 @@ export default class BaseGameController {
         currentPage < entries.length - 2;
   }
 
-  protected void getJournalEntries() {
-    GetJournalEntriesBackgroundWork work = new GetJournalEntriesBackgroundWork();
-    work.setArgument(null);
-    work.setView(baseGameView);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  getJournalEntries() {
+    //GetJournalEntriesBackgroundWork work = new GetJournalEntriesBackgroundWork();
+    //work.setArgument(null);
+    //work.setView(baseGameView);
+    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
+    //ces.setRestart(true);
+    //work.setConnectionExceptionSettings(ces);
+    //backgroundWorkManager.startBackgroundWork(work);
   }
 
-  public void addGameObject(GameObject go) {
+  addGameObject(go) {
     this.gameObjects.add(go);
     this.baseGameView.addGameObject(go);
-    if (this.getTilesEngine() != null && go.getTileTypes() != null) {
-      getTilesEngine().addGameObject(go);
+    if (this.tilesEngine != null && go.tileTypes != null) {
+      this.tilesEngine.addGameObject(go);
     }
   }
 
