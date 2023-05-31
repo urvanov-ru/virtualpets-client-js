@@ -1456,9 +1456,8 @@ export default class BaseGameController {
     if (!lastLevel.isEmpty()
         && !info.level == +lastLevel) {
         
-        // ${levelInfo.getLevelLabel().getText()}
       this.levelInfo.showLevelHasReachedLabel(this.messageSource
-          .getMessage(StringConstants.YOU_HAVE_REACHED_LEVEL, null,
+          .getMessage(StringConstants.YOU_HAVE_REACHED_LEVEL, [ levelInfo.getLevelLabel().getText() ],
               null));
     }
     this.levelInfo.experienceProgressBar.maxValue = 
