@@ -1527,37 +1527,36 @@ export default class BaseGameController {
     this.#achievementInfo.newAchievementLabel = newAchievementLabel;
   }
 
-  public void updateAchievementInfo(AchievementCode[] achievementCodes) {
+  updateAchievementInfo(achievementCodes) {
     if (achievementCodes.length > 0) {
-      achievementInfo.showAchievementLabel(messageSource.getMessage(
+      this.#achievementInfo.showAchievementLabel(this.messageSource.getMessage(
           "ru.urvanov.virtualpets.client.localization.achievement."
               + achievementCodes[0].name(), null, null),
-          messageSource.getMessage(
+          this.messageSource.getMessage(
               "ru.urvanov.virtualpets.client.localization.achievement."
                   + achievementCodes[0].name()
-                  + "_DESCRIPTION", null, null));
+                  + "_DESCRIPTION", null, null);
     }
   }
 
-  public GameObject initializeLoading() {
-    GameObject gameObject = new GameObject();
-    int[][] imgids = { { ResourceManager.IMAGE_LOADING_1,
+  initializeLoading() {
+    const gameObject = new GameObject();
+    gameObject.animationImageIds = [[ ResourceManager.IMAGE_LOADING_1,
         ResourceManager.IMAGE_LOADING_2,
         ResourceManager.IMAGE_LOADING_3,
         ResourceManager.IMAGE_LOADING_4,
         ResourceManager.IMAGE_LOADING_5,
         ResourceManager.IMAGE_LOADING_6,
         ResourceManager.IMAGE_LOADING_7,
-        ResourceManager.IMAGE_LOADING_8 } };
-    gameObject.setAnimationImageIds(imgids);
-    gameObject.setZ(Integer.MAX_VALUE);
-    addGameObject(gameObject);
-    gameObject.setVisible(false);
-    gameObject.setLoopAnimation(true);
-    gameObject.setDimension(new Dimension(128, 128));
-    gameObject.setPosition(new Point(400 - gameObject.getDimension()
-        .getWidth() / 2,
-        300 - gameObject.getDimension().getHeight() / 2));
+        ResourceManager.IMAGE_LOADING_8 ]];
+    gameObject.z = Number.MAX_SAFE_INTEGER;
+    this.addGameObject(gameObject);
+    gameObject.visible = false;
+    gameObject.loopAnimation = true;
+    gameObject.dimension = new Dimension(128, 128);
+    gameObject.position = new Point(400 - gameObject.dimension
+        .width / 2,
+        300 - gameObject.dimension.height / 2);
     return gameObject;
   }
 
