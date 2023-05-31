@@ -73,6 +73,7 @@ export default class BaseGameController {
         this.value = value + 1;
         if (this.value == this.maxValue)
           this.fireAnimationOver(new AnimationOverArg());
+      }
     };
     this.#progressBar.visible = false;
     this.#progressBar.position = new Point(300, 500);
@@ -82,9 +83,9 @@ export default class BaseGameController {
 
   mouseClicked(clickedArg) {
     if (this.buildingGameObject != null
-        && this.buildingState == BuildingState.SELECT_POSITION) {
+        && this.buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION) {
       clickedArg.handled = true;
-      this.buildingState = BuildingState.MOVE_PET;
+      this.buildingState = BaseGameController.#BUILDING_STATE_MOVE_PET;
       const moveTilesTarget = this.tilesEngine
           .translateToTileCoordinates(buildingGameObject);
       this.buildingGameObject.visible = false;
@@ -105,15 +106,15 @@ export default class BaseGameController {
         // GameObject.TILE_Z_STEP);
         pet.setMove(
             movePath,
-            () -> {
+            () => {
               // Начать постройку.
-              this.buildingState = BuildingState.BUILDING;
+              this.buildingState = BaseGameController.#BUILDING_STATE_BUILDING;
               this.progressBar.visible = true;
               this.progressBar.value = 0;
               this.progressBar.removeAllAnimationOverListeners();
               this.progressBar
                   .addAnimationOverListener((progressBarOverListener) => {
-                    this.buildingState = BuildingState.OVER;
+                    this.buildingState = BaseGameController.#BUILDING_STATE_OVER;
                     this.progressBar.visible = false;
                     this.buildingGameObject
                         .visible = false;
@@ -135,8 +136,8 @@ export default class BaseGameController {
 
   mouseMoved(mouseMoveArg) {
     if (this.buildingGameObject != null
-        && (this.buildingState == BuildingState.STARTED || this.buildingState == BuildingState.SELECT_POSITION)) {
-      this.buildingState = BuildingState.SELECT_POSITION;
+        && (this.buildingState == BaseGameController.#BUILDING_STATE_STARTED || this.buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION)) {
+      this.buildingState = BaseGameController.#BUILDING_STATE_SELECT_POSITION;
       this.buildingGameObject.position = this.tilesEngine
           .translateFromTileCoordinates(this.buildingGameObject,
               this.tilesEngine.translateToTileCoordinates(arg
@@ -202,7 +203,7 @@ export default class BaseGameController {
     return map;
   }
 
-  initializeClothGameObject(int clothId) {
+  initializeClothGameObject(clothId) {
     const resourceIds = [ 0, ResourceManager.IMAGE_CAT_HAT_1,
         ResourceManager.IMAGE_CAT_HAT_2,
         ResourceManager.IMAGE_CAT_HAT_3,
@@ -212,11 +213,8 @@ export default class BaseGameController {
         ResourceManager.IMAGE_CAT_BOW_1,
         ResourceManager.IMAGE_CAT_BOW_2,
         ResourceManager.IMAGE_CAT_BOW_3 ];
-    const imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceIds[clothId];
     const go = new ClothGameObject();
-    go.animationImageIds = imgids;
+    go.animationImageIds = [[ resourceIds[clothId] ]];
     go.clothId = clothId;
     this.addGameObject(go);
     return go;
@@ -229,7 +227,7 @@ export default class BaseGameController {
     return map;
   }
 
-  initializeBookGameObject(int bookId) {
+  initializeBookGameObject(bookId) {
     const resourceIds = [ 0, ResourceManager.IMAGE_BOOK_1,
         ResourceManager.IMAGE_BOOK_2,
         ResourceManager.IMAGE_BOOK_3,
@@ -262,7 +260,7 @@ export default class BaseGameController {
       this.pet = pet;
     pet.dimension = new Dimension(PetGameObject.WIDTH,
         PetGameObject.HEIGHT);
-    const imgids = new int[3][];
+    const imgids = new Array(3);
     imgids[PetGameObject.STATE_NORMAL] = new Array(20);
     imgids[PetGameObject.STATE_NORMAL][0] = ResourceManager.IMAGE_CAT_NORMAL_1;
     imgids[PetGameObject.STATE_NORMAL][1] = ResourceManager.IMAGE_CAT_NORMAL_2;
@@ -518,7 +516,7 @@ export default class BaseGameController {
   set highlightObject(highlightObject) {
     for (const go of this.gameObjects) {
       if (go instanceof HighlightGameObject) {
-        if (go! = highlightObject) {
+        if (go != highlightObject) {
           go.state = HighlightGameObject.OBJECT_NORMAL;
         }
       }
@@ -545,9 +543,8 @@ export default class BaseGameController {
     go.animationImageIds = imgids;
     go.position = new Point(x, y);
     go.addMouseMoveListener((mouseMoveArg) => {
-        const go = mouseMoveArg.sender;
-        go.forceTimeToLifeOver();
-      }
+      const go = mouseMoveArg.sender;
+      go.forceTimeToLifeOver();
     });
     go.rucksack = rucksack;
     this.addGameObject(go);
@@ -740,7 +737,7 @@ export default class BaseGameController {
       costLabels[n].z = toolTip.z + 1;
       if (costs[n] > 0) {
         buildingMaterials[n].visible = true;
-        int x = toolTipX
+        const x = toolTipX
             + buildingMaterials[n].dimension.width * n;
         buildingMaterials[n]
             .position = new Point(x, buildingMaterialY);
@@ -768,8 +765,8 @@ export default class BaseGameController {
     for (const lgo of buildMenu.getToolTipCostLabels()) {
       lgo.visible = false;
     }
-    this.buildMenu.toolTip.visible = false);
-    this.buildMenu.toolTipInsufficientResources.visible = false);
+    this.buildMenu.toolTip.visible = false;
+    this.buildMenu.toolTipInsufficientResources.visible = false;
     this.buildMenu.toolTipLabel.visible = false;
   }
 
@@ -789,7 +786,7 @@ export default class BaseGameController {
 
   initializeJournal() {
     this.journal = new JournalGameObject();
-    this.journal.position = new Point(ORIGINAL_JOURNAL_X, ORIGINAL_JOURNAL_Y));
+    this.journal.position = new Point(ORIGINAL_JOURNAL_X, ORIGINAL_JOURNAL_Y);
     this.journal.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL ] [ ResourceManager.IMAGE_JOURNAL_HIGHLIGHT ]];
     this.journal.addClickedListener((clickedArg) => {
       this.showJournal();
@@ -833,7 +830,7 @@ export default class BaseGameController {
     arrowLeft.position = new Point(
         JournalGameObject.ORIGINAL_ARROW_LEFT_X,
         JournalGameObject.ORIGINAL_ARROW_RIGHT_Y);
-    arrowLeft.z = =(MENU_Z_ORDER + 1;
+    arrowLeft.z = BaseGameController.MENU_Z_ORDER + 1;
     arrowLeft.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL_ARROW_LEFT ],
         [ ResourceManager.IMAGE_JOURNAL_ARROW_LEFT_HIGHLIGHT ]];
     arrowLeft.addClickedListener((clickedArg) => {
@@ -1013,7 +1010,7 @@ export default class BaseGameController {
       this.journal.leftText.text = "";
       this.journal.rightText.text = "";
     }
-    this.journal.arrowLeft.visible = currentPage != 0);
+    this.journal.arrowLeft.visible = currentPage != 0;
     this.journal.arrowRight.visible = 
         currentPage < entries.length - 2;
   }
@@ -1129,10 +1126,9 @@ export default class BaseGameController {
     this.messageBox.position = new Point(
         MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_X, -600);
     this.messageBox.addMouseMoveListener((mouseMoveArg) => {
-        this.baseGameView.showDefaultCursor();
-        this.baseGameView.toolTipText = "";
-        this.highlightObject = null;
-      }
+      this.baseGameView.showDefaultCursor();
+      this.baseGameView.toolTipText = "";
+      this.highlightObject = null;
     });
     this.messageBox.z = BaseGameController.MENU_Z_ORDER;
     this.messageBox.visible = false;
@@ -1227,12 +1223,12 @@ export default class BaseGameController {
       messageBoxType) {
     this.messageBox.visible = true;
     this.messageBox
-        .setPosition(new Point(messageBox.getPosition().getX(), -600));
-    LabelGameObject[] textLabels = messageBox.getTexts();
-    for (int n = 0; n < textLabels.length && n < texts.length; n++) {
+        .position = new Point(messageBox.getPosition().getX(), -600);
+    const textLabels = messageBox.texts;
+    for (let n = 0; n < textLabels.length && n < texts.length; n++) {
       textLabels[n].setText(texts[n] == null ? "" : texts[n]);
     }
-    HighlightGameObjectImpl messageBoxOkButton = messageBox.getOkButton();
+    const messageBoxOkButton = messageBox.getOkButton();
     this.messageBox.getOkLabel().setText(
         messageSource.getMessage(StringConstants.OK, null, null));
     this.messageBox.getCancelLabel().setText(
@@ -1295,7 +1291,7 @@ export default class BaseGameController {
       innerGameObject.gameObject = lbl;
       innerGameObject.position = new Point(buildingMaterialX,
           buildingMaterialY + bmgo.dimension.height
-              - lbl.size));
+              - lbl.size);
       messageBox.innerGameObjects.add(innerGameObject);
 
       buildingMaterialX += bmgo.dimension.width;
@@ -1407,7 +1403,7 @@ export default class BaseGameController {
         LevelInfoGameObject.ORIGINAL_LEVEL_LABEL_X,
         LevelInfoGameObject.ORIGINAL_LEVEL_LABEL_Y);
     this.addGameObject(levelLabel);
-    experienceProgressBar.position(new Point(
+    experienceProgressBar.position = new Point(
         LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_X,
         LevelInfoGameObject.ORIGINAL_PROGRESS_BAR_Y);
     experienceProgressBar.dimension = new Dimension(
@@ -1448,7 +1444,7 @@ export default class BaseGameController {
 
   updateLevelInfo(info, experienceCreationPoint) {
     if (this.levelInfo.experience >= 0) {
-      for (int n = this.levelInfo.experience; n < info
+      for (let n = this.levelInfo.experience; n < info
           .experience; n++) {
         this.addExperienceGameObject(experienceCreationPoint.x,
             experienceCreationPoint.y);
@@ -1458,7 +1454,7 @@ export default class BaseGameController {
     const lastLevel = this.levelInfo.levelLabel.text;
     levelInfo.levelLabel.text = "" + info.level;
     if (!lastLevel.isEmpty()
-        && !info.level == +lastLevel)) {
+        && !info.level == +lastLevel) {
         
         // ${levelInfo.getLevelLabel().getText()}
       this.levelInfo.showLevelHasReachedLabel(this.messageSource
@@ -1466,7 +1462,7 @@ export default class BaseGameController {
               null));
     }
     this.levelInfo.experienceProgressBar.maxValue = 
-        info.getMaxExperience() - info.getMinExperience());
+        info.maxExperience - info.minExperience;
     this.levelInfo.experienceProgressBar.value = 
         info.experience - info.minExperience;
   }
@@ -1535,7 +1531,7 @@ export default class BaseGameController {
           this.messageSource.getMessage(
               "ru.urvanov.virtualpets.client.localization.achievement."
                   + achievementCodes[0].name()
-                  + "_DESCRIPTION", null, null);
+                  + "_DESCRIPTION", null, null));
     }
   }
 
