@@ -1471,60 +1471,60 @@ export default class BaseGameController {
         info.experience - info.minExperience;
   }
 
-  public void initializeAchievementInfo() {
-    achievementInfo = new AchievementInfoGameObject();
-    achievementInfo
-        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_ACHIEVEMENT } });
-    achievementInfo.setPosition(new Point(-100, -100));
-    addGameObject(achievementInfo);
+  initializeAchievementInfo() {
+    this.#achievementInfo = new AchievementInfoGameObject();
+    this.#achievementInfo
+        .animationImageIds = [[ ResourceManager.IMAGE_ACHIEVEMENT ]];
+    this.#achievementInfo.position = new Point(-100, -100);
+    this.addGameObject(achievementInfo);
 
-    GameObject achievementBackground = new GameObject();
+    const achievementBackground = new GameObject();
     achievementBackground
-        .setAnimationImageIds(new int[][] { { ResourceManager.IMAGE_ACHIEVEMENT_BACKGROUND } });
-    achievementBackground.setPosition(new Point(
+        .animationImageIds = [[ ResourceManager.IMAGE_ACHIEVEMENT_BACKGROUND ]];
+    achievementBackground.position = new Point(
         AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_BACKGROUND_X,
-        AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_BACKGROUND_Y));
-    achievementBackground.setVisible(false);
-    achievementBackground.setZ(MENU_Z_ORDER);
-    addGameObject(achievementBackground);
-    achievementInfo.setAchievementBackground(achievementBackground);
+        AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_BACKGROUND_Y);
+    achievementBackground.visible = false;
+    achievementBackground.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(achievementBackground);
+    this.#achievementInfo.achievementBackground = achievementBackground;
 
-    LabelGameObject achievementLabel = new LabelGameObject();
-    achievementLabel.setText("");
-    achievementLabel.setPosition(new Point(
+    const achievementLabel = new LabelGameObject();
+    achievementLabel.text = "";
+    achievementLabel.position = new Point(
         AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_X,
-        AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_Y));
-    achievementLabel.setVisible(false);
-    achievementLabel.setSize(AchievementInfoGameObject.ORIGINAL_FONT_SIZE);
-    achievementLabel.setZ(MENU_Z_ORDER);
-    addGameObject(achievementLabel);
-    achievementInfo.setAchievementLabel(achievementLabel);
+        AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_Y);
+    achievementLabel.Visible = false;
+    achievementLabel.size = AchievementInfoGameObject.ORIGINAL_FONT_SIZE;
+    achievementLabel.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(achievementLabel);
+    this.#achievementInfo.achievementLabel = achievementLabel;
 
-    LabelGameObject achievementDescriptionLabel = new LabelGameObject();
-    achievementDescriptionLabel.setText("");
-    achievementDescriptionLabel.setPosition(new Point(
+    const achievementDescriptionLabel = new LabelGameObject();
+    achievementDescriptionLabel.text = "";
+    achievementDescriptionLabel.position = new Point(
         AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_DESCRIPTION_X,
-        AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_DESCRIPTION_Y));
-    achievementDescriptionLabel.setVisible(false);
+        AchievementInfoGameObject.ORIGINAL_ACHIEVEMENT_DESCRIPTION_Y);
+    achievementDescriptionLabel.visible = false;
     achievementDescriptionLabel
-        .setSize(AchievementInfoGameObject.ORIGINAL_FONT_SIZE);
-    achievementDescriptionLabel.setZ(MENU_Z_ORDER);
-    addGameObject(achievementDescriptionLabel);
-    achievementInfo
-        .setAchievementDescriptionLabel(achievementDescriptionLabel);
+        .size = AchievementInfoGameObject.ORIGINAL_FONT_SIZE;
+    achievementDescriptionLabel.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(achievementDescriptionLabel);
+    this.#achievementInfo
+        .achievementDescriptionLabel = achievementDescriptionLabel;
 
-    LabelGameObject newAchievementLabel = new LabelGameObject();
-    newAchievementLabel.setText(messageSource.getMessage(
-        StringConstants.NEW_ACHIEVEMENT, null, null));
+    const newAchievementLabel = new LabelGameObject();
+    newAchievementLabel.text = this.messageSource.getMessage(
+        StringConstants.NEW_ACHIEVEMENT, null, null);
     newAchievementLabel
-        .setSize(AchievementInfoGameObject.ORIGINAL_FONT_SIZE);
-    newAchievementLabel.setPosition(new Point(
+        .size = AchievementInfoGameObject.ORIGINAL_FONT_SIZE;
+    newAchievementLabel.position = new Point(
         AchievementInfoGameObject.ORIGINAL_NEW_ACHIEVEMENT_X,
-        AchievementInfoGameObject.ORIGINAL_NEW_ACHIEVEMENT_Y));
-    newAchievementLabel.setVisible(false);
-    newAchievementLabel.setZ(MENU_Z_ORDER);
-    addGameObject(newAchievementLabel);
-    achievementInfo.setNewAchievementLabel(newAchievementLabel);
+        AchievementInfoGameObject.ORIGINAL_NEW_ACHIEVEMENT_Y);
+    newAchievementLabel.visible = false;
+    newAchievementLabel.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(newAchievementLabel);
+    this.#achievementInfo.newAchievementLabel = newAchievementLabel;
   }
 
   public void updateAchievementInfo(AchievementCode[] achievementCodes) {
