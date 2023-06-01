@@ -119,7 +119,7 @@ export default class RoomData {
   static get SITUATION_COLLECTING_JOURNAL() { return "collecting_journal"; }
   
     
-  situation = SITUATION_NORMAL;
+  situation = RoomData.SITUATION_NORMAL;
   petInfo; // GetRoomInfoResult 
   clothObjects = {}; //new HashMap<Integer, ClothGameObject>();
 
