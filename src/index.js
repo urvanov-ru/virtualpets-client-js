@@ -87,13 +87,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   ctx.fillStyle = "green";
   ctx.fillRect(10, 10, 150, 100);
+  let roomData = new RoomData();
+  let roomView = new RoomView(roomData);
+
+  let gameController = new GameController();
+  // gameController.gameView = 
+  gameController.showView();
+
+  let roomController = new RoomController();
+  roomController.roomData = roomData;
+  roomController.roomView = roomView;
 });
 
-let roomData = new RoomData();
-let roomView = new RoomView(roomData);
-let roomController = new RoomController();
-roomController.roomData = roomData;
-roomController.roomView = roomView;
 
 //let addPrivateChatArg = new AddPrivateChatArg();
 
