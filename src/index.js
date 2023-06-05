@@ -1,3 +1,6 @@
+// rest domain
+import AchievementCode from './rest/domain/AchievementCode.js';
+import BuildingMaterialType from './rest/domain/BuildingMaterialType.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
@@ -56,6 +59,8 @@ import TownView from './view/TownView.js';
 import TreasuryView from './view/TreasuryView.js';
 import RubbishView from './view/RubbishView.js';
 import GameEngine from './view/GameEngine.js';
+import GameFrame from './view/GameFrame.js';
+
 
 // localization
 import StringConstants from './localization/StringConstants.js';
