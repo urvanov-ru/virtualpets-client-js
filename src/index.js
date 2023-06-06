@@ -1,6 +1,16 @@
 // rest domain
 import AchievementCode from './rest/domain/AchievementCode.js';
 import BuildingMaterialType from './rest/domain/BuildingMaterialType.js';
+import ChatMessage from './rest/domain/ChatMessage.js';
+import Cloth from './rest/domain/Cloth.js';
+import ClothType from './rest/domain/ClothType.js';
+import CollectObjectArg from './rest/domain/CollectObjectArg.js';
+import CreatePetArg from './rest/domain/CreatePetArg.js';
+import CreatePetResult from './rest/domain/CreatePetResult.js';
+import DrinkArg from './rest/domain/DrinkArg.js';
+import DrinkType from './rest/domain/DrinkType.js';
+import FoodType from './rest/domain/FoodType.js';
+import GetPetBooksResult from './rest/domain/GetPetBooksResult.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
