@@ -11,6 +11,7 @@ import DrinkArg from './rest/domain/DrinkArg.js';
 import DrinkType from './rest/domain/DrinkType.js';
 import FoodType from './rest/domain/FoodType.js';
 import GetPetBooksResult from './rest/domain/GetPetBooksResult.js';
+import GetPetClothsResult from './rest/domain/GetPetClothsResult.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
