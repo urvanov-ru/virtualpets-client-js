@@ -14,6 +14,7 @@ import GetPetBooksResult from './rest/domain/GetPetBooksResult.js';
 import GetPetClothsResult from './rest/domain/GetPetClothsResult.js';
 import GetPetDrinksResult from './rest/domain/GetPetDrinksResult.js';
 import GetPetFoodsResult from './rest/domain/GetPetFoodsResult.js';
+import GetPetJournalEntriesResult from './rest/domain/GetPetJournalEntriesResult.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
