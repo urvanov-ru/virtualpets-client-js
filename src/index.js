@@ -31,6 +31,7 @@ import LoginArg from './rest/domain/LoginArg.js';
 import LoginResult from './rest/domain/LoginResult.js';
 import OpenBoxNewbieResult from './rest/domain/OpenBoxNewbieResult.js';
 import PetInfo from './rest/domain/PetInfo.js';
+import PetJournalEntry from './rest/domain/PetJournalEntry.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
