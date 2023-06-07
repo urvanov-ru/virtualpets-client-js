@@ -29,6 +29,8 @@ import JournalEntryType from './rest/domain/JournalEntryType.js';
 import LevelInfo from './rest/domain/LevelInfo.js';
 import LoginArg from './rest/domain/LoginArg.js';
 import LoginResult from './rest/domain/LoginResult.js';
+import OpenBoxNewbieResult from './rest/domain/OpenBoxNewbieResult.js';
+import PetInfo from './rest/domain/PetInfo.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
