@@ -17,6 +17,11 @@ import GetPetFoodsResult from './rest/domain/GetPetFoodsResult.js';
 import GetPetJournalEntriesResult from './rest/domain/GetPetJournalEntriesResult.js';
 import GetPetRucksackInnerResult from './rest/domain/GetPetRucksackInnerResult.js';
 import GetRoomInfoResult from './rest/domain/GetRoomInfoResult.js';
+import GetServersArg from './rest/domain/GetServersArg.js';
+import GetTownInfoResult from './rest/domain/GetTownInfoResult.js';
+import HiddenObjectsCollected from './rest/domain/HiddenObjectsCollected.js';
+import HiddenObjectsGame from './rest/domain/HiddenObjectsGame.js';
+import HiddenObjectsGameType from './rest/domain/HiddenObjectsGameType.js'
 
 // domain
 import GameObject from './domain/GameObject.js';
