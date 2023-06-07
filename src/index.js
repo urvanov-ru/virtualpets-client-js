@@ -21,7 +21,8 @@ import GetServersArg from './rest/domain/GetServersArg.js';
 import GetTownInfoResult from './rest/domain/GetTownInfoResult.js';
 import HiddenObjectsCollected from './rest/domain/HiddenObjectsCollected.js';
 import HiddenObjectsGame from './rest/domain/HiddenObjectsGame.js';
-import HiddenObjectsGameType from './rest/domain/HiddenObjectsGameType.js'
+import HiddenObjectsGameType from './rest/domain/HiddenObjectsGameType.js';
+import HiddenObjectsPlayer from './rest/domain/HiddenObjectsPlayer.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
