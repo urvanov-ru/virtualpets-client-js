@@ -24,6 +24,7 @@ import HiddenObjectsGame from './rest/domain/HiddenObjectsGame.js';
 import HiddenObjectsGameType from './rest/domain/HiddenObjectsGameType.js';
 import HiddenObjectsPlayer from './rest/domain/HiddenObjectsPlayer.js';
 import HiddenObjectsReward from './rest/domain/HiddenObjectsReward.js';
+import JoinHiddenObjectsGameArg from './rest/domain/JoinHiddenObjectsGameArg.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
