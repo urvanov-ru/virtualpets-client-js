@@ -27,6 +27,7 @@ import HiddenObjectsReward from './rest/domain/HiddenObjectsReward.js';
 import JoinHiddenObjectsGameArg from './rest/domain/JoinHiddenObjectsGameArg.js';
 import JournalEntryType from './rest/domain/JournalEntryType.js';
 import LevelInfo from './rest/domain/LevelInfo.js';
+import LoginArg from './rest/domain/LoginArg.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
