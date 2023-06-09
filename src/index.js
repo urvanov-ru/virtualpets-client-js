@@ -49,6 +49,7 @@ import SatietyArg from './rest/domain/SatietyArg.js';
 import SaveClothArg from './rest/domain/SaveClothArg.js';
 import SelectPetArg from './rest/domain/SelectPetArg.js';
 import SelectPetResult from './rest/domain/SelectPetResult.js';
+import SendChatMessageArg from './rest/domain/SendChatMessageArg.js';
 
 
 // domain
