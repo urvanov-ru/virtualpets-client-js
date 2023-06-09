@@ -44,6 +44,9 @@ import RefreshUsersOnlineResult from './rest/domain/RefreshUsersOnlineResult.js'
 import RegisterArgument from './rest/domain/RegisterArgument.js';
 import RegisterResult from './rest/domain/RegisterResult.js';
 import Role from './rest/domain/Role.js';
+import RoomBuildMenuCosts from './rest/domain/RoomBuildMenuCosts.js';
+
+
 
 // domain
 import GameObject from './domain/GameObject.js';
