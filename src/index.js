@@ -37,6 +37,8 @@ import PetType from './rest/domain/PetType.js';
 import Point from './rest/domain/Point.js';
 import RecoverPasswordArg from './rest/domain/RecoverPasswordArg.js';
 import RecoverPasswordResult from './rest/domain/RecoverPasswordResult.js';
+import RefreshChatArg from './rest/domain/RefreshChatArg.js';
+
 
 // domain
 import GameObject from './domain/GameObject.js';
