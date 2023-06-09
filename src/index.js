@@ -51,6 +51,8 @@ import SelectPetArg from './rest/domain/SelectPetArg.js';
 import SelectPetResult from './rest/domain/SelectPetResult.js';
 import SendChatMessageArg from './rest/domain/SendChatMessageArg.js';
 import SendChatMessageResult from './rest/domain/SendChatMessageResult.js';
+import ServerInfo from './rest/domain/ServerInfo.js';
+
 
 // domain
 import GameObject from './domain/GameObject.js';
