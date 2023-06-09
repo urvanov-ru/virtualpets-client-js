@@ -42,7 +42,7 @@ import RefreshChatResult from './rest/domain/RefreshChatResult.js';
 import RefreshUsersOnlineArg from './rest/domain/RefreshUsersOnlineArg.js';
 import RefreshUsersOnlineResult from './rest/domain/RefreshUsersOnlineResult.js';
 import RegisterArgument from './rest/domain/RegisterArgument.js';
-
+import RegisterResult from './rest/domain/RegisterResult.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
