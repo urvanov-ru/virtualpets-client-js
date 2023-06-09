@@ -38,7 +38,8 @@ import Point from './rest/domain/Point.js';
 import RecoverPasswordArg from './rest/domain/RecoverPasswordArg.js';
 import RecoverPasswordResult from './rest/domain/RecoverPasswordResult.js';
 import RefreshChatArg from './rest/domain/RefreshChatArg.js';
-
+import RefreshChatResult from './rest/domain/RefreshChatResult.js';
+import RefreshUsersOnlineArg from './rest/domain/RefreshUsersOnlineArg.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
