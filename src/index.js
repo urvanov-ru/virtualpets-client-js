@@ -40,7 +40,7 @@ import RecoverPasswordResult from './rest/domain/RecoverPasswordResult.js';
 import RefreshChatArg from './rest/domain/RefreshChatArg.js';
 import RefreshChatResult from './rest/domain/RefreshChatResult.js';
 import RefreshUsersOnlineArg from './rest/domain/RefreshUsersOnlineArg.js';
-
+import RefreshUsersOnlineResult from './rest/domain/RefreshUsersOnlineResult.js';
 // domain
 import GameObject from './domain/GameObject.js';
 import AchievementInfoGameObject from './domain/AchievementInfoGameObject.js';
