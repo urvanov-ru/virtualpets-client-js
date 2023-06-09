@@ -35,6 +35,8 @@ import PetJournalEntry from './rest/domain/PetJournalEntry.js';
 import PetListResult from './rest/domain/PetListResult.js';
 import PetType from './rest/domain/PetType.js';
 import Point from './rest/domain/Point.js';
+import RecoverPasswordArg from './rest/domain/RecoverPasswordArg.js';
+import RecoverPasswordResult from './rest/domain/RecoverPasswordResult.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
