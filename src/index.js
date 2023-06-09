@@ -48,6 +48,9 @@ import RoomBuildMenuCosts from './rest/domain/RoomBuildMenuCosts.js';
 import SatietyArg from './rest/domain/SatietyArg.js';
 import SaveClothArg from './rest/domain/SaveClothArg.js';
 import SelectPetArg from './rest/domain/SelectPetArg.js';
+import SelectPetResult from './rest/domain/SelectPetResult.js';
+
+
 // domain
 import GameObject from './domain/GameObject.js';
 import AchievementInfoGameObject from './domain/AchievementInfoGameObject.js';
