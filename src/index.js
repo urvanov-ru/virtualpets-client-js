@@ -52,7 +52,7 @@ import SelectPetResult from './rest/domain/SelectPetResult.js';
 import SendChatMessageArg from './rest/domain/SendChatMessageArg.js';
 import SendChatMessageResult from './rest/domain/SendChatMessageResult.js';
 import ServerInfo from './rest/domain/ServerInfo.js';
-
+import ServerTechnicalInfo from './rest/domain/ServerTechnicalInfo.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
