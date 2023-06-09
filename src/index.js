@@ -55,6 +55,8 @@ import ServerInfo from './rest/domain/ServerInfo.js';
 import ServerTechnicalInfo from './rest/domain/ServerTechnicalInfo.js';
 import Sex from './rest/domain/Sex.js';
 import UserInfo from './rest/domain/UserInfo.js';
+import UserInformation from './rest/domain/UserInformation.js';
+
 
 // domain
 import GameObject from './domain/GameObject.js';
