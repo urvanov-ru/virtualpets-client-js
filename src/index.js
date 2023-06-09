@@ -45,7 +45,7 @@ import RegisterArgument from './rest/domain/RegisterArgument.js';
 import RegisterResult from './rest/domain/RegisterResult.js';
 import Role from './rest/domain/Role.js';
 import RoomBuildMenuCosts from './rest/domain/RoomBuildMenuCosts.js';
-
+import SatietyArg from './rest/domain/SatietyArg.js';
 
 
 // domain
