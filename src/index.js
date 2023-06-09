@@ -33,6 +33,7 @@ import OpenBoxNewbieResult from './rest/domain/OpenBoxNewbieResult.js';
 import PetInfo from './rest/domain/PetInfo.js';
 import PetJournalEntry from './rest/domain/PetJournalEntry.js';
 import PetListResult from './rest/domain/PetListResult.js';
+import PetType from './rest/domain/PetType.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
