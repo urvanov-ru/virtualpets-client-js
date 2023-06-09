@@ -46,7 +46,7 @@ import RegisterResult from './rest/domain/RegisterResult.js';
 import Role from './rest/domain/Role.js';
 import RoomBuildMenuCosts from './rest/domain/RoomBuildMenuCosts.js';
 import SatietyArg from './rest/domain/SatietyArg.js';
-
+import SaveClothArg from './rest/domain/SaveClothArg.js';
 
 // domain
 import GameObject from './domain/GameObject.js';
