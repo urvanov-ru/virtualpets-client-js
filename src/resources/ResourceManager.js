@@ -698,7 +698,7 @@ export default class ResourceManager {
   #usersAddResourceIdStart = 3000;
 
   constructor() {
-    mapResources = new Map();
+    this.#mapResources = new Map();
   }
 
   /**
@@ -725,7 +725,7 @@ export default class ResourceManager {
    * @return ресурс, соответствующий переданному идентификатору
    */
   getResourceHolder(resourceId) {
-    return mapResources.get(resourceId);
+    return this.#mapResources.get(resourceId);
   }
 
   /**

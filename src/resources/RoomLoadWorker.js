@@ -8,10 +8,10 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
   
   constructor(resourceManager, scale, petType) {
     super(resourceManager, scale, petType);
-    setMaxIndex(MAX_INDEX + catImagesCount + buildMaterialsCount
-        +journalCount + drinkImagesCount + messageBoxCount
-        + levelInfoCount + achievementInfoCount + booksCount
-        + loadingCount);
+    this.maxIndex = RoomLoadWorker.MAX_INDEX + this.catImagesCount + this.buildMaterialsCount
+        +this.journalCount + this.drinkImagesCount + this.messageBoxCount
+        + this.levelInfoCount + this.achievementInfoCount + this.booksCount
+        + this.loadingCount;
     this.#buildIconSize = 64 * scale;
   }
 

@@ -1,7 +1,7 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
 
 
-export default class GameFrame {
+export default class GameView {
 
   static get ORIGINAL_WIDTH() { return 800; }
   static get ORIGINAL_HEIGHT() { return 600; }

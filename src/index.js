@@ -115,7 +115,7 @@ import TownView from './view/TownView.js';
 import TreasuryView from './view/TreasuryView.js';
 import RubbishView from './view/RubbishView.js';
 import GameEngine from './view/GameEngine.js';
-import GameFrame from './view/GameFrame.js';
+import GameView from './view/GameView.js';
 
 
 // localization
@@ -151,13 +151,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
   let roomData = new RoomData();
   let roomView = new RoomView(roomData);
 
-  let gameController = new GameController();
-  // gameController.gameView = 
-  gameController.showView();
+  const gameView = new GameView();
+  const roomController = new RoomController();
+  const resourceManager = new ResourceManager();
+  const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 
+  const gameController = new GameController();
 
-  let roomController = new RoomController();
+  
   roomController.roomData = roomData;
   roomController.roomView = roomView;
+  
+  gameView.resourceManager = resourceManager;
+  
+  
+  gameController.gameView = gameView;
+  gameController.currentController = roomController;
+  gameController.showView();
+  
+  roomLoadWorker.loadResourcesInBackground();
 });
 
 

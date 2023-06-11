@@ -1,3 +1,5 @@
+import RoomController from './RoomController.js';
+
 export default class GameController {
 
 
@@ -42,7 +44,7 @@ export default class GameController {
     // rc.initialize();
     const roomController = this.createRoomController();
     this.currentController = roomController;
-    this.gameView.showRoom(roomController.getRoomView());
+    this.gameView.showRoom(roomController.roomView);
     this.roomController.initialize();
   }
 
