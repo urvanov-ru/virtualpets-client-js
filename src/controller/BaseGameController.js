@@ -1,4 +1,7 @@
 import UpgradeInfo from './base/domain/UpgradeInfo.js';
+import ProgressBarGameObject from '../domain/ProgressBarGameObject.js';
+import Point from '../domain/Point.js';
+import Dimension from '../domain/Dimension.js';
 
 export default class BaseGameController {
 
@@ -78,7 +81,7 @@ export default class BaseGameController {
     this.#progressBar.visible = false;
     this.#progressBar.position = new Point(300, 500);
     this.#progressBar.dimension = new Dimension(200, 20);
-    this.addGameObject(progressBar);
+    this.addGameObject(this.#progressBar);
   }
 
   mouseClicked(clickedArg) {

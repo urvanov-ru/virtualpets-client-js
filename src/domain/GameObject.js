@@ -1,4 +1,5 @@
-
+import Point from './Point.js';
+import Dimension from './Dimension.js';
 
 export default class GameObject {
   static get TILE_Z_STEP() { return 5; }
