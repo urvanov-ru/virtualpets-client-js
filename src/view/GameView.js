@@ -26,7 +26,7 @@ export default class GameView {
   scale = 0.0;
   mdiMainView;
 
-  resourcesLoaded = new Array(MAX_LOAD_WORKERS).fill(false);
+  resourcesLoaded = new Array(GameView.MAX_LOAD_WORKERS).fill(false);
 
   #canvas;
   #gameView;
@@ -38,15 +38,15 @@ export default class GameView {
 
   showView() {
     if (!this.initialized) {
-      this.progressInfoPanel = new ProgressInfoPanel();
-      this.mdiMainView
-          .addActivatedListener((sender, data) => {
-              //this.gamePanel.setAllowRepaint(true);
-          });
-      mdiMainView
-          .addDeactivatedListener((sender, data) => {
-              //gamePanel.setAllowRepaint(false);
-          });
+      //this.progressInfoPanel = new ProgressInfoPanel();
+      //this.mdiMainView
+      //    .addActivatedListener((sender, data) => {
+      //        //this.gamePanel.setAllowRepaint(true);
+      //    });
+      //mdiMainView
+      //    .addDeactivatedListener((sender, data) => {
+      //        //gamePanel.setAllowRepaint(false);
+      //    });
     } else {
       //if ((getWidth() == 0) || (getHeight() == 0)) {
       //  defaultSizeAndLocation();
@@ -55,9 +55,9 @@ export default class GameView {
   }
 
   reloadResources() {
-    const scale = calculateScale();
+    const scale = this.calculateScale();
     let worker = null;
-    if ((gamePanel.getBaseGameView() instanceof RoomView)
+    if ((this.gamePanel.baseGameView instanceof RoomView)
         && (!resourcesLoaded[ROOM_LOAD_WORKER])) {
       worker = new RoomLoadWorker(resourceManager, scale, PetType.CAT);
       worker.process = processLoadWorker;
@@ -201,10 +201,10 @@ export default class GameView {
   calculateScale() {
 	const width = this.#canvas.width;
     const height = this.#canvas.height;
-    const xScale = width / GameFrame.ORIGINAL_WIDTH;
-    const yScale = height / GameFrame.ORIGINAL_HEIGHT;
+    const xScale = width / GameView.ORIGINAL_WIDTH;
+    const yScale = height / GameView.ORIGINAL_HEIGHT;
     this.scale = Math.min(xScale, yScale);
-    return scale;
+    return this.scale;
   }
 
   
