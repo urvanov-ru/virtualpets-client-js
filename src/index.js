@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   gameController.gameView = gameView;
   gameController.currentController = roomController;
+  gameController.baseGameView = roomView;
   gameController.showView();
   
   roomLoadWorker.loadResourcesInBackground();
