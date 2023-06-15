@@ -517,7 +517,7 @@ export default class BaseGameController {
   }
 
   set highlightObject(highlightObject) {
-    for (const go of this.gameObjects) {
+    for (const go of this.#gameObjects) {
       if (go instanceof HighlightGameObject) {
         if (go != highlightObject) {
           go.state = HighlightGameObject.OBJECT_NORMAL;
@@ -1029,7 +1029,7 @@ export default class BaseGameController {
   }
 
   addGameObject(go) {
-    this.gameObjects.add(go);
+    this.#gameObjects.push(go);
     this.baseGameView.addGameObject(go);
     if (this.tilesEngine != null && go.tileTypes != null) {
       this.tilesEngine.addGameObject(go);
@@ -1038,7 +1038,7 @@ export default class BaseGameController {
 
   removeGameObject(go) {
     go.release();
-    this.gameObjects.remove(go);
+    this.#gameObjects.remove(go);
     if (this.tilesEngine != null && go.tileTypes != null) {
       this.tilesEngine.removeGameObject(go);
     }
