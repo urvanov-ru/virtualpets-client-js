@@ -45,7 +45,7 @@ export default class GameController {
     const roomController = this.createRoomController();
     this.currentController = roomController;
     this.gameView.showRoom(roomController.roomView);
-    this.roomController.initialize();
+    roomController.initialize();
   }
 
   showTown() {

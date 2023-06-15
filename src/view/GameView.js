@@ -1,5 +1,7 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
+import RoomView from './RoomView.js';
 
+import PetType from '../rest/domain/PetType.js';
 
 export default class GameView {
 
@@ -21,7 +23,7 @@ export default class GameView {
   desktopPane;
   connectionInfo;
   progressInfoPanel;
-  gamePanel;
+  
   reloadResourcesTimer;
   scale = 0.0;
   mdiMainView;
@@ -31,6 +33,10 @@ export default class GameView {
   #canvas;
   #gameView;
   
+  baseGameView;
+  timer;
+  
+    
   constructor() {
 	this.#canvas = document.getElementById("canvas");
   }
@@ -57,13 +63,13 @@ export default class GameView {
   reloadResources() {
     const scale = this.calculateScale();
     let worker = null;
-    if ((this.gamePanel.baseGameView instanceof RoomView)
-        && (!resourcesLoaded[ROOM_LOAD_WORKER])) {
-      worker = new RoomLoadWorker(resourceManager, scale, PetType.CAT);
-      worker.process = processLoadWorker;
+    if ((this.baseGameView instanceof RoomView)
+        && (!this.resourcesLoaded[GameView.ROOM_LOAD_WORKER])) {
+      worker = new RoomLoadWorker(this.resourceManager, scale, PetType.CAT);
+      worker.process = this.processLoadWorker;
       worker.done = function() {
-        resourcesLoaded[ROOM_LOAD_WORKER] = true;
-        loadResourcesDone(this);
+        this.resourcesLoaded[GameView.ROOM_LOAD_WORKER] = true;
+        this.loadResourcesDone(this);
       }
     }
     //else if ((gamePanel.getBaseGameView() instanceof TownView)

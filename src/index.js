@@ -152,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   let roomView = new RoomView(roomData);
 
   const gameView = new GameView();
+  gameView.baseGameView = roomView;
   const roomController = new RoomController();
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 

@@ -504,11 +504,11 @@ export default class BaseGameController {
   }
 
   addShowRucksackInnerListener(simpleEvent) {
-    this.showRucksackInnerListeners.push(simpleEvent);
+    this.#showRucksackInnerListeners.push(simpleEvent);
   }
 
   fireShowRucksackInner() {
-    for (const listener of showRucksackInnerListeners) {
+    for (const listener of this.#showRucksackInnerListeners) {
       listener.eventFired(this.baseGameView, null);
     }
   }
