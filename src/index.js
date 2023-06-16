@@ -148,25 +148,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   ctx.fillStyle = "green";
   ctx.fillRect(10, 10, 150, 100);
-  let roomData = new RoomData();
-  let roomView = new RoomView(roomData);
+  
+  
+  const roomData = new RoomData();
 
   const gameView = new GameView();
-  gameView.baseGameView = roomView;
-  const roomController = new RoomController();
+  
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 
   const gameController = new GameController();
 
-  
-  roomController.roomData = roomData;
-  roomController.roomView = roomView;
-  
+  gameView.baseGameView = roomView;
   gameView.resourceManager = resourceManager;
   
-  
   gameController.gameView = gameView;
-  gameController.currentController = roomController;
   gameController.baseGameView = roomView;
   gameController.showView();
   

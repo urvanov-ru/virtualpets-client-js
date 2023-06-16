@@ -242,8 +242,8 @@ export default class GameView {
 //
 //  }
 
-  showRoom(roomView) {
-	this.#gameView = roomView;
+  showRoom() {
+	this.#gameView = new RoomView();
     this.reloadResources();
     return roomView;
   }

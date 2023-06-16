@@ -1644,7 +1644,7 @@ export default class RoomController extends BaseGameController{
   }
 
   set roomView(roomView) {
-    this.baseGameView = roomView;
+    super.baseGameView = roomView;
     this.roomView = roomView;
   }
 
