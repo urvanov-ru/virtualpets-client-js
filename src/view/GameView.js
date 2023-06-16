@@ -31,7 +31,6 @@ export default class GameView {
   resourcesLoaded = new Array(GameView.MAX_LOAD_WORKERS).fill(false);
 
   #canvas;
-  #gameView;
   
   baseGameView;
   timer;
@@ -243,9 +242,9 @@ export default class GameView {
 //  }
 
   showRoom() {
-	this.#gameView = new RoomView();
+    this.baseGameView = new RoomView();
     this.reloadResources();
-    return roomView;
+    return this.baseGameView;
   }
 
 //  @Override

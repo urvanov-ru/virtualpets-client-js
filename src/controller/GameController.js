@@ -45,6 +45,7 @@ export default class GameController {
     const roomController = this.createRoomController();
     this.currentController = roomController;
     roomController.roomView = this.gameView.showRoom();
+    roomController.baseGameView = roomController.roomView;
     roomController.initialize();
   }
 
@@ -123,16 +124,6 @@ export default class GameController {
 
   createRoomController() {
     const roomController = new RoomController();
-      roomData;
-  roomView;
-  petService;
-  foodService;
-  roomService;
-  bookService;
-  drinkService;
-
-  gameController;
-    roomController.roomData = 
     return roomController;
   }
 

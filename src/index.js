@@ -158,11 +158,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 
   const gameController = new GameController();
 
-  gameView.baseGameView = roomView;
   gameView.resourceManager = resourceManager;
   
   gameController.gameView = gameView;
-  gameController.baseGameView = roomView;
   gameController.showView();
   
   roomLoadWorker.loadResourcesInBackground();
