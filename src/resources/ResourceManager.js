@@ -1,4 +1,4 @@
-
+import ResourceHolder from './ResourceHolder.js';
 
 export default class ResourceManager {
 
@@ -368,8 +368,8 @@ export default class ResourceManager {
   static get IMAGE_BUILD_REFRIGERATOR_6() { return 1009; }
   static get IMAGE_BUILD_MACHINE_WITH_DRINKS() { return 1010; }
   static get IMAGE_BUILD_BOOKCASE() { return 1011; }
-  static get IMAGE_BUILD_MENU_CLOSE() { return IMAGE_RUCKSACK_CLOSE; }
-  static get IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT() { return IMAGE_RUCKSACK_CLOSE_HIGHLIGHT; }
+  static get IMAGE_BUILD_MENU_CLOSE() { return ResourceManager.IMAGE_RUCKSACK_CLOSE; }
+  static get IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT() { return ResourceManager.IMAGE_RUCKSACK_CLOSE_HIGHLIGHT; }
   static get IMAGE_BUILD_MENU_TOOLTIP() { return 1012; }
 
   static get IMAGE_ROOM_MACHINE_WITH_DRINKS_1() { return 1100; }
@@ -850,7 +850,7 @@ export default class ResourceManager {
   }
 
   putResource(resourceId, resourceHolder) {
-    mapResources.put(resourceId, resourceHolder);
+    this.#mapResources.set(resourceId, resourceHolder);
   }
 
   loadImage(path) {
@@ -878,8 +878,8 @@ export default class ResourceManager {
     const resourceHolder = new ResourceHolder();
     resourceHolder.resetInScale = true;
     resourceHolder.resource = img;
-    putResource(resourceId, resourceHolder);
-    return scaledImage;
+    this.putResource(resourceId, resourceHolder);
+    return "scaledImage";
   }
 
   removeResetInScaleResources() {

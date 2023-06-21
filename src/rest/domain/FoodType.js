@@ -13,4 +13,6 @@ export default class FoodType {
   static get SANDWICH() { return "SANDWICH"; }
   static get BANANA() { return "BANANA"; }
   static get WATERMELON() { return "WATERMELON"; }
+  
+  static get VALUES_COUNT() { return 14; }
 }

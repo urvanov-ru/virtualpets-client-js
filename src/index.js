@@ -120,6 +120,7 @@ import GameView from './view/GameView.js';
 
 // localization
 import StringConstants from './localization/StringConstants.js';
+import MessageSource from './localization/MessageSource.js';
 
 // settings
 import Settings from './settings/Settings.js';
@@ -156,11 +157,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 
   const gameController = new GameController();
   const viewImplFactory = new ViewImplFactory();
+  const messageSource = new MessageSource();
 
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
   
   gameController.gameView = gameView;
+  gameController.messageSource = messageSource;
+  
   gameController.showView();
   
   roomLoadWorker.loadResourcesInBackground();

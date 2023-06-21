@@ -1,13 +1,13 @@
 
 export default class MenuItem {
   text = null;
-  clickedListeners = [];// new ArrayList<ClickedListener>();
+  #clickedListeners = [];// new ArrayList<ClickedListener>();
     
   addClickedListener(clickedListener) {
-    clickedListeners.push(clickedListener); // clickedListeners.add(clickedListener);
+    this.#clickedListeners.push(clickedListener); // clickedListeners.add(clickedListener);
   }
     
   fireClicked(arg) {	
-    clickedListeners.forEach(listener => listener.clicked(arg));
+    this.#clickedListeners.forEach(listener => listener.clicked(arg));
   }
 }

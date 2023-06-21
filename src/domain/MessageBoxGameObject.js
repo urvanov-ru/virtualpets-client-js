@@ -16,8 +16,8 @@ export default class MessageBoxGameObject extends GameObject {
   static get MESSAGE_BOX_MOVE_STEP() { return 30; }
   static get ORIGINAL_MESSAGE_BOX_OK_LABEL_X() { return MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_BUTTON_X + 20; }
   static get ORIGINAL_MESSAGE_BOX_OK_LABEL_Y() { return MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_OK_BUTTON_Y + 20; }
-  static get ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_X() { return ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_X + 20; }
-  static get ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_Y() { return ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_Y + 20; }
+  static get ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_X() { return MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_X + 20; }
+  static get ORIGINAL_MESSAGE_BOX_CANCEL_LABEL_Y() { return MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_Y + 20; }
 
   okButton = null;
   cancelButton = null;

@@ -1,11 +1,33 @@
+// domain
+import GameObject from '../domain/GameObject.js';
 import UpgradeInfo from './base/domain/UpgradeInfo.js';
 import ProgressBarGameObject from '../domain/ProgressBarGameObject.js';
 import Point from '../domain/Point.js';
 import Dimension from '../domain/Dimension.js';
-import TilesEngine from '../tiles/TilesEngine.js';
 import PetGameObject from '../domain/PetGameObject.js';
-import ResourceManager from '../resources/ResourceManager.js';
 import ClothGameObject from '../domain/ClothGameObject.js';
+import HighlightGameObject from '../domain/HighlightGameObject.js';
+import RucksackGameObject from '../domain/RucksackGameObject.js';
+import LabelGameObject from '../domain/LabelGameObject.js';
+import BuildingMaterialGameObject from '../domain/BuildingMaterialGameObject.js';
+import BuildMenuGameObject from '../domain/BuildMenuGameObject.js';
+import JournalGameObject from '../domain/JournalGameObject.js';
+import MessageBoxGameObject from '../domain/MessageBoxGameObject.js';
+import MessageBoxInnerGameObject from '../domain/MessageBoxInnerGameObject.js';
+import AchievementInfoGameObject from '../domain/AchievementInfoGameObject.js';
+
+// tiles
+import TilesEngine from '../tiles/TilesEngine.js';
+
+// rest
+import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
+
+// resources
+import ResourceManager from '../resources/ResourceManager.js';
+
+// localization
+import StringConstants from '../localization/StringConstants.js';
+
 
 export default class BaseGameController {
 
@@ -316,7 +338,7 @@ export default class BaseGameController {
   }
 
   initializeBuildingMaterialGameObjects() {
-    const a = new BuildingMaterialGameObject[9];
+    const a = new BuildingMaterialGameObject(9);
     a[0] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.TIMBER);
     a[1] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.BOARD);
     a[2] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.STONE);
@@ -355,8 +377,7 @@ export default class BaseGameController {
         ResourceManager.IMAGE_BUILDING_MATERIAL_BLUE_CRYSTAL);
     resourceIds.set(BuildingMaterialType.RUBBER,
         ResourceManager.IMAGE_BUILDING_MATERIAL_RUBBER);
-    const imgids = [[ resourceIds.get(go.getBuildingMaterialType()) ]];
-    go.animationImageIds = imgids;
+    go.animationImageIds = [[ resourceIds.get(go.buildingMaterialType) ]];
     return go;
   }
 
@@ -386,12 +407,11 @@ export default class BaseGameController {
 
   initializeRucksack() {
     const rucksackInner = new GameObject();
-    const imgids = [[ ResourceManager.IMAGE_RUCKSACK_INNER ]];
-    rucksackInner.animationImageIds = imgids;
+    rucksackInner.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK_INNER ]];
     rucksackInner.z = BaseGameController.MENU_Z_ORDER;
     rucksackInner.visible = false;
 
-    const closeObject = new HighlightGameObjectImpl();
+    const closeObject = new HighlightGameObject();
     closeObject.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK_CLOSE ][ ResourceManager.IMAGE_RUCKSACK_CLOSE_HIGHLIGHT ]];
     closeObject.z = BaseGameController.MENU_Z_ORDER;
     closeObject.position = new Point(BaseGameController.ORIGINAL_RUCKSACK_CLOSE_X,
@@ -405,12 +425,12 @@ export default class BaseGameController {
 
     this.rucksack.close = closeObject;
 
-    this.addGameObject(rucksack);
+    this.addGameObject(this.rucksack);
     this.addGameObject(rucksackInner);
     this.addGameObject(closeObject);
 
-    const rucksackMenuItems = new Array(RUCKSACK_MENU_ITEM_COUNT);
-    const rucksackMenuItemLabels = new Array(RUCKSACK_MENU_ITEM_COUNT);
+    const rucksackMenuItems = new Array(BaseGameController.RUCKSACK_MENU_ITEM_COUNT);
+    const rucksackMenuItemLabels = new Array(BaseGameController.RUCKSACK_MENU_ITEM_COUNT);
     for (let n = 0; n < rucksackMenuItems.length; n++) {
       rucksackMenuItems[n] = this.initializeRucksackMenuItem(n);
       rucksackMenuItemLabels[n] = this.initializeRucksackMenuItemLabel(n);
@@ -449,7 +469,7 @@ export default class BaseGameController {
       this.baseGameView.showDefaultCursor();
       this.baseGameView.toolTipText = "";
     });
-    return rucksack;
+    return this.rucksack;
   }
 
   showRucksackInner(rucksack) {
@@ -607,7 +627,7 @@ export default class BaseGameController {
         this.hideBuildObjectToolTip();
     });
 
-    const closeObject = new HighlightGameObjectImpl();
+    const closeObject = new HighlightGameObject();
     closeObject.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ] [ ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT ]];
     closeObject.position = new Point(BaseGameController.ORIGINAL_BUILD_MENU_CLOSE_X,
         BaseGameController.ORIGINAL_BUILD_MENU_CLOSE_Y);
@@ -615,8 +635,8 @@ export default class BaseGameController {
     closeObject.visible = false;
 
     this.buildMenu = new BuildMenuGameObject();
-    this.buildMenu.position = new Point(ORIGINAL_BUILD_MENU_X,
-        ORIGINAL_BUILD_MENU_Y);
+    this.buildMenu.position = new Point(BaseGameController.ORIGINAL_BUILD_MENU_X,
+        BaseGameController.ORIGINAL_BUILD_MENU_Y);
 
     this.buildMenu.inner = buildMenuInner;
 
@@ -624,12 +644,12 @@ export default class BaseGameController {
 
     this.buildMenu.animationImageIds = [[ ResourceManager.IMAGE_HAMMER ][ ResourceManager.IMAGE_HAMMER_HIGHLIGHT ]];
 
-    this.addGameObject(buildMenu);
+    this.addGameObject(this.buildMenu);
     this.addGameObject(buildMenuInner);
     this.addGameObject(closeObject);
 
-    this.buildMenu.menuItems = new GameObject[0];
-    this.buildMenu.buildObjects = new GameObject[0];
+    this.buildMenu.menuItems = [];
+    this.buildMenu.buildObjects = [];
 
     this.buildMenu.addClickedListener((clickedArg) => {
         this.showBuildMenuInner(this.buildMenu);
@@ -666,14 +686,14 @@ export default class BaseGameController {
     this.addGameObject(toolTipLabel);
     this.buildMenu.toolTipLabel = toolTipLabel;
     const toolTipInsufficientResources = new LabelGameObject();
-    toolTipInsufficientResources.text = insufficientResourcesString;
+    toolTipInsufficientResources.text = this.insufficientResourcesString;
     toolTipInsufficientResources.visible = false;
     this.addGameObject(toolTipInsufficientResources);
     this.buildMenu.toolTipInsufficientResources = toolTipInsufficientResources;
-    this.buildMenu.buildingMaterialObjects(this
-        .initializeBuildingMaterialGameObjects());
-    const costLabels = new LabelGameObject[buildMenu
-        .buildingMaterialObjects.length];
+    this.buildMenu.buildingMaterialObjects = this
+        .initializeBuildingMaterialGameObjects();
+    const costLabels = new Array(this.buildMenu
+        .buildingMaterialObjects.length);
     for (let n = 0; n < this.buildMenu.buildingMaterialObjects.length; n++) {
       costLabels[n] = new LabelGameObject();
       costLabels[n].visible = false;
@@ -793,7 +813,7 @@ export default class BaseGameController {
 
   initializeJournal() {
     this.journal = new JournalGameObject();
-    this.journal.position = new Point(ORIGINAL_JOURNAL_X, ORIGINAL_JOURNAL_Y);
+    this.journal.position = new Point(BaseGameController.ORIGINAL_JOURNAL_X, BaseGameController.ORIGINAL_JOURNAL_Y);
     this.journal.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL ] [ ResourceManager.IMAGE_JOURNAL_HIGHLIGHT ]];
     this.journal.addClickedListener((clickedArg) => {
       this.showJournal();
@@ -816,7 +836,7 @@ export default class BaseGameController {
     this.journal.inner = journalInner;
     this.addGameObject(journalInner);
 
-    const close = new HighlightGameObjectImpl();
+    const close = new HighlightGameObject();
     close.position = new Point(BaseGameController.ORIGINAL_JOURNAL_CLOSE_X,
         BaseGameController.ORIGINAL_JOURNAL_CLOSE_Y);
     close.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ],
@@ -833,7 +853,7 @@ export default class BaseGameController {
     this.addGameObject(close);
     this.journal.close = close;
 
-    const arrowLeft = new HighlightGameObjectImpl();
+    const arrowLeft = new HighlightGameObject();
     arrowLeft.position = new Point(
         JournalGameObject.ORIGINAL_ARROW_LEFT_X,
         JournalGameObject.ORIGINAL_ARROW_RIGHT_Y);
@@ -849,9 +869,9 @@ export default class BaseGameController {
     });
     arrowLeft.visible = false;
     this.addGameObject(arrowLeft);
-    journal.arrowLeft = arrowLeft;
+    this.journal.arrowLeft = arrowLeft;
 
-    const arrowRight = new HighlightGameObjectImpl();
+    const arrowRight = new HighlightGameObject();
     arrowRight.position = new Point(
         JournalGameObject.ORIGINAL_ARROW_RIGHT_X,
         JournalGameObject.ORIGINAL_ARROW_RIGHT_Y);
@@ -867,7 +887,7 @@ export default class BaseGameController {
     });
     arrowRight.visible = false;
     this.addGameObject(arrowRight);
-    journal.arrowRight = arrowRight;
+    this.journal.arrowRight = arrowRight;
 
     const leftText = new LabelGameObject();
     leftText.text = "";
@@ -876,7 +896,7 @@ export default class BaseGameController {
     leftText.dimension = new Dimension(250, 450);
     leftText.z = BaseGameController.MENU_Z_ORDER;
     leftText.visible = false;
-    journal.leftText = leftText;
+    this.journal.leftText = leftText;
 
     const rightText = new LabelGameObject();
     rightText.text = "";
@@ -892,11 +912,11 @@ export default class BaseGameController {
     newEntriesCountLabel.visible = false;
     newEntriesCountLabel.text = "";
     this.addGameObject(newEntriesCountLabel);
-    journal.newEntriesCountLabel = newEntriesCountLabel;
-    journal.rightText =rightText;
+    this.journal.newEntriesCountLabel = newEntriesCountLabel;
+    this.journal.rightText =rightText;
 
     this.journal.addClickedListener((journalClickedListenerArg) => {
-      getJournalEntries();
+      this.getJournalEntries();
     });
 
     const leftLoading = new GameObject();
@@ -1139,9 +1159,9 @@ export default class BaseGameController {
     });
     this.messageBox.z = BaseGameController.MENU_Z_ORDER;
     this.messageBox.visible = false;
-    this.addGameObject(messageBox);
+    this.addGameObject(this.messageBox);
 
-    const messageBoxOkButton = new HighlightGameObjectImpl();
+    const messageBoxOkButton = new HighlightGameObject();
     messageBoxOkButton.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON ],
         [ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT ]];
     messageBoxOkButton.position = new Point(
@@ -1162,9 +1182,9 @@ export default class BaseGameController {
     messageBoxOkButton.visible = false;
     messageBoxOkButton.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxOkButton);
-    messageBox.okButton = messageBoxOkButton;
+    this.messageBox.okButton = messageBoxOkButton;
 
-    const messageBoxCancelButton = new HighlightGameObjectImpl();
+    const messageBoxCancelButton = new HighlightGameObject();
     messageBoxCancelButton.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON], [ResourceManager.IMAGE_ROOM_MESSAGE_BOX_BUTTON_HIGHLIGHT ]];
     messageBoxCancelButton.position = new Point(
       MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_CANCEL_BUTTON_X,
@@ -1188,7 +1208,7 @@ export default class BaseGameController {
     messageBoxCancelButton.visible = false;
     messageBoxCancelButton.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxCancelButton);
-    messageBox.cancelButton = messageBoxCancelButton;
+    this.messageBox.cancelButton = messageBoxCancelButton;
 
     const messageBoxOkLabel = new LabelGameObject();
     messageBoxOkLabel.position = new Point(
@@ -1197,7 +1217,7 @@ export default class BaseGameController {
     messageBoxOkLabel.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxOkLabel);
     messageBoxOkLabel.visible = false;
-    this.messageBox.setOkLabel(messageBoxOkLabel);
+    this.messageBox.okLabel = messageBoxOkLabel;
 
     const messageBoxCancelLabel = new LabelGameObject();
     messageBoxCancelLabel.position = new Point(
@@ -1206,7 +1226,7 @@ export default class BaseGameController {
     messageBoxCancelLabel.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(messageBoxCancelLabel);
     messageBoxCancelLabel.visible = false;
-    this.messageBox.setCancelLabel(messageBoxCancelLabel);
+    this.messageBox.cancelLabel = messageBoxCancelLabel;
 
     const labelGameObjects = new Array(3);
     for (let n = 0; n < labelGameObjects.length; n++) {
@@ -1353,8 +1373,8 @@ export default class BaseGameController {
     const upgradeBuildingMaterialGameObjects = this.initializeBuildingMaterialGameObjects();
     this.#upgradeInfo
         .upgradeBuildingMaterialGameObjects = upgradeBuildingMaterialGameObjects;
-    const upgradeBuildingMaterialLabels = new LabelGameObject[this.#upgradeInfo
-        .upgradeBuildingMaterialGameObjects.length];
+    const upgradeBuildingMaterialLabels = new Array(this.#upgradeInfo
+        .upgradeBuildingMaterialGameObjects.length);
     const messageBoxInnerGameObjects = this.messageBox
         .innerGameObjects;
 
@@ -1364,19 +1384,19 @@ export default class BaseGameController {
       lgo.z = BaseGameController.MENU_Z_ORDER;
       this.addGameObject(lgo);
       lgo.visible = false;
-      const innerGameObject = new MessageBoxInnerGameObject();
+      let innerGameObject = new MessageBoxInnerGameObject();
       innerGameObject.gameObject = lgo;
       innerGameObject.position = new Point(100
           + upgradeBuildingMaterialGameObjects[0].dimension
               .width * n, 150);
-      messageBoxInnerGameObjects.add(innerGameObject);
+      messageBoxInnerGameObjects.push(innerGameObject);
 
       innerGameObject = new MessageBoxInnerGameObject();
       const bmgo = upgradeBuildingMaterialGameObjects[n];
       innerGameObject.gameObject = bmgo;
       innerGameObject.position = new Point(100
           + bmgo.dimension.width * n, 150);
-      messageBoxInnerGameObjects.add(innerGameObject);
+      messageBoxInnerGameObjects.push(innerGameObject);
     }
     this.#upgradeInfo
         .upgradeBuildingMaterialLabels = upgradeBuildingMaterialLabels;
@@ -1478,7 +1498,7 @@ export default class BaseGameController {
     this.#achievementInfo
         .animationImageIds = [[ ResourceManager.IMAGE_ACHIEVEMENT ]];
     this.#achievementInfo.position = new Point(-100, -100);
-    this.addGameObject(achievementInfo);
+    this.addGameObject(this.#achievementInfo);
 
     const achievementBackground = new GameObject();
     achievementBackground

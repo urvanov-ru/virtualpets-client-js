@@ -5,4 +5,6 @@ export default class DrinkType {
   static get TEA() { return "TEA"; }
   static get COFFEE() { return "COFFEE"; }
   static get ORANGE_JUICE() { return "ORANGE_JUICE"; }
+  
+  static get VALUES_COUNT() { return 6; }
 }
