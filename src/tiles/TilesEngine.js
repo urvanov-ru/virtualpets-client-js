@@ -9,13 +9,13 @@ export default class TilesEngine {
 
     
 
-  tiles = null; // [][]
+  #tiles = null; // [][]
 
-  _tileWidth = 0;
+  #tileWidth = 0;
 
-  _tileHeight = 0;
+  #tileHeight = 0;
 
-  gameObjects = new Set();
+  #gameObjects = new Set();
 
 
   /**
@@ -31,70 +31,70 @@ export default class TilesEngine {
   constructor(...params) {
     switch (params.length) {
       case 4: 
-        initWidthHeightTileWTileH(params[0], params[1], params[2], params[3]);
+        this.#initWidthHeightTileWTileH(params[0], params[1], params[2], params[3]);
         break;
       case 3:
-        initTilesTileWTileH(params[0], params[1], params[2]);
+        this.#initTilesTileWTileH(params[0], params[1], params[2]);
         break;
       case 1:
-        initTiles(params[0]);
+        this.#initTiles(params[0]);
         break;
       case 2:
-        initTiles(params[0], params[1]);
+        this.#initTiles(params[0], params[1]);
         break;
     }
   }
   
   #initWidthHeightTileWTileH(width, height, tileWidth, tileHeight) {
-    initTiles(width, height);
-    this._tileWidth = tileWidth;
-    this._tileHeight = tileHeight;
+    this.#initTiles(width, height);
+    this.#tileWidth = tileWidth;
+    this.#tileHeight = tileHeight;
   }
 
-  createAndFillTiles(width, height) {
-    tiles = new Array[width];
+  #createAndFillTiles(width, height) {
+    this.#tiles = new Array[width];
     for (let n = 0; n < tiles.length; n++) {
-      tiles[n] = new Array[height];
-      tiles[n].fill(TileType.NORMAL);
+      this.#tiles[n] = new Array[height];
+      this.#tiles[n].fill(TileType.NORMAL);
     }
   }
 
   #initTilesTileWTileH(tiles, tileWidth, tileHeight) {
-    this.tiles = tiles;
-    this._tileWidth = tileWidth;
-    this._tileHeight = tileHeight;
+    this.#tiles = tiles;
+    this.#tileWidth = tileWidth;
+    this.#tileHeight = tileHeight;
   }
 
   #initTiles(tiles) {
-    this.tiles = tiles;
-    this._tileWidth = DEFAULT_TILE_WIDTH;
-    this._tileHeight = DEFAULT_TILE_HEIGHT;
+    this.#tiles = tiles;
+    this.#tileWidth = TilesEngine.DEFAULT_TILE_WIDTH;
+    this.#tileHeight = TilesEngine.DEFAULT_TILE_HEIGHT;
   }
 
   #initWidthHeight(width, height) {
-    createAndFillTiles(width, height);
-    this.tileWidth = DEFAULT_TILE_WIDTH;
-    this.tileHeight = DEFAULT_TILE_HEIGHT;
+    this.#createAndFillTiles(width, height);
+    this.#tileWidth = TilesEngine.DEFAULT_TILE_WIDTH;
+    this.#tileHeight = TilesEngine.DEFAULT_TILE_HEIGHT;
   }
 
   getTileType(x, y) {
-    return tiles[x][y];
+    return this.#tiles[x][y];
   }
 
   translateToTileCoordinates(x, y) {
-    return new Point(x / tileWidth, y / tileHeight);
+    return new Point(x / this.#tileWidth, y / this.#tileHeight);
   }
 
   translateToTileCoordinates(x, y) {
-    return new Point(Math.trunc(x / tileWidth), Math.trunc(y / tileHeight));
+    return new Point(Math.trunc(x / this.#tileWidth), Math.trunc(y / this.#tileHeight));
   }
   
   get tileWidth() {
-    return this._tileWidth;
+    return this.#tileWidth;
   }
   
   get tileHeight() {
-    return this._tileHeight;
+    return this.#tileHeight;
   }
 
   findPath(start, dest) {
@@ -285,7 +285,7 @@ export default class TilesEngine {
   }
 
   setTileType(x, y, tileType) {
-    this.tiles[x][y] = tileType;
+    this.#tiles[x][y] = tileType;
   }
 
   setTileType(tilesPoint, tileType) {
@@ -297,17 +297,17 @@ export default class TilesEngine {
   }
 
   get tileWidth() {
-    return this.tileWidth;
+    return this.#tileWidth;
   }
 
   get tileHeight() {
-    return this.tileHeight;
+    return this.#tileHeight;
   }
 
   checkTileCoordinate(moveTarget) {
     return moveTarget.x >= 0 && moveTarget.y >= 0
-        && moveTarget.x < tiles.length
-        && moveTarget.y < tiles[0].length;
+        && moveTarget.x < this.#tiles.length
+        && moveTarget.y < this.#tiles[0].length;
   }
 
   translateToTileCoordinates(go) {
@@ -323,15 +323,15 @@ export default class TilesEngine {
   }
 
   translateFromTileCoordinates(point) {
-    return new Point(point.x * this.tileWidth(),
-        point.y * this.tileHeight);
+    return new Point(point.x * this.#tileWidth(),
+        point.y * this.#tileHeight);
   }
     
   translateFromTileCoordinates(go, point) {
     let goHeight = go.deminsion.height;
     let p = new Point();
-    p.x = point.x * this.tileWidth;
-    p.y = point.y * this.tileHeight - goHeight + this.tileHeight;
+    p.x = point.x * this.#tileWidth;
+    p.y = point.y * this.#tileHeight - goHeight + this.#tileHeight;
     return p;
   }
 
@@ -340,32 +340,32 @@ export default class TilesEngine {
     let tileY = tileCoordinates.y;
     let tileRight = tileX + tileTypes.length;
     let tileBottom = tileY + tileTypes[0].length;
-    if (tileRight >= tiles.length) {
-      tileRight = tiles.length - 1;
+    if (tileRight >= this.#tiles.length) {
+      tileRight = this.#tiles.length - 1;
     }
-    if (tileBottom >= tiles[0].length) {
-      tileBottom = tiles[0].length - 1;
+    if (tileBottom >= this.#tiles[0].length) {
+      tileBottom = this.#tiles[0].length - 1;
     }
     for (let x = tileX >=0 ? tileX : 0; x < tileRight; x++) {
       for (let y = tileY >=0 ? tileY : 0; y < tileBottom; y++) {
         let tileType = tileTypes[x - tileX][y - tileY];
         if (tileType != null && tileType != TileType.NORMAL) {
-          tiles[x][y] = tileTypes[x - tileX][y - tileY];
+          this.#tiles[x][y] = tileTypes[x - tileX][y - tileY];
         }
       }
     }
   }
 
   addGameObject(go) {
-    gameObjects.add(go);
+    this.#gameObjects.add(go);
   }
 
   removeGameObject(go) {
-    gameObjects.delete(go);
+    this.#gameObjects.delete(go);
   }
 
   refreshTilesType() {
-    for (const a of tiles) {
+    for (const a of this.#tiles) {
       a.fill(TileType.NORMAL);
     }
     for (const go of gameObjects) {
@@ -374,13 +374,13 @@ export default class TilesEngine {
   }
 
   applyTilesType(go) {
-    let tileTypes = go.getTileTypes();
-    if (tileTypes != null && go.isVisible()) {
-      let tileCoordinates = translateToTileCoordinates(go);
+    let tileTypes = go.tileTypes;
+    if (tileTypes != null && go.visible) {
+      let tileCoordinates = this.translateToTileCoordinates(go);
       let dimension = go.dimension;
       let height = dimension.height;
         tileCoordinates.y = Math.trunc(tileCoordinates.y
-            - height / this.tileHeight + 1);
+            - height / this.#tileHeight + 1);
         applyTileType(tileCoordinates, tileTypes);
       }
   }

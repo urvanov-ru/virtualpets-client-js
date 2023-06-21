@@ -1,6 +1,7 @@
+import Point from '../../domain/Point.js';
+import Dimension from '../../domain/Dimension.js';
 
-
-export default class GameObjectRenderBase {
+export default class GameObjectRender {
 
     
   position = new Point();

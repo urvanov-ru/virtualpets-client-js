@@ -14,56 +14,53 @@ export default class GameObject {
   loopAnimation = false;
   animationImageIds; // int[][] 
   
-  clickedListeners = []; // new ArrayList<ClickedListener>();
-  mouseMoveListeners = []; // new ArrayList<MouseMoveListener>();
-  animationOverListeners = []; // new ArrayList<AnimationOverListener>();
+  #clickedListeners = []; // new ArrayList<ClickedListener>();
+  #mouseMoveListeners = []; // new ArrayList<MouseMoveListener>();
+  #animationOverListeners = []; // new ArrayList<AnimationOverListener>();
   
   addClickedListener(clickedListener) {
-    clickedListeners.push(clickedListener);
+    this.#clickedListeners.push(clickedListener);
   }
 
   fireClicked(arg) {
-    for (const al of clickedListeners) {
+    for (const al of this.#clickedListeners) {
       al.clicked(arg);
     }
   }
 
   addMouseMoveListener(mouseOverListener) {
-    mouseMoveListeners.push(mouseOverListener);
+    this.#mouseMoveListeners.push(mouseOverListener);
   }
 
   fireMouseMove(arg) {
-    for (const mol of mouseMoveListeners) {
+    for (const mol of this.#mouseMoveListeners) {
       mol.mouseMove(arg);
     }
   }
 
   addAnimationOverListener(animationOverListener) {
-    animationOverListeners.push(animationOverListener);
+    this.#animationOverListeners.push(animationOverListener);
   }
 
   fireAnimationOver(arg) {
-    for (const aol of animationOverListeners) {
+    for (const aol of this.#animationOverListeners) {
       aol.animationOver(arg);
     }
   }
   
   removeAllAnimationOverListeners() {
-    this.animationOverListeners.clear();
+    this.#animationOverListeners.clear();
   }
   
   step() {
   }
   
   release() {
-    clickedListeners.clear();
-    mouseMoveListeners.clear();
-    animationOverListeners.clear();
+    this.#clickedListeners.clear();
+    this.#mouseMoveListeners.clear();
+    this.#animationOverListeners.clear();
   }
   
-  isLoopAnimation() {
-    return loopAnimation;
-  }
     
 }
 

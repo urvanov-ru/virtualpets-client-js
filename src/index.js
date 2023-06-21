@@ -88,7 +88,6 @@ import LabelGameObject from './domain/LabelGameObject.js';
 import MenuItem from './domain/MenuItem.js';
 import MouseMoveArg from './domain/MouseMoveArg.js';
 import HighlightGameObject from './domain/HighlightGameObject.js';
-import HighlightGameObjectImpl from './domain/HighlightGameObjectImpl.js';
 import BoxGameObject from './domain/BoxGameObject.js';
 import RoomData from './domain/RoomData.js';
 import PetGameObject from './domain/PetGameObject.js';
@@ -104,10 +103,11 @@ import TilesEngine from './tiles/TilesEngine.js';
 
 
 // view
-import GameObjectRenderBase from './view/domain/GameObjectRenderBase.js';
-import LabelGameObjectRenderBase from './view/domain/LabelGameObjectRenderBase.js';
-import PopupMenuGameObjectRenderBase from './view/domain/PopupMenuGameObjectRenderBase.js';
-import ProgressBarGameObjectRenderBase from './view/domain/ProgressBarGameObjectRenderBase.js';
+import GameObjectRender from './view/component/GameObjectRender.js';
+import LabelGameObjectRender from './view/component/LabelGameObjectRender.js';
+import PopupMenuGameObjectRender from './view/component/PopupMenuGameObjectRender.js';
+import ProgressBarGameObjectRender from './view/component/ProgressBarGameObjectRender.js';
+import ViewImplFactory from './view/component/ViewImplFactory.js';
 import AfternoonTeaView from './view/AfternoonTeaView.js';
 import DressingRoomView from './view/DressingRoomView.js';
 import RoomView from './view/RoomView.js';
@@ -151,14 +151,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   
   const roomData = new RoomData();
-
   const gameView = new GameView();
-  
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 
   const gameController = new GameController();
+  const viewImplFactory = new ViewImplFactory();
 
   gameView.resourceManager = resourceManager;
+  gameView.viewImplFactory = viewImplFactory;
   
   gameController.gameView = gameView;
   gameController.showView();

@@ -2,6 +2,10 @@ import UpgradeInfo from './base/domain/UpgradeInfo.js';
 import ProgressBarGameObject from '../domain/ProgressBarGameObject.js';
 import Point from '../domain/Point.js';
 import Dimension from '../domain/Dimension.js';
+import TilesEngine from '../tiles/TilesEngine.js';
+import PetGameObject from '../domain/PetGameObject.js';
+import ResourceManager from '../resources/ResourceManager.js';
+import ClothGameObject from '../domain/ClothGameObject.js';
 
 export default class BaseGameController {
 
@@ -65,7 +69,7 @@ export default class BaseGameController {
     this.initializeProgressBar();
     this.baseGameView
         .addClickedListener((arg) => {this.mouseClicked(arg);});
-    baseGameView
+    this.baseGameView
         .addMouseMoveListener((arg) => {this.mouseMoved(arg);});
   }
 

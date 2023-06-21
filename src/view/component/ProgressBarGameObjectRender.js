@@ -1,7 +1,7 @@
-import GameObjectRenderBase from './GameObjectRenderBase.js';
+import GameObjectRender from './GameObjectRender.js';
 
 
-export default class ProgressBarGameObjectRenderBase extends GameObjectRenderBase {
+export default class ProgressBarGameObjectRender extends GameObjectRender {
 
   #progressBarGameObject;
     

@@ -21,8 +21,8 @@ export default class GameEngine {
 
   started = false;
 
-  clickedListeners = []; // new ArrayList<ClickedListener>();
-  mouseMoveListeners = []; // new ArrayList<MouseMoveListener>();
+  #clickedListeners = []; // new ArrayList<ClickedListener>();
+  #mouseMoveListeners = []; // new ArrayList<MouseMoveListener>();
   font; // IndependentFont
 
   constructor() {
@@ -151,7 +151,7 @@ export default class GameEngine {
   }
 
   addGameObject(go) {
-    this.gameObjects.set(go, viewImplFactory.createGameObjectRender(go));
+    this.gameObjects.set(go, this.viewImplFactory.createGameObjectRender(go));
   }
 
   getGetGameObjectRenders() {
@@ -191,7 +191,7 @@ export default class GameEngine {
     const logicalMousePosition = new Point(Math.trunc(clickedArg.mousePosition.x / scale),
         Math.trunc(clickedArg.mousePosition().y / scale));
     arg.mousePosition = logicalMousePosition;
-    for (const listener of clickedListeners) {
+    for (const listener of this.#clickedListeners) {
       listener.clicked(arg);
       if (arg.handled) {
         clickedArg.handled = true;
@@ -205,7 +205,7 @@ export default class GameEngine {
     arg.mousePosition = new Point(Math.trunc(mouseMoveArg.mousePosition
         .x / scale),
         Math.trunc(mouseMoveArg.mousePosition.y / scale));
-    for (const listener of mouseMoveListeners) {
+    for (const listener of this.#mouseMoveListeners) {
       listener.mouseMove(arg);
       if (arg.handled) {
         mouseMoveArg.handled = true;
@@ -215,11 +215,11 @@ export default class GameEngine {
   }
   
   addClickedListener(clickedListener) {
-    clickedListeners.push(clickedListener);
+    this.#clickedListeners.push(clickedListener);
   }
   
   addMouseMoveListener(mouseMoveListener) {
-    mouseMoveListeners.push(mouseMoveListener);
+    this.#mouseMoveListeners.push(mouseMoveListener);
   }
   
   fireInitializationCompleted() {

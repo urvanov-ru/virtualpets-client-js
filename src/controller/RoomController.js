@@ -2,7 +2,17 @@ import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerOb
 import RefrigeratorInnerObject from './room/domain/RefrigeratorInnerObject.js';
 import RoomData from '../domain/RoomData.js';
 import BaseGameController from './BaseGameController.js';
-
+import GameObject from '../domain/GameObject.js';
+import Point from '../domain/Point.js';
+import Dimension from '../domain/Dimension.js';
+import ResourceManager from '../resources/ResourceManager.js';
+import BuildingGameObject from '../domain/BuildingGameObject.js';
+import TileType from '../domain/TileType.js';
+import HighlightGameObject from '../domain/HighlightGameObject.js';
+import BoxGameObject from '../domain/BoxGameObject.js';
+import PetGameObject from '../domain/PetGameObject.js';
+import FoodType from '../rest/domain/FoodType.js';
+import LabelGameObject from '../domain/LabelGameObject.js';
 
 export default class RoomController extends BaseGameController{
 
@@ -30,10 +40,10 @@ export default class RoomController extends BaseGameController{
   initialize() {
     super.initialize();
     this.roomView.addInitializationCompletedListener((sender, data) => {
-      getRoomInfo();
-      getRoomInfoWithDelay();
-      getBuildMenuCosts();
-      getRucksackInner();
+      this.getRoomInfo();
+      this.getRoomInfoWithDelay();
+      this.getBuildMenuCosts();
+      this.getRucksackInner();
     });
     this.roomView.addClickedListener((sender, data) => {this.mouseClicked(sender, data);});
     this.roomData = new RoomData();
@@ -43,21 +53,21 @@ export default class RoomController extends BaseGameController{
     background.position = new Point(0, 0);
     background.z = -1;
     background.addMouseMoveListener((arg) => {
-      roomView.showDefaultCursor();
-      roomView.toolTipText = "";
+      this.roomView.showDefaultCursor();
+      this.roomView.toolTipText = "";
       this.highlightObject = null;
     });
     
-    const imgids = [[ResourceManagerBase.IMAGE_ROOM_BACKGROUND]];
+    const imgids = [[ResourceManager.IMAGE_ROOM_BACKGROUND]];
     background.animationImageIds = imgids;
-    addGameObject(background);
-    addGameObject(background);
-    this.roomData.setBackground(background);
-    initRefrigerators();
+    this.addGameObject(background);
+    this.addGameObject(background);
+    this.roomData.background = background;
+    this.initRefrigerators();
 
-    initializeBookcases();
+    this.initializeBookcases();
 
-    initializeMachineWithDrinksArray();
+    this.initializeMachineWithDrinksArray();
     //
     // GameObject bedsidetable = new GameObject();
     // bedsidetable.setPosition(new Point(RoomData.ORIGINAL_BEDSIDETABLE_X,
@@ -78,54 +88,54 @@ export default class RoomController extends BaseGameController{
     // addGameObject(flower);
     // roomData.setFlower(flower);
 
-    initializeArrowRight();
+    this.initializeArrowRight();
 
-    initializeNewbieBoxes();
+    this.initializeNewbieBoxes();
 
-    const pet = initializePetGameObject();
+    const pet = this.initializePetGameObject();
 
     pet.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
     this.roomData.pet = pet;
 
-    const clothObjects = initializeClothGameObjects(); // Map<Integer, ClothGameObject> 
-    for (const entry of clothObjects.entries()) {
-      const cgo = entry.value;
+    const clothObjects = this.initializeClothGameObjects(); // Map<Integer, ClothGameObject> 
+    for (const [key, value] of clothObjects.entries()) {
+      const cgo = value;
       cgo.visible = false;
       cgo.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
     }
     this.roomData.clothObjects = clothObjects;
 
-    initializeFood();
+    this.initializeFood();
 
-    initializeBook();
+    this.initializeBook();
 
-    initRefrigeratorInnerObjects();
+    this.initRefrigeratorInnerObjects();
 
-    initializeBookcaseInnerObjects();
+    this.initializeBookcaseInnerObjects();
 
-    initializeMachineWithDrinksInnerObjects();
+    this.initializeMachineWithDrinksInnerObjects();
 
-    initializeRucksack();
+    this.initializeRucksack();
 
-    initializeBuildMenu();
+    this.initializeBuildMenu();
 
-    initializeJournal();
+    this.initializeJournal();
 
-    initializeJournalOnFloor();
+    this.initializeJournalOnFloor();
 
     this.roomData.refrigeratorInnerCounts = new int[FoodType.values().length];
     this.roomData.machineWithDrinksInnerCounts = new int[DrinkType.values().length];
 
-    initializeMessageBox();
-    initializeUpgrade();
+    this.initializeMessageBox();
+    this.initializeUpgrade();
 
-    initializeIndicators();
+    this.initializeIndicators();
 
-    initializeRefrigeratorPopupMenu();
-    initializeBookcasePopupMenu();
-    initializeMachineWithDrinksPopupMenu();
+    this.initializeRefrigeratorPopupMenu();
+    this.initializeBookcasePopupMenu();
+    this.initializeMachineWithDrinksPopupMenu();
     
-    initializeAchievementInfo();
+    this.initializeAchievementInfo();
     
     this.roomView.setRoomData(roomData);
   }
@@ -301,8 +311,8 @@ export default class RoomController extends BaseGameController{
 
   initializeJournalOnFloor() {
     const journalOnFloor = new HighlightGameObject();
-    const imgids = [[ ResourceManagerBase.IMAGE_JOURNAL ],
-        [ ResourceManagerBase.IMAGE_JOURNAL_HIGHLIGHT ]];
+    const imgids = [[ ResourceManager.IMAGE_JOURNAL ],
+        [ ResourceManager.IMAGE_JOURNAL_HIGHLIGHT ]];
     journalOnFloor.animationImageIds = imgids;
     journalOnFloor.position = new Point(
         RoomData.ORIGINAL_JOURNAL_ON_FLOOR_X,
@@ -376,7 +386,7 @@ export default class RoomController extends BaseGameController{
     const bookcaseInner = new GameObject();
     bookcaseInner.position = new Point(0, 0);
     bookcaseInner.z = BaseGameController.MENU_Z_ORDER;
-    const imgids = [[ ResourceManagerBase.IMAGE_ROOM_BOOKCASE_INNER ]];
+    const imgids = [[ ResourceManager.IMAGE_ROOM_BOOKCASE_INNER ]];
     bookcaseInner.animationImageIds = imgids;
     bookcaseInner.visible = false;
     bookcaseInner.addMouseMoveListener((mouseMoveArg) => {
@@ -393,7 +403,7 @@ export default class RoomController extends BaseGameController{
       const go = new GameObject();
       go.position = new Point(RoomData.ORIGINAL_BOOKCASE_INNER_X, n * 100);
       go.z = MENU_Z_ORDER;
-      const imgids = new [[ ResourceManagerBase.IMAGE_ROOM_BOOKCASE_INNER_ITEM ]];
+      const imgids = new [[ ResourceManager.IMAGE_ROOM_BOOKCASE_INNER_ITEM ]];
       go.animationImageIds = imgids;
       go.visible = false;
       go.addMouseMoveListener((mouseMoveArg) => {
@@ -410,7 +420,7 @@ export default class RoomController extends BaseGameController{
     bookcaseClose.position = new Point(RoomData.ORIGINAL_BOOKCASE_CLOSE_X,
         RoomData.ORIGINAL_BOOKCASE_CLOSE_Y);
     bookcaseClose.z = MENU_Z_ORDER + 1;
-    imgids = [[ResourceManagerBase.IMAGE_ROOM_BOOKCASE_CLOSE][ResourceManagerBase.IMAGE_ROOM_BOOKCASE_CLOSE_HIGHLIGHT]];
+    imgids = [[ResourceManager.IMAGE_ROOM_BOOKCASE_CLOSE][ResourceManager.IMAGE_ROOM_BOOKCASE_CLOSE_HIGHLIGHT]];
     bookcaseClose.animationImageIds = imgids;
     bookcaseClose.visible = false;
     bookcaseClose.addMouseMoveListener((mouseMoveArg) => {
@@ -426,24 +436,24 @@ export default class RoomController extends BaseGameController{
 
     const bookcaseInnerObjects = new Array[18];
     this.roomData.bookcaseInnerObjects = bookcaseInnerObjects;
-    this.initializeBookcaseInnerObject(0, ResourceManagerBase.IMAGE_BOOK_1);
-    this.initializeBookcaseInnerObject(1, ResourceManagerBase.IMAGE_BOOK_2);
-    this.initializeBookcaseInnerObject(2, ResourceManagerBase.IMAGE_BOOK_3);
-    this.initializeBookcaseInnerObject(3, ResourceManagerBase.IMAGE_BOOK_4);
-    this.initializeBookcaseInnerObject(4, ResourceManagerBase.IMAGE_BOOK_5);
-    this.initializeBookcaseInnerObject(5, ResourceManagerBase.IMAGE_BOOK_6);
-    this.initializeBookcaseInnerObject(6, ResourceManagerBase.IMAGE_BOOK_7);
-    this.initializeBookcaseInnerObject(7, ResourceManagerBase.IMAGE_BOOK_8);
-    this.initializeBookcaseInnerObject(8, ResourceManagerBase.IMAGE_BOOK_9);
-    this.initializeBookcaseInnerObject(9, ResourceManagerBase.IMAGE_BOOK_10);
-    this.initializeBookcaseInnerObject(10, ResourceManagerBase.IMAGE_BOOK_11);
-    this.initializeBookcaseInnerObject(11, ResourceManagerBase.IMAGE_BOOK_12);
-    this.initializeBookcaseInnerObject(12, ResourceManagerBase.IMAGE_BOOK_13);
-    this.initializeBookcaseInnerObject(13, ResourceManagerBase.IMAGE_BOOK_14);
-    this.initializeBookcaseInnerObject(14, ResourceManagerBase.IMAGE_BOOK_15);
-    this.initializeBookcaseInnerObject(15, ResourceManagerBase.IMAGE_BOOK_16);
-    this.initializeBookcaseInnerObject(16, ResourceManagerBase.IMAGE_BOOK_17);
-    this.initializeBookcaseInnerObject(17, ResourceManagerBase.IMAGE_BOOK_18);
+    this.initializeBookcaseInnerObject(0, ResourceManager.IMAGE_BOOK_1);
+    this.initializeBookcaseInnerObject(1, ResourceManager.IMAGE_BOOK_2);
+    this.initializeBookcaseInnerObject(2, ResourceManager.IMAGE_BOOK_3);
+    this.initializeBookcaseInnerObject(3, ResourceManager.IMAGE_BOOK_4);
+    this.initializeBookcaseInnerObject(4, ResourceManager.IMAGE_BOOK_5);
+    this.initializeBookcaseInnerObject(5, ResourceManager.IMAGE_BOOK_6);
+    this.initializeBookcaseInnerObject(6, ResourceManager.IMAGE_BOOK_7);
+    this.initializeBookcaseInnerObject(7, ResourceManager.IMAGE_BOOK_8);
+    this.initializeBookcaseInnerObject(8, ResourceManager.IMAGE_BOOK_9);
+    this.initializeBookcaseInnerObject(9, ResourceManager.IMAGE_BOOK_10);
+    this.initializeBookcaseInnerObject(10, ResourceManager.IMAGE_BOOK_11);
+    this.initializeBookcaseInnerObject(11, ResourceManager.IMAGE_BOOK_12);
+    this.initializeBookcaseInnerObject(12, ResourceManager.IMAGE_BOOK_13);
+    this.initializeBookcaseInnerObject(13, ResourceManager.IMAGE_BOOK_14);
+    this.initializeBookcaseInnerObject(14, ResourceManager.IMAGE_BOOK_15);
+    this.initializeBookcaseInnerObject(15, ResourceManager.IMAGE_BOOK_16);
+    this.initializeBookcaseInnerObject(16, ResourceManager.IMAGE_BOOK_17);
+    this.initializeBookcaseInnerObject(17, ResourceManager.IMAGE_BOOK_18);
   }
 
   initializeBookcaseInnerObject(bookId, resourceId) {
@@ -496,7 +506,7 @@ export default class RoomController extends BaseGameController{
 
   initializeArrowRight() {
     const arrowRight = new HighlightGameObject();
-    const imgids = [[ ResourceManagerBase.IMAGE_ROOM_ARROW_RIGHT ][ ResourceManagerBase.IMAGE_ROOM_ARROW_RIGHT_HIGHLIGHT ]];
+    const imgids = [[ ResourceManager.IMAGE_ROOM_ARROW_RIGHT ][ ResourceManager.IMAGE_ROOM_ARROW_RIGHT_HIGHLIGHT ]];
     arrowRight.animationImageIds = imgids;
     arrowRight.position = new Point(RoomData.ORIGINAL_ARROW_RIGHT_X,
         RoomData.ORIGINAL_ARROW_RIGHT_Y);
@@ -509,7 +519,7 @@ export default class RoomController extends BaseGameController{
       gameController.showTown();
     });
     this.addGameObject(arrowRight);
-    roomData.arrowRight = arrowRight;
+    this.roomData.arrowRight = arrowRight;
   }
 
   initializeBookcases() {
@@ -517,7 +527,7 @@ export default class RoomController extends BaseGameController{
     for (let n = 0; n < RoomData.BOOKCASE_MAX_LEVEL; n++) {
       bookcases[n] = this.initializeBookcase(n + 1);
     }
-    this.roomData.setBookcases(bookcases);
+    this.roomData.bookcases = bookcases;
   }
 
   initializeMachineWithDrinksArray() {
@@ -534,8 +544,8 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_BOOKCASE_HEIGHT);
     bookcase.position = new Point(RoomData.ORIGINAL_BOOKCASE_X,
         RoomData.ORIGINAL_BOOKCASE_Y);
-    const imgids = [[  ResourceManagerBase.IMAGE_ROOM_BOOKCASE_1 + bookcaseLevelId - 1]
-        [ ResourceManagerBase.IMAGE_ROOM_BOOKCASE_HIGHLIGHT_1 + bookcaseLevelId - 1]];
+    const imgids = [[  ResourceManager.IMAGE_ROOM_BOOKCASE_1 + bookcaseLevelId - 1]
+        [ ResourceManager.IMAGE_ROOM_BOOKCASE_HIGHLIGHT_1 + bookcaseLevelId - 1]];
     bookcase.animationImageIds = imgids;
     bookcase.addClickedListener((clickedArg) => {
       bookcaseClicked(arg);
@@ -698,8 +708,8 @@ export default class RoomController extends BaseGameController{
     const machineWithDrinks = new BuildingGameObject();
     machineWithDrinks.dimension = new Dimension(
         RoomData.ORIGINAL_DRINK_WIDTH, RoomData.ORIGINAL_DRINK_HEIGHT);
-    const imgids = [[ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_1
-        + level - 1 ][ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_1_HIGHLIGHT
+    const imgids = [[ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_1
+        + level - 1 ][ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_1_HIGHLIGHT
         + level - 1 ]];
     machineWithDrinks.animationImageIds = imgids;
     machineWithDrinks.position = new Point(RoomData.ORIGINAL_WATER_X,
@@ -783,130 +793,130 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_FOOD_Y);
     food.visible = false;
     const imgids = new Array(20);
-    imgids[RoomData.FOOD_CARROT] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_CARROT_1,
-        ResourceManagerBase.IMAGE_CARROT_2,
-        ResourceManagerBase.IMAGE_CARROT_3,
-        ResourceManagerBase.IMAGE_CARROT_4,
-        ResourceManagerBase.IMAGE_CARROT_5,
-        ResourceManagerBase.IMAGE_CARROT_6);
-    imgids[RoomData.FOOD_DRY_FOOD] = initializeFoodImageIds(ResourceManagerBase.IMAGE_DRY_FOOD_1);
-    imgids[RoomData.FOOD_FISH] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_FISH_1,
-        ResourceManagerBase.IMAGE_FISH_2,
-        ResourceManagerBase.IMAGE_FISH_3,
-        ResourceManagerBase.IMAGE_FISH_4,
-        ResourceManagerBase.IMAGE_FISH_5);
-    imgids[RoomData.FOOD_ICE_CREAM] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_ICE_CREAM_1,
-        ResourceManagerBase.IMAGE_ICE_CREAM_2,
-        ResourceManagerBase.IMAGE_ICE_CREAM_3,
-        ResourceManagerBase.IMAGE_ICE_CREAM_4,
-        ResourceManagerBase.IMAGE_ICE_CREAM_5,
-        ResourceManagerBase.IMAGE_ICE_CREAM_6);
-    imgids[RoomData.FOOD_APPLE] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_APPLE_1,
-        ResourceManagerBase.IMAGE_APPLE_2,
-        ResourceManagerBase.IMAGE_APPLE_3,
-        ResourceManagerBase.IMAGE_APPLE_4,
-        ResourceManagerBase.IMAGE_APPLE_5);
-    imgids[RoomData.FOOD_CABBAGE] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_CABBAGE_1,
-        ResourceManagerBase.IMAGE_CABBAGE_2,
-        ResourceManagerBase.IMAGE_CABBAGE_3,
-        ResourceManagerBase.IMAGE_CABBAGE_4,
-        ResourceManagerBase.IMAGE_CABBAGE_5,
-        ResourceManagerBase.IMAGE_CABBAGE_6);
-    imgids[RoomData.FOOD_CHOCOLATE] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_CHOCOLATE_1,
-        ResourceManagerBase.IMAGE_CHOCOLATE_2,
-        ResourceManagerBase.IMAGE_CHOCOLATE_3,
-        ResourceManagerBase.IMAGE_CHOCOLATE_4,
-        ResourceManagerBase.IMAGE_CHOCOLATE_5);
-    imgids[RoomData.FOOD_FRENCH_FRIES] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_1,
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_2,
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_3,
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_4,
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_5,
-        ResourceManagerBase.IMAGE_FRENCH_FRIES_6);
-    imgids[RoomData.FOOD_JAPANESE_ROLL] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_1,
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_2,
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_3,
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_4,
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_5,
-        ResourceManagerBase.IMAGE_JAPANESE_ROLLS_6);
-    imgids[RoomData.FOOD_PIE] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_PIE_1,
-        ResourceManagerBase.IMAGE_PIE_2,
-        ResourceManagerBase.IMAGE_PIE_3,
-        ResourceManagerBase.IMAGE_PIE_4,
-        ResourceManagerBase.IMAGE_PIE_5,
-        ResourceManagerBase.IMAGE_PIE_6,
-        ResourceManagerBase.IMAGE_PIE_7);
+    imgids[RoomData.FOOD_CARROT] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_CARROT_1,
+        ResourceManager.IMAGE_CARROT_2,
+        ResourceManager.IMAGE_CARROT_3,
+        ResourceManager.IMAGE_CARROT_4,
+        ResourceManager.IMAGE_CARROT_5,
+        ResourceManager.IMAGE_CARROT_6);
+    imgids[RoomData.FOOD_DRY_FOOD] = this.initializeFoodImageIds(ResourceManager.IMAGE_DRY_FOOD_1);
+    imgids[RoomData.FOOD_FISH] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_FISH_1,
+        ResourceManager.IMAGE_FISH_2,
+        ResourceManager.IMAGE_FISH_3,
+        ResourceManager.IMAGE_FISH_4,
+        ResourceManager.IMAGE_FISH_5);
+    imgids[RoomData.FOOD_ICE_CREAM] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_ICE_CREAM_1,
+        ResourceManager.IMAGE_ICE_CREAM_2,
+        ResourceManager.IMAGE_ICE_CREAM_3,
+        ResourceManager.IMAGE_ICE_CREAM_4,
+        ResourceManager.IMAGE_ICE_CREAM_5,
+        ResourceManager.IMAGE_ICE_CREAM_6);
+    imgids[RoomData.FOOD_APPLE] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_APPLE_1,
+        ResourceManager.IMAGE_APPLE_2,
+        ResourceManager.IMAGE_APPLE_3,
+        ResourceManager.IMAGE_APPLE_4,
+        ResourceManager.IMAGE_APPLE_5);
+    imgids[RoomData.FOOD_CABBAGE] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_CABBAGE_1,
+        ResourceManager.IMAGE_CABBAGE_2,
+        ResourceManager.IMAGE_CABBAGE_3,
+        ResourceManager.IMAGE_CABBAGE_4,
+        ResourceManager.IMAGE_CABBAGE_5,
+        ResourceManager.IMAGE_CABBAGE_6);
+    imgids[RoomData.FOOD_CHOCOLATE] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_CHOCOLATE_1,
+        ResourceManager.IMAGE_CHOCOLATE_2,
+        ResourceManager.IMAGE_CHOCOLATE_3,
+        ResourceManager.IMAGE_CHOCOLATE_4,
+        ResourceManager.IMAGE_CHOCOLATE_5);
+    imgids[RoomData.FOOD_FRENCH_FRIES] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_FRENCH_FRIES_1,
+        ResourceManager.IMAGE_FRENCH_FRIES_2,
+        ResourceManager.IMAGE_FRENCH_FRIES_3,
+        ResourceManager.IMAGE_FRENCH_FRIES_4,
+        ResourceManager.IMAGE_FRENCH_FRIES_5,
+        ResourceManager.IMAGE_FRENCH_FRIES_6);
+    imgids[RoomData.FOOD_JAPANESE_ROLL] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_JAPANESE_ROLLS_1,
+        ResourceManager.IMAGE_JAPANESE_ROLLS_2,
+        ResourceManager.IMAGE_JAPANESE_ROLLS_3,
+        ResourceManager.IMAGE_JAPANESE_ROLLS_4,
+        ResourceManager.IMAGE_JAPANESE_ROLLS_5,
+        ResourceManager.IMAGE_JAPANESE_ROLLS_6);
+    imgids[RoomData.FOOD_PIE] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_PIE_1,
+        ResourceManager.IMAGE_PIE_2,
+        ResourceManager.IMAGE_PIE_3,
+        ResourceManager.IMAGE_PIE_4,
+        ResourceManager.IMAGE_PIE_5,
+        ResourceManager.IMAGE_PIE_6,
+        ResourceManager.IMAGE_PIE_7);
 
-    imgids[RoomData.FOOD_POTATOES] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_POTATOES_1,
-        ResourceManagerBase.IMAGE_POTATOES_2,
-        ResourceManagerBase.IMAGE_POTATOES_3,
-        ResourceManagerBase.IMAGE_POTATOES_4,
-        ResourceManagerBase.IMAGE_POTATOES_5,
-        ResourceManagerBase.IMAGE_POTATOES_6,
-        ResourceManagerBase.IMAGE_POTATOES_7,
-        ResourceManagerBase.IMAGE_POTATOES_8);
+    imgids[RoomData.FOOD_POTATOES] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_POTATOES_1,
+        ResourceManager.IMAGE_POTATOES_2,
+        ResourceManager.IMAGE_POTATOES_3,
+        ResourceManager.IMAGE_POTATOES_4,
+        ResourceManager.IMAGE_POTATOES_5,
+        ResourceManager.IMAGE_POTATOES_6,
+        ResourceManager.IMAGE_POTATOES_7,
+        ResourceManager.IMAGE_POTATOES_8);
 
-    imgids[RoomData.FOOD_SANDWICH] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_SANDWICH_1,
-        ResourceManagerBase.IMAGE_SANDWICH_2,
-        ResourceManagerBase.IMAGE_SANDWICH_3,
-        ResourceManagerBase.IMAGE_SANDWICH_4,
-        ResourceManagerBase.IMAGE_SANDWICH_5,
-        ResourceManagerBase.IMAGE_SANDWICH_6);
-    imgids[RoomData.FOOD_BANANA] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_BANANA_1,
-        ResourceManagerBase.IMAGE_BANANA_2,
-        ResourceManagerBase.IMAGE_BANANA_3,
-        ResourceManagerBase.IMAGE_BANANA_4,
-        ResourceManagerBase.IMAGE_BANANA_5,
-        ResourceManagerBase.IMAGE_BANANA_6);
+    imgids[RoomData.FOOD_SANDWICH] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_SANDWICH_1,
+        ResourceManager.IMAGE_SANDWICH_2,
+        ResourceManager.IMAGE_SANDWICH_3,
+        ResourceManager.IMAGE_SANDWICH_4,
+        ResourceManager.IMAGE_SANDWICH_5,
+        ResourceManager.IMAGE_SANDWICH_6);
+    imgids[RoomData.FOOD_BANANA] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_BANANA_1,
+        ResourceManager.IMAGE_BANANA_2,
+        ResourceManager.IMAGE_BANANA_3,
+        ResourceManager.IMAGE_BANANA_4,
+        ResourceManager.IMAGE_BANANA_5,
+        ResourceManager.IMAGE_BANANA_6);
 
-    imgids[RoomData.FOOD_WATERMELON] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_WATERMELON_1,
-        ResourceManagerBase.IMAGE_WATERMELON_2,
-        ResourceManagerBase.IMAGE_WATERMELON_3,
-        ResourceManagerBase.IMAGE_WATERMELON_4,
-        ResourceManagerBase.IMAGE_WATERMELON_5,
-        ResourceManagerBase.IMAGE_WATERMELON_6,
-        ResourceManagerBase.IMAGE_WATERMELON_7,
-        ResourceManagerBase.IMAGE_WATERMELON_8);
-    imgids[RoomData.FOOD_DRINK] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_WATER_1,
-        ResourceManagerBase.IMAGE_WATER_2,
-        ResourceManagerBase.IMAGE_WATER_3,
-        ResourceManagerBase.IMAGE_WATER_4,
-        ResourceManagerBase.IMAGE_WATER_5);
-    imgids[RoomData.FOOD_DRINK + 1] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_MILK_1,
-        ResourceManagerBase.IMAGE_MILK_2,
-        ResourceManagerBase.IMAGE_MILK_3,
-        ResourceManagerBase.IMAGE_MILK_4,
-        ResourceManagerBase.IMAGE_MILK_5);
-    imgids[RoomData.FOOD_DRINK + 2] = initializeFoodImageIds(ResourceManagerBase.IMAGE_BOTTLE_1);
-    imgids[RoomData.FOOD_DRINK + 3] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_TEA_1,
-        ResourceManagerBase.IMAGE_TEA_2,
-        ResourceManagerBase.IMAGE_TEA_3);
-    imgids[RoomData.FOOD_DRINK + 4] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_COFFEE_1,
-        ResourceManagerBase.IMAGE_COFFEE_2,
-        ResourceManagerBase.IMAGE_COFFEE_3);
-    imgids[RoomData.FOOD_DRINK + 5] = initializeFoodImageIds(
-        ResourceManagerBase.IMAGE_ORANGE_JUICE_1,
-        ResourceManagerBase.IMAGE_ORANGE_JUICE_2,
-        ResourceManagerBase.IMAGE_ORANGE_JUICE_3,
-        ResourceManagerBase.IMAGE_ORANGE_JUICE_4,
-        ResourceManagerBase.IMAGE_ORANGE_JUICE_5);
+    imgids[RoomData.FOOD_WATERMELON] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_WATERMELON_1,
+        ResourceManager.IMAGE_WATERMELON_2,
+        ResourceManager.IMAGE_WATERMELON_3,
+        ResourceManager.IMAGE_WATERMELON_4,
+        ResourceManager.IMAGE_WATERMELON_5,
+        ResourceManager.IMAGE_WATERMELON_6,
+        ResourceManager.IMAGE_WATERMELON_7,
+        ResourceManager.IMAGE_WATERMELON_8);
+    imgids[RoomData.FOOD_DRINK] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_WATER_1,
+        ResourceManager.IMAGE_WATER_2,
+        ResourceManager.IMAGE_WATER_3,
+        ResourceManager.IMAGE_WATER_4,
+        ResourceManager.IMAGE_WATER_5);
+    imgids[RoomData.FOOD_DRINK + 1] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_MILK_1,
+        ResourceManager.IMAGE_MILK_2,
+        ResourceManager.IMAGE_MILK_3,
+        ResourceManager.IMAGE_MILK_4,
+        ResourceManager.IMAGE_MILK_5);
+    imgids[RoomData.FOOD_DRINK + 2] = this.initializeFoodImageIds(ResourceManager.IMAGE_BOTTLE_1);
+    imgids[RoomData.FOOD_DRINK + 3] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_TEA_1,
+        ResourceManager.IMAGE_TEA_2,
+        ResourceManager.IMAGE_TEA_3);
+    imgids[RoomData.FOOD_DRINK + 4] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_COFFEE_1,
+        ResourceManager.IMAGE_COFFEE_2,
+        ResourceManager.IMAGE_COFFEE_3);
+    imgids[RoomData.FOOD_DRINK + 5] = this.initializeFoodImageIds(
+        ResourceManager.IMAGE_ORANGE_JUICE_1,
+        ResourceManager.IMAGE_ORANGE_JUICE_2,
+        ResourceManager.IMAGE_ORANGE_JUICE_3,
+        ResourceManager.IMAGE_ORANGE_JUICE_4,
+        ResourceManager.IMAGE_ORANGE_JUICE_5);
     food.animationImageIds = imgids;
     food.loopAnimation = true;
     this.addGameObject(food);
@@ -916,7 +926,7 @@ export default class RoomController extends BaseGameController{
   initializeFoodImageIds(...ids) {
     const COUNT = 100;
     const result = new Array(COUNT);
-    for (const n = 0; n < COUNT; n++) {
+    for (let n = 0; n < COUNT; n++) {
       result[n] = ids[ n / COUNT * ids.length];
     }
     return result;
@@ -1649,10 +1659,10 @@ export default class RoomController extends BaseGameController{
   }
 
   initializeNewbieBoxes() {
-    const boxes = new BoxGameObject[RoomData.BOXES_COUNT];
+    const boxes = new Array(RoomData.BOXES_COUNT);
     for (let n = 0; n < RoomData.BOXES_COUNT; n++) {
       const box = new BoxGameObject();
-      const imgids = [[ ResourceManagerBase.IMAGE_ROOM_BOX ]];
+      const imgids = [[ ResourceManager.IMAGE_ROOM_BOX ]];
       box.animationImageIds = imgids;
       box.tileTypes = [[ TileType.NORMAL, TileType.WALL ]];
       box.index = n;
@@ -1733,7 +1743,7 @@ export default class RoomController extends BaseGameController{
     for (const n = 0; n < buildMenuItems.length; n++) {
       buildMenuItems[n] = new GameObject();
       buildMenuItems[n]
-          .animationImageIds([[ ResourceManagerBase.IMAGE_BUILD_MENU_ITEM ]]);
+          .animationImageIds([[ ResourceManager.IMAGE_BUILD_MENU_ITEM ]]);
       buildMenuItems[n].position = new Point(250 + 100 * n, 250);
       buildMenuItems[n].z = BaseGameController.MENU_Z_ORDER;
       buildMenuItems[n].addMouseMoveListener((mouseMoveArg) => {
@@ -1748,7 +1758,7 @@ export default class RoomController extends BaseGameController{
 
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
-        .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_REFRIGERATOR_1 ]];
+        .animationImageIds = [[ ResourceManager.IMAGE_BUILD_REFRIGERATOR_1 ]];
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].position = new Point(250, 250);
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].z = BaseGameController.MENU_Z_ORDER;
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].visible = false;
@@ -1792,7 +1802,7 @@ export default class RoomController extends BaseGameController{
 
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
-        .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_MACHINE_WITH_DRINKS ]];
+        .animationImageIds = [[ ResourceManager.IMAGE_BUILD_MACHINE_WITH_DRINKS ]];
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
         .position = new Point(350, 250);
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
@@ -1832,7 +1842,7 @@ export default class RoomController extends BaseGameController{
 
     buildObjects[RoomData.BUILD_MENU_BOOKCASE] = new GameObject();
     buildObjects[RoomData.BUILD_MENU_BOOKCASE]
-        .animationImageIds = [[ ResourceManagerBase.IMAGE_BUILD_BOOKCASE ]];
+        .animationImageIds = [[ ResourceManager.IMAGE_BUILD_BOOKCASE ]];
     buildObjects[RoomData.BUILD_MENU_BOOKCASE].position = new Point(450,
         250);
     buildObjects[RoomData.BUILD_MENU_BOOKCASE].z = BaseGameController.MENU_Z_ORDER;
@@ -1889,7 +1899,7 @@ export default class RoomController extends BaseGameController{
   }
 
   initRefrigerators() {
-    const refrigerators = new Array[RoomData.REFRIGERATOR_MAX_LEVEL];
+    const refrigerators = new Array(RoomData.REFRIGERATOR_MAX_LEVEL);
     for (let n = 0; n < RoomData.REFRIGERATOR_MAX_LEVEL; n++) {
       refrigerators[n] = this.initRefrigerator(n + 1);
     }
@@ -1902,9 +1912,9 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_REFRIGERATOR_HEIGHT);
     go.position = new Point(RoomData.ORIGINAL_REFRIGERATOR_X,
         RoomData.ORIGINAL_REFRIGERATOR_Y);
-    const imgids = new [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_1
+    const imgids = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_1
         + refrigeratorLevel - 1]
-        [ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_1_HIGHLIGHT
+        [ ResourceManager.IMAGE_ROOM_REFRIGERATOR_1_HIGHLIGHT
         + refrigeratorLevel - 1]];
     go.animationImageIds = imgids;
     go.addClickedListener((clickedArg) => {
@@ -1952,10 +1962,9 @@ export default class RoomController extends BaseGameController{
 
   initRefrigeratorInnerObjects() {
     const refrigeratorInner = new GameObject();
-    this.refrigeratorInner.position = new Point(0, 0);
-    this.refrigeratorInner.z = BaseGameController.MENU_Z_ORDER;
-    const imgids = [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_INNER ]];
-    refrigeratorInner.animationImageIds = imgids;
+    refrigeratorInner.position = new Point(0, 0);
+    refrigeratorInner.z = BaseGameController.MENU_Z_ORDER;
+    refrigeratorInner.animationImageIds = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_INNER ]];
     refrigeratorInner.visible = false;
     refrigeratorInner.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showDefaultCursor();
@@ -1970,9 +1979,8 @@ export default class RoomController extends BaseGameController{
       const go = new GameObject();
       go.position = new Point(RoomData.ORIGINAL_REFRIGERATOR_INNER_X,
           n * 100);
-      go.z = MENU_Z_ORDER;
-      imgids = [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_INNER_ITEM ]];
-      go.animationImageIds = imgids;
+      go.z = BaseGameController.MENU_Z_ORDER;
+      go.animationImageIds = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_INNER_ITEM ]];
       go.visible = false;
       go.addMouseMoveListener((mouseMoveArg) => {
         roomView.showDefaultCursor();
@@ -1988,9 +1996,8 @@ export default class RoomController extends BaseGameController{
     refrigeratorClose.position = new Point(
         RoomData.ORIGINAL_REFRIGERATOR_CLOSE_X,
         RoomData.ORIGINAL_REFRIGERATOR_CLOSE_Y);
-    refrigeratorClose.z = MENU_Z_ORDER + 1;
-    imgids = [[ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_CLOSE ][ ResourceManagerBase.IMAGE_ROOM_REFRIGERATOR_CLOSE_HIGHLIGHT ]];
-    refrigeratorClose.animationImageIds = imgids;
+    refrigeratorClose.z = BaseGameController.MENU_Z_ORDER + 1;
+    refrigeratorClose.animationImageIds = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_CLOSE ][ ResourceManager.IMAGE_ROOM_REFRIGERATOR_CLOSE_HIGHLIGHT ]];
     refrigeratorClose.visible = false;
     refrigeratorClose.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();
@@ -2041,7 +2048,7 @@ export default class RoomController extends BaseGameController{
     const machineWithDrinksInner = new GameObject();
     machineWithDrinksInner.position = new Point(0, 0);
     machineWithDrinksInner.z = BaseGameController.MENU_Z_ORDER;
-    const imgids = [[ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER ]];
+    const imgids = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER ]];
     machineWithDrinksInner.animationImageIds = imgids;
     machineWithDrinksInner.visible = false;
     machineWithDrinksInner.addMouseMoveListener((mouseMoveArg) => {
@@ -2063,7 +2070,7 @@ export default class RoomController extends BaseGameController{
               + RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y
               * (n / 2));
       go.z = MENU_Z_ORDER;
-      imgids = [[ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER_ITEM ]];
+      imgids = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER_ITEM ]];
       go.animationImageIds = imgids;
       go.visible = false;
       go.addMouseMoveListener((mouseMoveArg) => {
@@ -2081,7 +2088,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_X,
         RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_Y);
     machineWithDrinksClose.z = BaseGameController.MENU_Z_ORDER + 1;
-    imgids = [[ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE ] [ ResourceManagerBase.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE_HIGHLIGHT ]];
+    imgids = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE ] [ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE_HIGHLIGHT ]];
     machineWithDrinksClose.animationImageIds = imgids;
     machineWithDrinksClose.visible = false;
     machineWithDrinksClose.addMouseMoveListener((mouseMoveArg) => {

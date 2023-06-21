@@ -1,6 +1,6 @@
-import GameObjectRenderBase from './GameObjectRenderBase.js';
+import GameObjectRender from './GameObjectRender.js';
 
-export default class LabelGameObjectRenderBase extends GameObjectRenderBase {
+export default class LabelGameObjectRender extends GameObjectRender {
     
   #labelGameObject;
     

@@ -34,6 +34,7 @@ export default class GameView {
   
   baseGameView;
   timer;
+  viewImplFactory;
   
     
   constructor() {
@@ -243,6 +244,7 @@ export default class GameView {
 
   showRoom() {
     this.baseGameView = new RoomView();
+    this.baseGameView.viewImplFactory = this.viewImplFactory;
     this.reloadResources();
     return this.baseGameView;
   }
