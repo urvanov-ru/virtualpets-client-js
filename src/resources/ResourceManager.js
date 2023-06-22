@@ -869,7 +869,7 @@ export default class ResourceManager {
     const img = new Image();
   	
   	img.onload = function() {
-  	  console.log("Resource %s loaded with resourceId = %i.", path, resourceId);
+  	  console.debug("Resource %s loaded with resourceId = %i.", path, resourceId);
   	  img.width = Math.round(img.width * scale);
   	  img.height = Math.round(img.height * scale);
   	  document.body.appendChild(this);

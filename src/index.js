@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const roomData = new RoomData();
   const gameView = new GameView();
   const resourceManager = new ResourceManager();
-  const roomLoadWorker = new RoomLoadWorker(resourceManager, 1.0, PetType.CAT); 
+  const roomLoadWorker = new RoomLoadWorker(resourceManager, canvas.width / GameView.ORIGINAL_WIDTH, PetType.CAT); 
   const gameController = new GameController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
