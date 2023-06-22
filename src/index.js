@@ -23,8 +23,8 @@ import GameController from './controller/GameController.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
   const canvas = document.getElementById("canvas");
-  canvas.width = 800;
-  canvas.height = 600;
+  canvas.width = 320;
+  canvas.height = 240;
   const ctx = canvas.getContext("2d");
 
   ctx.fillStyle = "green";

@@ -404,6 +404,7 @@ export default class BaseGameLoadWorker {
   }
 
   loadImageWithScale(path, resourceId) {
+    console.log("Loading %s for resourceId = %i.", path, resourceId);
     if (this.resourceManager.getResourceHolder(resourceId) == null) {
       this.resourceManager.loadImageWithScale(path, resourceId, this.scale);
     }

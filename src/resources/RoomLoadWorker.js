@@ -400,8 +400,8 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
         resourceHolder.resetInScale = true;
         this.resourceManager.putResource(resourceIconId, resourceHolder);
       } else {
-        const fw = buildIconSize / max * w;
-        const fh = buildIconSize / max * h;
+        const fw = this.#buildIconSize / max * w;
+        const fh = this.#buildIconSize / max * h;
         // to implement
 //        const scaledImage = image.getScaledInstance((int) (fw),
 //            (int) (fh), Image.SCALE_SMOOTH);
