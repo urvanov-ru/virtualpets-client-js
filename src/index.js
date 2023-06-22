@@ -1,145 +1,25 @@
 // rest domain
-import AchievementCode from './rest/domain/AchievementCode.js';
-import BuildingMaterialType from './rest/domain/BuildingMaterialType.js';
-import ChatMessage from './rest/domain/ChatMessage.js';
-import Cloth from './rest/domain/Cloth.js';
-import ClothType from './rest/domain/ClothType.js';
-import CollectObjectArg from './rest/domain/CollectObjectArg.js';
-import CreatePetArg from './rest/domain/CreatePetArg.js';
-import CreatePetResult from './rest/domain/CreatePetResult.js';
-import DrinkArg from './rest/domain/DrinkArg.js';
-import DrinkType from './rest/domain/DrinkType.js';
-import FoodType from './rest/domain/FoodType.js';
-import GetPetBooksResult from './rest/domain/GetPetBooksResult.js';
-import GetPetClothsResult from './rest/domain/GetPetClothsResult.js';
-import GetPetDrinksResult from './rest/domain/GetPetDrinksResult.js';
-import GetPetFoodsResult from './rest/domain/GetPetFoodsResult.js';
-import GetPetJournalEntriesResult from './rest/domain/GetPetJournalEntriesResult.js';
-import GetPetRucksackInnerResult from './rest/domain/GetPetRucksackInnerResult.js';
-import GetRoomInfoResult from './rest/domain/GetRoomInfoResult.js';
-import GetServersArg from './rest/domain/GetServersArg.js';
-import GetTownInfoResult from './rest/domain/GetTownInfoResult.js';
-import HiddenObjectsCollected from './rest/domain/HiddenObjectsCollected.js';
-import HiddenObjectsGame from './rest/domain/HiddenObjectsGame.js';
-import HiddenObjectsGameType from './rest/domain/HiddenObjectsGameType.js';
-import HiddenObjectsPlayer from './rest/domain/HiddenObjectsPlayer.js';
-import HiddenObjectsReward from './rest/domain/HiddenObjectsReward.js';
-import JoinHiddenObjectsGameArg from './rest/domain/JoinHiddenObjectsGameArg.js';
-import JournalEntryType from './rest/domain/JournalEntryType.js';
-import LevelInfo from './rest/domain/LevelInfo.js';
-import LoginArg from './rest/domain/LoginArg.js';
-import LoginResult from './rest/domain/LoginResult.js';
-import OpenBoxNewbieResult from './rest/domain/OpenBoxNewbieResult.js';
-import PetInfo from './rest/domain/PetInfo.js';
-import PetJournalEntry from './rest/domain/PetJournalEntry.js';
-import PetListResult from './rest/domain/PetListResult.js';
 import PetType from './rest/domain/PetType.js';
-import RestPoint from './rest/domain/Point.js';
-import RecoverPasswordArg from './rest/domain/RecoverPasswordArg.js';
-import RecoverPasswordResult from './rest/domain/RecoverPasswordResult.js';
-import RefreshChatArg from './rest/domain/RefreshChatArg.js';
-import RefreshChatResult from './rest/domain/RefreshChatResult.js';
-import RefreshUsersOnlineArg from './rest/domain/RefreshUsersOnlineArg.js';
-import RefreshUsersOnlineResult from './rest/domain/RefreshUsersOnlineResult.js';
-import RegisterArgument from './rest/domain/RegisterArgument.js';
-import RegisterResult from './rest/domain/RegisterResult.js';
-import Role from './rest/domain/Role.js';
-import RoomBuildMenuCosts from './rest/domain/RoomBuildMenuCosts.js';
-import SatietyArg from './rest/domain/SatietyArg.js';
-import SaveClothArg from './rest/domain/SaveClothArg.js';
-import SelectPetArg from './rest/domain/SelectPetArg.js';
-import SelectPetResult from './rest/domain/SelectPetResult.js';
-import SendChatMessageArg from './rest/domain/SendChatMessageArg.js';
-import SendChatMessageResult from './rest/domain/SendChatMessageResult.js';
-import ServerInfo from './rest/domain/ServerInfo.js';
-import ServerTechnicalInfo from './rest/domain/ServerTechnicalInfo.js';
-import Sex from './rest/domain/Sex.js';
-import UserInfo from './rest/domain/UserInfo.js';
-import UserInformation from './rest/domain/UserInformation.js';
-import UserInformationArg from './rest/domain/UserInformationArg.js';
 
 // domain
-import GameObject from './domain/GameObject.js';
-import AchievementInfoGameObject from './domain/AchievementInfoGameObject.js';
-import AddPrivateChatArg from './domain/AddPrivateChatArg.js'
-import AnimationOverArg from './domain/AnimationOverArg.js'
-import AnimationOverListener from './domain/AnimationOverListener.js';
-import BookGameObject from './domain/BookGameObject.js';
-import BuildingGameObject from './domain/BuildingGameObject.js';
-import BuildingMaterialGameObject from './domain/BuildingMaterialGameObject.js';
-import BuildMenuGameObject from './domain/BuildMenuGameObject.js';
-import ClickedArg from './domain/ClickedArg.js';
-import ClickedListener from './domain/ClickedListener.js';
-import ClothGameObject from './domain/ClothGameObject.js';
-import CollectableGameObject from './domain/CollectableGameObject.js';
-import Dimension from './domain/Dimension.js';
-import DressingRoomData from './domain/DressingRoomData.js';
-import EventListener from './domain/EventListener.js';
-import TownData from './domain/TownData.js';
-import TreasuryData from './domain/TreasuryData.js';
-import TileType from './domain/TileType.js';
-import RucksackGameObject from './domain/RucksackGameObject.js';
-import ProgressBarGameObject from './domain/ProgressBarGameObject.js';
-import Point from './domain/Point.js';
-import PopupMenuGameObject from './domain/PopupMenuGameObject.js';
-import MouseMoveListener from './domain/MouseMoveListener.js';
-import HiddenObjectsGameData from './domain/HiddenObjectsGameData.js';
-import LabelGameObject from './domain/LabelGameObject.js';
-import MenuItem from './domain/MenuItem.js';
-import MouseMoveArg from './domain/MouseMoveArg.js';
-import HighlightGameObject from './domain/HighlightGameObject.js';
-import BoxGameObject from './domain/BoxGameObject.js';
 import RoomData from './domain/RoomData.js';
-import PetGameObject from './domain/PetGameObject.js';
-import LevelInfoGameObject from './domain/LevelInfoGameObject.js';
-import MessageBoxInnerGameObject from './domain/MessageBoxInnerGameObject.js';
-import MessageBoxGameObject from './domain/MessageBoxGameObject.js';
-import ExperienceGameObject from './domain/ExperienceGameObject.js';
-import JournalGameObject from './domain/JournalGameObject.js';
-
-
-// tiles
-import TilesEngine from './tiles/TilesEngine.js';
-
 
 // view
-import GameObjectRender from './view/component/GameObjectRender.js';
-import LabelGameObjectRender from './view/component/LabelGameObjectRender.js';
-import PopupMenuGameObjectRender from './view/component/PopupMenuGameObjectRender.js';
-import ProgressBarGameObjectRender from './view/component/ProgressBarGameObjectRender.js';
 import ViewImplFactory from './view/component/ViewImplFactory.js';
-import AfternoonTeaView from './view/AfternoonTeaView.js';
-import DressingRoomView from './view/DressingRoomView.js';
-import RoomView from './view/RoomView.js';
-import TownView from './view/TownView.js';
-import TreasuryView from './view/TreasuryView.js';
-import RubbishView from './view/RubbishView.js';
-import GameEngine from './view/GameEngine.js';
 import GameView from './view/GameView.js';
 
-
-// localization
-import StringConstants from './localization/StringConstants.js';
 import MessageSource from './localization/MessageSource.js';
 
 // settings
-import Settings from './settings/Settings.js';
-import MemorySettings from './settings/MemorySettings.js';
 import LocalStorageSettings from './settings/LocalStorageSettings.js';
 
-
 // resources
-import ProgressInfo from './resources/ProgressInfo.js';
-import ResourceHolder from './resources/ResourceHolder.js';
 import ResourceManager from './resources/ResourceManager.js';
-import ResourceLoader from './resources/ResourceLoader.js';
-import BaseGameLoadWorker from './resources/BaseGameLoadWorker.js';
 import RoomLoadWorker from './resources/RoomLoadWorker.js';
 
 // controller
 import RoomController from './controller/RoomController.js';
 import GameController from './controller/GameController.js';
-
 
 document.addEventListener("DOMContentLoaded", function(event) {
   const canvas = document.getElementById("canvas");
