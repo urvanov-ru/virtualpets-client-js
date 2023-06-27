@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   gameController.showView();
   
-  roomLoadWorker.loadResourcesInBackground();
 });
 
 

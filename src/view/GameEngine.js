@@ -47,6 +47,7 @@ export default class GameEngine {
     for (const gor of gameObjectRenderList) {
       const go = gor.gameObject;
       if (go.visible) {
+        console.debug("Draw object %s", go);
         gor.draw(independentCanvas);
       }
     }
@@ -154,18 +155,19 @@ export default class GameEngine {
     this.gameObjects.set(go, this.viewImplFactory.createGameObjectRender(go));
   }
 
-  getGetGameObjectRenders() {
+  get gameObjectRenders() {
     return this.gameObjects.values();
   }
 
   reloadImages() {
-    for (const gorb of getGetGameObjectRenders()) {
-      reloadImages(gorb);
+    for (const gorb of this.gameObjectRenders) {
+      this.#reloadImagesGameObjectRender(gorb);
     }
   }
 
-  reloadImages(gor) {
-    const ids = gor.gameObject.getAnimationImageIds();
+  #reloadImagesGameObjectRender(gor) {
+    console.debug('Reload images for game object render %o ', gor);
+    const ids = gor.gameObject.animationImageIds;
     if (ids != null) {
       const animationsCount = ids.length;
       const animations = new Array(animationsCount);
@@ -173,7 +175,7 @@ export default class GameEngine {
         const imgids = ids[n];
         animations[n] = this.viewImplFactory.createAnimation(imgids);
       }
-      gor.setAnimations(animations);
+      gor.animations = animations;
       // gor.setCurrentAnimation(gor.getAnimations()[gor.getGameObject().getState()]);
     }
   }

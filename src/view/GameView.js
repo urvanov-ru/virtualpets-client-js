@@ -70,7 +70,7 @@ export default class GameView {
       worker.done = function() {
         this.resourcesLoaded[GameView.ROOM_LOAD_WORKER] = true;
         this.loadResourcesDone(this);
-      }
+      }.bind(this);
     }
     //else if ((gamePanel.getBaseGameView() instanceof TownView)
     //    && (!resourcesLoaded[TOWN_LOAD_WORKER])) {
@@ -144,15 +144,11 @@ export default class GameView {
 //    }
     //this.progressInfoPanel.setProgressInfo(new ProgressInfo(0, ""));
     //progressInfoPanel.setVisible(true);
-    //if (worker != null) {
-    //  worker.execute();
-    //} else {
-//      SwingUtilities.invokeLater(new Runnable() {
-//        public void run() {
-//          loadResourcesDone(null);
-//        }
-//      });
-//    }
+    if (worker != null) {
+      worker.loadResourcesInBackground();
+    } else {
+      loadResourcesDone(null);
+    }
   }
 
   processLoadWorker(progressInfoList) {
@@ -167,6 +163,7 @@ export default class GameView {
   }
 
   loadResourcesDone(worker) {
+    console.debug('Load resources done');
     //try {
     //  if (worker != null) {
     //    worker.get();
@@ -189,21 +186,55 @@ export default class GameView {
     //      (int) (h / 2 - scale * ORIGINAL_HEIGHT / 2));
     //  gamePanel.setSize((int) (scale * ORIGINAL_WIDTH),
     //      (int) (scale * ORIGINAL_HEIGHT));
-   //   gamePanel.reloadImages();
-   //   gamePanel.start();
-   //   gamePanel.setAllowRepaint(true);
-   //   if (firstInit) {
-   //     gamePanel.fireInitializationCompleted();
-   //   }
-   // } catch (Exception ex) {
+   this.reloadImages();
+   this.start();
+   this.allowRepaint = true;
+   if (this.firstInit) {
+     this.fireInitializationCompleted();
+   }
+   //} catch (Exception ex) {
    //   log.error("loadResources done processing error.", ex);
    //   String message = messageSource.getMessage(StringConstants.ERROR,
    //       null, null) + ": " + ex.toString();
    //   trayIcon.showTrayMessage(message, MessageType.ERROR);
 //
-  //  }
+   //  }
   }
 
+  reloadImages() {
+    this.baseGameView.reloadImages();
+  }
+
+    
+  start() {
+    this.baseGameView.start();
+  }
+
+
+  fireInitializationCompleted() {
+    this.timer = setInterval(1000 / 60, this.step.bind(this));
+  }
+
+
+  pause() {
+    this.baseGameView.pause();
+  }
+
+  release() {
+    baseGameView.release();
+  }
+    
+
+
+  step() {
+    baseGameView.step();
+    if (baseGameView.isAllowDraw()) {
+      this.baseGameView.draw();
+            
+      //revalidate();
+    }
+  }
+    
   calculateScale() {
 	const width = this.#canvas.width;
     const height = this.#canvas.height;

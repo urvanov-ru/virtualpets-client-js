@@ -388,7 +388,7 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
   }
   
   loadImageWithBuildIcon(path, resourceId, resourceIconId) {
-    this.resourceManager.loadImageWithScale(path, resourceId, this.scale);
+    this.resourceManager.loadImageWithScale(path, resourceId, this.scale, this.loadedCallback.bind(this, path));
     if (this.resourceManager.getResourceHolder(resourceIconId) == null) {
       const image = this.resourceManager.loadImage(path);
       const w = image.width;
@@ -413,11 +413,6 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
 //        resourceManager.putResource(resourceIconId, resourceHolder);
       }
     }
-    this.incCurrentIndex();
-    const publish = new Array(1);
-    publish[0] = new ProgressInfo(
-        ((this.currentIndex * 100) / this.maxIndex), path);
-    this.publish(publish);
   }
   
 }

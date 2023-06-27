@@ -857,7 +857,7 @@ export default class ResourceManager {
   	const img = new Image();
   	
   	img.onload = function() {
-  	  document.body.appendChild(this);
+  	  //document.body.appendChild(this);
   	};
   	img.src = path;	  
 	  
@@ -865,14 +865,14 @@ export default class ResourceManager {
   }
 
 
-  loadImageWithScale(path, resourceId, scale) {
+  loadImageWithScale(path, resourceId, scale, callback) {
     const img = new Image();
   	
   	img.onload = function() {
-  	  console.debug("Resource %s loaded with resourceId = %i.", path, resourceId);
+  	  //console.debug("Resource %s loaded with resourceId = %i.", path, resourceId);
   	  img.width = Math.round(img.width * scale);
   	  img.height = Math.round(img.height * scale);
-  	  document.body.appendChild(this);
+  	  callback();
   	};
   	img.src = path;	  
 	  
