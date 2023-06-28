@@ -814,7 +814,7 @@ export default class BaseGameController {
   initializeJournal() {
     this.journal = new JournalGameObject();
     this.journal.position = new Point(BaseGameController.ORIGINAL_JOURNAL_X, BaseGameController.ORIGINAL_JOURNAL_Y);
-    this.journal.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL ] [ ResourceManager.IMAGE_JOURNAL_HIGHLIGHT ]];
+    this.journal.animationImageIds = [[ ResourceManager.IMAGE_JOURNAL ], [ ResourceManager.IMAGE_JOURNAL_HIGHLIGHT ]];
     this.journal.addClickedListener((clickedArg) => {
       this.showJournal();
     });

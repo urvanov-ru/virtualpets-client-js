@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   canvas.width = 320;
   canvas.height = 240;
   const ctx = canvas.getContext("2d");
+  
+  const scale = canvas.width / GameView.ORIGINAL_WIDTH;
 
   ctx.fillStyle = "green";
   ctx.fillRect(10, 10, 150, 100);
@@ -34,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const roomData = new RoomData();
   const gameView = new GameView();
   const resourceManager = new ResourceManager();
-  const roomLoadWorker = new RoomLoadWorker(resourceManager, canvas.width / GameView.ORIGINAL_WIDTH, PetType.CAT); 
+  const roomLoadWorker = new RoomLoadWorker(resourceManager, scale, PetType.CAT); 
   const gameController = new GameController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
@@ -44,6 +46,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
+  
+  viewImplFactory.resourceManager = resourceManager;
   
   gameController.showView();
   

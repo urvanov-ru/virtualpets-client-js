@@ -10,13 +10,13 @@ export default class RoomView extends GameEngine {
 
   step() {
     super.step();
-    const progressBar = roomData.progressBar;
+    const progressBar = this.#roomData.progressBar;
     if (progressBar.visible) {
       if (progressBar.value < progressBar.maxValue) {
         progressBar.value = progressBar.value + 1;
       } else {
         progressBar.visible = false;
-        roomData.progressBarOverListener.animationOver(
+        this.#roomData.progressBarOverListener.animationOver(
             new AnimationOverArg());
       }
     }

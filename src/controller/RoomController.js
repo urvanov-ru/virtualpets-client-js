@@ -109,27 +109,27 @@ export default class RoomController extends BaseGameController{
     pet.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
     this.roomData.pet = pet;
 
-    const clothObjects = this.initializeClothGameObjects(); // Map<Integer, ClothGameObject> 
-    for (const [key, value] of clothObjects.entries()) {
-      const cgo = value;
-      cgo.visible = false;
-      cgo.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
-    }
-    this.roomData.clothObjects = clothObjects;
+    //const clothObjects = this.initializeClothGameObjects(); // Map<Integer, ClothGameObject> 
+    //for (const [key, value] of clothObjects.entries()) {
+    //  const cgo = value;
+    //  cgo.visible = false;
+    //  cgo.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
+   // }
+    //this.roomData.clothObjects = clothObjects;
+//
+  //  this.initializeFood();
 
-    this.initializeFood();
+    //this.initializeBook();
 
-    this.initializeBook();
+    //this.initRefrigeratorInnerObjects();
 
-    this.initRefrigeratorInnerObjects();
+    //this.initializeBookcaseInnerObjects();
 
-    this.initializeBookcaseInnerObjects();
+    //this.initializeMachineWithDrinksInnerObjects();
 
-    this.initializeMachineWithDrinksInnerObjects();
+    //this.initializeRucksack();
 
-    this.initializeRucksack();
-
-    this.initializeBuildMenu();
+    //this.initializeBuildMenu();
 
     this.initializeJournal();
 
@@ -138,16 +138,16 @@ export default class RoomController extends BaseGameController{
     this.roomData.refrigeratorInnerCounts = new Array(FoodType.VALUES_COUNT);
     this.roomData.machineWithDrinksInnerCounts = new Array(DrinkType.VALUES_COUNT);
 
-    this.initializeMessageBox();
-    this.initializeUpgrade();
+    //this.initializeMessageBox();
+    //this.initializeUpgrade();
 
     this.initializeIndicators();
 
-    this.initializeRefrigeratorPopupMenu();
-    this.initializeBookcasePopupMenu();
-    this.initializeMachineWithDrinksPopupMenu();
+    //this.initializeRefrigeratorPopupMenu();
+    //this.initializeBookcasePopupMenu();
+    //this.initializeMachineWithDrinksPopupMenu();
     
-    this.initializeAchievementInfo();
+    //this.initializeAchievementInfo();
     
     this.roomView.roomData = this.roomData;
   }
@@ -516,7 +516,7 @@ export default class RoomController extends BaseGameController{
 
   initializeArrowRight() {
     const arrowRight = new HighlightGameObject();
-    const imgids = [[ ResourceManager.IMAGE_ROOM_ARROW_RIGHT ][ ResourceManager.IMAGE_ROOM_ARROW_RIGHT_HIGHLIGHT ]];
+    const imgids = [[ ResourceManager.IMAGE_ROOM_ARROW_RIGHT ], [ ResourceManager.IMAGE_ROOM_ARROW_RIGHT_HIGHLIGHT ]];
     arrowRight.animationImageIds = imgids;
     arrowRight.position = new Point(RoomData.ORIGINAL_ARROW_RIGHT_X,
         RoomData.ORIGINAL_ARROW_RIGHT_Y);
@@ -554,7 +554,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_BOOKCASE_HEIGHT);
     bookcase.position = new Point(RoomData.ORIGINAL_BOOKCASE_X,
         RoomData.ORIGINAL_BOOKCASE_Y);
-    const imgids = [[  ResourceManager.IMAGE_ROOM_BOOKCASE_1 + bookcaseLevelId - 1]
+    const imgids = [[  ResourceManager.IMAGE_ROOM_BOOKCASE_1 + bookcaseLevelId - 1],
         [ ResourceManager.IMAGE_ROOM_BOOKCASE_HIGHLIGHT_1 + bookcaseLevelId - 1]];
     bookcase.animationImageIds = imgids;
     bookcase.addClickedListener((clickedArg) => {
@@ -719,7 +719,7 @@ export default class RoomController extends BaseGameController{
     machineWithDrinks.dimension = new Dimension(
         RoomData.ORIGINAL_DRINK_WIDTH, RoomData.ORIGINAL_DRINK_HEIGHT);
     const imgids = [[ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_1
-        + level - 1 ][ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_1_HIGHLIGHT
+        + level - 1 ], [ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_1_HIGHLIGHT
         + level - 1 ]];
     machineWithDrinks.animationImageIds = imgids;
     machineWithDrinks.position = new Point(RoomData.ORIGINAL_WATER_X,
@@ -1923,7 +1923,7 @@ export default class RoomController extends BaseGameController{
     go.position = new Point(RoomData.ORIGINAL_REFRIGERATOR_X,
         RoomData.ORIGINAL_REFRIGERATOR_Y);
     const imgids = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_1
-        + refrigeratorLevel - 1]
+        + refrigeratorLevel - 1],
         [ ResourceManager.IMAGE_ROOM_REFRIGERATOR_1_HIGHLIGHT
         + refrigeratorLevel - 1]];
     go.animationImageIds = imgids;
@@ -2007,7 +2007,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_REFRIGERATOR_CLOSE_X,
         RoomData.ORIGINAL_REFRIGERATOR_CLOSE_Y);
     refrigeratorClose.z = BaseGameController.MENU_Z_ORDER + 1;
-    refrigeratorClose.animationImageIds = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_CLOSE ][ ResourceManager.IMAGE_ROOM_REFRIGERATOR_CLOSE_HIGHLIGHT ]];
+    refrigeratorClose.animationImageIds = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_CLOSE ], [ ResourceManager.IMAGE_ROOM_REFRIGERATOR_CLOSE_HIGHLIGHT ]];
     refrigeratorClose.visible = false;
     refrigeratorClose.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();

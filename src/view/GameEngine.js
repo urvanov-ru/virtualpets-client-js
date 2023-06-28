@@ -6,7 +6,7 @@ export default class GameEngine {
 
 //  private boolean allowDraw;
   resourceManagerBase;
-  scale = 0.0;
+  #scale = 0.0;
   messageSource;
   viewImplFactory;
 
@@ -19,7 +19,7 @@ export default class GameEngine {
   
 //  private CursorType cursorType = CursorType.DEFAULT;
 
-  started = false;
+  #started = false;
 
   #clickedListeners = []; // new ArrayList<ClickedListener>();
   #mouseMoveListeners = []; // new ArrayList<MouseMoveListener>();
@@ -30,7 +30,7 @@ export default class GameEngine {
   }
 
   step() {
-    if (started) {
+    if (this.#started) {
       for (const gor of gameObjects.values()) {
         const go = gor.gameObject;
         go.step();
@@ -41,14 +41,13 @@ export default class GameEngine {
     }
   }
 
-  draw(independentCanvas) {
-    gameObjectRenderList = sortGameObjects();
-    independentCanvas.font = font;
+  draw(canvas) {
+    const gameObjectRenderList = this.sortGameObjects();
+    // independentCanvas.font = font;
     for (const gor of gameObjectRenderList) {
       const go = gor.gameObject;
       if (go.visible) {
-        console.debug("Draw object %s", go);
-        gor.draw(independentCanvas);
+        gor.draw(canvas);
       }
     }
   }
@@ -88,9 +87,10 @@ export default class GameEngine {
    *      Коэффициент масштабирования.
    */
   set scale(scale) {
-    this.scale = scale;
-    font = viewImplFactory.createFont(Math.round(20 * scale));
-    for (const gor of gameObjects.values()) {
+    console.debug('Set scale to %f', scale);
+    this.#scale = scale;
+    ///font = this.viewImplFactory.createFont(Math.round(20 * scale));
+    for (const gor of this.gameObjects.values()) {
       gor.scale = scale;
     }
   }
@@ -102,7 +102,7 @@ export default class GameEngine {
    */
   addGameObject(gor) {
     gameObjects.set(gor.gameObject, gor);
-    gor.scale = this.scale;
+    gor.scale = this.#scale;
   }
 
   removeGameObject(go) {
@@ -137,10 +137,10 @@ export default class GameEngine {
   }
 
   sortGameObjects() {
-    const gameObjectsList = Array.from(gameObjects.values());
+    const gameObjectsList = Array.from(this.gameObjects.values());
     gameObjectsList.sort((o1, o2) => {
-            return o1.getGameObject().getZ()
-                - o2.getGameObject().getZ();
+            return o1.gameObject.z
+                - o2.gameObject.z;
           }
         );
     return gameObjectsList;
@@ -176,7 +176,7 @@ export default class GameEngine {
         animations[n] = this.viewImplFactory.createAnimation(imgids);
       }
       gor.animations = animations;
-      // gor.setCurrentAnimation(gor.getAnimations()[gor.getGameObject().getState()]);
+      gor.currentAnimation = gor.animations[gor.gameObject.state];
     }
   }
 

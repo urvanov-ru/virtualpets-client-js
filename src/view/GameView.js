@@ -36,9 +36,10 @@ export default class GameView {
   timer;
   viewImplFactory;
   
+  #firstInit = true;
     
   constructor() {
-	this.#canvas = document.getElementById("canvas");
+	this.#canvas = document.getElementById("canvas").getContext('2d');
   }
 
 
@@ -186,10 +187,11 @@ export default class GameView {
     //      (int) (h / 2 - scale * ORIGINAL_HEIGHT / 2));
     //  gamePanel.setSize((int) (scale * ORIGINAL_WIDTH),
     //      (int) (scale * ORIGINAL_HEIGHT));
+   this.baseGameView.scale = this.scale;
    this.reloadImages();
    this.start();
    this.allowRepaint = true;
-   if (this.firstInit) {
+   if (this.#firstInit) {
      this.fireInitializationCompleted();
    }
    //} catch (Exception ex) {
@@ -212,7 +214,9 @@ export default class GameView {
 
 
   fireInitializationCompleted() {
-    this.timer = setInterval(1000 / 60, this.step.bind(this));
+    console.debug('fireInitializationCompleted.');
+    this.#firstInit = false;
+    this.timer = setInterval(this.step.bind(this), 1000 / 60);
   }
 
 
@@ -227,20 +231,21 @@ export default class GameView {
 
 
   step() {
-    baseGameView.step();
-    if (baseGameView.isAllowDraw()) {
-      this.baseGameView.draw();
+    this.baseGameView.step();
+    if (this.baseGameView.allowDraw) {
+      this.baseGameView.draw(this.#canvas);
             
       //revalidate();
     }
   }
     
   calculateScale() {
-	const width = this.#canvas.width;
-    const height = this.#canvas.height;
+	const width = this.#canvas.canvas.width;
+    const height = this.#canvas.canvas.height;
     const xScale = width / GameView.ORIGINAL_WIDTH;
     const yScale = height / GameView.ORIGINAL_HEIGHT;
     this.scale = Math.min(xScale, yScale);
+    console.debug('calculatedScale = %f, canvas = %o', this.scale, this.#canvas);
     return this.scale;
   }
 

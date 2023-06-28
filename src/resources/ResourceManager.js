@@ -709,12 +709,16 @@ export default class ResourceManager {
    * @return изображение, соответствующий переданному идентификатору
    */
   getResource(resourceId) {
-    const resourceHolder = mapResources.get(imageId);
+    const resourceHolder = this.#mapResources.get(resourceId);
     if (resourceHolder == null) {
       return null;
     } else {
-      return resourceHolder.getResource();
+      return resourceHolder.resource;
     }
+  }
+  
+  getImage(imageId) {
+    return this.getResource(imageId);
   }
 
   /**
@@ -867,19 +871,27 @@ export default class ResourceManager {
 
   loadImageWithScale(path, resourceId, scale, callback) {
     const img = new Image();
-  	
+  	const resourceManager = this;
   	img.onload = function() {
-  	  //console.debug("Resource %s loaded with resourceId = %i.", path, resourceId);
-  	  img.width = Math.round(img.width * scale);
-  	  img.height = Math.round(img.height * scale);
-  	  callback();
+  	  
+  	  Promise.all([createImageBitmap(img, 0, 0, img.width, img.height,
+  	      {
+  	        resizeWidth: Math.round(img.width * scale),
+  	        resizeHeight: Math.round(img.height * scale),
+  	        resizeQuality: 'high'} )] )
+  	      .then((sprites) => {
+  	          console.debug("Resource %s loaded with resourceId = %i. ImageBitmap = %o.", path, resourceId, sprites[0]);
+  	          const resourceHolder = new ResourceHolder();
+              resourceHolder.resetInScale = true;
+              resourceHolder.resource = sprites[0];
+  	          resourceManager.putResource(resourceId, resourceHolder);
+  	          callback();
+  	      });
   	};
   	img.src = path;	  
 	  
-    const resourceHolder = new ResourceHolder();
-    resourceHolder.resetInScale = true;
-    resourceHolder.resource = img;
-    this.putResource(resourceId, resourceHolder);
+    
+    
     return "scaledImage";
   }
 
