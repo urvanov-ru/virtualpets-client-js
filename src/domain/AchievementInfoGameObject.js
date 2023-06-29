@@ -29,10 +29,10 @@ export default class AchievementInfoGameObject {
     if (this.newAchievementStartTime != 0) {
         if (new Date().getTime() > this.newAchievementStartTime
                 + AchievementInfoGameObject.NEW_ACHIEVEMENT_SHOW_TIME) {
-            this.achievementLabel.setVisible(false);
-            this.achievementDescriptionLabel.setVisible(false);
-            this.newAchievementLabel.setVisible(false);
-            this.achievementBackground.setVisible(false);
+            this.achievementLabel.visible =false;
+            this.achievementDescriptionLabel.visible = false;
+            this.newAchievementLabel.visible = false;
+            this.achievementBackground.visible = false;
             this.newAchievementStartTime = 0;
         }
     }
@@ -40,12 +40,12 @@ export default class AchievementInfoGameObject {
 
   showAchievementLabel(message, description) {
     this.newAchievementStartTime = new Date().getTime();
-    this.achievementLabel.setText(message);
-    this.achievementLabel.setVisible(true);
-    this.achievementDescriptionLabel.setText(description);
-    this.achievementDescriptionLabel.setVisible(true);
-    this.newAchievementLabel.setVisible(true);
-    this.achievementBackground.setVisible(true);
+    this.achievementLabel.text = message;
+    this.achievementLabel.visible = true;
+    this.achievementDescriptionLabel.text = description;
+    this.achievementDescriptionLabel.visible = true;
+    this.newAchievementLabel.visible = true;
+    this.achievementBackground.visible = true;
   };
 
 }

@@ -109,27 +109,27 @@ export default class RoomController extends BaseGameController{
     pet.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
     this.roomData.pet = pet;
 
-    //const clothObjects = this.initializeClothGameObjects(); // Map<Integer, ClothGameObject> 
-    //for (const [key, value] of clothObjects.entries()) {
-    //  const cgo = value;
-    //  cgo.visible = false;
-    //  cgo.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
-   // }
-    //this.roomData.clothObjects = clothObjects;
-//
-  //  this.initializeFood();
+    const clothObjects = this.initializeClothGameObjects(); // Map<Integer, ClothGameObject> 
+    for (const [key, value] of clothObjects.entries()) {
+      const cgo = value;
+      cgo.visible = false;
+      cgo.position = new Point(RoomData.ORIGINAL_PET_X, RoomData.ORIGINAL_PET_Y);
+    }
+    this.roomData.clothObjects = clothObjects;
 
-    //this.initializeBook();
+    this.initializeFood();
 
-    //this.initRefrigeratorInnerObjects();
+    this.initializeBook();
 
-    //this.initializeBookcaseInnerObjects();
+    this.initRefrigeratorInnerObjects();
 
-    //this.initializeMachineWithDrinksInnerObjects();
+    this.initializeBookcaseInnerObjects();
 
-    //this.initializeRucksack();
+    this.initializeMachineWithDrinksInnerObjects();
 
-    //this.initializeBuildMenu();
+    this.initializeRucksack();
+
+    this.initializeBuildMenu();
 
     this.initializeJournal();
 
@@ -138,16 +138,16 @@ export default class RoomController extends BaseGameController{
     this.roomData.refrigeratorInnerCounts = new Array(FoodType.VALUES_COUNT);
     this.roomData.machineWithDrinksInnerCounts = new Array(DrinkType.VALUES_COUNT);
 
-    //this.initializeMessageBox();
-    //this.initializeUpgrade();
+    this.initializeMessageBox();
+    this.initializeUpgrade();
 
     this.initializeIndicators();
 
-    //this.initializeRefrigeratorPopupMenu();
-    //this.initializeBookcasePopupMenu();
-    //this.initializeMachineWithDrinksPopupMenu();
+    this.initializeRefrigeratorPopupMenu();
+    this.initializeBookcasePopupMenu();
+    this.initializeMachineWithDrinksPopupMenu();
     
-    //this.initializeAchievementInfo();
+    this.initializeAchievementInfo();
     
     this.roomView.roomData = this.roomData;
   }
@@ -431,7 +431,7 @@ export default class RoomController extends BaseGameController{
     bookcaseClose.position = new Point(RoomData.ORIGINAL_BOOKCASE_CLOSE_X,
         RoomData.ORIGINAL_BOOKCASE_CLOSE_Y);
     bookcaseClose.z = BaseGameController.MENU_Z_ORDER + 1;
-    bookcaseClose.animationImageIds = [[ResourceManager.IMAGE_ROOM_BOOKCASE_CLOSE][ResourceManager.IMAGE_ROOM_BOOKCASE_CLOSE_HIGHLIGHT]];
+    bookcaseClose.animationImageIds = [[ResourceManager.IMAGE_ROOM_BOOKCASE_CLOSE], [ResourceManager.IMAGE_ROOM_BOOKCASE_CLOSE_HIGHLIGHT]];
     bookcaseClose.visible = false;
     bookcaseClose.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();
@@ -937,7 +937,7 @@ export default class RoomController extends BaseGameController{
     const COUNT = 100;
     const result = new Array(COUNT);
     for (let n = 0; n < COUNT; n++) {
-      result[n] = ids[ n / COUNT * ids.length];
+      result[n] = ids[ Math.floor(n / COUNT * ids.length)];
     }
     return result;
   }
@@ -2059,8 +2059,7 @@ export default class RoomController extends BaseGameController{
     const machineWithDrinksInner = new GameObject();
     machineWithDrinksInner.position = new Point(0, 0);
     machineWithDrinksInner.z = BaseGameController.MENU_Z_ORDER;
-    const imgids = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER ]];
-    machineWithDrinksInner.animationImageIds = imgids;
+    machineWithDrinksInner.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER ]];
     machineWithDrinksInner.visible = false;
     machineWithDrinksInner.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showDefaultCursor();
@@ -2098,7 +2097,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_X,
         RoomData.ORIGINAL_MACHINE_WITH_DRINKS_CLOSE_Y);
     machineWithDrinksClose.z = BaseGameController.MENU_Z_ORDER + 1;
-    machineWithDrinksClose.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE ] [ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE_HIGHLIGHT ]];
+    machineWithDrinksClose.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE ], [ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_CLOSE_HIGHLIGHT ]];
     machineWithDrinksClose.visible = false;
     machineWithDrinksClose.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();

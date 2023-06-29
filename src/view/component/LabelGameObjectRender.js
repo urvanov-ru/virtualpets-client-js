@@ -1,12 +1,10 @@
-import GameObjectRender from './GameObjectRender.js';
+import GameObjectRenderBase from './GameObjectRenderBase.js';
 
-export default class LabelGameObjectRender extends GameObjectRender {
+export default class LabelGameObjectRender extends GameObjectRenderBase {
     
-  #labelGameObject;
     
   constructor(go) {
     super(go);
-    this.#labelGameObject = go;
   }
     
   step() {
@@ -16,8 +14,5 @@ export default class LabelGameObjectRender extends GameObjectRender {
   draw(independentCanvas) {
 	throw "Method 'draw' is not implemeneted"
   }
-
-  get labelGameObject() {
-    return this.#labelGameObject;
-  }
+  
 }

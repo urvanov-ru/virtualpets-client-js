@@ -175,8 +175,8 @@ export default class GameEngine {
         const imgids = ids[n];
         animations[n] = this.viewImplFactory.createAnimation(imgids);
       }
-      gor.animations = animations;
-      gor.currentAnimation = gor.animations[gor.gameObject.state];
+      gor.animations = animations;      
+      //gor.currentAnimation = gor.animations[gor.gameObject.state];
     }
   }
 

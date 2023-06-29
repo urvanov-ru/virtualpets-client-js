@@ -412,14 +412,14 @@ export default class BaseGameController {
     rucksackInner.visible = false;
 
     const closeObject = new HighlightGameObject();
-    closeObject.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK_CLOSE ][ ResourceManager.IMAGE_RUCKSACK_CLOSE_HIGHLIGHT ]];
+    closeObject.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK_CLOSE ], [ ResourceManager.IMAGE_RUCKSACK_CLOSE_HIGHLIGHT ]];
     closeObject.z = BaseGameController.MENU_Z_ORDER;
     closeObject.position = new Point(BaseGameController.ORIGINAL_RUCKSACK_CLOSE_X,
         BaseGameController.ORIGINAL_RUCKSACK_CLOSE_Y);
     closeObject.visible = false;
 
     this.rucksack = new RucksackGameObject();
-    this.rucksack.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK ][ ResourceManager.IMAGE_RUCKSACK_HIGHLIGHT ]];
+    this.rucksack.animationImageIds = [[ ResourceManager.IMAGE_RUCKSACK ], [ ResourceManager.IMAGE_RUCKSACK_HIGHLIGHT ]];
     this.rucksack.position = new Point(BaseGameController.ORIGINAL_RUCKSACK_X, BaseGameController.ORIGINAL_RUCKSACK_Y);
     this.rucksack.inner = rucksackInner;
 
@@ -628,7 +628,7 @@ export default class BaseGameController {
     });
 
     const closeObject = new HighlightGameObject();
-    closeObject.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ] [ ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT ]];
+    closeObject.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ],[ ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT ]];
     closeObject.position = new Point(BaseGameController.ORIGINAL_BUILD_MENU_CLOSE_X,
         BaseGameController.ORIGINAL_BUILD_MENU_CLOSE_Y);
     closeObject.z = BaseGameController.MENU_Z_ORDER;
@@ -642,7 +642,7 @@ export default class BaseGameController {
 
     this.buildMenu.close = closeObject;
 
-    this.buildMenu.animationImageIds = [[ ResourceManager.IMAGE_HAMMER ][ ResourceManager.IMAGE_HAMMER_HIGHLIGHT ]];
+    this.buildMenu.animationImageIds = [[ ResourceManager.IMAGE_HAMMER ], [ ResourceManager.IMAGE_HAMMER_HIGHLIGHT ]];
 
     this.addGameObject(this.buildMenu);
     this.addGameObject(buildMenuInner);

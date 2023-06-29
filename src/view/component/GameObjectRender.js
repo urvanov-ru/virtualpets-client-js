@@ -1,15 +1,9 @@
 import Point from '../../domain/Point.js';
 import Dimension from '../../domain/Dimension.js';
+import GameObjectRenderBase from './GameObjectRenderBase.js';
 
-export default class GameObjectRender {
+export default class GameObjectRender extends GameObjectRenderBase {
 
-    
-  position = new Point();
-  dimension = new Dimension();
-
-  #scale = 0.0;
-
-  gameObject;
     
   #animations; // Animation[]
 
@@ -17,22 +11,15 @@ export default class GameObjectRender {
   #currentAnimationId = -1;
   
   constructor(go) {
-    this.gameObject = go;
+    super(go);
     this.#currentAnimationId = go.state;
   }
   
   release() {
     this.gameObject.release();
   }
-  
-  set scale(scale) {
-    this.scale = scale;
-    const lastPosition = gameObject.position;
-    this.position = new Point(lastPosition.x * scale, lastPosition.y * scale);
-  }
-  
+    
   set animations(animations) {
-    console.debug('set animations');
     this.#animations = animations;
     this.#currentAnimation = null;
   }
@@ -44,12 +31,13 @@ export default class GameObjectRender {
   
   get currentAnimation() {
     if (this.#currentAnimation == null) {
-      this.this.#currentAnimation = this.#animations[this.#currentAnimationId];
+      this.#currentAnimation = this.#animations[this.#currentAnimationId];
     }
     return this.#currentAnimation;
   }
   
   set currentAnimation(currentAnimation) {
+    console.debug('set currentAnimation %o', currentAnimation);
     this.#currentAnimation = currentAnimation;
     this.dimension = new Dimension(this.#currentAnimation.image.width,
         this.#currentAnimation.image.height);
@@ -58,18 +46,11 @@ export default class GameObjectRender {
   
   draw(canvas) {
     const logicPosition = this.gameObject.position;
-    this.position = new Point(logicPosition.x * this.#scale,
-        logicPosition.y * this.#scale);
+    this.position = new Point(logicPosition.x * this.scale,
+        logicPosition.y * this.scale);
     const ca = this.currentAnimation;
     const img = ca.image;
     canvas.drawImage(img, this.position.x,
         this.position.y);
-  }
-  
-  set scale(scale) {
-    console.debug('set gor scale %f.', scale);
-    this.#scale = scale;
-    const lastPosition = this.gameObject.position;
-    this.position = new Point(lastPosition.x * this.#scale, lastPosition.y * this.#scale);
   }
 }
