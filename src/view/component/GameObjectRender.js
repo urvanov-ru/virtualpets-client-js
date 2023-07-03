@@ -44,13 +44,13 @@ export default class GameObjectRender extends GameObjectRenderBase {
   }
   
   
-  draw(canvas) {
+  draw(independentCanvas) {
     const logicPosition = this.gameObject.position;
     this.position = new Point(logicPosition.x * this.scale,
         logicPosition.y * this.scale);
     const ca = this.currentAnimation;
     const img = ca.image;
-    canvas.drawImage(img, this.position.x,
+    independentCanvas.context.drawImage(img, this.position.x,
         this.position.y);
   }
 }

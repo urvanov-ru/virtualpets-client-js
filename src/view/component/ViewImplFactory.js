@@ -7,12 +7,16 @@ import LabelGameObjectRender from './LabelGameObjectRender.js';
 import PopupMenuGameObjectRender from './PopupMenuGameObjectRender.js';
 import ProgressBarGameObjectRender from './ProgressBarGameObjectRender.js';
 import Animation from './Animation.js';
+import IndependentFont from './IndependentFont.js';
+
 
 export default class ViewImplFactory {
 
   #resourceManager;
 
-  createFont(size) {}
+  createFont(size) {
+    return new IndependentFont(size);
+  }
     
   createGameObjectRender(gameObject) {
     if (gameObject instanceof LabelGameObject) {

@@ -23,7 +23,7 @@ export default class GameEngine {
 
   #clickedListeners = []; // new ArrayList<ClickedListener>();
   #mouseMoveListeners = []; // new ArrayList<MouseMoveListener>();
-  font; // IndependentFont
+  #font; // IndependentFont
 
   constructor() {
 
@@ -41,13 +41,13 @@ export default class GameEngine {
     }
   }
 
-  draw(canvas) {
+  draw(independentCanvas) {
     const gameObjectRenderList = this.sortGameObjects();
     // independentCanvas.font = font;
     for (const gor of gameObjectRenderList) {
       const go = gor.gameObject;
       if (go.visible) {
-        gor.draw(canvas);
+        gor.draw(independentCanvas);
       }
     }
   }
@@ -89,7 +89,7 @@ export default class GameEngine {
   set scale(scale) {
     console.debug('Set scale to %f', scale);
     this.#scale = scale;
-    ///font = this.viewImplFactory.createFont(Math.round(20 * scale));
+    this.#font = this.viewImplFactory.createFont(Math.round(20 * scale));
     for (const gor of this.gameObjects.values()) {
       gor.scale = scale;
     }

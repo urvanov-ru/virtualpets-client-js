@@ -3,6 +3,9 @@ import RoomView from './RoomView.js';
 
 import PetType from '../rest/domain/PetType.js';
 
+import IndependentCanvas from './component/IndependentCanvas.js';
+
+
 export default class GameView {
 
   static get ORIGINAL_WIDTH() { return 800; }
@@ -30,7 +33,7 @@ export default class GameView {
 
   resourcesLoaded = new Array(GameView.MAX_LOAD_WORKERS).fill(false);
 
-  #canvas;
+  #independentCanvas;
   
   baseGameView;
   timer;
@@ -39,7 +42,9 @@ export default class GameView {
   #firstInit = true;
     
   constructor() {
-	this.#canvas = document.getElementById("canvas").getContext('2d');
+	this.#independentCanvas = new IndependentCanvas();
+	this.#independentCanvas.canvas = document.getElementById("canvas");
+	this.#independentCanvas.context = document.getElementById("canvas").getContext('2d');
   }
 
 
@@ -188,6 +193,7 @@ export default class GameView {
     //  gamePanel.setSize((int) (scale * ORIGINAL_WIDTH),
     //      (int) (scale * ORIGINAL_HEIGHT));
    this.baseGameView.scale = this.scale;
+   this.#independentCanvas.scale = this.scale;
    this.reloadImages();
    this.start();
    this.allowRepaint = true;
@@ -233,19 +239,20 @@ export default class GameView {
   step() {
     this.baseGameView.step();
     if (this.baseGameView.allowDraw) {
-      this.baseGameView.draw(this.#canvas);
+      this.baseGameView.draw(this.#independentCanvas);
             
       //revalidate();
     }
   }
     
   calculateScale() {
-	const width = this.#canvas.canvas.width;
-    const height = this.#canvas.canvas.height;
+	const width = this.#independentCanvas.canvas.width;
+    const height = this.#independentCanvas.canvas.height;
     const xScale = width / GameView.ORIGINAL_WIDTH;
     const yScale = height / GameView.ORIGINAL_HEIGHT;
     this.scale = Math.min(xScale, yScale);
-    console.debug('calculatedScale = %f, canvas = %o', this.scale, this.#canvas);
+    this.#independentCanvas.scale = this.scale;
+    console.debug('calculatedScale = %f, canvas = %o', this.scale, this.#independentCanvas);
     return this.scale;
   }
 
