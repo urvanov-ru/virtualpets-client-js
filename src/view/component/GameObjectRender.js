@@ -37,12 +37,25 @@ export default class GameObjectRender extends GameObjectRenderBase {
   }
   
   set currentAnimation(currentAnimation) {
-    console.debug('set currentAnimation %o', currentAnimation);
     this.#currentAnimation = currentAnimation;
     this.dimension = new Dimension(this.#currentAnimation.image.width,
         this.#currentAnimation.image.height);
   }
   
+  step() {
+    if (this.#currentAnimationId != this.gameObject.state || this.#currentAnimation == null) {
+      this.#currentAnimationId = this.gameObject.state;
+      this.#currentAnimation = this.#animations[this.#currentAnimationId];
+    }
+    if (this.#currentAnimation.isOver) {
+      // fireAnimationOver(new AnimationOverArg());
+      if (this.gameObject.loopAnimation) {
+        this.#currentAnimation.restart();
+      }
+    } else {
+      this.#currentAnimation.step();
+    }
+  }
   
   draw(independentCanvas) {
     const logicPosition = this.gameObject.position;

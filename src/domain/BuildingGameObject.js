@@ -37,7 +37,7 @@ export default class BuildingGameObject extends GameObject {
   };
 
   step() {
-    this.z = ((getPosition().y + getDimension().height) * GameObject.TILE_Z_STEP);
+    this.z = ((this.position.y + this.dimension.height) * GameObject.TILE_Z_STEP);
   }
 }; 
 

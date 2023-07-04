@@ -29,62 +29,62 @@ export default class PetGameObject extends GameObject {
 
   step() {
     super.step();
-    if (moveTarget != null && movePath != null) {
+    if (this.moveTarget != null && this.movePath != null) {
       if (!isTimeToJumpOver()) {
-        if (!jumping) {
+        if (!this.jumping) {
           
-          jumpStart = position.clone();
+          this.jumpStart = this.position.clone();
           
-          jumping = true;
-          jumpEnd = movePath[moveStep];
-          jumpStartAt = new Date().getTime();
+          this.jumping = true;
+          this.jumpEnd = this.movePath[moveStep];
+          this.jumpStartAt = new Date().getTime();
         }
-        let t = new Date().getTime() - jumpStartAt;
+        let t = new Date().getTime() - this.jumpStartAt;
         if (t <= PetGameObject.TIME_TO_JUMP_FROM_CREATION_POINT) {
           let sm = t
               / TIME_TO_JUMP_FROM_CREATION_POINT;
           let sina = Math.sin(sm * Math.PI);
           let jumpz = (sina * PetGameObject.SM_JUMP_Z);
 
-          let newX = jumpStart.getX() + (jumpEnd.getX() - jumpStart.getX()) * sm;
-          let newY = jumpStart.getY() + (jumpEnd.getY() - jumpStart.getY()) * sm
+          let newX = this.jumpStart.x + (this.jumpEnd.x - this.jumpStart.x) * sm;
+          let newY = this.jumpStart.y + (this.jumpEnd.y - this.jumpStart.y) * sm
               - jumpz;
           this.position = new Point(newX, newY);
-          this.z = ((jumpEnd.y + this.dimension.height) * PetGameObject.TILE_Z_STEP);
+          this.z = ((this.jumpEnd.y + this.dimension.height) * PetGameObject.TILE_Z_STEP);
         }
       } else {
-        jumping = false;
-        jumpStartAt = new Date().getTime();
-        this.position = movePath[moveStep].clone();
-        moveStep++;
-        if (moveStep >= movePath.length) {
-          moveStep = 0;
-          moveTarget = null;
-          movePath = null;
-          if (moveFinishedListener != null) {
-            moveFinishedListener.event();
-            moveFinishedListener = null;
+        this.jumping = false;
+        this.jumpStartAt = new Date().getTime();
+        this.position = this.movePath[moveStep].clone();
+        this.moveStep++;
+        if (this.moveStep >= this.movePath.length) {
+          this.moveStep = 0;
+          this.moveTarget = null;
+          this.movePath = null;
+          if (this.moveFinishedListener != null) {
+            this.moveFinishedListener.event();
+            this.moveFinishedListener = null;
           }
         }
       }
     }
-    let clothZ = getZ() + 1;
-    if (hat != null) {
-      hat.position = this.position;
-      if (hat.getZ() != clothZ) {
-        hat.position = clothZ;
+    let clothZ = this.z + 1;
+    if (this.hat != null) {
+      this.hat.position = this.position;
+      if (this.hat.z != clothZ) {
+        this.hat.position = clothZ;
       }
     }
-    if (cloth != null) {
-      cloth.position = this.position;
-      if (cloth.z != clothZ) {
-        cloth.z = clothZ;
+    if (this.cloth != null) {
+      this.cloth.position = this.position;
+      if (this.cloth.z != clothZ) {
+        this.cloth.z = clothZ;
       }
     }
-    if (bow != null) {
-      bow.position = this.position;
-      if (bow.z != clothZ) {
-        bow.z = clothZ;
+    if (this.bow != null) {
+      this.bow.position = this.position;
+      if (this.bow.z != clothZ) {
+        this.bow.z = clothZ;
       }
     }
   }

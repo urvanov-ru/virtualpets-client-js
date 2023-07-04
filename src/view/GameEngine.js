@@ -31,7 +31,7 @@ export default class GameEngine {
 
   step() {
     if (this.#started) {
-      for (const gor of gameObjects.values()) {
+      for (const gor of this.gameObjects.values()) {
         const go = gor.gameObject;
         go.step();
         if (go.visible) {
@@ -116,11 +116,12 @@ export default class GameEngine {
   }
 
   start() {
-    this.started = true;
+    console.debug('GameEngine started.');
+    this.#started = true;
   }
 
   pause() {
-    this.started = false;
+    this.#started = false;
   }
 
   showDefaultCursor() {

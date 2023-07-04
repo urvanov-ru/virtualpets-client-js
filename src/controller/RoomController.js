@@ -80,7 +80,7 @@ export default class RoomController extends BaseGameController{
     this.initializeBookcases();
 
     this.initializeMachineWithDrinksArray();
-    //
+    
     // GameObject bedsidetable = new GameObject();
     // bedsidetable.setPosition(new Point(RoomData.ORIGINAL_BEDSIDETABLE_X,
     // RoomData.ORIGINAL_BEDSIDETABLE_Y));
