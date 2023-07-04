@@ -34,7 +34,7 @@ export default class GameObject {
 
   fireMouseMove(arg) {
     for (const mol of this.#mouseMoveListeners) {
-      mol.mouseMove(arg);
+      mol(arg);
     }
   }
 

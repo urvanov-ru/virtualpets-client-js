@@ -1,9 +1,14 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
-import RoomView from './RoomView.js';
+import MouseMoveArg from '../domain/MouseMoveArg.js';
+import Point from '../domain/Point.js';
+import HighlightGameObject from '../domain/HighlightGameObject.js';
 
 import PetType from '../rest/domain/PetType.js';
 
 import IndependentCanvas from './component/IndependentCanvas.js';
+
+import GameObjectRender from './component/GameObjectRender.js';
+import RoomView from './RoomView.js';
 
 
 export default class GameView {
@@ -42,9 +47,50 @@ export default class GameView {
   #firstInit = true;
     
   constructor() {
+    const canvas = document.getElementById("canvas");
 	this.#independentCanvas = new IndependentCanvas();
-	this.#independentCanvas.canvas = document.getElementById("canvas");
-	this.#independentCanvas.context = document.getElementById("canvas").getContext('2d');
+	this.#independentCanvas.canvas = canvas;
+	this.#independentCanvas.context = canvas.getContext('2d');
+	canvas.addEventListener("mousemove", (event) => {
+	  const mouseMoveArg = new MouseMoveArg();
+	  mouseMoveArg.sender = this.pickObject(event.offsetX, event.offsetY);
+	  mouseMoveArg.mousePosition = new Point(event.offsetX, event.offsetY);
+	  this.baseGameView.mouseMoved(mouseMoveArg);
+	});
+  }
+  
+  pickObject(x, y) {
+    let picked = null;
+    for (const gor of this.baseGameView.gameObjectRenders) {
+      const go = gor.gameObject;
+      if (gor instanceof GameObjectRender && go.visible) {
+        const renderPosition = gor.position;
+        const goX = renderPosition.x;
+        const goY = renderPosition.y;
+        const renderDimension = gor.dimension;
+        const goWidth = renderDimension.width;
+        const goHeight = renderDimension.height;
+        if ((x >= goX) && (x <= goX + goWidth) && (y >= goY)
+            && (y <= goY + goHeight)) {
+          const anim = gor.currentAnimation;
+          const img = anim.image;
+          const offscreenCanvas = new OffscreenCanvas(goWidth, goHeight);
+          const offscreenCanvasContext = offscreenCanvas.getContext('2d');
+          offscreenCanvasContext.drawImage(img, 0, 0);
+          const imageData = offscreenCanvasContext.getImageData(0, 0, goWidth, goHeight);
+          const pixelsArray = imageData.data;
+          const imageX = x - goX;
+          const imageY = y - goY;
+          const alphaIndex = (imageY * goWidth + imageX) * 4 + 3;
+          const alphaComponent = pixelsArray[alphaIndex];
+          if (alphaComponent > 200 && (picked == null || picked.z <= go.z)) {
+            picked = go;
+            
+          }
+        }
+      }
+    }
+    return picked;
   }
 
 

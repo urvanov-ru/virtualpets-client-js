@@ -521,9 +521,9 @@ export default class RoomController extends BaseGameController{
     arrowRight.position = new Point(RoomData.ORIGINAL_ARROW_RIGHT_X,
         RoomData.ORIGINAL_ARROW_RIGHT_Y);
     arrowRight.addMouseMoveListener((mouseMoveArg) => {
-      roomView.showHandCursor();
-      roomView.setToolTipText("");
-      setHighlightObject(arrowRight);
+      this.roomView.showHandCursor();
+      this.roomView.setToolTipText("");
+      this.highlightObject = arrowRight;
     });
     arrowRight.addClickedListener((clickedArg) => {
       gameController.showTown();

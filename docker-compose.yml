@@ -1,0 +1,7 @@
+web:
+  image: nginx
+  volumes:
+   - ./dist:/srv
+   - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  ports:
+   - "8080:8080"

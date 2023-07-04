@@ -40,12 +40,13 @@ export default class GameObjectRender extends GameObjectRenderBase {
     this.#currentAnimation = currentAnimation;
     this.dimension = new Dimension(this.#currentAnimation.image.width,
         this.#currentAnimation.image.height);
+    console.debug('set currentAnimation dimension = %o.', this.dimension);
   }
   
   step() {
     if (this.#currentAnimationId != this.gameObject.state || this.#currentAnimation == null) {
       this.#currentAnimationId = this.gameObject.state;
-      this.#currentAnimation = this.#animations[this.#currentAnimationId];
+      this.currentAnimation = this.#animations[this.#currentAnimationId];
     }
     if (this.#currentAnimation.isOver) {
       // fireAnimationOver(new AnimationOverArg());
@@ -59,8 +60,8 @@ export default class GameObjectRender extends GameObjectRenderBase {
   
   draw(independentCanvas) {
     const logicPosition = this.gameObject.position;
-    this.position = new Point(logicPosition.x * this.scale,
-        logicPosition.y * this.scale);
+    this.position = new Point(Math.floor(logicPosition.x * this.scale),
+        Math.floor(logicPosition.y * this.scale));
     const ca = this.currentAnimation;
     const img = ca.image;
     independentCanvas.context.drawImage(img, this.position.x,

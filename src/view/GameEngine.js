@@ -1,4 +1,5 @@
-
+import MouseMoveArg from '../domain/MouseMoveArg.js';
+import Point from '../domain/Point.js';
 
 export default class GameEngine {
 
@@ -205,16 +206,23 @@ export default class GameEngine {
 
   mouseMoved(mouseMoveArg) {
     const arg = new MouseMoveArg();
+    arg.sender = mouseMoveArg.sender;
     arg.mousePosition = new Point(Math.trunc(mouseMoveArg.mousePosition
-        .x / scale),
-        Math.trunc(mouseMoveArg.mousePosition.y / scale));
+        .x / this.#scale),
+        Math.trunc(mouseMoveArg.mousePosition.y / this.#scale));
     for (const listener of this.#mouseMoveListeners) {
-      listener.mouseMove(arg);
+      listener(arg);
       if (arg.handled) {
         mouseMoveArg.handled = true;
         break;
       }
     }
+    if (arg.sender != null && !arg.handled) {
+      if (arg.sender.visible) {
+        arg.sender.fireMouseMove(arg);
+      }
+    }
+    
   }
   
   addClickedListener(clickedListener) {
