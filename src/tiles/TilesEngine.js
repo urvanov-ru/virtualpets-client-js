@@ -1,4 +1,4 @@
-
+import Point from '../domain/Point.js';
 import PathPoint from './PathPoint.js';
 
 export default class TilesEngine {
@@ -79,14 +79,6 @@ export default class TilesEngine {
 
   getTileType(x, y) {
     return this.#tiles[x][y];
-  }
-
-  translateToTileCoordinates(x, y) {
-    return new Point(x / this.#tileWidth, y / this.#tileHeight);
-  }
-
-  translateToTileCoordinates(x, y) {
-    return new Point(Math.trunc(x / this.#tileWidth), Math.trunc(y / this.#tileHeight));
   }
   
   get tileWidth() {
@@ -310,18 +302,6 @@ export default class TilesEngine {
         && moveTarget.y < this.#tiles[0].length;
   }
 
-  translateToTileCoordinates(go) {
-    let goHeight = go.dimension.height();
-    let position = go.position;
-    let x = position.x;
-    let y = position.y - position.y % this.tileHeight;
-    if (goHeight % this.tileHeight == 0) {
-      goHeight--;
-    }
-    y += goHeight;
-    return translateToTileCoordinates(x, y);
-  }
-
   translateFromTileCoordinates(point) {
     return new Point(point.x * this.#tileWidth(),
         point.y * this.#tileHeight);
@@ -385,7 +365,39 @@ export default class TilesEngine {
       }
   }
 
-  translateToTileCoordinates(mousePosition) {
-    return this.translateToTileCoordinates(mousePosition.x, mousePosition.y);
+  translateToTileCoordinates(... args) {
+    if (args.length === 1) {
+      const arg = args[0];
+      if (arg instanceof Point) {
+        return this.#translateToTileCoordinatesPoint(arg);
+      } else if (arg instanceof GameObject) {
+        return this.#translateToTileCoordinatesGameObject(arg);
+      } else {
+        throw new Error('Illegal argument');
+      }
+    } else if (args.length === 2) {
+      return this.#translateToTileCoordinatesXY(args[0], args[1]);
+    }
+    throw new Error('Incorrect number of arguments.');
+  }
+
+  #translateToTileCoordinatesXY(x, y) {
+    return new Point(Math.trunc(x / this.#tileWidth), Math.trunc(y / this.#tileHeight));
+  }
+
+  #translateToTileCoordinatesGameObject(go) {
+    let goHeight = go.dimension.height();
+    let position = go.position;
+    let x = position.x;
+    let y = position.y - position.y % this.tileHeight;
+    if (goHeight % this.tileHeight == 0) {
+      goHeight--;
+    }
+    y += goHeight;
+    return this.#translateToTileCoordinatesXY(x, y);
+  }
+  
+  #translateToTileCoordinatesPoint(mousePosition) {
+    return this.#translateToTileCoordinatesXY(mousePosition.x, mousePosition.y);
   }
 }

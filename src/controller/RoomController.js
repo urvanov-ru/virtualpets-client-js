@@ -348,12 +348,12 @@ export default class RoomController extends BaseGameController{
         path[n] = tilesEngine
             .translateFromTileCoordinates(tilesPath[n]);
       }
-      this.roomData.situation = Situation.COLLECTING_JOURNAL;
+      this.roomData.situation =RoomData.SITUATION_COLLECTING_JOURNAL;
       this.roomData.pet.setMove(path, () => {
 
         showProgressBar(100, (a) => {
           pickJournalOnFloor();
-          roomData.situation = Situation.NORMAL;
+          roomData.situation =RoomData.SITUATION_NORMAL;
         });
       });
     });
@@ -495,11 +495,11 @@ export default class RoomController extends BaseGameController{
       book.z = pet.z + 1;
       const food = roomData.food;
       food.visible = false;
-      this.roomData.situation = Situation.ANIMATION;
+      this.roomData.situation =RoomData.SITUATION_ANIMATION;
       this.showProgressBar(
           100,
           (progressBarAnimationOverArg) => {
-            this.roomData.situation = Situation.NORMAL;
+            this.roomData.situation =RoomData.SITUATION_NORMAL;
             book.visible = false;
             pet.state = PetGameObject.STATE_NORMAL;
             this.education();
@@ -567,7 +567,7 @@ export default class RoomController extends BaseGameController{
       this.highlightObject = bookcase;
     });
     bookcase.addBuildListener(() => {
-      this.roomData.situation = Situation.NORMAL;
+      this.roomData.situation =RoomData.SITUATION_NORMAL;
       const tilesPosition = new Point();
       const point = this.tilesEngine.translateToTileCoordinates(bookcase);
       tilesPosition.x = point.x;
@@ -575,11 +575,11 @@ export default class RoomController extends BaseGameController{
       this.buildBookcase(tilesPosition);
     });
     bookcase.addUpgradeListener(() => {
-      this.roomData.situation = Situation.NORMAL;
+      this.roomData.situation =RoomData.SITUATION_NORMAL;
       this.upgradeBookcase();
     });
     bookcase.addMoveListener(() => {
-      roomData.situation = Situation.NORMAL;
+      roomData.situation =RoomData.SITUATION_NORMAL;
       const tilesPosition = new Point();
       const point = this.tilesEngine.translateToTileCoordinates(bookcase);
       tilesPosition.x = point.x;
@@ -597,9 +597,9 @@ export default class RoomController extends BaseGameController{
     const logicalMousePosition = arg.mousePosition;
     const mouseX = logicalMousePosition.x;
     const mouseY = logicalMousePosition.y;
-    const pet = roomData.pet;
-    switch (roomData.situation) {
-    case NORMAL:
+    const pet = this.roomData.pet;
+    switch (this.roomData.situation) {
+    case RoomData.SITUATION_NORMAL:
       if (this.buildMenu.inner.visible
           || this.rucksack.inner.visible
           || this.pet.movePath != null) {
@@ -659,7 +659,7 @@ export default class RoomController extends BaseGameController{
     bookcaseMoveItem.text = this.messageSource.getMessage(
         StringConstants.MOVE, null, null);
     bookcaseMoveItem.addClickedListener((bookcaseMoveClickedArg) => {
-      this.roomData.setSituation(Situation.MOVE_BOOKCASE);
+      this.roomData.setSituation(SITUATION_MOVE_BOOKCASE);
       this.startMove(roomData.getBookcase());
     });
     bookcaseMenuItems.push(bookcaseMoveItem);
@@ -671,7 +671,7 @@ export default class RoomController extends BaseGameController{
 
   showUpgradeBookcase() {
     try {
-      this.roomData.situation = Situation.UPGRADE_BOOKCASE_COST;
+      this.roomData.situation =RoomData.SITUATION_UPGRADE_BOOKCASE_COST;
       const text = this.messageSource.getMessage(StringConstants.BOOKCASE,
           null, null);
       const newBookcaseId = roomData.bookcaseId + 1;
@@ -681,7 +681,7 @@ export default class RoomController extends BaseGameController{
       this.showUpgrade(text, costs, (aaa) => {
         this.startUpgrade(roomData.bookcase);
       }, (bbb) => {
-        roomData.setSituation(Situation.NORMAL);
+        roomData.setSituation(SITUATION_NORMAL);
       });
 
     } catch (ex) {
@@ -695,7 +695,7 @@ export default class RoomController extends BaseGameController{
   showUpgradeMachineWithDrinks() {
     try {
 
-      this.roomData.situation = Situation.UPGRADE_MACHINE_WITH_DRINKS_COST;
+      this.roomData.situation =RoomData.SITUATION_UPGRADE_MACHINE_WITH_DRINKS_COST;
       const text = this.messageSource.getMessage(StringConstants.DRINK, null, null);
       const newMachineWithDrinksId = this.roomData.machineWithDrinksId + 1;
       const costs = roomData
@@ -704,7 +704,7 @@ export default class RoomController extends BaseGameController{
       this.showUpgrade(text, costs, (aaa) => {
         this.startUpgrade(roomData.machineWithDrinks);
       }, (bbb) => {
-        this.roomData.situation = Situation.NORMAL;
+        this.roomData.situation =RoomData.SITUATION_NORMAL;
       });
 
     } catch (ex) {
@@ -735,7 +735,7 @@ export default class RoomController extends BaseGameController{
     });
     machineWithDrinks
         .addBuildListener(() => {
-          roomData.situation = Situation.NORMAL;
+          roomData.situation =RoomData.SITUATION_NORMAL;
           const tilesPosition = new Point();
           const point = this.tilesEngine
               .translateToTileCoordinates(machineWithDrinks);
@@ -744,12 +744,12 @@ export default class RoomController extends BaseGameController{
           this.buildMachineWithDrinks(tilesPosition);
         });
     machineWithDrinks.addUpgradeListener(() => {
-      this.roomData.situation = Situation.NORMAL;
+      this.roomData.situation =RoomData.SITUATION_NORMAL;
       this.upgradeMachineWithDrinks();
     });
     machineWithDrinks
         .addMoveListener(() => {
-          roomData.situation = Situation.NORMAL;
+          roomData.situation =RoomData.SITUATION_NORMAL;
           const tilesPosition = new Point();
           const point = this.tilesEngine
               .translateToTileCoordinates(machineWithDrinks);
@@ -962,7 +962,7 @@ export default class RoomController extends BaseGameController{
     refrigeratorMoveItem.text = this.messageSource.getMessage(
         StringConstants.MOVE, null, null);
     refrigeratorMoveItem.addClickedListener((arg) => {
-      this.roomData.situation = Situation.MOVE_REFRIGERATOR;
+      this.roomData.situation =RoomData.SITUATION_MOVE_REFRIGERATOR;
       this.startMove(this.roomData.getRefrigerator());
     });
     refrigeratorPopupMenu.menuItems = refrigeratorMenuItems;
@@ -1722,7 +1722,7 @@ export default class RoomController extends BaseGameController{
     machineWithDrinksMoveItem.text = this.messageSource.getMessage(
         StringConstants.MOVE, null, null);
     machineWithDrinksMoveItem.addClickedListener((drinkMoveClickedArg) => {
-      this.roomData.situation = Situation.MOVE_DRINK;
+      this.roomData.situation =RoomData.SITUATION_MOVE_DRINK;
       this.startMove(roomData.machineWithDrinks);
     });
     machineWithDrinksMenuItems.push(machineWithDrinksMoveItem);
@@ -1937,7 +1937,7 @@ export default class RoomController extends BaseGameController{
       setHighlightObject(go);
     });
     go.addBuildListener(() => {
-      roomData.situation = Situation.NORMAL;
+      roomData.situation =RoomData.SITUATION_NORMAL;
       const point = new Point();
       const tilesPoint = tilesEngine.translateToTileCoordinates(roomData.refrigerator);
       point.x = tilesPoint.x;
@@ -1945,11 +1945,11 @@ export default class RoomController extends BaseGameController{
       this.buildRefrigerator(point);
     });
     go.addUpgradeListener(() => {
-      roomData.situation = Situation.NORMAL;
+      roomData.situation =RoomData.SITUATION_NORMAL;
       this.upgradeRefrigerator();
     });
     go.addMoveListener(() => {
-      roomData.situation = Situation.NORMAL;
+      roomData.situation =RoomData.SITUATION_NORMAL;
       const point = new Point();
       const tilesPoint = tilesEngine.translateToTileCoordinates(roomData
           .Refrigerator);
@@ -1965,7 +1965,7 @@ export default class RoomController extends BaseGameController{
   }
 
   refrigeratorClicked(clickedArg) {
-    if (this.roomData.situation == Situation.NORMAL) {
+    if (this.roomData.situation ==RoomData.SITUATION_NORMAL) {
       this.roomData.refrigeratorPopupMenu.visible = true;
     }
   }
@@ -2170,11 +2170,11 @@ export default class RoomController extends BaseGameController{
         food.state = RoomData.FOOD_DRINK + foodId;
         food.visible = true;
         food.z = pet.z + 1;
-        roomData.situation = Situation.ANIMATION;
+        roomData.situation =RoomData.SITUATION_ANIMATION;
         this.showProgressBar(
             100,
             (animationOverArg) => {
-              this.roomData.situation = Situation.NORMAL;
+              this.roomData.situation =RoomData.SITUATION_NORMAL;
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const drinkArg = new DrinkArg();
@@ -2234,11 +2234,11 @@ export default class RoomController extends BaseGameController{
         food.state = foodId;
         food.visible = true;
         food.z = pet.z + 1;
-        this.roomData.situation = Situation.ANIMATION;
+        this.roomData.situation =RoomData.SITUATION_ANIMATION;
         this.showProgressBar(
             100,
             (animationOverArg) => {
-              this.roomData.situation = Situation.NORMAL;
+              this.roomData.situation =RoomData.SITUATION_NORMAL;
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const satietyArg = new SatietyArg();
@@ -2541,7 +2541,7 @@ export default class RoomController extends BaseGameController{
   showUpgradeRefrigerator() {
     try {
 
-      this.roomData.situation = Situation.UPGRADE_REFRIGERATOR_COST;
+      this.roomData.situation =RoomData.SITUATION_UPGRADE_REFRIGERATOR_COST;
       const text = this.messageSource.getMessage(
           StringConstants.REFRIGERATOR, null, null);
 
@@ -2552,7 +2552,7 @@ export default class RoomController extends BaseGameController{
       this.showUpgrade(text, costs, (aaa) => {
         this.startUpgrade(this.roomData.refrigerator);
       }, (bbb) => {
-        this.roomData.situation = Situation.NORMAL;
+        this.roomData.situation =RoomData.SITUATION_NORMAL;
       });
 
     } catch (ex) {

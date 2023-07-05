@@ -23,8 +23,8 @@ export default class GameObject {
   }
 
   fireClicked(arg) {
-    for (const al of this.#clickedListeners) {
-      al.clicked(arg);
+    for (const clickedListener of this.#clickedListeners) {
+      clickedListener(arg);
     }
   }
 
@@ -33,8 +33,8 @@ export default class GameObject {
   }
 
   fireMouseMove(arg) {
-    for (const mol of this.#mouseMoveListeners) {
-      mol(arg);
+    for (const mouseMoveListener of this.#mouseMoveListeners) {
+      mouseMoveListener(arg);
     }
   }
 

@@ -1,5 +1,6 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
 import MouseMoveArg from '../domain/MouseMoveArg.js';
+import ClickedArg from '../domain/ClickedArg.js';
 import Point from '../domain/Point.js';
 import HighlightGameObject from '../domain/HighlightGameObject.js';
 
@@ -56,6 +57,12 @@ export default class GameView {
 	  mouseMoveArg.sender = this.pickObject(event.offsetX, event.offsetY);
 	  mouseMoveArg.mousePosition = new Point(event.offsetX, event.offsetY);
 	  this.baseGameView.mouseMoved(mouseMoveArg);
+	});
+	canvas.addEventListener("click", (event) => {
+	  const clickedArg = new ClickedArg();
+	  clickedArg.sender = this.pickObject(event.offsetX, event.offsetY);
+	  clickedArg.mousePosition = new Point(event.offsetX, event.offsetY);
+	  this.baseGameView.mouseClicked(clickedArg);
 	});
   }
   
