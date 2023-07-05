@@ -25,12 +25,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const canvas = document.getElementById("canvas");
   canvas.width = 320;
   canvas.height = 240;
-  const ctx = canvas.getContext("2d");
   
-  const scale = canvas.width / GameView.ORIGINAL_WIDTH;
+  const scale = canvas.style.clientWidth / GameView.ORIGINAL_WIDTH;
 
-  ctx.fillStyle = "green";
-  ctx.fillRect(10, 10, 150, 100);
   
   
   const roomData = new RoomData();

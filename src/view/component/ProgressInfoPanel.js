@@ -3,16 +3,21 @@ export default class ProgressInfoDiv {
   #progressLabelElement;
   #progressValueElement;
   
-  constructor() {
+  constructor(width, height) {
     this.#progressDivElement = document.createElement('div');
-	this.#progressLabelElement = document.createElement('p');
+	this.#progressLabelElement = document.createElement('div');
 	this.#progressValueElement = document.createElement('progress');
+	this.#progressDivElement.append(centerDiv);
 	this.#progressDivElement.append(this.#progressLabelElement);
 	this.#progressDivElement.append(this.#progressValueElement);
 	this.#progressValueElement.max = 100;
 	this.#progressValueElement.value = 0;
-	this.#progressDivElement.width = canvas.width;
-	this.#progressDivElement.height = canvas.height;
+	if (width) {
+	  this.#progressDivElement.style.width = width + 'px';
+	}
+	if (height) {
+	  this.#progressDivElement.style.height = height + 'px';
+	}
   }
   
   get element() {

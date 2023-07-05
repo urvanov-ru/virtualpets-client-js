@@ -68,7 +68,8 @@ export default class GameView {
 	  clickedArg.mousePosition = new Point(event.offsetX, event.offsetY);
 	  this.baseGameView.mouseClicked(clickedArg);
 	});
-	this.#progressInfoPanel = new ProgressInfoPanel();
+	this.#progressInfoPanel = new ProgressInfoPanel(canvas.clientWidth, canvas.clientHeight);
+	this.#progressInfoPanel.element.style.display = 'none';
 	document.body.append(this.#progressInfoPanel.element);
   }
   
@@ -304,8 +305,8 @@ export default class GameView {
   }
     
   calculateScale() {
-	const width = this.#independentCanvas.canvas.width;
-    const height = this.#independentCanvas.canvas.height;
+	const width = this.#independentCanvas.canvas.clientWidth;
+    const height = this.#independentCanvas.canvas.clientHeight;
     const xScale = width / GameView.ORIGINAL_WIDTH;
     const yScale = height / GameView.ORIGINAL_HEIGHT;
     this.scale = Math.min(xScale, yScale);
