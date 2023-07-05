@@ -1,4 +1,6 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
+import ProgressInfo from '../resources/ProgressInfo.js';
+
 import MouseMoveArg from '../domain/MouseMoveArg.js';
 import ClickedArg from '../domain/ClickedArg.js';
 import Point from '../domain/Point.js';
@@ -7,8 +9,9 @@ import HighlightGameObject from '../domain/HighlightGameObject.js';
 import PetType from '../rest/domain/PetType.js';
 
 import IndependentCanvas from './component/IndependentCanvas.js';
-
 import GameObjectRender from './component/GameObjectRender.js';
+import ProgressInfoPanel from './component/ProgressInfoPanel.js';
+
 import RoomView from './RoomView.js';
 
 
@@ -40,6 +43,7 @@ export default class GameView {
   resourcesLoaded = new Array(GameView.MAX_LOAD_WORKERS).fill(false);
 
   #independentCanvas;
+  #progressInfoPanel;
   
   baseGameView;
   timer;
@@ -64,6 +68,8 @@ export default class GameView {
 	  clickedArg.mousePosition = new Point(event.offsetX, event.offsetY);
 	  this.baseGameView.mouseClicked(clickedArg);
 	});
+	this.#progressInfoPanel = new ProgressInfoPanel();
+	document.body.append(this.#progressInfoPanel.element);
   }
   
   pickObject(x, y) {
@@ -125,7 +131,7 @@ export default class GameView {
     if ((this.baseGameView instanceof RoomView)
         && (!this.resourcesLoaded[GameView.ROOM_LOAD_WORKER])) {
       worker = new RoomLoadWorker(this.resourceManager, scale, PetType.CAT);
-      worker.process = this.processLoadWorker;
+      worker.process = this.processLoadWorker.bind(this);
       worker.done = function() {
         this.resourcesLoaded[GameView.ROOM_LOAD_WORKER] = true;
         this.loadResourcesDone(this);
@@ -201,8 +207,9 @@ export default class GameView {
 //      };
 //
 //    }
-    //this.progressInfoPanel.setProgressInfo(new ProgressInfo(0, ""));
-    //progressInfoPanel.setVisible(true);
+    this.#progressInfoPanel.progressInfo = new ProgressInfo(0, '');
+    this.#progressInfoPanel.element.style.display = 'block';
+    this.#independentCanvas.canvas.style.display = 'none';
     if (worker != null) {
       worker.loadResourcesInBackground();
     } else {
@@ -211,18 +218,16 @@ export default class GameView {
   }
 
   processLoadWorker(progressInfoList) {
-    //ListIterator<ProgressInfo> it = progressInfoList.listIterator();
-    //ProgressInfo lastProgressInfo = null;
-    //while (it.hasNext()) {
-    //  lastProgressInfo = it.next();
-    //}
-    //if (lastProgressInfo != null) {
-    //  progressInfoPanel.setProgressInfo(lastProgressInfo);
-    //}
+    const lastProgressInfo = progressInfoList[progressInfoList.length - 1];
+    if (lastProgressInfo != null) {
+      this.#progressInfoPanel.progressInfo = lastProgressInfo;
+    }
   }
 
   loadResourcesDone(worker) {
     console.debug('Load resources done');
+    this.#progressInfoPanel.element.style.display = 'none';
+    this.#independentCanvas.canvas.style.display = 'block';
     //try {
     //  if (worker != null) {
     //    worker.get();

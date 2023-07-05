@@ -425,6 +425,7 @@ export default class BaseGameLoadWorker {
     for (const progressInfo of chunks) {
       console.debug("%s %i", progressInfo.message, progressInfo.progress);
     }
+    this.process(chunks);
   }
   
   
