@@ -7,7 +7,6 @@ export default class ProgressInfoDiv {
     this.#progressDivElement = document.createElement('div');
 	this.#progressLabelElement = document.createElement('div');
 	this.#progressValueElement = document.createElement('progress');
-	this.#progressDivElement.append(centerDiv);
 	this.#progressDivElement.append(this.#progressLabelElement);
 	this.#progressDivElement.append(this.#progressValueElement);
 	this.#progressValueElement.max = 100;
