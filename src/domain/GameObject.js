@@ -43,8 +43,8 @@ export default class GameObject {
   }
 
   fireAnimationOver(arg) {
-    for (const aol of this.#animationOverListeners) {
-      aol.animationOver(arg);
+    for (const animationOverListener of this.#animationOverListeners) {
+      animationOverListener(arg);
     }
   }
   
