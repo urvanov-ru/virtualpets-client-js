@@ -605,8 +605,8 @@ export default class RoomController extends BaseGameController{
           || this.pet.movePath != null) {
         return;
       }
-      const x = mouseX;
-      const y = mouseY;
+      let x = mouseX;
+      let y = mouseY;
       if (logicalMousePosition.y < RoomData.ORIGINAL_TILES_START_Y) {
         y = RoomData.ORIGINAL_TILES_START_Y;
       }

@@ -40,7 +40,6 @@ export default class GameObjectRender extends GameObjectRenderBase {
     this.#currentAnimation = currentAnimation;
     this.dimension = new Dimension(this.#currentAnimation.image.width,
         this.#currentAnimation.image.height);
-    console.debug('set currentAnimation dimension = %o.', this.dimension);
   }
   
   step() {
