@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   viewImplFactory.resourceManager = resourceManager;
   
-  //gameController.showView();
+  gameController.showView();
   
   
 });
