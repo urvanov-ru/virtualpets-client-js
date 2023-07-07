@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   const roomData = new RoomData();
   const gameView = new GameView();
+  
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, scale, PetType.CAT); 
   const gameController = new GameController();
@@ -46,7 +47,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   viewImplFactory.resourceManager = resourceManager;
   
-  gameController.showView();
+  //gameController.showView();
+  
   
 });
 
