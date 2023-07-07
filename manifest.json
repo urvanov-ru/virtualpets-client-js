@@ -1,0 +1,14 @@
+{
+  "background_color": "purple",
+  "description": "Virtual pets JS client",
+  "display" : "standalone",
+  "icons": [
+    {
+      "src": "data/images/appicon.ico",
+      "sizes": "150x150"
+    }
+  ],
+  "name": "VirtualPets JS Client",
+  "short_name": "VirtualPets",
+  "start_url": "https://virtualpets.urvanov.ru"
+}
