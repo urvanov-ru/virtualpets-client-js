@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "tape test/*.js",
-    "build": "webpack",
+    "build": "webpack && copyfiles --flat manifest.json dist/",
     "watch": "npm-watch"
   },
   "watch": {
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
     "tape": "^5.6.3",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
