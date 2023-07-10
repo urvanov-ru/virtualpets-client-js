@@ -411,6 +411,10 @@ export default class BaseGameLoadWorker {
   }
   
   loadedCallback(path) {
+    if (this.currentIndex >= this.maxIndex) {
+      throw new Error('Incorrect maxIndex value');
+    }
+    console.debug('loadedCallback currentIndex = %i, maxIndex = %i', this.currentIndex, this.maxIndex);
     this.currentIndex++;
     const publish = new Array(1);
     publish[0] = new ProgressInfo(
