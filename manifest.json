@@ -4,11 +4,11 @@
   "display" : "standalone",
   "icons": [
     {
-      "src": "data/images/appicon.ico",
+      "src": "data/images/cat/cat1.png",
       "sizes": "150x150"
     }
   ],
   "name": "VirtualPets JS Client",
   "short_name": "VirtualPets",
-  "start_url": "https://virtualpets.urvanov.ru"
+  "start_url": "https://urvanov.ru/projects/games/virtualpets/index.html"
 }
