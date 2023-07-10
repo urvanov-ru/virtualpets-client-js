@@ -12,7 +12,7 @@ module.exports = {
       patterns: [
         { from: "manifest.json", to: "manifest.json" },
         { from: "data", to: "data" },
-        { from: "index.html", to: "index.html" },
+        { from: "index.html", to: "index.html" }
       ],
     }),
   ],

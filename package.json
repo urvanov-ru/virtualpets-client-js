@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "tape test/*.js",
-    "build": "webpack && copyfiles --flat manifest.json dist/",
+    "build": "webpack",
     "watch": "npm-watch"
   },
   "watch": {
@@ -24,6 +24,7 @@
     "canvas-txt": "^3.0.0",
     "lodash": "^4.17.21",
     "npm-watch": "^0.11.0",
+    "roddeh-i18n": "^1.2.1",
     "test": "^3.3.0",
     "watch": "^1.0.2"
   }

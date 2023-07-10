@@ -22,6 +22,22 @@ import RoomController from './controller/RoomController.js';
 import GameController from './controller/GameController.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
+  fetch('data/locales/en/messages.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        console.debug('Translations loaded %o.', response);
+        init(response);
+      });
+  
+  
+});
+
+function init(messages) {
   const canvas = document.getElementById("canvas");
   canvas.width = 320;
   canvas.height = 240;
@@ -37,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const roomLoadWorker = new RoomLoadWorker(resourceManager, scale, PetType.CAT); 
   const gameController = new GameController();
   const viewImplFactory = new ViewImplFactory();
-  const messageSource = new MessageSource();
+  const messageSource = new MessageSource(messages);
 
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
@@ -49,10 +65,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
   gameController.showView();
   
-  
-});
-
-
+}
 //let addPrivateChatArg = new AddPrivateChatArg();
 
 

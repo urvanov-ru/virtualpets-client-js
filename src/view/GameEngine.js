@@ -1,6 +1,7 @@
 import MouseMoveArg from '../domain/MouseMoveArg.js';
 import ClickedArg from '../domain/ClickedArg.js';
 import Point from '../domain/Point.js';
+import i18n from 'roddeh-i18n';
 
 export default class GameEngine {
 
