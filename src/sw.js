@@ -3,7 +3,7 @@ self.addEventListener('install', (e) => {
     caches.open('virtualpets').then((cache) => cache.addAll([
       '/projects/games/virtualpets/',
       '/projects/games/virtualpets/index.html',
-      '/projects/games/virtualpets/index.js',
+      '/projects/games/virtualpets/main.js',
       '/projects/games/virtualpets/data/locales/en/messages.json',
     ])),
   );
