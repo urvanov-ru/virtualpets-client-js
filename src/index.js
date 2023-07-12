@@ -50,18 +50,25 @@ function init(messages) {
   
   const roomData = new RoomData();
   const gameView = new GameView();
+  const loginView = new LoginView();
   
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, scale, PetType.CAT); 
   const gameController = new GameController();
+  const longController = new LoginController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource(messages);
+  const trayIcon = new TrayIcon();
 
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
+  gameView.trayIcon = trayIcon;
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
+  
+  loginController.loginView = loginView;
+  loginController.trayIcon = trayIcon;
   
   viewImplFactory.resourceManager = resourceManager;
   
