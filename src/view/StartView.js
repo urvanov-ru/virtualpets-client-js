@@ -38,8 +38,8 @@ export default class StartView {
     this.#containerDiv.append(this.#playButton);
     mainContainerElement().append(this.#containerDiv);
     setDeferredInstallPromptListener((e) => {
-
-      this.#deferredInstallPrompt.disabled =false;
+      console.debug('deferredInstallPromptListener fired e=%o', e);
+      this.#installButton.disabled =false;
       this.#deferredInstallPrompt = e;
     });
   }
@@ -58,7 +58,7 @@ export default class StartView {
   
   installClicked() {
       // hide our user interface that shows our A2HS button
-      this.#installButton.style.display = 'none';
+      this.#installButton.disabled = true;
       // Show the prompt
       this.#deferredInstallPrompt.prompt();
       // Wait for the user to respond to the prompt

@@ -37,10 +37,13 @@ export function mainContainerElement() {
 }
 
 export function setDeferredInstallPromptListener(listener) {
+  console.debug('setDeferredInstallPromptListener %o', listener);
   deferredInstallPromptListener = listener;
 }
 
 export function fireDeferredInstallPrompt(deferredInstallPrompt) {
+  console.debug('fireDeferredInstallPrompt deferredInstallPrompt = %o, deferredInstallPromptListener = %o.',
+      deferredInstallPrompt, deferredInstallPromptListener);
   if (deferredInstallPromptListener) {
     deferredInstallPromptListener(deferredInstallPrompt);
   }

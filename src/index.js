@@ -92,8 +92,8 @@ function init(messages) {
       .register('/projects/games/virtualpets/sw.js')
       .then((registration) => { console.log('Service worker registered:', registration); });
   }
-
   window.addEventListener('beforeinstallprompt', (e) => {
+    console.debug('beforeinstallprompt ');
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
     
