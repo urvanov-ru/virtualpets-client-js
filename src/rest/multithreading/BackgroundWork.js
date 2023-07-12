@@ -5,10 +5,16 @@ export default class BackgroundWork {
   connectionExceptionSettings = new ConnectionExceptionSettings();
   view;
 
+  /**
+   * @return Promise from fetch.
+   */
   doInBackground() {
     throw new Error('doInBackground should be implemented in a child class.');
   }
   
+  /**
+   * Will be called after promise completition.
+   */
   completed(result) {
     throw new Error('Completed should be implemented in a child class.');
   }
