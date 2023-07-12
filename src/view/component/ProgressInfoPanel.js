@@ -3,20 +3,21 @@ export default class ProgressInfoDiv {
   #progressLabelElement;
   #progressValueElement;
   
-  constructor(width, height) {
+  constructor(container) {
     this.#progressDivElement = document.createElement('div');
     this.#progressLabelElement = document.createElement('div');
     this.#progressValueElement = document.createElement('progress');
-    this.#progressDivElement.append(this.#progressLabelElement);
-    this.#progressDivElement.append(this.#progressValueElement);
     this.#progressValueElement.max = 100;
     this.#progressValueElement.value = 0;
-    if (width) {
-      this.#progressDivElement.style.width = width + 'px';
-    }
-    if (height) {
-      this.#progressDivElement.style.height = height + 'px';
-    }
+    this.#progressDivElement.style.width = '100%';
+    this.#progressDivElement.style.height = '100%';
+    this.#progressDivElement.style.display = 'none';
+    
+    this.#progressDivElement.append(this.#progressLabelElement);
+    this.#progressDivElement.append(this.#progressValueElement);
+    
+    container.append(this.#progressDivElement);
+    
   }
   
   get element() {
@@ -26,5 +27,13 @@ export default class ProgressInfoDiv {
   set progressInfo(progressInfo) {
     this.#progressLabelElement.innerText = progressInfo.message;
     this.#progressValueElement.value = progressInfo.progress;
+  }
+  
+  showView() {
+    this.#progressDivElement.style.display = 'block';
+  }
+  
+  hideView() {
+    this.#progressDivElement.style.display = 'none';
   }
 }

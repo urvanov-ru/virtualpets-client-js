@@ -13,6 +13,7 @@ module.exports = {
         { from: "manifest.json", to: "manifest.json" },
         { from: "data", to: "data" },
         { from: "index.html", to: "index.html" },
+        { from: "style.css", to: "style.css" },
         { from: "./src/sw.js", to: "sw.js" }
       ],
     }),

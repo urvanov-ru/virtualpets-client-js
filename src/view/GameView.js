@@ -12,6 +12,7 @@ import IndependentCanvas from './component/IndependentCanvas.js';
 import GameObjectRender from './component/GameObjectRender.js';
 import ProgressInfoPanel from './component/ProgressInfoPanel.js';
 
+import {mainContainerElement} from './container.js';
 import RoomView from './RoomView.js';
 
 
@@ -51,8 +52,11 @@ export default class GameView {
   
   #firstInit = true;
     
-  constructor() {
-    const canvas = document.getElementById("canvas");
+  constructor(container) {
+    const canvas = document.createElement("canvas");
+    canvas.width = mainContainerElement().offsetWidth;
+    canvas.height = mainContainerElement().offsetHeight;
+    mainContainerElement().append(canvas);
 	this.#independentCanvas = new IndependentCanvas();
 	this.#independentCanvas.canvas = canvas;
 	this.#independentCanvas.context = canvas.getContext('2d');
@@ -68,9 +72,7 @@ export default class GameView {
 	  clickedArg.mousePosition = new Point(event.offsetX, event.offsetY);
 	  this.baseGameView.mouseClicked(clickedArg);
 	});
-	this.#progressInfoPanel = new ProgressInfoPanel(canvas.clientWidth, canvas.clientHeight);
-	this.#progressInfoPanel.element.style.display = 'none';
-	document.body.append(this.#progressInfoPanel.element);
+	this.#progressInfoPanel = new ProgressInfoPanel(container);
   }
   
   pickObject(x, y) {
@@ -209,7 +211,7 @@ export default class GameView {
 //
 //    }
     this.#progressInfoPanel.progressInfo = new ProgressInfo(0, '');
-    this.#progressInfoPanel.element.style.display = 'block';
+    this.#progressInfoPanel.showView();
     this.#independentCanvas.canvas.style.display = 'none';
     if (worker != null) {
       worker.loadResourcesInBackground();
@@ -227,7 +229,7 @@ export default class GameView {
 
   loadResourcesDone(worker) {
     console.debug('Load resources done');
-    this.#progressInfoPanel.element.style.display = 'none';
+    this.#progressInfoPanel.hideView();
     this.#independentCanvas.canvas.style.display = 'block';
     //try {
     //  if (worker != null) {

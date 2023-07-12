@@ -18,10 +18,7 @@ export default class PublicService {
    * @return Promise ServerInfo[]
    */
   getServers(getServersArg) {
-    return fetch(this.#serviceUrl + "/servers").then((response) => {
-      if (!response.ok) throw new Error('Failed to retrieve servers.');
-      return response.json();
-    });
+    return fetch(this.#serviceUrl + "/servers");
   }
   
   register(registerArgument) {}

@@ -5,8 +5,11 @@ import PetType from './rest/domain/PetType.js';
 import RoomData from './domain/RoomData.js';
 
 // view
+import {mainContainerScale, fireDeferredInstallPrompt, mainContainerElement} from './view/container.js';
+import StartView from './view/StartView.js';
 import ViewImplFactory from './view/component/ViewImplFactory.js';
 import GameView from './view/GameView.js';
+//import LoginView from './view/LoginView.js';
 
 import MessageSource from './localization/MessageSource.js';
 
@@ -19,12 +22,24 @@ import RoomLoadWorker from './resources/RoomLoadWorker.js';
 
 // controller
 import RoomController from './controller/RoomController.js';
+//import LoginController from './controller/LoginController.js';
 import GameController from './controller/GameController.js';
+
+import TrayIcon from './trayicon/TrayIcon.js';
 
 document.addEventListener("DOMContentLoaded", function(event) {
   
+  const startView = new StartView();
+  startView.onPlay = loadLanguage;
+  startView.showView();
   
-  fetch('data/locales/en/messages.json')
+  
+  
+  
+});
+
+function loadLanguage(lang) {
+  fetch(`data/locales/${lang}/messages.json`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -35,27 +50,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.debug('Translations loaded %o.', response);
         init(response);
       });
-  
-  
-});
+}
 
 function init(messages) {
-  const canvas = document.getElementById("canvas");
-  canvas.width = 320;
-  canvas.height = 240;
-  
-  const scale = canvas.style.clientWidth / GameView.ORIGINAL_WIDTH;
 
   
   
   const roomData = new RoomData();
-  const gameView = new GameView();
-  const loginView = new LoginView();
+  const gameView = new GameView(mainContainerElement());
+  //const loginView = new LoginView();
   
   const resourceManager = new ResourceManager();
-  const roomLoadWorker = new RoomLoadWorker(resourceManager, scale, PetType.CAT); 
+  const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT); 
   const gameController = new GameController();
-  const longController = new LoginController();
+  //const longController = new LoginController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource(messages);
   const trayIcon = new TrayIcon();
@@ -67,8 +75,8 @@ function init(messages) {
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
   
-  loginController.loginView = loginView;
-  loginController.trayIcon = trayIcon;
+  //loginController.loginView = loginView;
+  //loginController.trayIcon = trayIcon;
   
   viewImplFactory.resourceManager = resourceManager;
   
@@ -84,33 +92,11 @@ function init(messages) {
       .register('/projects/games/virtualpets/sw.js')
       .then((registration) => { console.log('Service worker registered:', registration); });
   }
-   
-  // Code to handle install prompt on desktop
-  let deferredPrompt;
-  const addBtn = document.querySelector('.add-button');
-  addBtn.style.display = 'none';
-   
+
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-    // Update UI to notify the user they can add to home screen
-    addBtn.style.display = 'block';
-   
-    addBtn.addEventListener('click', () => {
-      // hide our user interface that shows our A2HS button
-      addBtn.style.display = 'none';
-      // Show the prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
-        } else {
-          console.log('User dismissed the A2HS prompt');
-        }
-        deferredPrompt = null;
-      });
-    });
+    
+    fireDeferredInstallPrompt(e);
+    
   });
