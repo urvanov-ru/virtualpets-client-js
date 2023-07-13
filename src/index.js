@@ -1,3 +1,5 @@
+import i18n from 'roddeh-i18n';
+
 // rest domain
 import PetType from './rest/domain/PetType.js';
 
@@ -30,7 +32,7 @@ import TrayIcon from './trayicon/TrayIcon.js';
 document.addEventListener("DOMContentLoaded", function(event) {
   
   const startView = new StartView();
-  startView.onPlay = loadLanguage;
+  startView.onPlay = init;
   startView.showView();
   
   
@@ -38,21 +40,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   
 });
 
-function loadLanguage(lang) {
-  fetch(`data/locales/${lang}/messages.json`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((response) => {
-        console.debug('Translations loaded %o.', response);
-        init(response);
-      });
-}
 
-function init(messages) {
+
+function init() {
 
   
   
@@ -65,7 +55,7 @@ function init(messages) {
   const gameController = new GameController();
   //const longController = new LoginController();
   const viewImplFactory = new ViewImplFactory();
-  const messageSource = new MessageSource(messages);
+  const messageSource = new MessageSource();
   const trayIcon = new TrayIcon();
 
   gameView.resourceManager = resourceManager;

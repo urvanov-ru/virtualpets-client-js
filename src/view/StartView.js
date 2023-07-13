@@ -22,16 +22,17 @@ export default class StartView {
     this.#languageSelect.style.maxWidth = '200px';
     this.#languageSelect.add(new Option('English', 'en'));
     this.#languageSelect.add(new Option('Русский', 'ru'));
-    this.#installButton.innerText = 'Install game to your device';
+    this.#installButton.innerText = '<...loading...>';
     this.#installButton.style.display = 'block';
     this.#installButton.disabled = true;
     this.#installButton.style.maxWidth = '200px';
-    this.#playButton.innerText = 'play';
+    this.#playButton.innerText = '<...loading...>';
     this.#playButton.style.display = 'block';
     this.#playButton.style.maxWidth = '200px';
     
-    this.#installButton.addEventListener('click', this.installClicked.bind(this));
-    this.#playButton.addEventListener('click', this.playClicked.bind(this));
+    this.#languageSelect.addEventListener('change', this.#languageChanged.bind(this));
+    this.#installButton.addEventListener('click', this.#installClicked.bind(this));
+    this.#playButton.addEventListener('click', this.#playClicked.bind(this));
     
     this.#containerDiv.append(this.#languageSelect);
     this.#containerDiv.append(this.#installButton);
@@ -42,6 +43,7 @@ export default class StartView {
       this.#installButton.disabled =false;
       this.#deferredInstallPrompt = e;
     });
+    this.#choosePreferredLanguage();
   }
   
   element() {
@@ -56,7 +58,42 @@ export default class StartView {
     this.#containerDiv.style.display = 'none';
   }
   
-  installClicked() {
+  #choosePreferredLanguage() {
+    const userLang = navigator.language || navigator.userLanguage;
+    const translations = new Set(['en', 'ru']);
+    let preferredLanguage = 'en';
+    if (translations.has(userLang)) {
+      preferredLanguage = userLang;
+    } 
+    const shortedUserLang = userLang.split('-')[0]
+    if (translations.has(shortedUserLang)) {
+      preferredLanguage = shortedUserLang;
+    }
+    this.#languageSelect.value = preferredLanguage;
+    this.#loadLanguage(preferredLanguage);
+  }
+  
+  #loadLanguage(lang) {
+    fetch(`data/locales/${lang}/messages.json`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        console.debug('Translations loaded %o.', response);
+        i18n.translator.add(response);
+        this.#installButton.textContent = i18n('INSTALL');
+        this.#playButton.textContent = i18n('PLAY');
+      });
+  }
+  
+  #languageChanged(event) {
+    this.#loadLanguage(event.target.value);
+  }
+  
+  #installClicked() {
       // hide our user interface that shows our A2HS button
       this.#installButton.disabled = true;
       // Show the prompt
@@ -72,7 +109,7 @@ export default class StartView {
       });
   }
   
-  playClicked() {
+  #playClicked() {
     this.hideView();
     this.onPlay(this.#languageSelect.selectedOptions[0].value);
   }

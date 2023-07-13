@@ -2,14 +2,11 @@ import i18n from 'roddeh-i18n';
 
 export default class MessageSource {
   
-  #i18n;
-  
-  constructor(messages) {
-    this.#i18n = i18n.create(messages);
+  constructor(i18n) {
   }
 
   getMessage(... args) {
-    console.debug('i18n %s = %s', args[0], this.#i18n(args[0]));
-    return this.#i18n(args[0]);
+    console.debug('i18n %s = %s', args[0], i18n(args[0]));
+    return i18n(args[0]);
   }
 }

@@ -124,6 +124,7 @@
     "MOVE": "Переместить",
     "UPGRADE": "Улучшить",
     "ru.urvanov.virtualpets.client.localization.achievement.TEACH_1": "Первый урок.",
-    "EXP": "Exp"
+    "EXP": "Exp",
+    "INSTALL": "Установить"
   }
 }
