@@ -11,7 +11,7 @@ import {mainContainerScale, fireDeferredInstallPrompt, mainContainerElement} fro
 import StartView from './view/StartView.js';
 import ViewImplFactory from './view/component/ViewImplFactory.js';
 import GameView from './view/GameView.js';
-//import LoginView from './view/LoginView.js';
+import LoginView from './view/LoginView.js';
 
 import MessageSource from './localization/MessageSource.js';
 
@@ -24,7 +24,7 @@ import RoomLoadWorker from './resources/RoomLoadWorker.js';
 
 // controller
 import RoomController from './controller/RoomController.js';
-//import LoginController from './controller/LoginController.js';
+import LoginController from './controller/LoginController.js';
 import GameController from './controller/GameController.js';
 
 import TrayIcon from './trayicon/TrayIcon.js';
@@ -48,7 +48,7 @@ function init() {
   
   const roomData = new RoomData();
   const gameView = new GameView(mainContainerElement());
-  //const loginView = new LoginView();
+  const loginView = new LoginView();
   
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT); 
@@ -61,6 +61,8 @@ function init() {
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
   gameView.trayIcon = trayIcon;
+  loginView.messageSource = messageSource;
+  loginView.resourceManager = resourceManager;
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
@@ -70,8 +72,9 @@ function init() {
   
   viewImplFactory.resourceManager = resourceManager;
   
-  gameController.showView();
+  //gameController.showView();
   
+  loginView.showView();
 }
 
 

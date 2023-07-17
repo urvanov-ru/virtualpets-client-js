@@ -57,6 +57,7 @@ export default class GameView {
     canvas.width = mainContainerElement().offsetWidth;
     canvas.height = mainContainerElement().offsetHeight;
     mainContainerElement().append(canvas);
+    canvas.style.display = 'none';
 	this.#independentCanvas = new IndependentCanvas();
 	this.#independentCanvas.canvas = canvas;
 	this.#independentCanvas.context = canvas.getContext('2d');
@@ -125,6 +126,7 @@ export default class GameView {
       //if ((getWidth() == 0) || (getHeight() == 0)) {
       //  defaultSizeAndLocation();
       //}
+      this.#independentCanvas.canvas.style.display = block;
     }
   }
 
