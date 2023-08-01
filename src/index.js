@@ -1,7 +1,13 @@
 import i18n from 'roddeh-i18n';
 
+// rest
+import BackgroundWorkManager from './rest/multithreading/BackgroundWorkManager.js';
+
 // rest domain
 import PetType from './rest/domain/PetType.js';
+
+// rest service
+import PublicService from './rest/service/PublicService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
@@ -42,10 +48,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
-function init() {
+function init(selectedLanguage) {
 
+  const VERSION = '0.21';
+  const SERVER_URL = 'http://localhost:8081/virtualpets-server/site';
   
-  
+  const settings = new LocalStorageSettings();
+  settings.language = selectedLanguage;
   const roomData = new RoomData();
   const gameView = new GameView(mainContainerElement());
   const loginView = new LoginView();
@@ -53,28 +62,40 @@ function init() {
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT); 
   const gameController = new GameController();
-  //const longController = new LoginController();
+  const loginController = new LoginController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
   const trayIcon = new TrayIcon();
+  const backgroundWorkManager = new BackgroundWorkManager();
+  const publicService = new PublicService();
 
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
   gameView.trayIcon = trayIcon;
   loginView.messageSource = messageSource;
   loginView.resourceManager = resourceManager;
+  loginView.settings = settings;
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
   
-  //loginController.loginView = loginView;
-  //loginController.trayIcon = trayIcon;
+  loginController.loginView = loginView;
+  loginController.trayIcon = trayIcon;
+  loginController.version = VERSION;
+  loginController.backgroundWorkManager = backgroundWorkManager;
+  loginController.publicService = publicService;
+  loginController.settings = settings;
+  loginController.messageSource = messageSource;
+  loginController.serverAddress = SERVER_URL;
   
+  publicService.serverUrl = SERVER_URL;
+  publicService.version = VERSION;
+    
   viewImplFactory.resourceManager = resourceManager;
   
   //gameController.showView();
   
-  loginView.showView();
+  loginController.showView();
 }
 
 

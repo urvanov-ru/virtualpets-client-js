@@ -7,18 +7,18 @@ import RecoverSessionArg from '../domain/RecoverSessionArg.js';
 import RegisterArgument from '../domain/RegisterArgument.js';
 import ServerInfo from '../domain/ServerInfo.js';
 import ServerTechnicalInfo from '../domain/ServerTechnicalInfo.js';
-import DaoException from '../domain/DaoException.js';
-import ServiceException from '../domain/ServiceException.js';
 
 export default class PublicService {
 
   #serviceUrl;
+  #version;
   
   /**
    * @return Promise ServerInfo[]
    */
   getServers(getServersArg) {
-    return fetch(this.#serviceUrl + "/servers");
+    console.debug('fetch servers');
+    return fetch(this.#serviceUrl + "/servers?version="+this.#version);
   }
   
   register(registerArgument) {}
@@ -29,5 +29,9 @@ export default class PublicService {
   
   set serverUrl(serverUrl) {
     this.#serviceUrl = serverUrl + '/rest/v1/PublicService';
+  }
+  
+  set version(version) {
+    this.#version = version;
   }
 }

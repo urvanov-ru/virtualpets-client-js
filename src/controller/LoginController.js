@@ -1,4 +1,15 @@
+// localization
+import StringConstants from '../localization/StringConstants.js';
+import MessageSource from '../localization/MessageSource.js';
+
+// rest
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+
+// rest domain
+import GetServersArg from '../rest/domain/GetServersArg.js';
+import ServerInfo from '../rest/domain/ServerInfo.js';
+
 
 export default class LoginController {
 
@@ -11,11 +22,11 @@ export default class LoginController {
   userPetsController;
   chatController;
   usersOnlineController;
-  #serverAddress;
+  serverAddress;
   authenticationController;
   backgroundWorkManager;
-  #settings;
-  #version;
+  settings;
+  version;
 
   constructor() {
   }
@@ -79,9 +90,7 @@ export default class LoginController {
 
   loadServers() {
     const work = new BackgroundWork();
-    work.doInBackground = (function() {
-      this.publicService.getServers(work.argument);
-    }).bind(this);
+    work.doInBackground = this.publicService.getServers.bind(this.publicService, work.argument);
     work.failed = (function(ex) {
       if (ex instanceof IncompatibleVersionException) {
         const serverVersion = ex.serverVersion;
@@ -97,8 +106,28 @@ export default class LoginController {
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       }
     }).bind(this);
+    work.completed = (serversResponse) => {
+    try {
+        console.debug('serversResponse = %o', serversResponse);
+        const servers = [];
+        for (let serverInfo of serversResponse) {
+          serverInfo.address = serverInfo.address;
+          serverInfo.locale = serverInfo.locale;
+          serverInfo.name = serverInfo.name;
+          servers.push(serverInfo);
+        }
+        this.loginView.setServers(servers);
+      } catch (ex) {
+        console.error(ex.toString());
+        const message = this.messageSource.getMessage(
+            StringConstants.ERROR)
+            + ": "
+            + ex.toString();
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      }
+    }
     const arg = new GetServersArg();
-    arg.version = version;
+    arg.version = this.version;
     work.argument = arg;
     work.view = this.loginView;
     const ces = new ConnectionExceptionSettings();
@@ -304,13 +333,13 @@ export default class LoginController {
     this.loginView.addSocialLoginListener((sender, data) => {
         const arg = new RecoverSessionArg();
         arg.unid = uniqueIdentifier;
-        arg.version = version;
+        arg.version = this.version;
         this.restoreSessionLoop(arg);
     });
     this.loginView.addRestoreSessionListener((sender, data) => {
         const arg = new RecoverSessionArg();
         arg.unid = settings.unid;
-        arg.version = version;
+        arg.version = this.version;
         this.restoreSession(arg);
     });
   }
@@ -350,4 +379,18 @@ export default class LoginController {
 //  backgroundWorkManager.startBackgroundWork(work);
 //}
 
+
+  getServerTechnicalInfo() {
+    const work = new BackgroundWork();
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    work.doInBackground = this.publicService.getServerTechnicalInfo.bind(this.publicService);
+    work.failed = function(ex) {
+      console.error(ex);
+    }
+    work.completed = function(info) {
+      console.log(info);
+    }
+  }
 }

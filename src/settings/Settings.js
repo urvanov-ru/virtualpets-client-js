@@ -8,6 +8,7 @@ export default class Settings {
   unid;
   petId = 0;
   userId = 0;
+  language;
 
   constructor() {
 

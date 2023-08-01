@@ -1,5 +1,6 @@
 {
   "values": {
+    "LANGUAGE_CODE": "en",
     "USERS_ONLINE": "Users Online",
     "DRESSING_ROOM_HOW_TO_PLAY_1": "Welcome to dressing room.",
     "LVL": "Lvl",

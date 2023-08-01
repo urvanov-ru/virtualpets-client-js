@@ -6,6 +6,8 @@
  */
 export default class StringConstants {
 
+static get LANGUAGE_CODE() { return "LANGUAGE_CODE"; }
+
 static get CAN_NOT_ADD_ICON_TO_SYSTEM_TRAY() { return "CAN_NOT_ADD_ICON_TO_SYSTEM_TRAY"; }
 
 static get PRETTY_CHAT() { return "PRETTY_CHAT"; }

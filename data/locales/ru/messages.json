@@ -1,5 +1,6 @@
 {
   "values": {
+    "LANGUAGE_CODE" : "ru",
     "USERS_ONLINE": "Игроки онлайн",
     "DRESSING_ROOM_HOW_TO_PLAY_1": "Это гардероб.",
     "LVL": "Ур.",

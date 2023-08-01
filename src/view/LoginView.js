@@ -1,4 +1,6 @@
+// localization
 import StringConstants from '../localization/StringConstants.js';
+
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
 import {mainContainerElement} from './container.js';
 
@@ -13,6 +15,7 @@ export default class LoginView {
   connectionInfo;
   resourceManager;
   #registerFrame;
+  #servers;
   #version;
   #userPetsFrame;
   #recoverPasswordFrame;
@@ -20,6 +23,8 @@ export default class LoginView {
   #cancelRestoreSessionButton;
   #restoreSessionLabel;
   
+  #serverLabel;
+  #serverSelect;
   #loginLabel;
   #loginInput;
   #passwordLabel;
@@ -37,6 +42,8 @@ export default class LoginView {
   
   showView() {
     if (!this.#initialized) {
+      this.#serverLabel = document.createElement('label');
+      this.#serverSelect = document.createElement('select');
       this.#loginLabel = document.createElement('label');
       this.#loginInput = document.createElement('input');
       this.#passwordLabel = document.createElement('label');
@@ -54,13 +61,15 @@ export default class LoginView {
       this.#loginLabel.for = this.#loginInput;
       this.#passwordLabel.for = this.#passwordInput;
       
+      this.#serverLabel.innerText = this.messageSource.getMessage(StringConstants.SERVER);
       this.#loginLabel.innerText = this.messageSource.getMessage(StringConstants.NAME);
       this.#passwordLabel.innerText = this.messageSource.getMessage(StringConstants.PASSWORD);
       this.#registerButton.innerText = this.messageSource.getMessage(StringConstants.REGISTER);
       this.#loginButton.innerText = this.messageSource.getMessage(StringConstants.LOGIN);
       this.#revivePasswordButton.innerText = this.messageSource.getMessage(StringConstants.REVIVE_PASSWORD);
       
-      
+      this.#containerDiv.append(this.#serverLabel);
+      this.#containerDiv.append(this.#serverSelect);
       this.#containerDiv.append(this.#loginLabel);
       this.#containerDiv.append(this.#loginInput);
       this.#containerDiv.append(this.#passwordLabel);
@@ -91,6 +100,23 @@ export default class LoginView {
 
   addRecoverPasswordListener(simpleEventListener) {
     this.#recoverPasswordListeners.add(simpleEventListener);
+  }
+
+  setServers(servers) {
+    this.#servers = servers;
+    for (let n = 0; n < servers.length; n++) {
+      const serverInfo = servers[n];
+      this.#serverSelect.add(new Option(`${serverInfo.name} (${serverInfo.locale})`, serverInfo.address));
+      if (this.settings.lastHost && this.settings.lastHost.length > 0) {
+        if (serverInfo.address == settings.lastHost) {
+          this.#serverSelect.value = serverInfo.address;
+        }
+      } else {
+        if (serverInfo.locale == this.messageSource.getMessage(StringConstants.LANGUAGE_CODE)){
+          this.#serverSelect.value = serverInfo.address;
+        }
+      }
+    }
   }
 
   

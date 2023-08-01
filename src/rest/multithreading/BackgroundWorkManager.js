@@ -2,31 +2,33 @@
 export default class BackgroundWorkManager {
 
   startBackgroundWork(backgroundWork) {
-    BaseView view = backgroundWork.getView();
-    if (view != null) {
+    const view = backgroundWork.view;
+    if (view != null && view.startWaitAnimation) {
       view.startWaitAnimation();
     }
     try {
       backgroundWork.doInBackground()
-          .then((response) {
+          .then((response) => {
               if (response.ok) {
-                const view = bw.view;
-                if (view != null) {
+                if (view != null && view.stopWaitAnimation) {
                   view.stopWaitAnimation();
                 }
-                backgroundWork.completed(response.json());
+                return response.json();
               } else {
                 throw new Error('Background work failed with HTTP status ' + response.status);
               }
+          })
+          .then((responseJson) => {
+            backgroundWork.completed(responseJson);
           });
     } catch (error) {
-      const ces = bw.connectionExceptionSettings;
+      console.error(error);
+      const ces = backgroundWork.connectionExceptionSettings;
       if (ces.restart) {
         ces.incAttemptNumber();
-        this.startBackgroundWork(bw);
+        this.startBackgroundWork(backgroundWork);
       } else {
-        const view = bw.view;
-        if (view != null) {
+        if (view != null && view.stopWaitAnimation) {
           view.stopWaitAnimation();
         }
         backgroundWork.failed(error);

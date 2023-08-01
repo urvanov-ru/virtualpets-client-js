@@ -10,11 +10,12 @@ export default class LocalStorageSettings extends Settings {
    * Вызывает метод load().
    */
   constructor() {
-    load();
+    super();
+    this.load();
   }
 
   #getFromLocalStorage(settingName, defaultValue) {
-    const result = localStorage[PREFIX + settingName];
+    const result = localStorage[LocalStorageSettings.PREFIX + settingName];
     if (result !== undefined) {
       return result;
     }
@@ -22,7 +23,7 @@ export default class LocalStorageSettings extends Settings {
   }
   
   #setToLocalStorage(settingName, value) {
-    localStorage[PREFIX + settingName] = value;
+    localStorage[LocalStorageSettings.PREFIX + settingName] = value;
   }
 
   /**
@@ -34,6 +35,7 @@ export default class LocalStorageSettings extends Settings {
     this.unid = this.#getFromLocalStorage("unid", "");
     this.petId = this.#getFromLocalStorage("petId", 0);
     this.userId = this.#getFromLocalStorage("userId", 0);
+    this.language = this.#getFromLocalStorage("language", null);
   }
 
   /**
@@ -45,6 +47,7 @@ export default class LocalStorageSettings extends Settings {
     this.#setToLocalStorage("unid", unid);
     this.#setToLocalStorage("petId", petId);
     this.#setToLocalStorage("userId", userId);
+    this.#setToLocalStorage("language", language);
   }
 
   get soundEnabled() {
