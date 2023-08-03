@@ -277,6 +277,7 @@ export default class LoginController {
 //  }
 //}
 
+  #login() {}
 //private void login(LoginArg arg) {
 //  LoginBackgroundWork work = new LoginBackgroundWork();
 
@@ -309,7 +310,7 @@ export default class LoginController {
   initialize() {
     this.loginView.addLoginListener((sender, loginArg) => {
       try {
-        login(arg);
+        this.#login(arg);
       } catch (ex) {
         console.error("LoginListener %s.", ex);
         const message = this.messageSource.getMessage(
@@ -321,21 +322,22 @@ export default class LoginController {
     });
 
     this.loginView.addRegisterListener((sender, data) => {
-      registerController.showView();
-      registerController.setHost(data);
+      this.loginView.hideView();
+      this.registerController.showView();
+      this.registerController.host = data;
     });
 
     this.loginView
         .addRecoverPasswordListener((sender, data) => {
-            recoverPasswordController.showView();
-            recoverPasswordController.host = data;
+            this.recoverPasswordController.showView();
+            this.recoverPasswordController.host = data;
         });
-    this.loginView.addSocialLoginListener((sender, data) => {
-        const arg = new RecoverSessionArg();
-        arg.unid = uniqueIdentifier;
-        arg.version = this.version;
-        this.restoreSessionLoop(arg);
-    });
+    //this.loginView.addSocialLoginListener((sender, data) => {
+    //    const arg = new RecoverSessionArg();
+    //    arg.unid = uniqueIdentifier;
+    //    arg.version = this.version;
+    //    this.restoreSessionLoop(arg);
+    //});
     this.loginView.addRestoreSessionListener((sender, data) => {
         const arg = new RecoverSessionArg();
         arg.unid = settings.unid;

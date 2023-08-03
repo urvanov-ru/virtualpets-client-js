@@ -1,15 +1,20 @@
 // localization
 import StringConstants from '../localization/StringConstants.js';
 
+// trayIcon
+import MessageType from '../trayicon/MessageType.js';
+
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
 import {mainContainerElement} from './container.js';
 
 export default class LoginView {
-  #loginListeners;
-  #registerListeners;
-  #recoverPasswordListeners;
+  #loginListeners = [];
+  #registerListeners = [];
+  #recoverPasswordListeners = [];
+  #restoreSessionListeners = [];
 
   messageSource;
+  trayIcon;
   #progressFrame;
   settings;
   connectionInfo;
@@ -78,6 +83,8 @@ export default class LoginView {
       this.#containerDiv.append(this.#loginButton);
       this.#containerDiv.append(this.#revivePasswordButton);
       
+      this.#registerButton.addEventListener('click', this.#registerClicked.bind(this));
+      
       mainContainerElement().append(this.#containerDiv);
       
       this.#initialized = true;
@@ -91,15 +98,19 @@ export default class LoginView {
 
 
   addLoginListener(simpleEventListener) {
-    this.#loginListeners.add(simpleEventListener);
+    this.#loginListeners.push(simpleEventListener);
   }
 
   addRegisterListener(simpleEventListener) {
-    this.#registerListeners.add(simpleEventListener);
+    this.#registerListeners.push(simpleEventListener);
   }
 
   addRecoverPasswordListener(simpleEventListener) {
-    this.#recoverPasswordListeners.add(simpleEventListener);
+    this.#recoverPasswordListeners.push(simpleEventListener);
+  }
+  
+  addRestoreSessionListener(listener) {
+    this.#restoreSessionListeners.push(listener);
   }
 
   setServers(servers) {
@@ -119,5 +130,18 @@ export default class LoginView {
     }
   }
 
-  
+  #registerClicked(event) {
+    try {
+      const selectedIndex = this.#serverSelect.selectedIndex;
+      const host = this.#servers[selectedIndex].address;
+      for (let simpleEvent of this.#registerListeners) {
+        simpleEvent(this, host);
+      }
+    } catch (ex) {
+      console.error("RegisterClicked processing error %o.", ex);
+      this.trayIcon.showTrayMessage(
+      this.messageSource.getMessage(StringConstants.ERROR, null, null)
+          + ": " + ex.toString(), MessageType.ERROR);
+    }
+  }
 }

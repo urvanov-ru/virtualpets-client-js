@@ -18,6 +18,7 @@ import StartView from './view/StartView.js';
 import ViewImplFactory from './view/component/ViewImplFactory.js';
 import GameView from './view/GameView.js';
 import LoginView from './view/LoginView.js';
+import RegisterView from './view/RegisterView.js';
 
 import MessageSource from './localization/MessageSource.js';
 
@@ -31,6 +32,7 @@ import RoomLoadWorker from './resources/RoomLoadWorker.js';
 // controller
 import RoomController from './controller/RoomController.js';
 import LoginController from './controller/LoginController.js';
+import RegisterController from './controller/RegisterController.js';
 import GameController from './controller/GameController.js';
 
 import TrayIcon from './trayicon/TrayIcon.js';
@@ -58,16 +60,21 @@ function init(selectedLanguage) {
   const roomData = new RoomData();
   const gameView = new GameView(mainContainerElement());
   const loginView = new LoginView();
+  const registerView = new RegisterView();
   
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT); 
   const gameController = new GameController();
   const loginController = new LoginController();
+  const registerController = new RegisterController();
+  const authenticationController = null;
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
   const trayIcon = new TrayIcon();
   const backgroundWorkManager = new BackgroundWorkManager();
   const publicService = new PublicService();
+  const userService = null;
+  
 
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
@@ -75,6 +82,11 @@ function init(selectedLanguage) {
   loginView.messageSource = messageSource;
   loginView.resourceManager = resourceManager;
   loginView.settings = settings;
+  loginView.trayIcon = trayIcon;
+  registerView.version = VERSION;
+  registerView.settings = settings;
+  registerView.messageSource = messageSource;
+  registerView.resourceManager = resourceManager;
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
@@ -87,11 +99,24 @@ function init(selectedLanguage) {
   loginController.settings = settings;
   loginController.messageSource = messageSource;
   loginController.serverAddress = SERVER_URL;
+  loginController.registerController = registerController;
+  
+  registerController.registerView = registerView;
+  registerController.trayIcon = trayIcon;
+  registerController.messageSource = messageSource;
+  registerController.userService = userService;
+  registerController.publicService = publicService;
+  registerController.authenticationController = authenticationController;
+  registerController.backgroundWorkManager = backgroundWorkManager;
+  
   
   publicService.serverUrl = SERVER_URL;
   publicService.version = VERSION;
     
   viewImplFactory.resourceManager = resourceManager;
+  
+  registerController.initialize();
+  loginController.initialize();
   
   //gameController.showView();
   
