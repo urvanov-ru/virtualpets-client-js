@@ -64,4 +64,8 @@ export default class BaseHtmlView {
       lastView.showView();
     }
   }
+  
+  set closeable(closeable) {
+    this.#closeButton.disabled = !closeable;
+  }
 }

@@ -82,7 +82,9 @@ export default class LoginView extends BaseHtmlView {
       
       this.#registerButton.addEventListener('click', this.#registerClicked.bind(this));
       
+      this.closeable = false;
       this.#initialized = true;
+      
     }
     this.containerDiv.style.display = 'flex';
   }
