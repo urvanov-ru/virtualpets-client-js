@@ -18,6 +18,10 @@ export default class RegisterController {
   set host(host) {
     this.registerView.host = host;
   }
+  
+  set callback(callback) {
+    this.registerView.callback = callback;
+  }
 
   hideView() {
     this.registerView.hideView();

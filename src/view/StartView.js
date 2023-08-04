@@ -1,6 +1,6 @@
 import {mainContainerElement, setDeferredInstallPromptListener} from './container.js';
 
-export default class StartView {
+export default class StartView  {
   onPlay;
   #languageSelect;
   #installButton;

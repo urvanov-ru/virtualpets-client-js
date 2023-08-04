@@ -4,10 +4,13 @@ import StringConstants from '../localization/StringConstants.js';
 // trayIcon
 import MessageType from '../trayicon/MessageType.js';
 
+// view
+import BaseHtmlView from './BaseHtmlView.js';
+
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
 import {mainContainerElement} from './container.js';
 
-export default class LoginView {
+export default class LoginView extends BaseHtmlView {
   #loginListeners = [];
   #registerListeners = [];
   #recoverPasswordListeners = [];
@@ -37,15 +40,15 @@ export default class LoginView {
   #registerButton;
   #loginButton;
   #revivePasswordButton;
-  #containerDiv;
   
   #initialized = false;
   
   constructor() {
-    
+    super();
   }
   
   showView() {
+    super.showView();
     if (!this.#initialized) {
       this.#serverLabel = document.createElement('label');
       this.#serverSelect = document.createElement('select');
@@ -56,13 +59,7 @@ export default class LoginView {
       this.#registerButton = document.createElement('button');
       this.#loginButton = document.createElement('button');
       this.#revivePasswordButton = document.createElement('button');
-      this.#containerDiv = document.createElement('div');
-      
-      this.#containerDiv.style.width = '100%';
-      this.#containerDiv.style.height = '100%';
-      this.#containerDiv.style.display = 'none';
-      this.#containerDiv.style.flexDirection = 'column';
-    
+         
       this.#loginLabel.for = this.#loginInput;
       this.#passwordLabel.for = this.#passwordInput;
       
@@ -73,27 +70,25 @@ export default class LoginView {
       this.#loginButton.innerText = this.messageSource.getMessage(StringConstants.LOGIN);
       this.#revivePasswordButton.innerText = this.messageSource.getMessage(StringConstants.REVIVE_PASSWORD);
       
-      this.#containerDiv.append(this.#serverLabel);
-      this.#containerDiv.append(this.#serverSelect);
-      this.#containerDiv.append(this.#loginLabel);
-      this.#containerDiv.append(this.#loginInput);
-      this.#containerDiv.append(this.#passwordLabel);
-      this.#containerDiv.append(this.#passwordInput);
-      this.#containerDiv.append(this.#registerButton);
-      this.#containerDiv.append(this.#loginButton);
-      this.#containerDiv.append(this.#revivePasswordButton);
+      this.containerDiv.append(this.#serverLabel);
+      this.containerDiv.append(this.#serverSelect);
+      this.containerDiv.append(this.#loginLabel);
+      this.containerDiv.append(this.#loginInput);
+      this.containerDiv.append(this.#passwordLabel);
+      this.containerDiv.append(this.#passwordInput);
+      this.containerDiv.append(this.#registerButton);
+      this.containerDiv.append(this.#loginButton);
+      this.containerDiv.append(this.#revivePasswordButton);
       
       this.#registerButton.addEventListener('click', this.#registerClicked.bind(this));
       
-      mainContainerElement().append(this.#containerDiv);
-      
       this.#initialized = true;
     }
-    this.#containerDiv.style.display = 'flex';
+    this.containerDiv.style.display = 'flex';
   }
   
   hideView() {
-    this.#containerDiv.style.display = 'none';
+    super.hideView();
   }
 
 

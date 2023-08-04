@@ -3,8 +3,13 @@ import StringConstants from '../localization/StringConstants.js';
 
 import {mainContainerElement} from './container.js';
 
-export default class RegisterView {
+// view
+import BaseHtmlView from './BaseHtmlView.js';
+
+export default class RegisterView extends BaseHtmlView {
   #registerListeners =[];
+  #hideListeners = [];
+  
 
   #loginLabel;
   #loginInput;
@@ -13,7 +18,6 @@ export default class RegisterView {
   #emailLabel;
   #emailInput;
   #registerButton;
-  #containerDiv;
   #host;
   #initialized = false;
   version;
@@ -24,10 +28,11 @@ export default class RegisterView {
   resourceManager;
   
   constructor() {
-    
+    super();
   }
   
   showView(host) {
+    super.showView();
     this.#host = host;
     if (!this.#initialized) {
       this.#loginLabel = document.createElement('label');
@@ -50,36 +55,33 @@ export default class RegisterView {
       this.#registerButton.innerText = this.messageSource.getMessage(
                     StringConstants.REGISTER, null, null);
 
-      this.#containerDiv = document.createElement('div');
-      this.#containerDiv.append(this.#loginLabel);
-      this.#containerDiv.append(this.#loginInput);
-      this.#containerDiv.append(this.#passwordLabel);
-      this.#containerDiv.append(this.#passwordInput);
-      this.#containerDiv.append(this.#emailLabel);
-      this.#containerDiv.append(this.#emailInput);
-      this.#containerDiv.append(this.#registerButton);
       
-      this.#containerDiv.style.width = '100%';
-      this.#containerDiv.style.height = '100%';
-      this.#containerDiv.style.display = 'none';
-      this.#containerDiv.style.flexDirection = 'column';
+      this.containerDiv.append(this.#loginLabel);
+      this.containerDiv.append(this.#loginInput);
+      this.containerDiv.append(this.#passwordLabel);
+      this.containerDiv.append(this.#passwordInput);
+      this.containerDiv.append(this.#emailLabel);
+      this.containerDiv.append(this.#emailInput);
+      this.containerDiv.append(this.#registerButton);
+      
+
       
       this.#registerButton.addEventListener('click', this.onRegisterClicked.bind(this));
     
-      mainContainerElement().append(this.#containerDiv);
+      
       
       this.#initialized = true;
     }
     
-    this.#containerDiv.style.display = 'flex';
+    this.containerDiv.style.display = 'flex';
   }
   
   hideView() {
-    this.#containerDiv.style.display = 'none';
+    super.hideView();
   }
   
   get element() {
-    return this.#containerDiv;
+    return this.containerDiv;
   }
   
   onRegisterClicked() {
@@ -88,6 +90,10 @@ export default class RegisterView {
   
   addRegisterListener(listener) {
     this.#registerListeners.push(listener);
+  }
+  
+  addHideListener(listener) {
+    this.#hideListeners.push(listener);
   }
   
   set host(host) {

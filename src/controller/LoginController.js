@@ -322,7 +322,6 @@ export default class LoginController {
     });
 
     this.loginView.addRegisterListener((sender, data) => {
-      this.loginView.hideView();
       this.registerController.showView();
       this.registerController.host = data;
     });
