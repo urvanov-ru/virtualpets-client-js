@@ -7,7 +7,13 @@ import MessageType from '../trayicon/MessageType.js';
 // view
 import BaseHtmlView from './BaseHtmlView.js';
 
+// multithreading
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+
+// rest domain
+import LoginArg from '../rest/domain/LoginArg.js';
+
+
 import {mainContainerElement} from './container.js';
 
 export default class LoginView extends BaseHtmlView {
@@ -81,6 +87,7 @@ export default class LoginView extends BaseHtmlView {
       this.containerDiv.append(this.#revivePasswordButton);
       
       this.#registerButton.addEventListener('click', this.#registerClicked.bind(this));
+      this.#loginButton.addEventListener('click', this.#loginClicked.bind(this));
       
       this.closeable = false;
       this.#initialized = true;
@@ -133,6 +140,26 @@ export default class LoginView extends BaseHtmlView {
       const host = this.#servers[selectedIndex].address;
       for (let simpleEvent of this.#registerListeners) {
         simpleEvent(this, host);
+      }
+    } catch (ex) {
+      console.error("RegisterClicked processing error %o.", ex);
+      this.trayIcon.showTrayMessage(
+      this.messageSource.getMessage(StringConstants.ERROR, null, null)
+          + ": " + ex.toString(), MessageType.ERROR);
+    }
+  }
+  
+  #loginClicked(event) {
+    try {
+      const selectedIndex = this.#serverSelect.selectedIndex;
+      const host = this.#servers[selectedIndex].address;
+      for (let loginEvent of this.#loginListeners) {
+        const arg = new LoginArg();
+        arg.host = host;
+        arg.login = this.#loginInput.value;
+        arg.password = this.#passwordInput.value;
+        arg.version = this.version;
+        loginEvent(this, arg);
       }
     } catch (ex) {
       console.error("RegisterClicked processing error %o.", ex);

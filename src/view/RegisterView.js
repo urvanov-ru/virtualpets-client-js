@@ -6,6 +6,9 @@ import {mainContainerElement} from './container.js';
 // view
 import BaseHtmlView from './BaseHtmlView.js';
 
+// rest
+import RegisterArgument from '../rest/domain/RegisterArgument.js';
+
 export default class RegisterView extends BaseHtmlView {
   #registerListeners =[];
   #hideListeners = [];
@@ -85,7 +88,15 @@ export default class RegisterView extends BaseHtmlView {
   }
   
   onRegisterClicked() {
-    
+    const registerArgument = new RegisterArgument();
+    registerArgument.host = this.#host;
+    registerArgument.login = this.#loginInput.value;
+    registerArgument.password = this.#passwordInput.value;
+    registerArgument.email = this.#emailInput.value;
+    registerArgument.version = this.version;  
+    for (let listener of this.#registerListeners) {
+      listener();
+    }
   }
   
   addRegisterListener(listener) {

@@ -82,7 +82,7 @@
     "DRINK": "Пить",
     "REFRIGERATOR": "Холодильник",
     "JOURNAL_ENTRY_EAT_SOMETHING": "Мы построили холодильник. В холодильнике хранится вся еда. Я хочу есть. Дай мне что-нибудь.",
-    "INCOMPATIBLE_VERSION": "Версия сервера несовместима с этой версией клиента. Вам нужно скачать клиент версии %s.",
+    "INCOMPATIBLE_VERSION": "Версия сервера несовместима с этой версией клиента. Вам нужно скачать клиент версии %{serverVersion}.",
     "CREATE_PET": "Создать питомца",
     "ru.urvanov.virtualpets.client.localization.achievement.TEACH_1_DESCRIPTION": "Учить питомца 1 раз.",
     "SEX_MAN": "Мужской",

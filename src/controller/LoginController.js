@@ -10,6 +10,8 @@ import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExcept
 import GetServersArg from '../rest/domain/GetServersArg.js';
 import ServerInfo from '../rest/domain/ServerInfo.js';
 
+// tray icon
+import MessageType from '../trayicon/MessageType.js';
 
 export default class LoginController {
 
@@ -277,40 +279,61 @@ export default class LoginController {
 //  }
 //}
 
-  #login() {}
-//private void login(LoginArg arg) {
-//  LoginBackgroundWork work = new LoginBackgroundWork();
 
-//  authenticationController.setCredentials(arg.getLogin(),
-//      arg.getPassword());
-//  work.setArgument(arg);
-//  settings.setLastName(arg.getLogin());
-//  work.setView(loginView);
-//  ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-//  ces.setRestart(true);
-//  work.setConnectionExceptionSettings(ces);
-//  backgroundWorkManager.startBackgroundWork(work);
-//}
+  #login(loginArg) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      this.userService.login(work.argument);
+    }
+    work.completed = this.#loginCompleted.bind(this);
+    work.failed = (ex) => {
+      if (ex instanceof IncompatibleVersionException) {
+        const serverVersion = ex.serverVersion;
+        const message = this.messageSource.getMessage(
+            StringConstants.INCOMPATIBLE_VERSION, {
+              serverVersion: serverVersion
+            });
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      } else {
+        console.error("LoginBackgroundWork failed %o.", ex);
+        const message = this.messageSource.getMessage(
+            StringConstants.ERROR)
+            + ": "
+            + ex.toString();
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      }
+    }
+    this.authenticationController.setCredentials(
+        loginArg.login,
+        loginArg.password);
+    work.argument = loginArg;
+    this.settings.lastName = loginArg.login;
+    work.view = this.loginView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
+  }
 
-//public void loginCompleted(LoginResult result) {
-//  if (result.isSuccess()) {
-//    authenticationController.setAuthenticated(true);
-//    authenticationController.clearCredentials();
-//    userPetsController.showView();
-//    chatController.showView();
-//    usersOnlineController.showView();
-//    loginView.hideView();
-//    settings.setUnid(result.getUnid());
-//    settings.setUserId(result.getUserId());
-//  } else {
-//    trayIcon.showTrayMessage(result.getMessage(), MessageType.ERROR);
-//  }
-//}
+  #loginCompleted(loginResult) {
+    if (loginResult.success) {
+      this.authenticationController.authenticated = true;
+      this.authenticationController.clearCredentials();
+      this.userPetsController.showView();
+      this.chatController.showView();
+      this.usersOnlineController.showView();
+      this.loginView.hideView();
+      this.settings.unid = loginResult.unid;
+      this.settings.userId = loginResult.userId;
+    } else {
+      this.trayIcon.showTrayMessage(loginResult.message, MessageType.ERROR);
+    }
+  }
 
   initialize() {
     this.loginView.addLoginListener((sender, loginArg) => {
       try {
-        this.#login(arg);
+        this.#login(loginArg);
       } catch (ex) {
         console.error("LoginListener %s.", ex);
         const message = this.messageSource.getMessage(

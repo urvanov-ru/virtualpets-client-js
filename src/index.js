@@ -8,6 +8,7 @@ import PetType from './rest/domain/PetType.js';
 
 // rest service
 import PublicService from './rest/service/PublicService.js';
+import UserService from './rest/service/UserService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
@@ -34,6 +35,7 @@ import RoomController from './controller/RoomController.js';
 import LoginController from './controller/LoginController.js';
 import RegisterController from './controller/RegisterController.js';
 import GameController from './controller/GameController.js';
+import AuthenticationController from './controller/AuthenticationController.js';
 
 import TrayIcon from './trayicon/TrayIcon.js';
 
@@ -67,13 +69,13 @@ function init(selectedLanguage) {
   const gameController = new GameController();
   const loginController = new LoginController();
   const registerController = new RegisterController();
-  const authenticationController = null;
+  const authenticationController = new AuthenticationController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
   const trayIcon = new TrayIcon();
   const backgroundWorkManager = new BackgroundWorkManager();
   const publicService = new PublicService();
-  const userService = null;
+  const userService = new UserService();
   
 
   gameView.resourceManager = resourceManager;
@@ -100,6 +102,8 @@ function init(selectedLanguage) {
   loginController.messageSource = messageSource;
   loginController.serverAddress = SERVER_URL;
   loginController.registerController = registerController;
+  loginController.authenticationController = authenticationController;
+  loginController.userService = userService;
   
   registerController.registerView = registerView;
   registerController.trayIcon = trayIcon;

@@ -1,5 +1,11 @@
+// multithreading
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
 
+// localization
+import StringConstants from '../localization/StringConstants.js';
+
+// trayicon
+import MessageType from '../trayicon/MessageType.js';
 
 export default class RegisterController {
 
