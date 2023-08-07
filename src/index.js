@@ -1,6 +1,7 @@
 import i18n from 'roddeh-i18n';
 
 // rest
+import RestClient from './rest/service/RestClient.js';
 import BackgroundWorkManager from './rest/multithreading/BackgroundWorkManager.js';
 
 // rest domain
@@ -76,11 +77,13 @@ function init(selectedLanguage) {
   const backgroundWorkManager = new BackgroundWorkManager();
   const publicService = new PublicService();
   const userService = new UserService();
+  const restClient = new RestClient();
   
 
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
   gameView.trayIcon = trayIcon;
+  
   loginView.messageSource = messageSource;
   loginView.resourceManager = resourceManager;
   loginView.settings = settings;
@@ -113,9 +116,17 @@ function init(selectedLanguage) {
   registerController.authenticationController = authenticationController;
   registerController.backgroundWorkManager = backgroundWorkManager;
   
+  authenticationController.restClient = restClient;
+  
   
   publicService.serverUrl = SERVER_URL;
   publicService.version = VERSION;
+  
+  restClient.serverUrl = SERVER_URL;
+  restClient.version = VERSION;
+  restClient.settings = settings;
+  
+  userService.restClient = restClient;
     
   viewImplFactory.resourceManager = resourceManager;
   

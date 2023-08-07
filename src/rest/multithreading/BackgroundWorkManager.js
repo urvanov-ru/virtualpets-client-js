@@ -2,6 +2,9 @@
 export default class BackgroundWorkManager {
 
   startBackgroundWork(backgroundWork) {
+    if (!backgroundWork.doInBackground) {
+      throw new Error('doInBackground is not set.');
+    }
     const view = backgroundWork.view;
     if (view != null && view.startWaitAnimation) {
       view.startWaitAnimation();

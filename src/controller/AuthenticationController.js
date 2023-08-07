@@ -1,11 +1,18 @@
 
 
 export default class AuthenticationController {
+  #restClient;
+
   setCredentials(login, password) {
-    // set credentials for fetch command
+    this.#restClient.username = login;
+    this.#restClient.password = password;
+    this.#restClient.sessionId = null;
   }
   
   clearCredentials() {
+    this.#restClient.username = null;
+    this.#restClient.password = null;
+    this.#restClient.sessionId = null;
   }
   
   isAuthenticated() {
@@ -15,5 +22,10 @@ export default class AuthenticationController {
   }
   
   getSessionId() {
+    return this.#restClient.sessionId;
+  }
+  
+  set restClient(restClient) {
+    this.#restClient = restClient;
   }
 }
