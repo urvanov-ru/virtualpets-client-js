@@ -15,7 +15,8 @@ export default class RestClient {
     } else {
       options.headers.append("JSESSIONID", this.sessionId);
     }
-    options.body = requestBody;
+    options.headers.append('Content-Type', 'application/json');
+    options.body = JSON.stringify(requestBody);
     options.cache = 'no-cache';
     return fetch(this.#serverUrl + resource, options);
   }

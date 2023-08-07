@@ -30,7 +30,7 @@ export default class LoginView extends BaseHtmlView {
   resourceManager;
   #registerFrame;
   #servers;
-  #version;
+  version;
   #userPetsFrame;
   #recoverPasswordFrame;
   #restoreSessionPanel;

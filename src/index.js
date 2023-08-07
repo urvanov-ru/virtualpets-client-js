@@ -88,6 +88,8 @@ function init(selectedLanguage) {
   loginView.resourceManager = resourceManager;
   loginView.settings = settings;
   loginView.trayIcon = trayIcon;
+  loginView.version = VERSION;
+  
   registerView.version = VERSION;
   registerView.settings = settings;
   registerView.messageSource = messageSource;

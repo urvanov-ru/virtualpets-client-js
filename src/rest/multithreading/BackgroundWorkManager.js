@@ -10,7 +10,8 @@ export default class BackgroundWorkManager {
       view.startWaitAnimation();
     }
     try {
-      backgroundWork.doInBackground()
+      const delayms = backgroundWork.connectionExceptionSettings.attemptNumber > 0 ?  backgroundWork.connectionExceptionSettings.delay : 0;
+      this.delay(delayms).then(() => backgroundWork.doInBackground())
           .then((response) => {
               if (response.ok) {
                 if (view != null && view.stopWaitAnimation) {
@@ -37,5 +38,9 @@ export default class BackgroundWorkManager {
         backgroundWork.failed(error);
       }
     }
+  }
+  
+  delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
