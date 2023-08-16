@@ -1,7 +1,7 @@
 export default class UserService {
   static get SERVICE_URL() { return '/rest/v1/UserService'; }
-   #version
-   #restClient;
+  #version
+  #restClient;
 
   login(loginArg) {
     console.debug('login');

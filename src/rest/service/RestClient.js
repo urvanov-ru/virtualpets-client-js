@@ -12,12 +12,13 @@ export default class RestClient {
     options.headers = new Headers();
     if (!this.sessionId) {
       options.headers.append('Authorization', 'Basic ' + btoa(this.#username + ":" + this.#password));
-    } else {
-      options.headers.append("JSESSIONID", this.sessionId);
     }
     options.headers.append('Content-Type', 'application/json');
-    options.body = JSON.stringify(requestBody);
+    if (requestBody) {
+      options.body = JSON.stringify(requestBody);
+    }
     options.cache = 'no-cache';
+    options.credentials = 'include';
     return fetch(this.#serverUrl + resource, options);
   }
   

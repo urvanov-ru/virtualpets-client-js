@@ -10,6 +10,7 @@ import PetType from './rest/domain/PetType.js';
 // rest service
 import PublicService from './rest/service/PublicService.js';
 import UserService from './rest/service/UserService.js';
+import PetService from './rest/service/PetService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
@@ -21,6 +22,7 @@ import ViewImplFactory from './view/component/ViewImplFactory.js';
 import GameView from './view/GameView.js';
 import LoginView from './view/LoginView.js';
 import RegisterView from './view/RegisterView.js';
+import UserPetsView from './view/UserPetsView.js';
 
 import MessageSource from './localization/MessageSource.js';
 
@@ -37,6 +39,7 @@ import LoginController from './controller/LoginController.js';
 import RegisterController from './controller/RegisterController.js';
 import GameController from './controller/GameController.js';
 import AuthenticationController from './controller/AuthenticationController.js';
+import UserPetsController from './controller/UserPetsController.js';
 
 import TrayIcon from './trayicon/TrayIcon.js';
 
@@ -64,6 +67,7 @@ function init(selectedLanguage) {
   const gameView = new GameView(mainContainerElement());
   const loginView = new LoginView();
   const registerView = new RegisterView();
+  const userPetsView = new UserPetsView();
   
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT); 
@@ -71,12 +75,14 @@ function init(selectedLanguage) {
   const loginController = new LoginController();
   const registerController = new RegisterController();
   const authenticationController = new AuthenticationController();
+  const userPetsController = new UserPetsController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
   const trayIcon = new TrayIcon();
   const backgroundWorkManager = new BackgroundWorkManager();
   const publicService = new PublicService();
   const userService = new UserService();
+  const petService = new PetService();
   const restClient = new RestClient();
   
 
@@ -95,6 +101,11 @@ function init(selectedLanguage) {
   registerView.messageSource = messageSource;
   registerView.resourceManager = resourceManager;
   
+  userPetsView.resourceManager = resourceManager;
+  userPetsView.settings = settings;
+  userPetsView.trayIcon = trayIcon;
+  userPetsView.messageSource = messageSource;
+  
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
   
@@ -109,6 +120,7 @@ function init(selectedLanguage) {
   loginController.registerController = registerController;
   loginController.authenticationController = authenticationController;
   loginController.userService = userService;
+  loginController.userPetsController = userPetsController;
   
   registerController.registerView = registerView;
   registerController.trayIcon = trayIcon;
@@ -120,6 +132,15 @@ function init(selectedLanguage) {
   
   authenticationController.restClient = restClient;
   
+  userPetsController.userPetsView = userPetsView;
+  userPetsController.trayIcon = trayIcon;
+  userPetsController.messageSource = messageSource;
+  userPetsController.petService = petService;
+  //userPetsController.createPetController = createPetController;
+  userPetsController.settings = settings;
+  userPetsController.gameController = gameController;
+  userPetsController.backgroundWorkManager = backgroundWorkManager;
+  
   
   publicService.serverUrl = SERVER_URL;
   publicService.version = VERSION;
@@ -129,6 +150,8 @@ function init(selectedLanguage) {
   restClient.settings = settings;
   
   userService.restClient = restClient;
+  
+  petService.restClient = restClient;
     
   viewImplFactory.resourceManager = resourceManager;
   

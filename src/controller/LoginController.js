@@ -283,7 +283,7 @@ export default class LoginController {
   #login(loginArg) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      this.userService.login(work.argument);
+      return this.userService.login(work.argument);
     }
     work.completed = this.#loginCompleted.bind(this);
     work.failed = (ex) => {
