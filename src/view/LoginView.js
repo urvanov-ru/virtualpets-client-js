@@ -7,9 +7,6 @@ import MessageType from '../trayicon/MessageType.js';
 // view
 import BaseHtmlView from './BaseHtmlView.js';
 
-// multithreading
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-
 // rest domain
 import LoginArg from '../rest/domain/LoginArg.js';
 

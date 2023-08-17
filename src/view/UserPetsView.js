@@ -1,3 +1,9 @@
+// localization
+import StringConstants from '../localization/StringConstants.js';
+
+// trayIcon
+import MessageType from '../trayicon/MessageType.js';
+
 // view
 import BaseHtmlView from './BaseHtmlView.js';
 
@@ -41,6 +47,11 @@ export default class UserPetsView extends BaseHtmlView{
       
       this.#southDiv.style.display = 'flex';
       this.#southDiv.style.flexDirection = 'row';
+      
+      this.#createPetButton.innerText = this.messageSource.getMessage(StringConstants.CREATE_PET);
+      this.#refreshPetsListButton.innerText = this.messageSource.getMessage(StringConstants.REFRESH);
+      this.#deletePetButton.innerText = this.messageSource.getMessage(StringConstants.DELETE_PET);
+      this.#enterButton.innerText = this.messageSource.getMessage(StringConstants.LOGIN);
       
       this.#southDiv.append(this.#createPetButton);
       this.#southDiv.append(this.#refreshPetsListButton);
