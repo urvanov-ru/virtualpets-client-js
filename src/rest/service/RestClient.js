@@ -10,9 +10,6 @@ export default class RestClient {
     const options = {};
     options.method = method;
     options.headers = new Headers();
-    if (!this.sessionId) {
-      options.headers.append('Authorization', 'Basic ' + btoa(this.#username + ":" + this.#password));
-    }
     options.headers.append('Content-Type', 'application/json');
     if (requestBody) {
       options.body = JSON.stringify(requestBody);

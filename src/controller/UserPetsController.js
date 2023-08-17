@@ -67,7 +67,7 @@ export default class UserPetsController {
     }
     work.completed = (petListResult) => {
       if (petListResult.success) {
-        this.userPetsView.petsInfo = result.petsInfo;
+        this.userPetsView.petsInfo = petListResult.petsInfo;
         if (petListResult.petsInfo.length == 0) {
           this.createPetController.showView();
         }
