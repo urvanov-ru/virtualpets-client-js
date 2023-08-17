@@ -62,7 +62,9 @@ export default class LoginView extends BaseHtmlView {
       this.#registerButton = document.createElement('button');
       this.#loginButton = document.createElement('button');
       this.#revivePasswordButton = document.createElement('button');
-         
+      
+      this.#passwordInput.type='password';
+      
       this.#loginLabel.for = this.#loginInput;
       this.#passwordLabel.for = this.#passwordInput;
       
