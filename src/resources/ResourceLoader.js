@@ -101,7 +101,7 @@ export default class ResourceLoader {
     publish.message = path;
     this.publish(publish);
     if (this.currentIndex == this.maxIndex) {
-      setTimeout(function () { this.done(); }.bind(this), 100);
+      setTimeout(function () { this.done(); }.bind(this), 1000);
     }
   }
 
