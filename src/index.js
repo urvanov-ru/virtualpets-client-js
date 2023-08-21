@@ -23,7 +23,9 @@ import GameView from './view/GameView.js';
 import LoginView from './view/LoginView.js';
 import RegisterView from './view/RegisterView.js';
 import UserPetsView from './view/UserPetsView.js';
+import ProgressInfoPanel from './view/component/ProgressInfoPanel.js';
 
+// localization
 import MessageSource from './localization/MessageSource.js';
 
 // settings
@@ -32,6 +34,7 @@ import LocalStorageSettings from './settings/LocalStorageSettings.js';
 // resources
 import ResourceManager from './resources/ResourceManager.js';
 import RoomLoadWorker from './resources/RoomLoadWorker.js';
+import ResourceLoader from './resources/ResourceLoader.js';
 
 // controller
 import RoomController from './controller/RoomController.js';
@@ -48,10 +51,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const startView = new StartView();
   startView.onPlay = init;
   startView.showView();
-  
-  
-  
-  
 });
 
 
@@ -68,9 +67,11 @@ function init(selectedLanguage) {
   const loginView = new LoginView();
   const registerView = new RegisterView();
   const userPetsView = new UserPetsView();
+  const progressInfoPanel = new ProgressInfoPanel();
   
   const resourceManager = new ResourceManager();
-  const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT); 
+  const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT);
+  const resourceLoader = new ResourceLoader(); 
   const gameController = new GameController();
   const loginController = new LoginController();
   const registerController = new RegisterController();
@@ -155,12 +156,26 @@ function init(selectedLanguage) {
     
   viewImplFactory.resourceManager = resourceManager;
   
+  resourceLoader.resourceManager = resourceManager;
+  
   registerController.initialize();
   loginController.initialize();
   
+  resourceLoader.process = function(progressInfoList) {
+    const lastProgressInfo = progressInfoList[progressInfoList.length - 1];
+    if (lastProgressInfo != null) {
+      progressInfoPanel.progressInfo = lastProgressInfo;
+    }
+  }
+  resourceLoader.done = function() {
+    progressInfoPanel.hideView();
+    loginController.showView();
+  }
+  progressInfoPanel.showView();
+  resourceLoader.loadResourcesInBackground();
   //gameController.showView();
   
-  loginController.showView();
+  
 }
 
 

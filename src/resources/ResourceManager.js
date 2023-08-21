@@ -774,16 +774,16 @@ export default class ResourceManager {
    * Используется для загрузки картинки.
    * 
    */
-  loadImage(path, resourceId) {
-    let img = getResource(resourceId);
-    if (img == null) {
-      img = loadImage(path);
-      const resourceHolder = new ResourceHolder();
-      resourceHolder.setResource(img);
-      putResource(resourceId, resourceHolder);
-    }
-    return img;
-  }
+  //loadImage(path, resourceId) {
+    //let img = getResource(resourceId);
+    //if (img == null) {
+//      img = loadImage(path, resourceId);
+      //const resourceHolder = new ResourceHolder();
+      //resourceHolder.setResource(img);
+      //putResource(resourceId, resourceHolder);
+    //}
+    //return img;
+  //}
 
   /**
    * Запускает второй поток, в котором начинает проигрывать звук.
@@ -857,14 +857,19 @@ export default class ResourceManager {
     this.#mapResources.set(resourceId, resourceHolder);
   }
 
-  loadImage(path) {
-  	const img = new Image();
-  	
-  	img.onload = function() {
-  	  //document.body.appendChild(this);
-  	};
-  	img.src = path;	  
-	  
+  loadImage(path, resourceId, callback) {
+    const img = new Image();
+    const resourceManager = this;
+    img.onload = function() {
+        console.debug("Resource %s loaded with resourceId = %i. Image = %o.", path, resourceId, img);
+        const resourceHolder = new ResourceHolder();
+        resourceHolder.resetInScale = true;
+        resourceHolder.resource = img;
+        resourceManager.putResource(resourceId, resourceHolder);
+        callback();
+    };
+    img.src = path;	  
+  
     return img;
   }
 

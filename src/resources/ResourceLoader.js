@@ -1,4 +1,6 @@
+import ResourceManager from './ResourceManager.js';
 
+import ProgressInfo from './ProgressInfo.js';
 
 export default class ResourceLoader {
 
@@ -6,48 +8,33 @@ export default class ResourceLoader {
 
   #context;
 
-  #maxProgress = 21;// вычел смайлики и картинки кроша. И картинки
-  // тукса. И картинки Konqi.
-
-  #progress = 0;
+  maxIndex = 19;
+  currentIndex = 0;
 
   /**
    * Загружает ресурсы в память.
    * 
    */
-  loadResources() {
+  loadResourcesInBackground() {
     // nMaxProgress=197;
 
-    this.#resourceManager.loadImage("data/images/buttons/create.png", ResourceManager.IMAGE_ICON_CREATE);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/delete.png", ResourceManager.IMAGE_ICON_DELETE);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/revive.png", ResourceManager.IMAGE_ICON_REVIVE);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/refresh.png", ResourceManager.IMAGE_ICON_REFRESH);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/accept.png", ResourceManager.IMAGE_ICON_ACCEPT);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/say.png", ResourceManager.IMAGE_ICON_SAY);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/icons/ajax-loader.gif", ResourceManager.IMAGE_ICON_LOADING);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/information.png", ResourceManager.IMAGE_ICON_INFORMATION);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/joystick.png", ResourceManager.IMAGE_ICON_JOYSTICK);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/monitor.png", ResourceManager.IMAGE_ICON_MONITOR);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/social.png", ResourceManager.IMAGE_ICON_SOCIAL);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/facebook_32.png", ResourceManager.IMAGE_ICON_FACEBOOK);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/vkontakte_32.png", ResourceManager.IMAGE_ICON_VKONTAKTE);
-    this.#resourceManager.loadImage("data/images/buttons/twitter_32.png", ResourceManager.IMAGE_ICON_TWITTER);
-    incProgress();
+    this.#loadImage("data/images/buttons/create.png", ResourceManager.IMAGE_ICON_CREATE);
+    this.#loadImage("data/images/buttons/delete.png", ResourceManager.IMAGE_ICON_DELETE);
+    this.#loadImage("data/images/buttons/revive.png", ResourceManager.IMAGE_ICON_REVIVE);
+    this.#loadImage("data/images/buttons/refresh.png", ResourceManager.IMAGE_ICON_REFRESH);
+    this.#loadImage("data/images/buttons/accept.png", ResourceManager.IMAGE_ICON_ACCEPT);
+    this.#loadImage("data/images/buttons/say.png", ResourceManager.IMAGE_ICON_SAY);
+    this.#loadImage("data/images/icons/ajax-loader.gif", ResourceManager.IMAGE_ICON_LOADING);
+    this.#loadImage("data/images/buttons/information.png", ResourceManager.IMAGE_ICON_INFORMATION);
+    this.#loadImage("data/images/buttons/joystick.png", ResourceManager.IMAGE_ICON_JOYSTICK);
+    this.#loadImage("data/images/buttons/monitor.png", ResourceManager.IMAGE_ICON_MONITOR);
+    this.#loadImage("data/images/buttons/social.png", ResourceManager.IMAGE_ICON_SOCIAL);
+    this.#loadImage("data/images/buttons/facebook_32.png", ResourceManager.IMAGE_ICON_FACEBOOK);
+    this.#loadImage("data/images/buttons/vkontakte_32.png", ResourceManager.IMAGE_ICON_VKONTAKTE);
+    this.#loadImage("data/images/buttons/twitter_32.png", ResourceManager.IMAGE_ICON_TWITTER);
 
     //// значок в трее
-    //Image image = this.#resourceManager.loadImage("data/images/ico.gif");
+    //Image image = this.#loadImage("data/images/ico.gif");
     //BufferedImage bufferedImage = BufferedImageCreator.createBufferedImage(image.getWidth(null),
     //    image.getHeight(null), true);
     //Graphics g = bufferedImage.getGraphics();
@@ -58,24 +45,20 @@ export default class ResourceLoader {
     //Image imageTrayWarningIcon = bufferedImage.getSubimage(32, 0, 16, 16);
     //ResourceHolder resourceHolder = new ResourceHolder();
     //resourceHolder.setResource(imageTrayIcon);
-    this.#resourceManager.putResource(ResourceManager.IMAGE_TRAY_ICON, resourceHolder);
-    let resourceHolder = new ResourceHolder();
-    resourceHolder.setResource(imageTrayGrayIcon);
-    this.#resourceManager.putResource(ResourceManager.IMAGE_TRAY_GRAY_ICON, resourceHolder);
-    resourceHolder = new ResourceHolder();
-    resourceHolder.setResource(imageTrayWarningIcon);
-    this.#resourceManager.putResource(ResourceManager.IMAGE_TRAY_WARNING_ICON, resourceHolder);
+    //this.#resourceManager.putResource(ResourceManager.IMAGE_TRAY_ICON, resourceHolder);
+    //let resourceHolder = new ResourceHolder();
+    //resourceHolder.setResource(imageTrayGrayIcon);
+    //this.#resourceManager.putResource(ResourceManager.IMAGE_TRAY_GRAY_ICON, resourceHolder);
+    //resourceHolder = new ResourceHolder();
+    //resourceHolder.setResource(imageTrayWarningIcon);
+    //this.#resourceManager.putResource(ResourceManager.IMAGE_TRAY_WARNING_ICON, resourceHolder);
+    
 
-    this.#resourceManager.loadImage("data/images/smiles/happy.png", ResourceManager.IMAGE_ICON_SMILE);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/close.png", ResourceManager.IMAGE_ICON_CLOSE);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/erase.png", ResourceManager.IMAGE_ICON_ERASE);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/arrowleft.png", ResourceManager.IMAGE_ICON_ARROW_LEFT);
-    incProgress();
-    this.#resourceManager.loadImage("data/images/buttons/arrowright.png", ResourceManager.IMAGE_ICON_ARROW_RIGHT);
-    incProgress();
+    this.#loadImage("data/images/smiles/happy.png", ResourceManager.IMAGE_ICON_SMILE);
+    this.#loadImage("data/images/buttons/close.png", ResourceManager.IMAGE_ICON_CLOSE);
+    this.#loadImage("data/images/buttons/erase.png", ResourceManager.IMAGE_ICON_ERASE);
+    this.#loadImage("data/images/buttons/arrowleft.png", ResourceManager.IMAGE_ICON_ARROW_LEFT);
+    this.#loadImage("data/images/buttons/arrowright.png", ResourceManager.IMAGE_ICON_ARROW_RIGHT);
 
     //Image img = resourceManager.loadImage("data/images/cat/cat1.png", ResourceManager.IMAGE_CAT);
     //BufferedImage bi = ImageToBufferedImage.toBufferedImage(img);
@@ -83,12 +66,43 @@ export default class ResourceLoader {
     //resourceHolder = new ResourceHolder();
     //resourceHolder.setResource(img);
     //this.#resourceManager.putResource(ResourceManager.IMAGE_CAT, resourceHolder);
-    incProgress();
+    const intervalId = setInterval(function() {
+      const resourceToLoad = this.#resourcesToLoad.shift();
+      this.#resourceManager.loadImage(resourceToLoad.path, resourceToLoad.resourceId, this.#loadedCallback.bind(this, resourceToLoad.path));
+      if (this.#resourcesToLoad.length == 0) {
+        clearInterval(intervalId);
+      }
+    }.bind(this), 100);
   }
 
-  incProgress() {
-    this.#progress++;
-    publish(progress);
+  publish(chunks) {
+    this.process(chunks);
+  }
+  
+  #resourcesToLoad = [];
+  
+  #loadImage(path, resourceId) {
+    this.#resourcesToLoad.push({
+      path : path,
+      resourceid : resourceId
+    });
+    
+  }
+  
+  #loadedCallback(path) {
+    if (this.currentIndex >= this.maxIndex) {
+      throw new Error('Incorrect maxIndex value');
+    }
+    console.debug('loadedCallback currentIndex = %i, maxIndex = %i', this.currentIndex, this.maxIndex);
+    this.currentIndex++;
+    const publish = new Array(1);
+    publish[0] = new ProgressInfo(
+        ((this.currentIndex * 100) / this.maxIndex), path);
+    publish.message = path;
+    this.publish(publish);
+    if (this.currentIndex == this.maxIndex) {
+      setTimeout(function () { this.done(); }.bind(this), 100);
+    }
   }
 
   /**
@@ -96,13 +110,6 @@ export default class ResourceLoader {
    */
   set resourceManager(resourceManager) {
     this.#resourceManager = resourceManager;
-  }
-
-  /**
-   * @return the maxProgress
-   */
-  get maxProgress() {
-    return this.#maxProgress;
   }
 
   set applicationContext(context) {

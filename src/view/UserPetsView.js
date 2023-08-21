@@ -7,6 +7,9 @@ import MessageType from '../trayicon/MessageType.js';
 // view
 import BaseHtmlView from './BaseHtmlView.js';
 
+// resources
+import ResourceManager from '../resources/ResourceManager.js';
+
 export default class UserPetsView extends BaseHtmlView{
   #southDiv;
   #createPetButton;
@@ -48,10 +51,25 @@ export default class UserPetsView extends BaseHtmlView{
       this.#southDiv.style.display = 'flex';
       this.#southDiv.style.flexDirection = 'row';
       
-      this.#createPetButton.innerText = this.messageSource.getMessage(StringConstants.CREATE_PET);
-      this.#refreshPetsListButton.innerText = this.messageSource.getMessage(StringConstants.REFRESH);
-      this.#deletePetButton.innerText = this.messageSource.getMessage(StringConstants.DELETE_PET);
-      this.#enterButton.innerText = this.messageSource.getMessage(StringConstants.LOGIN);
+      const createPetImageEl = document.createElement('p');
+      const refreshPetsListImageEl = document.createElement('p');
+      const deletePetImageEl = document.createElement('p');
+      const enterImageEl = document.createElement('p');
+
+      createPetImageEl.append(this.resourceManager.getImage(ResourceManager.IMAGE_ICON_CREATE));
+      refreshPetsListImageEl.append(this.resourceManager.getImage(ResourceManager.IMAGE_ICON_REFRESH));
+      deletePetImageEl.append(this.resourceManager.getImage(ResourceManager.IMAGE_ICON_DELETE));
+      enterImageEl.append(this.resourceManager.getImage(ResourceManager.IMAGE_ICON_ACCEPT));
+
+      this.#createPetButton.append(createPetImageEl);
+      this.#refreshPetsListButton.append(refreshPetsListImageEl);
+      this.#deletePetButton.append(deletePetImageEl);
+      this.#enterButton.append(enterImageEl);
+      
+      this.#createPetButton.append(this.messageSource.getMessage(StringConstants.CREATE_PET));
+      this.#refreshPetsListButton.append(this.messageSource.getMessage(StringConstants.REFRESH));
+      this.#deletePetButton.append(this.messageSource.getMessage(StringConstants.DELETE_PET));
+      this.#enterButton.append(this.messageSource.getMessage(StringConstants.LOGIN));
       
       this.#southDiv.append(this.#createPetButton);
       this.#southDiv.append(this.#refreshPetsListButton);
