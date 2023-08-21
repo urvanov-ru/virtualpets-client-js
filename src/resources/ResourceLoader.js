@@ -66,13 +66,6 @@ export default class ResourceLoader {
     //resourceHolder = new ResourceHolder();
     //resourceHolder.setResource(img);
     //this.#resourceManager.putResource(ResourceManager.IMAGE_CAT, resourceHolder);
-    const intervalId = setInterval(function() {
-      const resourceToLoad = this.#resourcesToLoad.shift();
-      this.#resourceManager.loadImage(resourceToLoad.path, resourceToLoad.resourceId, this.#loadedCallback.bind(this, resourceToLoad.path));
-      if (this.#resourcesToLoad.length == 0) {
-        clearInterval(intervalId);
-      }
-    }.bind(this), 100);
   }
 
   publish(chunks) {
@@ -82,11 +75,7 @@ export default class ResourceLoader {
   #resourcesToLoad = [];
   
   #loadImage(path, resourceId) {
-    this.#resourcesToLoad.push({
-      path : path,
-      resourceId : resourceId
-    });
-    
+    this.#resourceManager.loadImage(path, resourceId, this.#loadedCallback.bind(this, path));
   }
   
   #loadedCallback(path) {
@@ -101,7 +90,7 @@ export default class ResourceLoader {
     publish.message = path;
     this.publish(publish);
     if (this.currentIndex == this.maxIndex) {
-      setTimeout(function () { this.done(); }.bind(this), 1000);
+      this.done();
     }
   }
 
