@@ -84,7 +84,7 @@ export default class ResourceLoader {
   #loadImage(path, resourceId) {
     this.#resourcesToLoad.push({
       path : path,
-      resourceid : resourceId
+      resourceId : resourceId
     });
     
   }

@@ -51,10 +51,10 @@ export default class UserPetsView extends BaseHtmlView{
       this.#southDiv.style.display = 'flex';
       this.#southDiv.style.flexDirection = 'row';
       
-      const createPetImageEl = document.createElement('p');
-      const refreshPetsListImageEl = document.createElement('p');
-      const deletePetImageEl = document.createElement('p');
-      const enterImageEl = document.createElement('p');
+      const createPetImageEl = document.createElement('div');
+      const refreshPetsListImageEl = document.createElement('div');
+      const deletePetImageEl = document.createElement('div');
+      const enterImageEl = document.createElement('div');
 
       createPetImageEl.append(this.resourceManager.getImage(ResourceManager.IMAGE_ICON_CREATE));
       refreshPetsListImageEl.append(this.resourceManager.getImage(ResourceManager.IMAGE_ICON_REFRESH));
