@@ -147,7 +147,7 @@ export default class UserPetsView extends BaseHtmlView{
       nameDiv.innerText = petInfo.name;
       switch (petInfo.petType) {
       case PetType.CAT:
-        petTypeDiv.append(this.resourceManager.getImage(ResourceManager.IMAGE_CAT));
+        petTypeDiv.append(this.resourceManager.getImage(ResourceManager.IMAGE_CAT).cloneNode());
         break;
       }
       

@@ -9,6 +9,8 @@ export default class PetService {
   }
   
   create(createPetArg) {
+    console.debug('create');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/create", 'POST', createPetArg);
   }
   
   select(selectPetArg) {

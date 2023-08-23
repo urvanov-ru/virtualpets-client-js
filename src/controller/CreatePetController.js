@@ -75,8 +75,8 @@ export default class CreatePetControllerImpl {
           null, null) + ": " + ex.toString();
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
-    work.argument = arg;
-    work.view = createPetView;
+    work.argument = createPetArg;
+    work.view = this.createPetView;
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;
     this.backgroundWorkManager.startBackgroundWork(work);
@@ -92,7 +92,7 @@ export default class CreatePetControllerImpl {
                   .getMessage(StringConstants.FILL_NAME,
                       null, null), MessageType.ERROR);
             } else
-              this.#create(arg);
+              this.#create(createPetArg);
           } catch (ex) {
             console.error("CreateListener %o.", ex);
             const message = this.messageSource.getMessage(

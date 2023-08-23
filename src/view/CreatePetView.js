@@ -6,6 +6,7 @@ import BaseHtmlView from './BaseHtmlView.js';
 
 // rest
 import PetType from '../rest/domain/PetType.js';
+import CreatePetArg from '../rest/domain/CreatePetArg.js';
 
 
 export default class CreatePetView extends BaseHtmlView {
@@ -56,6 +57,9 @@ export default class CreatePetView extends BaseHtmlView {
       this.containerDiv.append(this.#commentLabel);
       this.containerDiv.append(this.#commentInput);
       this.containerDiv.append(this.#createPetButton);
+      
+      this.#createPetButton.addEventListener('click', this.#createPetClicked.bind(this));
+      
       this.#initialized = true;
     }
   }
@@ -66,6 +70,16 @@ export default class CreatePetView extends BaseHtmlView {
   
   addCreateListener(listener) {
     this.#createPetListeners.push(listener);
+  }
+  
+  #createPetClicked() {
+    for (let listener of this.#createPetListeners) {
+      const createPetArg = new CreatePetArg();
+      createPetArg.name = this.#nameInput.value;
+      createPetArg.petType = this.#typeSelect.selectedOptions[0].value
+      createPetArg.comment = this.#commentInput.value;
+      listener(this, createPetArg);
+    }
   }
 
 }
