@@ -23,6 +23,7 @@ import GameView from './view/GameView.js';
 import LoginView from './view/LoginView.js';
 import RegisterView from './view/RegisterView.js';
 import UserPetsView from './view/UserPetsView.js';
+import CreatePetView from './view/CreatePetView.js';
 import ProgressInfoPanel from './view/component/ProgressInfoPanel.js';
 
 // localization
@@ -43,6 +44,7 @@ import RegisterController from './controller/RegisterController.js';
 import GameController from './controller/GameController.js';
 import AuthenticationController from './controller/AuthenticationController.js';
 import UserPetsController from './controller/UserPetsController.js';
+import CreatePetController from './controller/CreatePetController.js';
 
 import TrayIcon from './trayicon/TrayIcon.js';
 
@@ -68,7 +70,7 @@ function init(selectedLanguage) {
   const registerView = new RegisterView();
   const userPetsView = new UserPetsView();
   const progressInfoPanel = new ProgressInfoPanel();
-  
+  const createPetView = new CreatePetView();
   const resourceManager = new ResourceManager();
   const roomLoadWorker = new RoomLoadWorker(resourceManager, mainContainerScale, PetType.CAT);
   const resourceLoader = new ResourceLoader(); 
@@ -77,6 +79,7 @@ function init(selectedLanguage) {
   const registerController = new RegisterController();
   const authenticationController = new AuthenticationController();
   const userPetsController = new UserPetsController();
+  const createPetController = new CreatePetController();
   const viewImplFactory = new ViewImplFactory();
   const messageSource = new MessageSource();
   const trayIcon = new TrayIcon();
@@ -106,6 +109,13 @@ function init(selectedLanguage) {
   userPetsView.settings = settings;
   userPetsView.trayIcon = trayIcon;
   userPetsView.messageSource = messageSource;
+  
+  createPetView.resourceManager = resourceManager;;
+  createPetView.messageSource = messageSource;
+  createPetView.connectionInfo = connectionInfo;
+  createPetView.settings = settings;
+  createPetView.trayIcon = trayIcon;
+  
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
@@ -137,10 +147,17 @@ function init(selectedLanguage) {
   userPetsController.trayIcon = trayIcon;
   userPetsController.messageSource = messageSource;
   userPetsController.petService = petService;
-  //userPetsController.createPetController = createPetController;
+  userPetsController.createPetController = createPetController;
   userPetsController.settings = settings;
   userPetsController.gameController = gameController;
   userPetsController.backgroundWorkManager = backgroundWorkManager;
+  
+  createPetController.createPetView = createPetView;
+  createPetController.trayIcon = trayIcon;
+  createPetController.messageSource = messageSource;
+  createPetController.petService = petService;
+  createPetController.backgroundWorkManager = backgroundWorkManager;
+  createPetController.userPetsController = userPetsController;
   
   
   publicService.serverUrl = SERVER_URL;
@@ -161,6 +178,7 @@ function init(selectedLanguage) {
   registerController.initialize();
   loginController.initialize();
   userPetsController.initialize();
+  createPetController.initialize();
   
   resourceLoader.process = function(progressInfoList) {
     const lastProgressInfo = progressInfoList[progressInfoList.length - 1];
