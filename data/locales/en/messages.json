@@ -127,7 +127,7 @@
     "UPGRADE": "Upgrade",
     "ru.urvanov.virtualpets.client.localization.achievement.TEACH_1": "First lesson.",
     "EXP": "Exp",
-    "INSTALL": "Install"
-    
+    "INSTALL": "Install",
+    "CAT" : "Cat"
   }
 }

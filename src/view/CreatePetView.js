@@ -36,6 +36,7 @@ export default class CreatePetView extends BaseHtmlView {
       this.#nameInput = document.createElement('input');
       this.#typeSelect = document.createElement('select');
       this.#commentInput = document.createElement('input');
+      this.#createPetButton = document.createElement('button');
       
       this.#nameLabel.for = this.#nameInput;
       this.#typeLabel.for = this.#typeSelect;
@@ -44,6 +45,7 @@ export default class CreatePetView extends BaseHtmlView {
       this.#nameLabel.innerText = this.messageSource.getMessage(StringConstants.NAME);
       this.#typeLabel.innerText = this.messageSource.getMessage(StringConstants.TYPE);
       this.#commentLabel.innerText = this.messageSource.getMessage(StringConstants.COMMENT);
+      this.#createPetButton.innerText = this.messageSource.getMessage(StringConstants.CREATE_PET);
       
       this.#typeSelect.add(new Option(this.messageSource.getMessage(StringConstants.CAT), PetType.CAT));
       
@@ -53,6 +55,7 @@ export default class CreatePetView extends BaseHtmlView {
       this.containerDiv.append(this.#typeSelect);
       this.containerDiv.append(this.#commentLabel);
       this.containerDiv.append(this.#commentInput);
+      this.containerDiv.append(this.#createPetButton);
       this.#initialized = true;
     }
   }

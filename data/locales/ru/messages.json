@@ -127,6 +127,7 @@
     "UPGRADE": "Улучшить",
     "ru.urvanov.virtualpets.client.localization.achievement.TEACH_1": "Первый урок.",
     "EXP": "Exp",
-    "INSTALL": "Установить"
+    "INSTALL": "Установить",
+    "CAT" : "Кошка"
   }
 }
