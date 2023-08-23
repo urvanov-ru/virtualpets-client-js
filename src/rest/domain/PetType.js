@@ -1,3 +1,3 @@
 export default class PetType {
-    CAT = "CAT";
+    static get CAT() { return "CAT"; }
 }

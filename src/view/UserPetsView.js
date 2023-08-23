@@ -10,7 +10,11 @@ import BaseHtmlView from './BaseHtmlView.js';
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
 
+// rest
+import PetType from '../rest/domain/PetType.js';
+
 export default class UserPetsView extends BaseHtmlView{
+  #petsDiv;
   #southDiv;
   #createPetButton;
   #refreshPetsListButton;
@@ -42,12 +46,15 @@ export default class UserPetsView extends BaseHtmlView{
   showView() {
     super.showView();
     if (!this.#initialized) {
+      this.#petsDiv = document.createElement('div');
       this.#southDiv = document.createElement('div');
       this.#createPetButton = document.createElement('button');
       this.#refreshPetsListButton = document.createElement('button');
       this.#deletePetButton = document.createElement('button');
       this.#enterButton = document.createElement('button');
       
+      this.#petsDiv.style.display = 'flex';
+      this.#petsDiv.style.flexDirection = 'column';
       this.#southDiv.style.display = 'flex';
       this.#southDiv.style.flexDirection = 'row';
       
@@ -76,7 +83,10 @@ export default class UserPetsView extends BaseHtmlView{
       this.#southDiv.append(this.#deletePetButton);
       this.#southDiv.append(this.#enterButton);
       
+      this.containerDiv.append(this.#petsDiv);
       this.containerDiv.append(this.#southDiv);
+      
+      this.#refreshPetsListButton.addEventListener('click', this.#refreshClicked.bind(this));
       
       this.#initialized = true;
     }
@@ -99,7 +109,52 @@ export default class UserPetsView extends BaseHtmlView{
     this.#selectListeners.push(listener);
   }
   
-  setPetsInfo(petsInfo) {
+  #refreshClicked() {
+    for (let listener of this.#refreshListeners) {
+      listener(this);
+    }
+  }
+  
+  set petsInfo(petsInfo) {
+    this.#petsDiv.innerHTML = '';
+    for (let petInfo of petsInfo) {
+      const rowDiv = document.createElement('div');
+      const petTextInfoDiv = document.createElement('div');
+      const idLabel = document.createElement('label');
+      const idDiv = document.createElement('div');
+      const nameLabel = document.createElement('label');
+      const nameDiv = document.createElement('div');
+      const petTypeDiv = document.createElement('div');
+      
+      rowDiv.style.display = 'flex';
+      rowDiv.style.flexDirection = 'row';
+      petTextInfoDiv.style.display = 'flex';
+      petTextInfoDiv.style.flexDirection = 'column';
+      
+      idLabel.for = idDiv;
+      nameLabel.for = nameDiv;
+      
+      idLabel.innerText = 'ID';
+      nameLabel.innerText = this.messageSource.getMessage(StringConstants.NAME);
+      idDiv.innerText = petInfo.id;
+      nameDiv.innerText = petInfo.name;
+      switch (petInfo.petType) {
+      case PetType.CAT:
+        petTypeDiv.append(this.resourceManager.getImage(ResourceManager.IMAGE_CAT));
+        break;
+      }
+      
+      petTextInfoDiv.append(idLabel);
+      petTextInfoDiv.append(idDiv);
+      petTextInfoDiv.append(nameLabel);
+      petTextInfoDiv.append(nameDiv);
+            
+      rowDiv.append(petTextInfoDiv);
+      rowDiv.append(petTypeDiv);
+      
+      this.#petsDiv.append(rowDiv);
+      
+    }
   }
 
 }

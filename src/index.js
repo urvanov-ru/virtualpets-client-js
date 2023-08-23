@@ -160,6 +160,7 @@ function init(selectedLanguage) {
   
   registerController.initialize();
   loginController.initialize();
+  userPetsController.initialize();
   
   resourceLoader.process = function(progressInfoList) {
     const lastProgressInfo = progressInfoList[progressInfoList.length - 1];

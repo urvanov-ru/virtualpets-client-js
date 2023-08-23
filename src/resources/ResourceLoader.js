@@ -8,7 +8,7 @@ export default class ResourceLoader {
 
   #context;
 
-  maxIndex = 19;
+  maxIndex = 20;
   currentIndex = 0;
 
   /**
@@ -59,6 +59,7 @@ export default class ResourceLoader {
     this.#loadImage("data/images/buttons/erase.png", ResourceManager.IMAGE_ICON_ERASE);
     this.#loadImage("data/images/buttons/arrowleft.png", ResourceManager.IMAGE_ICON_ARROW_LEFT);
     this.#loadImage("data/images/buttons/arrowright.png", ResourceManager.IMAGE_ICON_ARROW_RIGHT);
+    this.#loadImage("data/images/cat/cat1.png", ResourceManager.IMAGE_CAT);
 
     //Image img = resourceManager.loadImage("data/images/cat/cat1.png", ResourceManager.IMAGE_CAT);
     //BufferedImage bi = ImageToBufferedImage.toBufferedImage(img);
