@@ -112,7 +112,6 @@ function init(selectedLanguage) {
   
   createPetView.resourceManager = resourceManager;;
   createPetView.messageSource = messageSource;
-  createPetView.connectionInfo = connectionInfo;
   createPetView.settings = settings;
   createPetView.trayIcon = trayIcon;
   

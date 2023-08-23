@@ -87,6 +87,7 @@ export default class UserPetsView extends BaseHtmlView{
       this.containerDiv.append(this.#southDiv);
       
       this.#refreshPetsListButton.addEventListener('click', this.#refreshClicked.bind(this));
+      this.#createPetButton.addEventListener('click', this.#createClicked.bind(this));
       
       this.#initialized = true;
     }
@@ -111,6 +112,12 @@ export default class UserPetsView extends BaseHtmlView{
   
   #refreshClicked() {
     for (let listener of this.#refreshListeners) {
+      listener(this);
+    }
+  }
+  
+  #createClicked() {
+    for (let listener of this.#createListeners) {
       listener(this);
     }
   }

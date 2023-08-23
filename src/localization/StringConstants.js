@@ -126,4 +126,6 @@ static get NO_PATH() { return "NO_PATH"; }
 static get THIS_BUILDING_IS_MAX_LEVEL() { return "THIS_BUILDING_IS_MAX_LEVEL"; }
 
 static get FILL_NAME() { return "FILL_NAME"; }
+
+static get CAT() { return "CAT"; }
 }

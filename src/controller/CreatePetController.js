@@ -1,4 +1,17 @@
-export default class CreatePetControllerImpl extends CreatePetController {
+// localization
+import StringConstants from '../localization/StringConstants.js';
+import MessageSource from '../localization/MessageSource.js';
+
+// rest
+import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+
+// rest domain
+
+// tray icon
+import MessageType from '../trayicon/MessageType.js';
+
+export default class CreatePetControllerImpl {
 
   createPetView;
   trayIcon;
