@@ -254,7 +254,6 @@ export default class GameEngine {
   }
   
   hideView(){
-    
   }
 
   startWaitAnimation() {

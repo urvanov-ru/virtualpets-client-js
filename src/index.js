@@ -93,6 +93,7 @@ function init(selectedLanguage) {
   gameView.resourceManager = resourceManager;
   gameView.viewImplFactory = viewImplFactory;
   gameView.trayIcon = trayIcon;
+  gameView.progressInfoPanel = progressInfoPanel;
   
   loginView.messageSource = messageSource;
   loginView.resourceManager = resourceManager;

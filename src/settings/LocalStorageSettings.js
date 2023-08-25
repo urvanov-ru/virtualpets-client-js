@@ -42,12 +42,12 @@ export default class LocalStorageSettings extends Settings {
    * Сохраняет настройки.
    */
   save() {
-    this.#setToLocalStorage("host", host);
-    this.#setToLocalStorage("login", login);
-    this.#setToLocalStorage("unid", unid);
-    this.#setToLocalStorage("petId", petId);
-    this.#setToLocalStorage("userId", userId);
-    this.#setToLocalStorage("language", language);
+    this.#setToLocalStorage("host", this.host);
+    this.#setToLocalStorage("login", this.login);
+    this.#setToLocalStorage("unid", this.unid);
+    this.#setToLocalStorage("petId", this.petId);
+    this.#setToLocalStorage("userId", this.userId);
+    this.#setToLocalStorage("language", this.language);
   }
 
   get soundEnabled() {

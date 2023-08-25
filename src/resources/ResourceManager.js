@@ -857,7 +857,22 @@ export default class ResourceManager {
     this.#mapResources.set(resourceId, resourceHolder);
   }
 
-  loadImage(path, resourceId, callback) {
+  #loadImageWithCallback(path, callback) {
+    const img = new Image();
+    const resourceManager = this;
+    img.onload = function() {
+        console.debug("Resource %s loaded. Image = %o.", path, img);
+        callback({
+          path: path,
+          image : img
+        });
+    };
+    img.src = path;	  
+  
+    return img;
+  }
+  
+  #loadImageWithResourceIdAndCallback(path, resourceId, callback) {
     const img = new Image();
     const resourceManager = this;
     img.onload = function() {
@@ -866,11 +881,28 @@ export default class ResourceManager {
         resourceHolder.resetInScale = true;
         resourceHolder.resource = img;
         resourceManager.putResource(resourceId, resourceHolder);
-        callback();
+        callback({
+          path: path,
+          resourceId : resourceId,
+          image : img
+        });
     };
     img.src = path;	  
   
     return img;
+  }
+  
+  loadImage(...args) {
+    switch (args.length) {
+      case 2:
+        return this.#loadImageWithCallback(args[0], args[1]);
+      break;
+      case 3:
+        return this.#loadImageWithResourceIdAndCallback(args[0], args[1], args[2]);
+      break;
+      default:
+        throw new Error("Incorrect params");
+    }
   }
 
 

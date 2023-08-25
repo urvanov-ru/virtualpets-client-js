@@ -12,6 +12,7 @@ import ResourceManager from '../resources/ResourceManager.js';
 
 // rest
 import PetType from '../rest/domain/PetType.js';
+import SelectPetArg from '../rest/domain/SelectPetArg.js';
 
 export default class UserPetsView extends BaseHtmlView{
   #petsDiv;
@@ -20,8 +21,8 @@ export default class UserPetsView extends BaseHtmlView{
   #refreshPetsListButton;
   #deletePetButton;
   #enterButton;
-  #names = [];
-  #petsType = [];
+  #petsInfo;
+  #selectedPetIndex = 0;
 
   
   #autoSelectPetName;
@@ -88,6 +89,7 @@ export default class UserPetsView extends BaseHtmlView{
       
       this.#refreshPetsListButton.addEventListener('click', this.#refreshClicked.bind(this));
       this.#createPetButton.addEventListener('click', this.#createClicked.bind(this));
+      this.#enterButton.addEventListener('click', this.#enterClicked.bind(this));
       
       this.#initialized = true;
     }
@@ -122,7 +124,19 @@ export default class UserPetsView extends BaseHtmlView{
     }
   }
   
+  #enterClicked() {
+    const selectPetArg = new SelectPetArg();
+    selectPetArg.petId = this.#petsInfo[this.#selectedPetIndex].id;
+    selectPetArg.petName = this.#petsInfo[this.#selectedPetIndex].name;
+    selectPetArg.petType = this.#petsInfo[this.#selectedPetIndex].petType;
+    for (let listener of this.#selectListeners) {
+      
+      listener(this, selectPetArg);
+    }
+  }
+  
   set petsInfo(petsInfo) {
+    this.#petsInfo = petsInfo;
     this.#petsDiv.innerHTML = '';
     for (let petInfo of petsInfo) {
       const rowDiv = document.createElement('div');

@@ -12,11 +12,12 @@ import IndependentCanvas from './component/IndependentCanvas.js';
 import GameObjectRender from './component/GameObjectRender.js';
 import ProgressInfoPanel from './component/ProgressInfoPanel.js';
 
-import {mainContainerElement} from './container.js';
+import {mainContainerElement, mainContainerScale} from './container.js';
 import RoomView from './RoomView.js';
+import BaseHtmlView from './BaseHtmlView.js';
 
 
-export default class GameView {
+export default class GameView extends BaseHtmlView {
 
   static get ORIGINAL_WIDTH() { return 800; }
   static get ORIGINAL_HEIGHT() { return 600; }
@@ -44,7 +45,6 @@ export default class GameView {
   resourcesLoaded = new Array(GameView.MAX_LOAD_WORKERS).fill(false);
 
   #independentCanvas;
-  #progressInfoPanel;
   
   baseGameView;
   timer;
@@ -52,30 +52,7 @@ export default class GameView {
   
   #firstInit = true;
     
-  constructor(container) {
-    const canvas = document.createElement("canvas");
-    canvas.width = mainContainerElement().offsetWidth;
-    canvas.height = mainContainerElement().offsetHeight;
-    mainContainerElement().append(canvas);
-    canvas.style.display = 'none';
-	this.#independentCanvas = new IndependentCanvas();
-	this.#independentCanvas.canvas = canvas;
-	this.#independentCanvas.context = canvas.getContext('2d');
-	canvas.addEventListener("mousemove", (event) => {
-	  const mouseMoveArg = new MouseMoveArg();
-	  mouseMoveArg.sender = this.pickObject(event.offsetX, event.offsetY);
-	  mouseMoveArg.mousePosition = new Point(event.offsetX, event.offsetY);
-	  this.baseGameView.mouseMoved(mouseMoveArg);
-	});
-	canvas.addEventListener("click", (event) => {
-	  const clickedArg = new ClickedArg();
-	  clickedArg.sender = this.pickObject(event.offsetX, event.offsetY);
-	  clickedArg.mousePosition = new Point(event.offsetX, event.offsetY);
-	  this.baseGameView.mouseClicked(clickedArg);
-	});
-	this.#progressInfoPanel = new ProgressInfoPanel(container);
-  }
-  
+ 
   pickObject(x, y) {
     let picked = null;
     for (const gor of this.baseGameView.gameObjectRenders) {
@@ -112,7 +89,30 @@ export default class GameView {
 
 
   showView() {
+    super.showView();
     if (!this.initialized) {
+      const canvas = document.createElement("canvas");
+      canvas.width = mainContainerElement().offsetWidth;
+      canvas.height = mainContainerElement().offsetHeight;
+      this.containerDiv.append(canvas);
+      canvas.style.display = 'none';
+      this.#independentCanvas = new IndependentCanvas();
+      this.#independentCanvas.canvas = canvas;
+      this.#independentCanvas.context = canvas.getContext('2d');
+      canvas.addEventListener("mousemove", (event) => {
+      const mouseMoveArg = new MouseMoveArg();
+      mouseMoveArg.sender = this.pickObject(event.offsetX, event.offsetY);
+      mouseMoveArg.mousePosition = new Point(event.offsetX, event.offsetY);
+      this.baseGameView.mouseMoved(mouseMoveArg);
+      canvas.addEventListener("click", (event) => {
+        const clickedArg = new ClickedArg();
+        clickedArg.sender = this.pickObject(event.offsetX, event.offsetY);
+        clickedArg.mousePosition = new Point(event.offsetX, event.offsetY);
+        this.baseGameView.mouseClicked(clickedArg);
+      });
+      this.initialized = true;
+    });
+    
       //this.progressInfoPanel = new ProgressInfoPanel();
       //this.mdiMainView
       //    .addActivatedListener((sender, data) => {
@@ -122,11 +122,6 @@ export default class GameView {
       //    .addDeactivatedListener((sender, data) => {
       //        //gamePanel.setAllowRepaint(false);
       //    });
-    } else {
-      //if ((getWidth() == 0) || (getHeight() == 0)) {
-      //  defaultSizeAndLocation();
-      //}
-      this.#independentCanvas.canvas.style.display = block;
     }
   }
 
@@ -212,8 +207,8 @@ export default class GameView {
 //      };
 //
 //    }
-    this.#progressInfoPanel.progressInfo = new ProgressInfo(0, '');
-    this.#progressInfoPanel.showView();
+    this.progressInfoPanel.progressInfo = new ProgressInfo(0, '');
+    this.progressInfoPanel.showView();
     this.#independentCanvas.canvas.style.display = 'none';
     if (worker != null) {
       worker.loadResourcesInBackground();
@@ -225,13 +220,13 @@ export default class GameView {
   processLoadWorker(progressInfoList) {
     const lastProgressInfo = progressInfoList[progressInfoList.length - 1];
     if (lastProgressInfo != null) {
-      this.#progressInfoPanel.progressInfo = lastProgressInfo;
+      this.progressInfoPanel.progressInfo = lastProgressInfo;
     }
   }
 
   loadResourcesDone(worker) {
     console.debug('Load resources done');
-    this.#progressInfoPanel.hideView();
+    this.progressInfoPanel.hideView();
     this.#independentCanvas.canvas.style.display = 'block';
     //try {
     //  if (worker != null) {
@@ -309,11 +304,7 @@ export default class GameView {
   }
     
   calculateScale() {
-	const width = this.#independentCanvas.canvas.clientWidth;
-    const height = this.#independentCanvas.canvas.clientHeight;
-    const xScale = width / GameView.ORIGINAL_WIDTH;
-    const yScale = height / GameView.ORIGINAL_HEIGHT;
-    this.scale = Math.min(xScale, yScale);
+    this.scale = mainContainerScale;
     this.#independentCanvas.scale = this.scale;
     console.debug('calculatedScale = %f, canvas = %o', this.scale, this.#independentCanvas);
     return this.scale;

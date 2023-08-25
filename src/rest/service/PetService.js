@@ -14,6 +14,8 @@ export default class PetService {
   }
   
   select(selectPetArg) {
+    console.debug('select');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/select", 'POST', selectPetArg);
   }
   
   drink(drinkArg) {

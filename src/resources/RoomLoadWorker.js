@@ -390,21 +390,27 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
   loadImageWithBuildIcon(path, resourceId, resourceIconId) {
     this.resourceManager.loadImageWithScale(path, resourceId, this.scale, this.loadedCallback.bind(this, path));
     if (this.resourceManager.getResourceHolder(resourceIconId) == null) {
-      const image = this.resourceManager.loadImage(path);
-      const w = image.width;
-      const h = image.height;
-      const max = Math.max(w, h);
-      if (max <= this.#buildIconSize) {
-        const resourceHolder = new ResourceHolder();
-        resourceHolder.resource = image;
-        resourceHolder.resetInScale = true;
-        this.resourceManager.putResource(resourceIconId, resourceHolder);
-      } else {
-        const fw = this.#buildIconSize / max * w;
-        const fh = this.#buildIconSize / max * h;
-        // to implement
-//        const scaledImage = image.getScaledInstance((int) (fw),
-//            (int) (fh), Image.SCALE_SMOOTH);
+      const image = this.resourceManager.loadImage(path, (callbackArg) => {
+        const w = callbackArg.image.width;
+        const h = callbackArg.image.height;
+        const max = Math.max(w, h);
+        if (max <= this.#buildIconSize) {
+          const resourceHolder = new ResourceHolder();
+          resourceHolder.resource = callbackArg.image;
+          resourceHolder.resetInScale = true;
+          this.resourceManager.putResource(resourceIconId, resourceHolder);
+        } else {
+          const fw = this.#buildIconSize / max * w;
+          const fh = this.#buildIconSize / max * h;
+          console.error('IMPLEMENT loadImageWithBuildIcon propertly');
+          
+          const resourceHolder = new ResourceHolder();
+          resourceHolder.resource = callbackArg.image;
+          resourceHolder.resetInScale = true;
+          this.resourceManager.putResource(resourceIconId, resourceHolder);
+          // to implement
+  //      const scaledImage = image.getScaledInstance((int) (fw),
+  //            (int) (fh), Image.SCALE_SMOOTH);
 //        BufferedImage bi = ImageToBufferedImage
 //            .toBufferedImage(scaledImage);
 //        ResourceHolder resourceHolder = new ResourceHolder();
@@ -412,7 +418,11 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
 //        resourceHolder.setResetInScale(true);
 //        resourceManager.putResource(resourceIconId, resourceHolder);
       }
+      });
+      
     }
   }
+  
+  
   
 }

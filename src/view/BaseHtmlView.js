@@ -68,4 +68,8 @@ export default class BaseHtmlView {
   set closeable(closeable) {
     this.#closeButton.disabled = !closeable;
   }
+  
+  set titleBarVisible(titleBarVisible) {
+    this.#titleDiv.style.display = 'none';
+  }
 }

@@ -133,9 +133,9 @@ export default class UserPetsController {
           + ": " + ex.toString();
       this.trayIcon.showTrayMessage(message,  MessageType.ERROR);
     }
-    work.completed = () => {
+    work.completed = (result) => {
       try {
-        if (selectPetArg.success) {
+        if (result.success) {
           this.settings.petId = work.argument.petId;
           this.settings.save();
           this.userPetsView.hideView();
@@ -154,7 +154,7 @@ export default class UserPetsController {
       return this.petService.select(work.argument);
     }
     work.argument = selectPetArg;
-    work.view = userPetsView;
+    work.view = this.userPetsView;
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;
     work.connectionExceptionSettings = ces;
@@ -186,10 +186,10 @@ export default class UserPetsController {
     });
     this.userPetsView.addSelectListener((sender, selectPetArg) => {
       try {
-        this.select(arg);
+        this.select(selectPetArg);
       } catch(ex) {
         console.error("SelectListener %o.", ex);
-        const message = messageSource.getMessage(StringConstants.ERROR, null, null)
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
             +": " + ex.toString();
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       }
