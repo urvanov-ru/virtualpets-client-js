@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   entry: ['./src/index.js'],
   devtool: 'inline-source-map',
-  watch: true,
+  watch: false,
   plugins: [
     new CopyPlugin({
       patterns: [

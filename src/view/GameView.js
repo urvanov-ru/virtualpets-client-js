@@ -91,6 +91,7 @@ export default class GameView extends BaseHtmlView {
   showView() {
     super.showView();
     if (!this.initialized) {
+      this.titleBarVisible = false;
       const canvas = document.createElement("canvas");
       canvas.width = mainContainerElement().offsetWidth;
       canvas.height = mainContainerElement().offsetHeight;

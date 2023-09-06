@@ -5,10 +5,6 @@
   "private": true,
   "scripts": {
     "test": "tape test/*.js",
-    "build": "webpack",
-    "watch": "npm-watch"
-  },
-  "watch": {
     "build": "webpack"
   },
   "keywords": [],

@@ -1366,12 +1366,12 @@ export default class RoomController extends BaseGameController{
 //  }
 
   getRoomInfo() {
-    //GetRoomInfoBackgroundWork work = new GetRoomInfoBackgroundWork();
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.view = roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    backgroundWorkManager.startBackgroundWork(work);
   }
 
   set roomInfo(getRoomInfoResult) {
