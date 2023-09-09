@@ -240,8 +240,8 @@ export default class GameEngine {
   }
   
   fireInitializationCompleted() {
-    for (const listener of initializationCompletedListeners) {
-      listener.eventFired(this, null);
+    for (const listener of this.initializationCompletedListeners) {
+      listener(this, null);
     }
   }
   

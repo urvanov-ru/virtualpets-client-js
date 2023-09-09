@@ -1,7 +1,7 @@
 import GameEngine from './GameEngine.js';
 
 export default class RoomView extends GameEngine {
-   
+  
   #roomData;
 
   set roomData(roomData) {
@@ -21,4 +21,5 @@ export default class RoomView extends GameEngine {
       }
     }
   }
+  
 }

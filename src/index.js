@@ -119,6 +119,8 @@ function init(selectedLanguage) {
   
   gameController.gameView = gameView;
   gameController.messageSource = messageSource;
+  gameController.backgroundWorkManager = backgroundWorkManager;
+  gameController.roomService = roomService;
   
   loginController.loginView = loginView;
   loginController.trayIcon = trayIcon;

@@ -47,6 +47,8 @@ export default class GameController {
     roomController.roomView = this.gameView.showRoom();
     roomController.baseGameView = roomController.roomView;
     roomController.messageSource = this.messageSource;
+    roomController.backgroundWorkManager = this.backgroundWorkManager;
+    roomController.roomService = this.roomService;
     roomController.initialize();
   }
 

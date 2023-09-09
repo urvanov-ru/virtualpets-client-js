@@ -25,6 +25,15 @@ import ResourceManager from '../resources/ResourceManager.js';
 
 // localization
 import StringConstants from '../localization/StringConstants.js';
+import MessageSource from '../localization/MessageSource.js';
+
+// rest
+import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+
+// tray icon
+import MessageType from '../trayicon/MessageType.js';
+
 
 export default class RoomController extends BaseGameController{
 
@@ -52,6 +61,7 @@ export default class RoomController extends BaseGameController{
   initialize() {
     super.initialize();
     this.roomView.addInitializationCompletedListener((sender, data) => {
+      console.debug('RoomView initialization completed');
       this.getRoomInfo();
       this.getRoomInfoWithDelay();
       this.getBuildMenuCosts();
@@ -1367,7 +1377,7 @@ export default class RoomController extends BaseGameController{
 
   getRoomInfo() {
     const work = new BackgroundWork();
-    work.view = roomView;
+    work.view = this.roomView;
     work.failed = (ex) => {
 //      synchronized (getRoomInfoMonitor) {
 //        getRoomInfoInProgress = false;
@@ -1379,7 +1389,7 @@ export default class RoomController extends BaseGameController{
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     }
     work.doInBackground = () => {
-      return roomService.getRoomInfo();
+      return this.roomService.getRoomInfo();
     }
     work.completed = (getRoomInfoResult) => {
       this.roomInfo = getRoomInfoResult;
@@ -1388,7 +1398,7 @@ export default class RoomController extends BaseGameController{
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;
     work.connectionExceptionSettings = ces;
-    backgroundWorkManager.startBackgroundWork(work);
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   set roomInfo(getRoomInfoResult) {

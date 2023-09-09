@@ -280,6 +280,7 @@ export default class GameView extends BaseHtmlView {
 
   fireInitializationCompleted() {
     console.debug('fireInitializationCompleted.');
+    this.baseGameView.fireInitializationCompleted();
     this.#firstInit = false;
     this.timer = setInterval(this.step.bind(this), 1000 / 60);
   }
