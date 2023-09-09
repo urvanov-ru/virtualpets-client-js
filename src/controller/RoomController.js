@@ -1368,6 +1368,23 @@ export default class RoomController extends BaseGameController{
   getRoomInfo() {
     const work = new BackgroundWork();
     work.view = roomView;
+    work.failed = (ex) => {
+//      synchronized (getRoomInfoMonitor) {
+//        getRoomInfoInProgress = false;
+//        getRoomInfoMonitor.notifyAll();
+//      }
+        console.error("GetPetInfoBackgroundWork failed {}.", ex);
+        const message = this.messageSource.getMessage(StringConstants.ERROR,
+            null, null) + ": " + ex;
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    }
+    work.doInBackground = () => {
+      return roomService.getRoomInfo();
+    }
+    work.completed = (getRoomInfoResult) => {
+      this.roomInfo = getRoomInfoResult;
+      //getRoomInfoWithDelay();
+    }
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;
     work.connectionExceptionSettings = ces;
