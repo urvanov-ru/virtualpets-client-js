@@ -176,7 +176,7 @@ export default class RoomController extends BaseGameController{
     satietyProgressBar.dimension = new Dimension(100, 20);
     satietyProgressBar.maxValue = 100;
     this.addGameObject(satietyProgressBar);
-    this.roomDatasatietyProgressBar = satietyProgressBar;
+    this.roomData.satietyProgressBar = satietyProgressBar;
 
     const drinkLabel = new LabelGameObject();
     drinkLabel.visible = false;
@@ -340,11 +340,12 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_JOURNAL_ON_FLOOR_X,
         RoomData.ORIGINAL_JOURNAL_ON_FLOOR_Y);
     journalOnFloor.visible = false;
-    journalOnFloor.mouseMoveListener = (journalOnFloorMouseMoveArg) => {
-      this.highlightObject(journalOnFloor);
+    journalOnFloor.addMouseMoveListener((journalOnFloorMouseMoveArg) => {
+      console.debug('journalOnFloor mouseMove');
+      this.highlightObject = journalOnFloor;
       this.roomView.showHandCursor();
       this.roomView.toolTipText = "";
-    };
+    });
     journalOnFloor.addClickedListener((journalOnFloorClickedArg) => {
       const petTileCoordinates = this.tilesEngine
           .translateToTileCoordinates(this.roomData.pet);
@@ -358,7 +359,7 @@ export default class RoomController extends BaseGameController{
         path[n] = tilesEngine
             .translateFromTileCoordinates(tilesPath[n]);
       }
-      this.roomData.situation =RoomData.SITUATION_COLLECTING_JOURNAL;
+      this.roomData.situation = RoomData.SITUATION_COLLECTING_JOURNAL;
       this.roomData.pet.setMove(path, () => {
 
         showProgressBar(100, (a) => {
@@ -1408,7 +1409,7 @@ export default class RoomController extends BaseGameController{
     } else
       this.roomData.journalOnFloor.visible = true;
 
-    journal.visible = getRoomInfogetRoomInfoResult.haveJournal;
+    this.journal.visible = getRoomInfoResult.haveJournal;
     this.buildMenu.visible = getRoomInfoResult.haveHammer;
     this.rucksack.visible = getRoomInfoResult.haveRucksack;
     this.roomData.arrowRight.visible = getRoomInfoResult.haveToTownArrow;
@@ -1422,7 +1423,7 @@ export default class RoomController extends BaseGameController{
         getRoomInfoResult.haveIndicators;
     this.roomData.moodProgressBar.visible = getRoomInfoResult.haveIndicators;
 
-    const boxes = roomData.boxes;
+    const boxes = this.roomData.boxes;
     const boxesNewbie = getRoomInfoResult.boxesNewbie;
     for (let n = 0; n < boxesNewbie.length && n < RoomData.BOXES_COUNT; n++) {
       boxes[n].visible = boxesNewbie[n];
@@ -1439,7 +1440,7 @@ export default class RoomController extends BaseGameController{
     const hatId = getRoomInfoResult.hatId;
     const clothId = getRoomInfoResult.clothId;
     const bowId = getRoomInfoResult.bowId;
-    const clothObjects = roomData.getClothObjects();
+    const clothObjects = this.roomData.clothObjects;
     if (hatId != null) {
       const hat = clothObjects.get(hatId);
       hat.visible = true;
@@ -1456,7 +1457,7 @@ export default class RoomController extends BaseGameController{
       this.roomData.pet.bow = bow;
     }
     this.roomData.refrigeratorId = getRoomInfoResult.refrigeratorId;
-    if (roomData.refrigeratorId != null) {
+    if (this.roomData.refrigeratorId != null) {
       this.refrigeratorLevel = roomData.refrigeratorId - 1;
       this.roomData.refrigerator.position = 
           this.tilesEngine.translateFromTileCoordinates(
@@ -1465,7 +1466,7 @@ export default class RoomController extends BaseGameController{
                   .refrigeratorY));
     }
     this.roomData.bookcaseId = getRoomInfoResult.bookcaseId;
-    if (roomData.bookcaseId != null) {
+    if (this.roomData.bookcaseId != null) {
       this.bookcaseLevel = roomData.bookcaseId - 1;
       this.roomData.bookcase.visible = true;
       this.roomData.bookcase.position = 
@@ -1473,8 +1474,8 @@ export default class RoomController extends BaseGameController{
               .bookcase, new Point(getRoomInfoResult.bookcaseX,
               getRoomInfoResult.bookcaseY));
     }
-    this.roomData.machineWithDrinksId(getRoomInfoResult.machineWithDrinksId);
-    if (roomData.machineWithDrinksId != null) {
+    this.roomData.machineWithDrinksId = getRoomInfoResult.machineWithDrinksId;
+    if (this.roomData.machineWithDrinksId != null) {
       this.machineWithDrinksLevel = this.roomData.machineWithDrinksId - 1;
       roomData.machineWithDrinks.visible = true;
       roomData.machineWithDrinks.position = 
@@ -1723,7 +1724,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_BOX_1_Y);
     boxes[2].position = new Point(RoomData.ORIGINAL_BOX_2_X,
         RoomData.ORIGINAL_BOX_2_Y);
-    this.roomData.boxies = boxes;
+    this.roomData.boxes = boxes;
   }
 
   initializeMachineWithDrinksPopupMenu() {

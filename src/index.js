@@ -11,6 +11,7 @@ import PetType from './rest/domain/PetType.js';
 import PublicService from './rest/service/PublicService.js';
 import UserService from './rest/service/UserService.js';
 import PetService from './rest/service/PetService.js';
+import RoomService from './rest/service/RoomService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
@@ -87,6 +88,7 @@ function init(selectedLanguage) {
   const publicService = new PublicService();
   const userService = new UserService();
   const petService = new PetService();
+  const roomService = new RoomService();
   const restClient = new RestClient();
   
 
@@ -172,6 +174,8 @@ function init(selectedLanguage) {
   userService.restClient = restClient;
   
   petService.restClient = restClient;
+  
+  roomService.restClient = restClient;
     
   viewImplFactory.resourceManager = resourceManager;
   
