@@ -356,14 +356,14 @@ export default class RoomController extends BaseGameController{
       const tilesPath = this.tilesEngine.findPath(petTileCoordinates,
           journalOnFloorTileCoordinates);
       const path = new Array(tilesPath.length);
-      for (const n = 0; n < tilesPath.length; n++) {
-        path[n] = tilesEngine
+      for (let n = 0; n < tilesPath.length; n++) {
+        path[n] = this.tilesEngine
             .translateFromTileCoordinates(tilesPath[n]);
       }
       this.roomData.situation = RoomData.SITUATION_COLLECTING_JOURNAL;
       this.roomData.pet.setMove(path, () => {
 
-        showProgressBar(100, (a) => {
+        this.showProgressBar(100, (a) => {
           this.pickJournalOnFloor();
           this.roomData.situation =RoomData.SITUATION_NORMAL;
         });
@@ -646,9 +646,9 @@ export default class RoomController extends BaseGameController{
         const tilesMovePath = this.tilesEngine.findPath(
             petTileCoordinates, moveTilesTarget);
         if (tilesMovePath != null) {
-          const movePath = new Point[tilesMovePath.length];
-          for (const n = 0; n < tilesMovePath.length; n++) {
-            movePath[n] = tilesEngine.translateFromTileCoordinates(pet,
+          const movePath = new Array(tilesMovePath.length);
+          for (let n = 0; n < tilesMovePath.length; n++) {
+            movePath[n] = this.tilesEngine.translateFromTileCoordinates(pet,
                 tilesMovePath[n]);
           }
           pet.setMove(movePath);
@@ -2484,7 +2484,7 @@ export default class RoomController extends BaseGameController{
     const progressBar = this.roomData.progressBar;
     progressBar.maxValue = maxValue;
     progressBar.value = 0;
-    roomData.progressBarOverListener = listener;
+    this.roomData.progressBarOverListener = listener;
     progressBar.visible = true;
   }
 

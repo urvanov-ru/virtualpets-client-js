@@ -63,7 +63,7 @@ export default class PetGameObject extends GameObject {
           this.moveTarget = null;
           this.movePath = null;
           if (this.moveFinishedListener != null) {
-            this.moveFinishedListener.event();
+            this.moveFinishedListener();
             this.moveFinishedListener = null;
           }
         }

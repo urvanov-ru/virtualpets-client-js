@@ -1,5 +1,6 @@
 import GameObjectRender from './GameObjectRender.js';
 import Point from '../../domain/Point.js';
+import Dimension from '../../domain/Dimension.js';
 
 
 export default class ProgressBarGameObjectRender extends GameObjectRender {
@@ -21,10 +22,11 @@ export default class ProgressBarGameObjectRender extends GameObjectRender {
     this.dimension = new Dimension(logicDimension.width * scale,
         logicDimension.height * scale);
     const lastColor = context.fillStyle;
-    context.setColor("#ffff00");
-    context.drawRect(this.position.x, position.y, dimension.width, dimension.height);
-    const value = this.gameObject.value / this.gameObject.maxValue * dimension.width;
+    context.strokeStyle = "#ffff00";
+    context.fillStyle = 'transparent';
+    context.fillRect(this.position.x, this.position.y, this.dimension.width, this.dimension.height);
+    const value = this.gameObject.value / this.gameObject.maxValue * this.dimension.width;
     context.fillRect(this.position.x, this.position.y, value, this.dimension.height);
-    context.fillStyle(lastColor);
+    context.fillStyle = lastColor;
   }
 }

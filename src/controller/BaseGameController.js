@@ -608,6 +608,7 @@ export default class BaseGameController {
   }
 
   initializeTilesEngineForRoom() {
+    console.debug('initialize tiles engine for room');
     this.tilesEngine = new TilesEngine(6, 9, TilesEngine.DEFAULT_TILE_WIDTH,
         TilesEngine.DEFAULT_TILE_HEIGHT / 2);
   }

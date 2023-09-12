@@ -42,6 +42,8 @@ export default class RoomService {
   }
   
   pickJournalOnFloor() {
+    console.debug('pickJournalOnFloor');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/pickJournalOnFloor", 'POST');
   }
   
   journalClosed() {

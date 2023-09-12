@@ -1,3 +1,5 @@
+import AnimationOverArg from '../domain/AnimationOverArg.js';
+
 import GameEngine from './GameEngine.js';
 
 export default class RoomView extends GameEngine {
@@ -16,7 +18,7 @@ export default class RoomView extends GameEngine {
         progressBar.value = progressBar.value + 1;
       } else {
         progressBar.visible = false;
-        this.#roomData.progressBarOverListener.animationOver(
+        this.#roomData.progressBarOverListener(
             new AnimationOverArg());
       }
     }

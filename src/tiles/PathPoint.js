@@ -10,6 +10,6 @@ export default class PathPoint {
   }
 
   clone() {
-    return new PathPoint(x, y, state);
+    return new PathPoint(this.x, this.y, this.state);
   }
 }
