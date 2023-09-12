@@ -98,13 +98,13 @@ export default class PetGameObject extends GameObject {
   setMove(...args) {
     switch (args.length) {
       case 1:
-        this.#setMovePath(args);
+        this.#setMovePath(args[0]);
       break;
       case 2:
-        this.#setMovePathAndListener(args);
+        this.#setMovePathAndListener(args[0], args[1]);
       break;
       case 3:
-        this.#setMoveTargetAndPathAndListener(args);
+        this.#setMoveTargetAndPathAndListener(args[0], args[1], args[2]);
       break;
     }
   }
