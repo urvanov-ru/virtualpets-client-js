@@ -1,4 +1,5 @@
 import GameObject from './GameObject.js';
+import Point from './Point.js';
 
 
 export default class PetGameObject extends GameObject {
@@ -30,19 +31,19 @@ export default class PetGameObject extends GameObject {
   step() {
     super.step();
     if (this.moveTarget != null && this.movePath != null) {
-      if (!isTimeToJumpOver()) {
+      if (!this.isTimeToJumpOver()) {
         if (!this.jumping) {
           
           this.jumpStart = this.position.clone();
           
           this.jumping = true;
-          this.jumpEnd = this.movePath[moveStep];
+          this.jumpEnd = this.movePath[this.moveStep];
           this.jumpStartAt = new Date().getTime();
         }
         let t = new Date().getTime() - this.jumpStartAt;
         if (t <= PetGameObject.TIME_TO_JUMP_FROM_CREATION_POINT) {
           let sm = t
-              / TIME_TO_JUMP_FROM_CREATION_POINT;
+              / PetGameObject.TIME_TO_JUMP_FROM_CREATION_POINT;
           let sina = Math.sin(sm * Math.PI);
           let jumpz = (sina * PetGameObject.SM_JUMP_Z);
 
@@ -55,7 +56,7 @@ export default class PetGameObject extends GameObject {
       } else {
         this.jumping = false;
         this.jumpStartAt = new Date().getTime();
-        this.position = this.movePath[moveStep].clone();
+        this.position = this.movePath[this.moveStep].clone();
         this.moveStep++;
         if (this.moveStep >= this.movePath.length) {
           this.moveStep = 0;
@@ -90,26 +91,40 @@ export default class PetGameObject extends GameObject {
   }
 
   isTimeToJumpOver() {
-    return new Date().getTime() > jumpStartAt
+    return new Date().getTime() > this.jumpStartAt
         + PetGameObject.TIME_TO_JUMP_FROM_CREATION_POINT;
   }
+  
+  setMove(...args) {
+    switch (args.length) {
+      case 1:
+        this.#setMovePath(args);
+      break;
+      case 2:
+        this.#setMovePathAndListener(args);
+      break;
+      case 3:
+        this.#setMoveTargetAndPathAndListener(args);
+      break;
+    }
+  }
     
-  setMove(moveTarget, movePath, moveFinishedListener) {
+  #setMoveTargetAndPathAndListener(moveTarget, movePath, moveFinishedListener) {
     this.moveTarget = moveTarget;
     this.movePath = movePath;
     this.moveStep = 0;
     this.moveFinishedListener = moveFinishedListener;
   }
   
-  setMove(movePath, moveFinishedListener) {
+  #setMovePathAndListener(movePath, moveFinishedListener) {
     if (movePath != null && movePath.length > 0)
-      setMove(movePath[movePath.length-1], movePath, moveFinishedListener);
+      this.#setMoveTargetAndPathAndListener(movePath[movePath.length-1], movePath, moveFinishedListener);
     else
-      setMove(null, null, null);
+      this.#setMoveTargetAndPathAndListener(null, null, null);
   }
 
-  setMove(movePath) {
-    setMove(movePath, null);
+  #setMovePath(movePath) {
+    this.#setMovePathAndListener(movePath, null);
   }
 }
 

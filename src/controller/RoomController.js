@@ -347,6 +347,7 @@ export default class RoomController extends BaseGameController{
       this.roomView.toolTipText = "";
     });
     journalOnFloor.addClickedListener((journalOnFloorClickedArg) => {
+      console.debug('journalOnFloor clicked');
       const petTileCoordinates = this.tilesEngine
           .translateToTileCoordinates(this.roomData.pet);
       const journalOnFloorTileCoordinates = this.tilesEngine
@@ -354,7 +355,7 @@ export default class RoomController extends BaseGameController{
 
       const tilesPath = this.tilesEngine.findPath(petTileCoordinates,
           journalOnFloorTileCoordinates);
-      const path = new Point[tilesPath.length];
+      const path = new Array(tilesPath.length);
       for (const n = 0; n < tilesPath.length; n++) {
         path[n] = tilesEngine
             .translateFromTileCoordinates(tilesPath[n]);
@@ -363,8 +364,8 @@ export default class RoomController extends BaseGameController{
       this.roomData.pet.setMove(path, () => {
 
         showProgressBar(100, (a) => {
-          pickJournalOnFloor();
-          roomData.situation =RoomData.SITUATION_NORMAL;
+          this.pickJournalOnFloor();
+          this.roomData.situation =RoomData.SITUATION_NORMAL;
         });
       });
     });
@@ -397,12 +398,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   pickJournalOnFloor() {
-//    PickJournalOnFloorBackgroundWork work = new PickJournalOnFloorBackgroundWork();
-//    work.setView(roomView);
-//    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-//    ces.setRestart(true);
-//    work.setConnectionExceptionSettings(ces);
-//    backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.failed = (ex) => {
+      console.error("PickJournalOnFloorBackgroundWork failed %s.", ex);
+      this.trayIcon.showTrayMessage(
+          this.messageSource.getMessage(StringConstants.ERROR, null, null),
+          MessageType.ERROR);
+    };
+    work.completed = (pickJournalOnFloorResult) => {
+      this.getRoomInfo();
+      this.roomData.journalOnFloor.visible = false;
+    };
+    work.doInBackground = () => {
+      this.roomService.pickJournalOnFloor();
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   initializeBookcaseInnerObjects() {
@@ -1384,7 +1398,7 @@ export default class RoomController extends BaseGameController{
 //        getRoomInfoInProgress = false;
 //        getRoomInfoMonitor.notifyAll();
 //      }
-        console.error("GetPetInfoBackgroundWork failed {}.", ex);
+        console.error("GetPetInfoBackgroundWork failed %s.", ex);
         const message = this.messageSource.getMessage(StringConstants.ERROR,
             null, null) + ": " + ex;
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);

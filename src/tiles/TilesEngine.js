@@ -1,4 +1,5 @@
 import Point from '../domain/Point.js';
+import GameObject from '../domain/GameObject.js';
 import PathPoint from './PathPoint.js';
 
 export default class TilesEngine {
@@ -90,6 +91,7 @@ export default class TilesEngine {
   }
 
   findPath(start, dest) {
+  return [];
 //  refreshTilesType();
 //  int startX = start.x;
 //  int startY = start.y;
@@ -273,7 +275,7 @@ export default class TilesEngine {
 //      PathPoint pp = lstBest.get(n);
 //      result[n] = new Point(pp.x, pp.y);
 //  }
-    return result;
+//    return result;
   }
 
   setTileType(x, y, tileType) {
@@ -386,7 +388,7 @@ export default class TilesEngine {
   }
 
   #translateToTileCoordinatesGameObject(go) {
-    let goHeight = go.dimension.height();
+    let goHeight = go.dimension.height;
     let position = go.position;
     let x = position.x;
     let y = position.y - position.y % this.tileHeight;
