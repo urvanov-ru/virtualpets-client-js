@@ -825,6 +825,8 @@ export default class BaseGameController {
     });
     this.addGameObject(this.journal);
     const journalInner = new GameObject();
+    journalInner.position.x = 0;
+    journalInner.position.y = 0;
     journalInner.z = BaseGameController.MENU_Z_ORDER;
     journalInner
         .animationImageIds = [[ ResourceManager.IMAGE_JOURNAL_INNER ]];

@@ -160,7 +160,7 @@ export default class GameEngine {
   }
 
   get gameObjectRenders() {
-    return this.gameObjects.values();
+    return Array.from(this.gameObjects.values());
   }
 
   reloadImages() {
@@ -179,7 +179,8 @@ export default class GameEngine {
         const imgids = ids[n];
         animations[n] = this.viewImplFactory.createAnimation(imgids);
       }
-      gor.animations = animations;      
+      console.debug('new animations = %o for animationImageIds = %o', animations, ids);
+      gor.animations = animations;
       //gor.currentAnimation = gor.animations[gor.gameObject.state];
     }
   }
