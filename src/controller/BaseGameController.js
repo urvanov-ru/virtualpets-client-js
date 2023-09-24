@@ -27,6 +27,11 @@ import ResourceManager from '../resources/ResourceManager.js';
 
 // localization
 import StringConstants from '../localization/StringConstants.js';
+import MessageSource from '../localization/MessageSource.js';
+
+// rest
+import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
 
 
 export default class BaseGameController {
@@ -1046,13 +1051,29 @@ export default class BaseGameController {
   }
 
   getJournalEntries() {
-    //GetJournalEntriesBackgroundWork work = new GetJournalEntriesBackgroundWork();
-    //work.setArgument(null);
-    //work.setView(baseGameView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.failed = (ex) => {
+      console.error("GetJournalEntriesBackgroundWork failed %o.", ex);
+      this.trayIcon.showTrayMessage(
+          this.messageSource.getMessage(StringConstants.ERROR, null, null),
+          MessageType.ERROR);
+    }
+    work.doInBackground = () => {
+      return this.journalEntryService.getPetJournalEntries(99999999);
+    }
+    work.completed = (getJournalEntriesResult) => {
+      const entries = getJournalEntriesResult.entries;
+      this.journal.entries = entries;
+      this.journal.currentPage = entries.length - 1 >> 1 << 1;
+      this.updateJournalGameObjectsText();
+      this.journal.leftLoading.visible = false;
+      this.journal.rightLoading.visible =false;
+    }
+    work.view  = this.baseGameView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   addGameObject(go) {

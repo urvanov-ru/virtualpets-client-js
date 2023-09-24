@@ -1,5 +1,6 @@
 import GameObjectRenderBase from './GameObjectRenderBase.js';
 import Point from '../../domain/Point.js';
+import Dimension from '../../domain/Dimension.js';
 import canvasTxt from 'canvas-txt';
 
 export default class LabelGameObjectRender extends GameObjectRenderBase {
