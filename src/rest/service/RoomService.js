@@ -47,6 +47,8 @@ export default class RoomService {
   }
   
   journalClosed() {
+    console.debug('journalClosed');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/journalClosed", 'POST');
   }
   
   set restClient(restClient) {

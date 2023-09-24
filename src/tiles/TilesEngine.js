@@ -386,7 +386,7 @@ export default class TilesEngine {
       let height = dimension.height;
         tileCoordinates.y = Math.trunc(tileCoordinates.y
             - height / this.#tileHeight + 1);
-        applyTileType(tileCoordinates, tileTypes);
+        this.applyTileType(tileCoordinates, tileTypes);
       }
   }
 

@@ -1029,10 +1029,9 @@ export default class BaseGameController {
       this.journal.leftText.text = 
           this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
-                  + String.valueOf(entries[currentPage]
-                      .getCode()), null, null);
+                  + entries[currentPage].code, null, null);
       this.journal.rightText.text = 
-          messageSource.getMessage(
+          this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
                   + entries[currentPage + 1].code, null, null);
     } else if (entries.length - currentPage == 1) {

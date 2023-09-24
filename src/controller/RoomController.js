@@ -238,7 +238,7 @@ export default class RoomController extends BaseGameController{
     super.initializeJournal();
     this.journal.close
         .addClickedListener((journalCloseClickedListenerArg) => {
-          journalCloseClicked();
+          this.journalCloseClicked();
         });
     this.journal.visible = false;
   }
@@ -268,13 +268,28 @@ export default class RoomController extends BaseGameController{
 //  }
 
   journalCloseClicked() {
-//    JournalCloseBackgroundWork work = new JournalCloseBackgroundWork();
-//    work.setArgument(null);
-//    work.setView(roomView);
-//    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-//    ces.setRestart(true);
-//    work.setConnectionExceptionSettings(ces);
-//    backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.failed = (ex) => {
+      console.error("journalCloseBackgroundWork failed %o.", ex);
+      this.trayIcon.showTrayMessage(
+      this.messageSource.getMessage(StringConstants.ERROR, null, null),
+          MessageType.ERROR);
+    }
+    work.doInBackground = () => {
+      this.roomService.journalClosed();
+      return null;
+    }
+    work.completed = (journalCloseClicked) => {
+      // we need to somehow synchronize calls of getRoomInfo in JavaScript
+      // We cannot do it the way we did in in Java
+      // getRoomInfo();
+    }
+    work.argument = null;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class GetJournalEntriesBackgroundWork extends
