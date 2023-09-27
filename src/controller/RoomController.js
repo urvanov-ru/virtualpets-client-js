@@ -1711,13 +1711,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   openBox(index) {
-    //OpenBoxNewbieBackgroundWork work = new OpenBoxNewbieBackgroundWork();
-    //work.setView(roomView);
-    //work.setArgument(index);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(false);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.openBoxNewbie(work.argument);
+    };
+    work.completed = (openBoxResult) => {
+      this.createOpenBoxReward(result);
+    };
+    work.failed = (ex) => {
+      console.error("OpenBoxNewbieBackgoundWork failed %o", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    work.argument = index;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   set roomView(roomView) {
