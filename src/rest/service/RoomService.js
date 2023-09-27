@@ -18,6 +18,8 @@ export default class RoomService {
   }
   
   openBoxNewbie(index) {
+    console.debug('openBoxNewbie');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/openBoxNewbie/" + index + "/", 'GET', );
   }
   
   buildBookcase(point) {

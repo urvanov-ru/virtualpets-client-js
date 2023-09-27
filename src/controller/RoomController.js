@@ -1746,13 +1746,13 @@ export default class RoomController extends BaseGameController{
       box.tileTypes = [[ TileType.NORMAL, TileType.WALL ]];
       box.index = n;
       box.addMouseMoveListener((mouseMoveArg) => {
-        roomView.showHandCursor();
-        roomView.setToolTipText(getMessageSource().getMessage(
-          StringConstants.USE, null, null));
+        this.roomView.showHandCursor();
+        this.roomView.toolTipText = this.getMessageSource().getMessage(
+          StringConstants.USE, null, null);
       });
       box.addClickedListener((clickedArg) => {
        this.showProgressBar(100, boxClickedArg => {
-        this.openBox(arg.sender.index);
+        this.openBox(clickedArg.sender.index);
         });
       });
       box.visible = false;
