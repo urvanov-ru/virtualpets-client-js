@@ -1716,7 +1716,7 @@ export default class RoomController extends BaseGameController{
       return this.roomService.openBoxNewbie(work.argument);
     };
     work.completed = (openBoxResult) => {
-      this.createOpenBoxReward(result);
+      this.createOpenBoxReward(openBoxResult);
     };
     work.failed = (ex) => {
       console.error("OpenBoxNewbieBackgoundWork failed %o", ex);
@@ -2592,7 +2592,7 @@ export default class RoomController extends BaseGameController{
     box.visible = false;
     const rucksack = this.rucksack;
     const bmgos = rucksack.buildingMaterials;
-    for (let pair of openBoxNewbieResult
+    for (let pair in openBoxNewbieResult
         .buildingMaterials.entries()) {
       const bmgo = bmgos[pair.key.ordinal()];
       bmgo.buildingMaterialCount = bmgo.buildingMaterialCount
