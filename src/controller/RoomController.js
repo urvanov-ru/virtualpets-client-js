@@ -2595,7 +2595,7 @@ export default class RoomController extends BaseGameController{
     for (let key in openBoxNewbieResult
         .buildingMaterials) {
       const value = openBoxNewbieResult.buildingMaterials[key];
-      const bmgo = bmgos[key];
+      const bmgo = bmgos.get(key);
       bmgo.buildingMaterialCount = bmgo.buildingMaterialCount
           + value;
       for (let n = 0; n < value; n++) {
