@@ -1747,7 +1747,7 @@ export default class RoomController extends BaseGameController{
       box.index = n;
       box.addMouseMoveListener((mouseMoveArg) => {
         this.roomView.showHandCursor();
-        this.roomView.toolTipText = this.getMessageSource().getMessage(
+        this.roomView.toolTipText = this.messageSource.getMessage(
           StringConstants.USE, null, null);
       });
       box.addClickedListener((clickedArg) => {
@@ -2591,16 +2591,17 @@ export default class RoomController extends BaseGameController{
     const box = boxes[openBoxNewbieResult.index];
     box.visible = false;
     const rucksack = this.rucksack;
-    const bmgos = rucksack.buildingMaterials;
-    for (let pair in openBoxNewbieResult
-        .buildingMaterials.entries()) {
-      const bmgo = bmgos[pair.key.ordinal()];
+    const bmgos = this.rucksack.buildingMaterials;
+    for (let key in openBoxNewbieResult
+        .buildingMaterials) {
+      const value = openBoxNewbieResult.buildingMaterials[key];
+      const bmgo = bmgos[key];
       bmgo.buildingMaterialCount = bmgo.buildingMaterialCount
-          + pair.value;
-      for (let n = 0; n < pair.value; n++) {
+          + value;
+      for (let n = 0; n < value; n++) {
         const position = box.position;
-        const dimension = box.getDimension();
-        this.addCollectableGameObject(pair.key, position.x
+        const dimension = box.dimension;
+        this.addCollectableGameObject(key, position.x
             + dimension.width / 2,
             position.y + dimension.width / 2);
       }

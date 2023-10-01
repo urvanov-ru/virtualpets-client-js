@@ -343,16 +343,16 @@ export default class BaseGameController {
   }
 
   initializeBuildingMaterialGameObjects() {
-    const a = new BuildingMaterialGameObject(9);
-    a[0] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.TIMBER);
-    a[1] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.BOARD);
-    a[2] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.STONE);
-    a[3] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.CHIP);
-    a[4] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.WIRE);
-    a[5] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.IRON);
-    a[6] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.OIL);
-    a[7] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.BLUE_CRYSTAL);
-    a[8] = this.initializeBuildingMaterialGameObject(BuildingMaterialType.RUBBER);
+    const a = new Map()
+    a.set(BuildingMaterialType.TIMBER, this.initializeBuildingMaterialGameObject(BuildingMaterialType.TIMBER));
+    a.set(BuildingMaterialType.BOARD, this.initializeBuildingMaterialGameObject(BuildingMaterialType.BOARD));
+    a.set(BuildingMaterialType.STONE, this.initializeBuildingMaterialGameObject(BuildingMaterialType.STONE));
+    a.set(BuildingMaterialType.CHIP, this.initializeBuildingMaterialGameObject(BuildingMaterialType.CHIP));
+    a.set(BuildingMaterialType.WIRE, this.initializeBuildingMaterialGameObject(BuildingMaterialType.WIRE));
+    a.set(BuildingMaterialType.IRON, this.initializeBuildingMaterialGameObject(BuildingMaterialType.IRON));
+    a.set(BuildingMaterialType.OIL, this.initializeBuildingMaterialGameObject(BuildingMaterialType.OIL));
+    a.set(BuildingMaterialType.BLUE_CRYSTAL, this.initializeBuildingMaterialGameObject(BuildingMaterialType.BLUE_CRYSTAL));
+    a.set(BuildingMaterialType.RUBBER, this.initializeBuildingMaterialGameObject(BuildingMaterialType.RUBBER));
     return a;
   }
 
@@ -443,12 +443,12 @@ export default class BaseGameController {
     this.rucksack.menuItems = rucksackMenuItems;
     this.rucksack.menuItemLabels = rucksackMenuItemLabels;
 
-    const buildMaterials = this.initializeBuildingMaterialGameObjects();
+    const buildingMaterials = this.initializeBuildingMaterialGameObjects();
     for (let n = 0; n < buildMaterials.length; n++) {
-      buildMaterials[n].position = new Point((n % 3) * 100 + 250 + 18,
+      buildingMaterials[n].position = new Point((n % 3) * 100 + 250 + 18,
           (n / 3) * 100 + 150 + 18);
     }
-    this.rucksack.buildMaterials = buildMaterials;
+    this.rucksack.buildingMaterials = buildingMaterials;
 
     this.rucksack.addClickedListener((clickedArg) => {
       this.showRucksackInner(getRucksack());
@@ -557,19 +557,32 @@ export default class BaseGameController {
       highlightObject.state = HighlightGameObject.OBJECT_HIGHLIGHT;
     }
   }
+  
+  addCollectableGameObject(...params) {
+    if (params.length != 3) {
+      throw new Error("Invalid arguments of addCollectableGameObject.");
+    }
+    if (params[0] instanceof GameObject) {
+      this.addCollectableGameObjectGo(params[0], params[1], params[2]);
+    } else if (params[0] instanceof String) {
+      this.addCollectableBuildingMaterial(params[0], params[1], params[2]);
+    } else if (params[0] instanceof Number) {
+      this.addCollectableGameObjectByResourceId(params[0], params[1], params[2]);
+    }
+  }
 
-  addCollectableGameObject(buildingMaterialType, x, y) {
+  addCollectableBuildingMaterial(buildingMaterialType, x, y) {
     return this.addCollectableGameObject(
         ResourceManager.IMAGE_BUILDING_MATERIAL_TIMBER
             + buildingMaterialType.ordinal(), x, y);
 
   }
 
-  addCollectableGameObject(gameObject, x, y) {
+  addCollectableGameObjectGo(gameObject, x, y) {
     return this.addCollectableGameObject(gameObject.animationImageIds[0][0], x, y);
   }
 
-  addCollectableGameObject(resourceId, x, y) {
+  addCollectableGameObjectByResourceId(resourceId, x, y) {
     const go = new CollectableGameObject();
     const imgids = [[ resourceId ]];
     go.animationImageIds = imgids;
@@ -1396,26 +1409,25 @@ export default class BaseGameController {
     const upgradeBuildingMaterialGameObjects = this.initializeBuildingMaterialGameObjects();
     this.#upgradeInfo
         .upgradeBuildingMaterialGameObjects = upgradeBuildingMaterialGameObjects;
-    const upgradeBuildingMaterialLabels = new Array(this.#upgradeInfo
-        .upgradeBuildingMaterialGameObjects.length);
+    const upgradeBuildingMaterialLabels = new Map();
     const messageBoxInnerGameObjects = this.messageBox
         .innerGameObjects;
 
-    for (let n = 0; n < upgradeBuildingMaterialLabels.length; n++) {
+    for (let key in BuildingMaterialType) {
       const lgo = new LabelGameObject();
-      upgradeBuildingMaterialLabels[n] = lgo;
+      upgradeBuildingMaterialLabels.set(key, lgo);
       lgo.z = BaseGameController.MENU_Z_ORDER;
       this.addGameObject(lgo);
       lgo.visible = false;
       let innerGameObject = new MessageBoxInnerGameObject();
       innerGameObject.gameObject = lgo;
       innerGameObject.position = new Point(100
-          + upgradeBuildingMaterialGameObjects[0].dimension
+          + upgradeBuildingMaterialGameObjects[key].dimension
               .width * n, 150);
       messageBoxInnerGameObjects.push(innerGameObject);
 
       innerGameObject = new MessageBoxInnerGameObject();
-      const bmgo = upgradeBuildingMaterialGameObjects[n];
+      const bmgo = upgradeBuildingMaterialGameObjects[key];
       innerGameObject.gameObject = bmgo;
       innerGameObject.position = new Point(100
           + bmgo.dimension.width * n, 150);
