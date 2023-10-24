@@ -276,13 +276,10 @@ export default class RoomController extends BaseGameController{
           MessageType.ERROR);
     }
     work.doInBackground = () => {
-      this.roomService.journalClosed();
-      return null;
+      return this.roomService.journalClosed();
     }
     work.completed = (journalCloseClicked) => {
-      // we need to somehow synchronize calls of getRoomInfo in JavaScript
-      // We cannot do it the way we did in in Java
-      // getRoomInfo();
+      this.getRoomInfo();
     }
     work.argument = null;
     work.view = this.roomView;
@@ -1405,30 +1402,59 @@ export default class RoomController extends BaseGameController{
 //    }
 //  }
 
+  #getRoomInfoLastTime = 0;
+  #getRoomInfoForce = false;
+  #getRoomInfoTimerStarted = false;
+  #getRoomInfoDelay = 60_000; 
+
+  #getRoomInfoInner() {
+    console.debug('GetRoomInfoInner timer');
+    if ((new Date().getTime() >= this.#getRoomInfoLastTime + this.#getRoomInfoDelay)
+        || (this.#getRoomInfoForce)) {
+      console.debug('Calling get roomInfo');
+      this.#getRoomInfoForce = false;
+      this.#getRoomInfoLastTime = new Date().getTime();
+      const work = new BackgroundWork();
+      work.view = this.roomView;
+      work.failed = (ex) => {
+    //      synchronized (getRoomInfoMonitor) {
+    //        getRoomInfoInProgress = false;
+    //        getRoomInfoMonitor.notifyAll();
+    //      }
+            console.error("GetPetInfoBackgroundWork failed %s.", ex);
+            const message = this.messageSource.getMessage(StringConstants.ERROR,
+                null, null) + ": " + ex;
+            this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+            setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+      }
+      work.doInBackground = () => {
+        return this.roomService.getRoomInfo();
+      }
+      work.completed = (getRoomInfoResult) => {
+        this.roomInfo = getRoomInfoResult;
+        setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+      }
+      const ces = new ConnectionExceptionSettings();
+      ces.restart = true;
+      work.connectionExceptionSettings = ces;
+      this.backgroundWorkManager.startBackgroundWork(work);
+    } else  {
+      setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+    }
+    
+  }
+
+  #startGetRoomInfoTimer() {
+    if (this.#getRoomInfoTimerStarted) {
+      this.#getRoomInfoForce = true;
+    } else {
+      setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+      this.#getRoomInfoTimerStarted = true;
+    }
+  }
+  
   getRoomInfo() {
-    const work = new BackgroundWork();
-    work.view = this.roomView;
-    work.failed = (ex) => {
-//      synchronized (getRoomInfoMonitor) {
-//        getRoomInfoInProgress = false;
-//        getRoomInfoMonitor.notifyAll();
-//      }
-        console.error("GetPetInfoBackgroundWork failed %s.", ex);
-        const message = this.messageSource.getMessage(StringConstants.ERROR,
-            null, null) + ": " + ex;
-        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-    work.doInBackground = () => {
-      return this.roomService.getRoomInfo();
-    }
-    work.completed = (getRoomInfoResult) => {
-      this.roomInfo = getRoomInfoResult;
-      //getRoomInfoWithDelay();
-    }
-    const ces = new ConnectionExceptionSettings();
-    ces.restart = true;
-    work.connectionExceptionSettings = ces;
-    this.backgroundWorkManager.startBackgroundWork(work);
+    this.#startGetRoomInfoTimer();
   }
 
   set roomInfo(getRoomInfoResult) {
