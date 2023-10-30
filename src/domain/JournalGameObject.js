@@ -1,7 +1,7 @@
-import GameObject from './GameObject.js';
+import HighlightGameObject from './HighlightGameObject.js';
 
 
-export default class JournalGameObject extends GameObject { //  implements HighlightGameObject
+export default class JournalGameObject extends HighlightGameObject { //  implements HighlightGameObject
 
   static get ORIGINAL_ARROW_RIGHT_X() { return 650; }
   static get ORIGINAL_ARROW_RIGHT_Y() { return 500; }

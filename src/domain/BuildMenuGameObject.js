@@ -1,8 +1,8 @@
 
-import GameObject from './GameObject.js';
+import HighlightGameObject from './HighlightGameObject.js';
 
 
-export default class BuildMenuGameObject extends GameObject {
+export default class BuildMenuGameObject extends HighlightGameObject {
 
     inner = null;
     close = null;

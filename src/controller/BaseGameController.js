@@ -456,7 +456,7 @@ export default class BaseGameController {
     });
 
     this.rucksack.addMouseMoveListener((mouseMoveArg) => {
-      this.setHighlightObject(getRucksack());
+      this.highlightObject = this.rucksack;
       this.baseGameView.showHandCursor();
       this.baseGameView.setToolTipText("");
     });
@@ -550,6 +550,7 @@ export default class BaseGameController {
       if (go instanceof HighlightGameObject) {
         if (go != highlightObject) {
           go.state = HighlightGameObject.OBJECT_NORMAL;
+          console.debug('go.state = %i', go.state);
         }
       }
     }
@@ -675,7 +676,7 @@ export default class BaseGameController {
     });
 
     this.buildMenu.addMouseMoveListener((mouseMoveArg) => {
-        this.highlightObject(this.buildMenu);
+        this.highlightObject = this.buildMenu;
         this.baseGameView.showHandCursor();
         this.baseGameView.toolTipText = "";
     });
@@ -886,7 +887,7 @@ export default class BaseGameController {
     });
     arrowLeft.addMouseMoveListener(mma => {
       this.baseGameView.showHandCursor();
-      this.highlightObject = this.journal.getArrowLeft();
+      this.highlightObject = this.journal.arrowLeft;
     });
     arrowLeft.visible = false;
     this.addGameObject(arrowLeft);

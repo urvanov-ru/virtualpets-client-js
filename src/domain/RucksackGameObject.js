@@ -1,7 +1,7 @@
-import GameObject from './GameObject.js';
+import HighlightGameObject from './HighlightGameObject.js';
 
 
-export default class RucksackGameObject extends GameObject /* implements HighlightGameObject */ {
+export default class RucksackGameObject extends HighlightGameObject /* implements HighlightGameObject */ {
   inner = null;
   close = null;
   menuItems = null; // []
