@@ -700,7 +700,7 @@ export default class BaseGameController {
     buildMenuToolTip.visible =false;
     buildMenuToolTip.z = BaseGameController.MENU_Z_ORDER + 1;
     this.addGameObject(buildMenuToolTip);
-    this.buildMenu.tooltip = buildMenuToolTip;
+    this.buildMenu.toolTip = buildMenuToolTip;
     const toolTipLabel = new LabelGameObject();
     toolTipLabel.visible = false;
     this.addGameObject(toolTipLabel);
@@ -761,8 +761,8 @@ export default class BaseGameController {
     const toolTip = this.buildMenu.toolTip;
     toolTipLabel.z = toolTip.z + 2;
     toolTip.visible = true;
-    toolTip.position = new Point(mousePosition.getX() + 10, mousePosition
-        .getY() + 10);
+    toolTip.position = new Point(mousePosition.x + 10, mousePosition
+        .y + 10);
     const toolTipPosition = toolTip.position;
 
     const buildingMaterials = this.buildMenu.buildingMaterialObjects;
@@ -809,7 +809,7 @@ export default class BaseGameController {
     for (const go of this.buildMenu.buildingMaterialObjects) {
       go.visible = false;
     }
-    for (const lgo of buildMenu.getToolTipCostLabels()) {
+    for (const lgo of this.buildMenu.toolTipCostLabels) {
       lgo.visible = false;
     }
     this.buildMenu.toolTip.visible = false;

@@ -1957,7 +1957,7 @@ export default class RoomController extends BaseGameController{
             this.roomView.showHandCursor();
             this.roomView.toolTipText = "";
             this.highlightObject = null;
-            this.showBuildObjectToolTip(2, arg.mousePosition);
+            this.showBuildObjectToolTip(2, mouseMoveArg.mousePosition);
         });
     buildObjects[RoomData.BUILD_MENU_BOOKCASE]
         .addClickedListener((clickedArg) => {
