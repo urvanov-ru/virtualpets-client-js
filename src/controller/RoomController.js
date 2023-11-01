@@ -1033,12 +1033,24 @@ export default class RoomController extends BaseGameController{
 //  }
 
   getBuildMenuCosts() {
-    //GetBuildMenuCostsBackgroundWork work = new GetBuildMenuCostsBackgroundWork();
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.getBuildMenuCosts();
+    };
+    work.completed = (roomBuildMenuCosts) => {
+      this.buildMenuCosts = roomBuildMenuCosts
+    };
+    work.failed = (ex) => {
+      console.error("GetBuildMenuCostsBackgroundWork failed", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class MoveMachineWithDrinksBackgroundWork
@@ -2660,10 +2672,10 @@ export default class RoomController extends BaseGameController{
   }
 
   set buildMenuCosts(roomBuildMenuCosts) {
-    this.roomData.buildMenuCosts = result;
+    this.roomData.buildMenuCosts = roomBuildMenuCosts;
     const buildMenu = this.buildMenu;
     const refrigeratorCost = roomBuildMenuCosts
-        .refrigeratorCosts.get(0);
+        .refrigeratorCosts[0];
     const costs = buildMenu.costs;
     for (const entry of refrigeratorCost
         .entries()) {
