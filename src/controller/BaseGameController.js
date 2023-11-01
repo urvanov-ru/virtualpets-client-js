@@ -777,7 +777,7 @@ export default class BaseGameController {
         .position = 
             new Point(toolTipPosition.x + 5, toolTipPosition
                 .y
-                + buildingMaterials[0].dimension
+                + buildingMaterials.get(BuildingMaterialType.name(0)).dimension
                     .height + 40);
     for (let n = 0; n < costs.length; n++) {
       buildingMaterials[n].z = toolTip.z + 1;
@@ -996,14 +996,14 @@ export default class BaseGameController {
 
   journalPreviousPage() {
     const currentPage = this.journal.currentPage;
-    const newCurrentPage = currentPage > 0 ? currentPage -= 2 : 0;
+    const newCurrentPage = currentPage > 0 ? currentPage - 2 : 0;
     this.journal.currentPage = newCurrentPage;
     this.updateJournalGameObjectsText();
   }
 
   journalNextPage() {
     const currentPage = this.journal.currentPage;
-    const newCurrentPage = currentPage < this.journal.entries.length ? currentPage += 2
+    const newCurrentPage = currentPage < this.journal.entries.length ? currentPage + 2
         : currentPage;
     this.journal.currentPage = newCurrentPage;
     this.updateJournalGameObjectsText();

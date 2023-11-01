@@ -9,12 +9,20 @@ export default class BuildingMaterialType {
   static get BLUE_CRYSTAL() { return "BLUE_CRYSTAL"; }
   static get RUBBER() { return "RUBBER"; }
   
-  #values;
-  #stringToIndexMap;
-  #indexToStringMap;
+  static #values;
+  static #stringToIndexMap;
+  static #indexToStringMap;
   
   static {
-    this.#values = [TIMBER, BOARD, STONE, CHIP, WIRE, IRON, OIL, BLUE_CRYSTAL, RUBBER];
+    this.#values = [BuildingMaterialType.TIMBER,
+        BuildingMaterialType.BOARD,
+        BuildingMaterialType.STONE,
+        BuildingMaterialType.CHIP,
+        BuildingMaterialType.WIRE,
+        BuildingMaterialType.IRON,
+        BuildingMaterialType.OIL,
+        BuildingMaterialType.BLUE_CRYSTAL,
+        BuildingMaterialType.RUBBER];
     this.#stringToIndexMap = new Map();
     this.#indexToStringMap = new Map();
     for (let n = 0; n < this.#values.length; n++) {
