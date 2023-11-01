@@ -444,8 +444,8 @@ export default class BaseGameController {
     this.rucksack.menuItemLabels = rucksackMenuItemLabels;
 
     const buildingMaterials = this.initializeBuildingMaterialGameObjects();
-    for (let n = 0; n < buildingMaterials.length; n++) {
-      buildingMaterials[n].position = new Point((n % 3) * 100 + 250 + 18,
+    for (let n = 0; n < BuildingMaterialType.length; n++) {
+      buildingMaterials.get(BuildingMaterialType.name(n)).position = new Point((n % 3) * 100 + 250 + 18,
           (n / 3) * 100 + 150 + 18);
     }
     this.rucksack.buildingMaterials = buildingMaterials;
