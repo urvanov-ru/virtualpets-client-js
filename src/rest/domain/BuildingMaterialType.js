@@ -28,7 +28,7 @@ export default class BuildingMaterialType {
   }
   
   static name(index) {
-    return this.#indexToStringMap(index);
+    return this.#indexToStringMap.get(index);
   }
   
   static get values() {
