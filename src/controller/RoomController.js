@@ -19,6 +19,7 @@ import MenuItem from '../domain/MenuItem.js';
 //rest
 import FoodType from '../rest/domain/FoodType.js';
 import DrinkType from '../rest/domain/DrinkType.js';
+import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -2677,24 +2678,21 @@ export default class RoomController extends BaseGameController{
     const refrigeratorCost = roomBuildMenuCosts
         .refrigeratorCosts[0];
     const costs = buildMenu.costs;
-    for (const entry of refrigeratorCost
-        .entries()) {
-      costs[0][entry.key.ordinal()] = entry.value == null ? 0
-          : entry.value;
+    for (const refrigeratorCostKey in refrigeratorCost) {
+      costs[0][BuildingMaterialType.ordinal(refrigeratorCostKey)] = refrigeratorCost[refrigeratorCostKey] == null ? 0
+          : refrigeratorCost[refrigeratorCostKey];
     }
     const bookcaseCost = result
-        .bookcaseCosts.get(0);
-    for (const entry of bookcaseCost
-        .entries()) {
-      costs[2][entry.key.ordinal()] = entry.value == null ? 0
-          : entry.value;
+        .bookcaseCosts[0];
+    for (const bookcaseCostKey in bookcaseCost) {
+      costs[2][BuildingMaterialType.ordinal(bookcaseCostKey)] = bookcaseCost[bookcaseCostKey] == null ? 0
+          : bookcaseCost[bookcaseCostKey];
     }
     const machineWithDrinksCost = result
-        .machineWithDrinksCosts.get(0);
-    for (const entry of machineWithDrinksCost
-        .entries()) {
-      costs[1][entry.key.ordinal()] = entry.value == null ? 0
-          : entry.value;
+        .machineWithDrinksCosts[0];
+    for (const machineWithDrinksCostKey in machineWithDrinksCost) {
+      costs[1][BuildingMaterialType.ordinal(machineWithDrinksCostKey)] = machineWithDrinksCost[machineWithDrinksCostKey] == null ? 0
+          : machineWithDrinksCost[machineWithDrinksCostKey];
     }
   }
 
