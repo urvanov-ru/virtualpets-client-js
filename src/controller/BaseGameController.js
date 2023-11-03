@@ -713,8 +713,8 @@ export default class BaseGameController {
     this.buildMenu.buildingMaterialObjects = this
         .initializeBuildingMaterialGameObjects();
     const costLabels = new Array(this.buildMenu
-        .buildingMaterialObjects.length);
-    for (let n = 0; n < this.buildMenu.buildingMaterialObjects.length; n++) {
+        .buildingMaterialObjects.size);
+    for (let n = 0; n < this.buildMenu.buildingMaterialObjects.size; n++) {
       costLabels[n] = new LabelGameObject();
       costLabels[n].visible = false;
       this.addGameObject(costLabels[n]);
@@ -780,26 +780,28 @@ export default class BaseGameController {
                 + buildingMaterials.get(BuildingMaterialType.name(0)).dimension
                     .height + 40);
     for (let n = 0; n < costs.length; n++) {
-      buildingMaterials[n].z = toolTip.z + 1;
+      const buildingMaterialKey = BuildingMaterialType.name(n);
+      const buildingMaterialGameObject = buildingMaterials.get(buildingMaterialKey);
+      buildingMaterialGameObject.z = toolTip.z + 1;
       costLabels[n].z = toolTip.z + 1;
       if (costs[n] > 0) {
-        buildingMaterials[n].visible = true;
+        buildingMaterialGameObject.visible = true;
         const x = toolTipX
-            + buildingMaterials[n].dimension.width * n;
-        buildingMaterials[n]
+            + buildingMaterialGameObject.dimension.width * n;
+        buildingMaterialGameObject
             .position = new Point(x, buildingMaterialY);
         costLabels[n].position = new Point(x, buildingMaterialY
-            + buildingMaterials[n].dimension.height);
-        const haveCount = this.rucksack.buildingMaterials[n]
+            + buildingMaterialGameObject.dimension.height);
+        const haveCount = this.rucksack.buildingMaterials.get(buildingMaterialKey)
             .buildingMaterialCount;
         const needCount = costs[n];
         costLabels[n].text = haveCount + "/" + needCount;
         costLabels[n].visible = true;
         if (needCount > haveCount)
-          buildMenu.toolTipInsufficientResources
+          this.buildMenu.toolTipInsufficientResources
               .visible = true;
       } else {
-        buildingMaterials[n].visible = false;
+        buildingMaterialGameObject.visible = false;
       }
     }
   }

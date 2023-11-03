@@ -1865,9 +1865,9 @@ export default class RoomController extends BaseGameController{
       buildMenuItems[n].position = new Point(250 + 100 * n, 250);
       buildMenuItems[n].z = BaseGameController.MENU_Z_ORDER;
       buildMenuItems[n].addMouseMoveListener((mouseMoveArg) => {
-        roomView.showDefaultCursor();
-        roomView.setToolTipText("");
-        setHighlightObject(null);
+        this.roomView.showDefaultCursor();
+        this.roomView.setToolTipText("");
+        this.highlightObject = null;
       });
       buildMenuItems[n].visible = false;
       this.addGameObject(buildMenuItems[n]);
@@ -1885,7 +1885,7 @@ export default class RoomController extends BaseGameController{
             this.roomView.showHandCursor();
             this.roomView.toolTipText = "";
             this.highlightObject = null;
-            this.showBuildObjectToolTip(0, arg.mousePosition);
+            this.showBuildObjectToolTip(0, mouseMoveArg.mousePosition);
         });
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
         .addClickedListener((clickedArg) => {
@@ -1931,7 +1931,7 @@ export default class RoomController extends BaseGameController{
             this.roomView.showHandCursor();
             this.roomView.toolTipText = "";
             this.highlightObject = null;
-            this.showBuildObjectToolTip(1, arg.mousePosition);
+            this.showBuildObjectToolTip(1, mouseMoveArg.mousePosition);
         });
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
         .addClickedListener((clickedArg) => {

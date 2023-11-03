@@ -5,7 +5,7 @@ export default class RucksackGameObject extends HighlightGameObject /* implement
   inner = null;
   close = null;
   menuItems = null; // []
-  buildingMaterials = null; //[]
+  buildingMaterials = null; // Set
   menuItemLabels = null; // []
  
 }
