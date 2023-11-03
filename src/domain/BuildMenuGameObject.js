@@ -9,7 +9,7 @@ export default class BuildMenuGameObject extends HighlightGameObject {
     menuItems = null; //[]
     buildObjects = null; //[]
     names = null; //[]
-    buildingMaterialObjects = null; //[]
+    buildingMaterialObjects = null; //Set
     costs = null;  //[][] 
     selectedItemIndex = null;
     toolTip = null;

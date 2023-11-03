@@ -2010,7 +2010,11 @@ export default class RoomController extends BaseGameController{
             null),
         this.messageSource.getMessage(StringConstants.BOOKCASE, null, null) ];
     buildMenu.names = names;
-    const costs = Array.from({ length:  buildMenu.buildingMaterialObjects.length}).map(() => Array.from({ length: buildMenuItems.length }).fill(0));
+    const costs = new Array(buildMenu.buildingMaterialObjects.size);
+    for (let n = 0; n < costs.length; n++) {
+      costs[n] = new Array(buildMenuItems.length).fill(0);
+    }
+    
     buildMenu.costs = costs;
     buildMenu.visible = false;
     return buildMenu;
@@ -2682,13 +2686,13 @@ export default class RoomController extends BaseGameController{
       costs[0][BuildingMaterialType.ordinal(refrigeratorCostKey)] = refrigeratorCost[refrigeratorCostKey] == null ? 0
           : refrigeratorCost[refrigeratorCostKey];
     }
-    const bookcaseCost = result
+    const bookcaseCost = roomBuildMenuCosts
         .bookcaseCosts[0];
     for (const bookcaseCostKey in bookcaseCost) {
       costs[2][BuildingMaterialType.ordinal(bookcaseCostKey)] = bookcaseCost[bookcaseCostKey] == null ? 0
           : bookcaseCost[bookcaseCostKey];
     }
-    const machineWithDrinksCost = result
+    const machineWithDrinksCost = roomBuildMenuCosts
         .machineWithDrinksCosts[0];
     for (const machineWithDrinksCostKey in machineWithDrinksCost) {
       costs[1][BuildingMaterialType.ordinal(machineWithDrinksCostKey)] = machineWithDrinksCost[machineWithDrinksCostKey] == null ? 0
