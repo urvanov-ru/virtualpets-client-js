@@ -7,7 +7,7 @@ import ProgressInfo from './ProgressInfo.js';
 import PetType from '../rest/domain/PetType.js';
 
 export default class RoomLoadWorker extends BaseGameLoadWorker {
-  static get MAX_INDEX() { return 142; }
+  static get MAX_INDEX() { return 150; }
   
   #buildIconSize = 0;
   
@@ -420,6 +420,7 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
               resourceHolder.resetInScale = true;
               resourceHolder.resource = sprites[0];
               this.resourceManager.putResource(resourceIconId, resourceHolder);
+              this.loadedCallback(path);
           });
           // to implement
   //      const scaledImage = image.getScaledInstance((int) (fw),

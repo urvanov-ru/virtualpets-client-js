@@ -643,9 +643,6 @@ export default class BaseGameController {
     buildMenuInner.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_INNER ]];
     buildMenuInner.z = BaseGameController.MENU_Z_ORDER;
     buildMenuInner.visible = false;
-    buildMenuInner.addMouseMoveListener((mouseMoveArg) => {
-        this.hideBuildObjectToolTip();
-    });
 
     const closeObject = new HighlightGameObject();
     closeObject.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_CLOSE ],[ ResourceManager.IMAGE_BUILD_MENU_CLOSE_HIGHLIGHT ]];
@@ -693,6 +690,7 @@ export default class BaseGameController {
         this.highlightObject = null;
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
+        this.hideBuildObjectToolTip();
     });
     const buildMenuToolTip = new GameObject();
     buildMenuToolTip
