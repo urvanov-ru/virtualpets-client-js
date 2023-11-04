@@ -266,7 +266,7 @@ export default class GameEngine {
     
   }
 
-  setToolTipText(string) {
+  set toolTipText(string) {
     // TODO Auto-generated method stub
     
   }

@@ -458,7 +458,7 @@ export default class BaseGameController {
     this.rucksack.addMouseMoveListener((mouseMoveArg) => {
       this.highlightObject = this.rucksack;
       this.baseGameView.showHandCursor();
-      this.baseGameView.setToolTipText("");
+      this.baseGameView.toolTipText = "";
     });
 
     this.rucksack.close.addClickedListener((clickedArg) => {
@@ -808,7 +808,7 @@ export default class BaseGameController {
 
   hideBuildObjectToolTip() {
     this.buildMenu.selectedItemIndex = null;
-    for (const go of this.buildMenu.buildingMaterialObjects) {
+    for (const go of this.buildMenu.buildingMaterialObjects.values()) {
       go.visible = false;
     }
     for (const lgo of this.buildMenu.toolTipCostLabels) {

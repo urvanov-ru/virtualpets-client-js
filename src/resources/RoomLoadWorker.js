@@ -402,12 +402,25 @@ export default class RoomLoadWorker extends BaseGameLoadWorker {
         } else {
           const fw = this.#buildIconSize / max * w;
           const fh = this.#buildIconSize / max * h;
-          console.error('IMPLEMENT loadImageWithBuildIcon propertly');
+          //console.error('IMPLEMENT loadImageWithBuildIcon propertly');
           
-          const resourceHolder = new ResourceHolder();
-          resourceHolder.resource = callbackArg.image;
-          resourceHolder.resetInScale = true;
-          this.resourceManager.putResource(resourceIconId, resourceHolder);
+          //const resourceHolder = new ResourceHolder();
+          //resourceHolder.resource = callbackArg.image;
+          //resourceHolder.resetInScale = true;
+          //this.resourceManager.putResource(resourceIconId, resourceHolder);
+          
+          Promise.all([createImageBitmap(callbackArg.image, 0, 0, callbackArg.image.width, callbackArg.image.height,
+          {
+            resizeWidth: Math.round(fw),
+            resizeHeight: Math.round(fh),
+            resizeQuality: 'high'} )] )
+          .then((sprites) => {
+              console.debug("Resource %s loaded with resourceId = %i. ImageBitmap = %o.", path, resourceId, sprites[0]);
+              const resourceHolder = new ResourceHolder();
+              resourceHolder.resetInScale = true;
+              resourceHolder.resource = sprites[0];
+              this.resourceManager.putResource(resourceIconId, resourceHolder);
+          });
           // to implement
   //      const scaledImage = image.getScaledInstance((int) (fw),
   //            (int) (fh), Image.SCALE_SMOOTH);

@@ -908,25 +908,29 @@ export default class ResourceManager {
 
   loadImageWithScale(path, resourceId, scale, callback) {
     const img = new Image();
-  	const resourceManager = this;
-  	img.onload = function() {
-  	  
-  	  Promise.all([createImageBitmap(img, 0, 0, img.width, img.height,
-  	      {
-  	        resizeWidth: Math.round(img.width * scale),
-  	        resizeHeight: Math.round(img.height * scale),
-  	        resizeQuality: 'high'} )] )
-  	      .then((sprites) => {
-  	          console.debug("Resource %s loaded with resourceId = %i. ImageBitmap = %o.", path, resourceId, sprites[0]);
-  	          const resourceHolder = new ResourceHolder();
+    const resourceManager = this;
+    img.onload = function() {
+      
+      Promise.all([createImageBitmap(img, 0, 0, img.width, img.height,
+          {
+            resizeWidth: Math.round(img.width * scale),
+            resizeHeight: Math.round(img.height * scale),
+            resizeQuality: 'high'} )] )
+          .then((sprites) => {
+              console.debug("Resource %s loaded with resourceId = %i. ImageBitmap = %o.", path, resourceId, sprites[0]);
+              const resourceHolder = new ResourceHolder();
               resourceHolder.resetInScale = true;
               resourceHolder.resource = sprites[0];
-  	          resourceManager.putResource(resourceId, resourceHolder);
-  	          callback();
-  	      });
-  	};
-  	img.src = path;	  
-	  
+              resourceManager.putResource(resourceId, resourceHolder);
+              callback({
+                path: path,
+                resourceId : resourceId,
+                image : img
+            });
+          });
+    };
+    img.src = path;	  
+  
     
     
     return "scaledImage";

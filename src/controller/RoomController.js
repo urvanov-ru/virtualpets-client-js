@@ -518,7 +518,7 @@ export default class RoomController extends BaseGameController{
     go.animationImageIds = imgids;
     go.addMouseMoveListener((mouseMoveArg) => {
       roomView.showHandCursor();
-      roomView.setToolTipText("");
+      roomView.toolTipText = "";
     });
     go.addClickedListener((clickedArg) => {
       this.bookcaseInnerVisible = false;
@@ -560,7 +560,7 @@ export default class RoomController extends BaseGameController{
         RoomData.ORIGINAL_ARROW_RIGHT_Y);
     arrowRight.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();
-      this.roomView.setToolTipText("");
+      this.roomView.toolTipText = "";
       this.highlightObject = arrowRight;
     });
     arrowRight.addClickedListener((clickedArg) => {
@@ -1866,7 +1866,7 @@ export default class RoomController extends BaseGameController{
       buildMenuItems[n].z = BaseGameController.MENU_Z_ORDER;
       buildMenuItems[n].addMouseMoveListener((mouseMoveArg) => {
         this.roomView.showDefaultCursor();
-        this.roomView.setToolTipText("");
+        this.roomView.toolTipText = "";
         this.highlightObject = null;
       });
       buildMenuItems[n].visible = false;
@@ -2107,7 +2107,7 @@ export default class RoomController extends BaseGameController{
       go.addMouseMoveListener((mouseMoveArg) => {
         roomView.showDefaultCursor();
         setHighlightObject(null);
-        roomView.setToolTipText("");
+        roomView.toolTipText = "";
       });
       this.addGameObject(go);
       refrigeratorInnerItems[n] = go;
