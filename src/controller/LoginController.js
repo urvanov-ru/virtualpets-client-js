@@ -320,9 +320,9 @@ export default class LoginController {
       this.authenticationController.authenticated = true;
       this.authenticationController.clearCredentials();
       this.userPetsController.showView();
-      this.chatController.showView();
-      this.usersOnlineController.showView();
-      this.loginView.hideView();
+      //this.chatController.showView();
+      //this.usersOnlineController.showView();
+      //this.loginView.hideView();
       this.settings.unid = loginResult.unid;
       this.settings.userId = loginResult.userId;
     } else {

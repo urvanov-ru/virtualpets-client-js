@@ -91,7 +91,7 @@ export default class BaseGameController {
 
   initialize() {
     this.addShowRucksackInnerListener((sender, data) => {
-      getRucksackInner();
+      this.getRucksackInner();
     });
     this.initializeProgressBar();
     this.baseGameView
@@ -451,7 +451,7 @@ export default class BaseGameController {
     this.rucksack.buildingMaterials = buildingMaterials;
 
     this.rucksack.addClickedListener((clickedArg) => {
-      this.showRucksackInner(getRucksack());
+      this.showRucksackInner(this.rucksack);
       this.fireShowRucksackInner();
     });
 
@@ -541,7 +541,7 @@ export default class BaseGameController {
 
   fireShowRucksackInner() {
     for (const listener of this.#showRucksackInnerListeners) {
-      listener.eventFired(this.baseGameView, null);
+      listener(this.baseGameView, null);
     }
   }
 
@@ -641,6 +641,7 @@ export default class BaseGameController {
         StringConstants.INSUFFICIENT_RESOURCES, null, null);
     const buildMenuInner = new GameObject();
     buildMenuInner.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_INNER ]];
+    buildMenuInner.position = new Point(0, 0);
     buildMenuInner.z = BaseGameController.MENU_Z_ORDER;
     buildMenuInner.visible = false;
 
