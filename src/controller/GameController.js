@@ -51,6 +51,7 @@ export default class GameController {
     roomController.backgroundWorkManager = this.backgroundWorkManager;
     roomController.roomService = this.roomService;
     roomController.journalEntryService = this.journalEntryService;
+    roomController.rucksackService = this.rucksackService;
     roomController.initialize();
   }
 

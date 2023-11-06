@@ -215,12 +215,24 @@ export default class BaseGameController {
 //  }
 
   getRucksackInner() {
-    //ShowBuildMaterialsBackgroundWork work = new ShowBuildMaterialsBackgroundWork();
-    //work.setView(baseGameView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.failed = (exception) => {
+      console.error("ShowBuildMaterialsBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.doInBackground = () => {
+      return this.rucksackService.getPetRucksackInner();
+    };
+    work.completed = (getPetRucksackInnerResult) => {
+      this.rucksackInner = getPetRucksackInnerResult;
+    };
+    work.view = this.baseGameView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   initializeClothGameObjects() {
@@ -391,7 +403,7 @@ export default class BaseGameController {
     const imgids = [[ ResourceManager.IMAGE_BUILDING_MATERIAL_MENU_ITEM ]];
     go.animationImageIds = imgids;
     const position = new Point((index % 3) * 100 + 250,
-        (index / 3) * 100 + 150);
+        Math.floor(index / 3) * 100 + 150);
     go.position = position;
     go.z = BaseGameController.MENU_Z_ORDER;
     go.visible = false;
@@ -404,7 +416,7 @@ export default class BaseGameController {
     lgo.text = "";
     lgo.visible = false;
     lgo.position = new Point((index % 3) * 100 + 250,
-        (index / 3) * 100 + 60 + 150);
+        Math.floor(index / 3) * 100 + 60 + 150);
     lgo.z = BaseGameController.MENU_Z_ORDER;
     this.addGameObject(lgo);
     return lgo;
@@ -446,7 +458,7 @@ export default class BaseGameController {
     const buildingMaterials = this.initializeBuildingMaterialGameObjects();
     for (let n = 0; n < BuildingMaterialType.length; n++) {
       buildingMaterials.get(BuildingMaterialType.name(n)).position = new Point((n % 3) * 100 + 250 + 18,
-          (n / 3) * 100 + 150 + 18);
+          Math.floor(n / 3) * 100 + 150 + 18);
     }
     this.rucksack.buildingMaterials = buildingMaterials;
 
@@ -488,7 +500,7 @@ export default class BaseGameController {
     rucksackInner.visible = true;
     for (let n = 0; n < buildingMaterials.length; n++) {
       if (buildingMaterials[n].buildingMaterialCount > 0) {
-        buildingMaterials[n].visible = true;
+        buildingMaterials.get(BuildingMaterialType.name(n)).visible = true;
         rucksackMenuItemLabels[n].visible = true;
       }
     }
@@ -505,9 +517,8 @@ export default class BaseGameController {
       rucksackMenuItemLabels[n].visible = false;
     }
     rucksackInner.visible = false;
-    for (const bm of buildMaterials) {
+    for (const bm of buildMaterials.values()) {
       bm.visible = false;
-      ;
     }
     this.rucksack.close.visible = false;
   }
@@ -515,19 +526,19 @@ export default class BaseGameController {
   set rucksackInner(getPetRucksackInnerResult) {
     const rucksackInner = this.rucksack.inner;
     const buildingMaterials = this.rucksack.buildingMaterials;
-    const buildingMaterialCountsMap = getPetRucksackInnerResult
+    const buildingMaterialCounts = getPetRucksackInnerResult
         .buildingMaterialCounts;
     const menuItemLabels = this.rucksack.menuItemLabels;
-    for (const entry of buildingMaterialCountsMap.entries()) {
-      const buildingMaterialId = entry.key.ordinal();
-      const buildingMaterialCount = entry.value;
-      buildingMaterials[buildingMaterialId]
+    for (const buildingMaterialType in buildingMaterialCounts) {
+      const buildingMaterialId = BuildingMaterialType.ordinal(buildingMaterialType);
+      const buildingMaterialCount = buildingMaterialCounts[buildingMaterialType];
+      buildingMaterials.get(buildingMaterialType)
           .buildingMaterialCount = buildingMaterialCount;
       menuItemLabels[buildingMaterialId].text = "" + buildingMaterialCount;
       if (rucksackInner.visible) {
-        buildingMaterials[buildingMaterialId]
+        buildingMaterials.get(buildingMaterialType)
             .buildingMaterialCount = buildingMaterialCount;
-        buildingMaterials[buildingMaterialId]
+        buildingMaterials.get(buildingMaterialType)
             .visible = buildingMaterialCount > 0;
         menuItemLabels[buildingMaterialId]
             .visible = buildingMaterialCount > 0;
