@@ -116,13 +116,13 @@ export default class BaseGameController {
   }
 
   mouseClicked(clickedArg) {
-    if (this.buildingGameObject != null
-        && this.buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION) {
+    if (this.#buildingGameObject != null
+        && this.#buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION) {
       clickedArg.handled = true;
-      this.buildingState = BaseGameController.#BUILDING_STATE_MOVE_PET;
+      this.#buildingState = BaseGameController.#BUILDING_STATE_MOVE_PET;
       const moveTilesTarget = this.tilesEngine
           .translateToTileCoordinates(buildingGameObject);
-      this.buildingGameObject.visible = false;
+      this.#buildingGameObject.visible = false;
       const petTileCoordinates = this.tilesEngine
           .translateToTileCoordinates(pet);
       const tilesMovePath = this.tilesEngine.findPath(petTileCoordinates,
@@ -142,22 +142,22 @@ export default class BaseGameController {
             movePath,
             () => {
               // Начать постройку.
-              this.buildingState = BaseGameController.#BUILDING_STATE_BUILDING;
+              this.#buildingState = BaseGameController.#BUILDING_STATE_BUILDING;
               this.progressBar.visible = true;
               this.progressBar.value = 0;
               this.progressBar.removeAllAnimationOverListeners();
               this.progressBar
                   .addAnimationOverListener((progressBarOverListener) => {
-                    this.buildingState = BaseGameController.#BUILDING_STATE_OVER;
+                    this.#buildingState = BaseGameController.#BUILDING_STATE_OVER;
                     this.progressBar.visible = false;
-                    this.buildingGameObject
+                    this.#buildingGameObject
                         .visible = false;
-                    this.buildingGameObject.fireBuildEvent();
-                    this.buildingGameObject = null;
+                    this.#buildingGameObject.fireBuildEvent();
+                    this.#buildingGameObject = null;
 
                   });
             });
-        this.buildingGameObject.visible = false;
+        this.#buildingGameObject.visible = false;
       }
     } else if (this.movingState == MovingState.SELECT_POSITION
         && this.movingGameObject != null) {
@@ -169,12 +169,12 @@ export default class BaseGameController {
   }
 
   mouseMoved(mouseMoveArg) {
-    if (this.buildingGameObject != null
-        && (this.buildingState == BaseGameController.#BUILDING_STATE_STARTED || this.buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION)) {
-      this.buildingState = BaseGameController.#BUILDING_STATE_SELECT_POSITION;
-      this.buildingGameObject.position = this.tilesEngine
-          .translateFromTileCoordinates(this.buildingGameObject,
-              this.tilesEngine.translateToTileCoordinates(arg
+    if (this.#buildingGameObject != null
+        && (this.#buildingState == BaseGameController.#BUILDING_STATE_STARTED || this.#buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION)) {
+      this.#buildingState = BaseGameController.#BUILDING_STATE_SELECT_POSITION;
+      this.#buildingGameObject.position = this.tilesEngine
+          .translateFromTileCoordinates(this.#buildingGameObject,
+              this.tilesEngine.translateToTileCoordinates(mouseMoveArg
                   .mousePosition));
       mouseMoveArg.handled = true;
     } else if (this.movingGameObject != null
