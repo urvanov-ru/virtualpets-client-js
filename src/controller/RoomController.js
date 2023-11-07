@@ -763,13 +763,13 @@ export default class RoomController extends BaseGameController{
     machineWithDrinks.position = new Point(RoomData.ORIGINAL_WATER_X,
         RoomData.ORIGINAL_WATER_Y);
     machineWithDrinks.addMouseMoveListener((mouseMoveArg) => {
-      roomView.showHandCursor();
-      roomView.setToolTipText(getMessageSource().getMessage(
-          StringConstants.DRINK, null, null));
-      setHighlightObject(machineWithDrinks);
+      this.roomView.showHandCursor();
+      this.roomView.toolTipText = this.messageSource.getMessage(
+          StringConstants.DRINK, null, null);
+      this.highlightObject = machineWithDrinks;
     });
     machineWithDrinks.addClickedListener((clickedArg) => {
-      drinkClicked(arg);
+      this.drinkClicked(clickedArg);
     });
     machineWithDrinks
         .addBuildListener(() => {
@@ -1842,7 +1842,7 @@ export default class RoomController extends BaseGameController{
 
   drinkClicked(clickedArg) {
     switch (this.roomData.situation) {
-    case NORMAL:
+    case RoomData.SITUATION_NORMAL:
       this.roomData.machineWithDrinksPopupMenu.visible = true;
     default:
       break;
@@ -1894,7 +1894,7 @@ export default class RoomController extends BaseGameController{
               return;
             }
             if (this.roomData.machineWithDrinks == null
-                || !roomData.machineWithDrinks.visible) {
+                || !this.roomData.machineWithDrinks.visible) {
               return;
             }
             if (this.checkBuildingMaterialsCount(0)) {
@@ -1935,7 +1935,7 @@ export default class RoomController extends BaseGameController{
         });
     buildObjects[RoomData.BUILD_MENU_MACHINE_WITH_DRINKS]
         .addClickedListener((clickedArg) => {
-            const machineWithDrinks = this.roomData
+            let machineWithDrinks = this.roomData
                 .machineWithDrinks;
             if (machineWithDrinks != null
                 && machineWithDrinks.visible) {
@@ -1947,7 +1947,7 @@ export default class RoomController extends BaseGameController{
               // drink.setCurrentAnimationId(0);
               this.machineWithDrinksLevel = 0;
               machineWithDrinks = this.roomData.machineWithDrinks;
-              roomData.situation = RoomData.SITUATION_SELECT_DRINK_POSITION;
+              this.roomData.situation = RoomData.SITUATION_SELECT_DRINK_POSITION;
               this.startBuild(machineWithDrinks);
             } else {
               const message = this.messageSource.getMessage(

@@ -835,7 +835,7 @@ export default class BaseGameController {
     for (let n = 0; n < costs.length; n++) {
       const cost = costs[n];
       if (cost > 0) {
-        if (bms[n].buildingMaterialCount < cost) {
+        if (bms.get(BuildingMaterialType.name(n)).buildingMaterialCount < cost) {
           return false;
         }
       }
