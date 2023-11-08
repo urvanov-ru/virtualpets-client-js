@@ -20,19 +20,19 @@ export default class BuildingGameObject extends GameObject {
 
   fireBuildEvent() {
     for (var n = 0; n < this.buildListeners.length; n++) {
-        this.buildListeners[n].event();
+        this.buildListeners[n]();
     }
   };
 
   fireUpgradeEvent() {
     for (var n = 0; n < this.upgradeListeners.length; n++) {
-        this.upgradeListeners[n].event();
+        this.upgradeListeners[n]();
     }
   };
 
   fireMoveEvent() {
     for (var n = 0; n < this.moveListeners.length; n++) {
-        this.moveListeners[n].event();
+        this.moveListeners[n]();
     }
   };
 

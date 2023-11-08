@@ -773,7 +773,7 @@ export default class RoomController extends BaseGameController{
     });
     machineWithDrinks
         .addBuildListener(() => {
-          roomData.situation =RoomData.SITUATION_NORMAL;
+          this.roomData.situation = RoomData.SITUATION_NORMAL;
           const tilesPosition = new Point();
           const point = this.tilesEngine
               .translateToTileCoordinates(machineWithDrinks);
@@ -1114,13 +1114,26 @@ export default class RoomController extends BaseGameController{
 //  }
 
   buildMachineWithDrinks(arg) {
-    //BuildMachineWithDrinksBackgroundWork work = new BuildMachineWithDrinksBackgroundWork();
-    //work.setArgument(arg);
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      this.roomService.buildMachineWithDrinks(work.argument);
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("BuildMachineWithDrinksBackgroundWork failed", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    work.argument = arg;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class MoveBookcaseBackgroundWork

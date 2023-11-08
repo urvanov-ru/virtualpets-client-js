@@ -15,6 +15,7 @@ import JournalGameObject from '../domain/JournalGameObject.js';
 import MessageBoxGameObject from '../domain/MessageBoxGameObject.js';
 import MessageBoxInnerGameObject from '../domain/MessageBoxInnerGameObject.js';
 import AchievementInfoGameObject from '../domain/AchievementInfoGameObject.js';
+import AnimationOverArg from '../domain/AnimationOverArg.js';
 
 // tiles
 import TilesEngine from '../tiles/TilesEngine.js';
@@ -104,11 +105,11 @@ export default class BaseGameController {
     this.#progressBar = new ProgressBarGameObject();
     this.#progressBar.step = function() {
       if (this.visible) {
-        this.value = value + 1;
+        this.value = this.value + 1;
         if (this.value == this.maxValue)
           this.fireAnimationOver(new AnimationOverArg());
       }
-    };
+    }.bind(this.#progressBar);
     this.#progressBar.visible = false;
     this.#progressBar.position = new Point(300, 500);
     this.#progressBar.dimension = new Dimension(200, 20);
@@ -138,18 +139,18 @@ export default class BaseGameController {
         // .setZ((buildingGameObject.getPosition().getY() +
         // buildingGameObject.getDimension().getHeight()) *
         // GameObject.TILE_Z_STEP);
-        pet.setMove(
+        this.pet.setMove(
             movePath,
             () => {
               // Начать постройку.
               this.#buildingState = BaseGameController.#BUILDING_STATE_BUILDING;
-              this.progressBar.visible = true;
-              this.progressBar.value = 0;
-              this.progressBar.removeAllAnimationOverListeners();
-              this.progressBar
-                  .addAnimationOverListener((progressBarOverListener) => {
+              this.#progressBar.visible = true;
+              this.#progressBar.value = 0;
+              this.#progressBar.removeAllAnimationOverListeners();
+              this.#progressBar
+                  .addAnimationOverListener((progressBarOverArg) => {
                     this.#buildingState = BaseGameController.#BUILDING_STATE_OVER;
-                    this.progressBar.visible = false;
+                    this.#progressBar.visible = false;
                     this.#buildingGameObject
                         .visible = false;
                     this.#buildingGameObject.fireBuildEvent();

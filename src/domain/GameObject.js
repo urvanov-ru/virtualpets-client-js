@@ -49,16 +49,16 @@ export default class GameObject {
   }
   
   removeAllAnimationOverListeners() {
-    this.#animationOverListeners.clear();
+    this.#animationOverListeners.splice(0);
   }
   
   step() {
   }
   
   release() {
-    this.#clickedListeners.clear();
-    this.#mouseMoveListeners.clear();
-    this.#animationOverListeners.clear();
+    this.#clickedListeners.splice(0);
+    this.#mouseMoveListeners.splice(0);
+    this.#animationOverListeners.splice();
   }
   
     
