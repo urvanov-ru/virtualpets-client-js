@@ -79,7 +79,7 @@ export default class BaseGameController {
 
   #gameObjects = []; // new ArrayList<GameObject>();
 
-  #pet;
+  pet;
 
   #progressBar;
 
@@ -95,9 +95,9 @@ export default class BaseGameController {
     });
     this.initializeProgressBar();
     this.baseGameView
-        .addClickedListener((arg) => {this.mouseClicked(arg);});
+        .addClickedListener((arg) => {this.#mouseClicked(arg);});
     this.baseGameView
-        .addMouseMoveListener((arg) => {this.mouseMoved(arg);});
+        .addMouseMoveListener((arg) => {this.#mouseMoved(arg);});
   }
 
   initializeProgressBar() {
@@ -115,23 +115,23 @@ export default class BaseGameController {
     this.addGameObject(this.#progressBar);
   }
 
-  mouseClicked(clickedArg) {
+  #mouseClicked(clickedArg) {
     if (this.#buildingGameObject != null
         && this.#buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION) {
       clickedArg.handled = true;
       this.#buildingState = BaseGameController.#BUILDING_STATE_MOVE_PET;
       const moveTilesTarget = this.tilesEngine
-          .translateToTileCoordinates(buildingGameObject);
+          .translateToTileCoordinates(this.#buildingGameObject);
       this.#buildingGameObject.visible = false;
       const petTileCoordinates = this.tilesEngine
-          .translateToTileCoordinates(pet);
+          .translateToTileCoordinates(this.pet);
       const tilesMovePath = this.tilesEngine.findPath(petTileCoordinates,
           moveTilesTarget);
       if (tilesMovePath != null) {
-        const movePath = new Point[tilesMovePath.length];
+        const movePath = new Array(tilesMovePath.length);
         for (let n = 0; n < movePath.length; n++) {
           const tilePoint = tilesMovePath[n];
-          movePath[n] = this.tilesEngine.translateFromTileCoordinates(pet,
+          movePath[n] = this.tilesEngine.translateFromTileCoordinates(this.pet,
               tilePoint);
         }
         // buildingGameObject
@@ -159,7 +159,7 @@ export default class BaseGameController {
             });
         this.#buildingGameObject.visible = false;
       }
-    } else if (this.movingState == MovingState.SELECT_POSITION
+    } else if (this.movingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION
         && this.movingGameObject != null) {
       clickedArg.handled = true;
       this.movingGameObject.fireMoveEvent();
@@ -168,7 +168,7 @@ export default class BaseGameController {
     }
   }
 
-  mouseMoved(mouseMoveArg) {
+  #mouseMoved(mouseMoveArg) {
     if (this.#buildingGameObject != null
         && (this.#buildingState == BaseGameController.#BUILDING_STATE_STARTED || this.#buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION)) {
       this.#buildingState = BaseGameController.#BUILDING_STATE_SELECT_POSITION;
@@ -177,17 +177,17 @@ export default class BaseGameController {
               this.tilesEngine.translateToTileCoordinates(mouseMoveArg
                   .mousePosition));
       mouseMoveArg.handled = true;
-    } else if (this.movingGameObject != null
-        && (this.movingState == MovingState.STARTED || this.movingState == MovingState.SELECT_POSITION)) {
-      this.movingState = MovingState.SELECT_POSITION;
-      this.movingGameObject.position = this.tilesEngine
+    } else if (this.#movingGameObject != null
+        && (this.#movingState == BaseGameController.#MOVING_STATE_STARTED || this.#movingState == BaseGameController.#MOVING_STATE_SELECT_POSITION)) {
+      this.#movingState = BaseGameController.#MOVING_STATE_SELECT_POSITION;
+      this.#movingGameObject.position = this.tilesEngine
           .translateFromTileCoordinates(this.movingGameObject,
               this.tilesEngine.translateToTileCoordinates(arg
                   .mousePosition));
       mouseMoveArg.handled = true;
-    } else if (this.upgradingGameObject != null
-        && this.upgradingState == UpgradingState.STARTED) {
-      this.upgradingState = UpgradingState.MOVE_PET;
+    } else if (this.#upgradingGameObject != null
+        && this.#upgradingState == BaseGameController.#UPGRADING_STATE_STARTED) {
+      this.#upgradingState = UpgradingState.MOVE_PET;
       mouseMoveArg.handled = true;
     }
   }
@@ -1452,10 +1452,10 @@ export default class BaseGameController {
 
   #movingGameObject = null;
 
-  static get MOVING_STATE_IDDLE() { return "iddle"; }
-  static get MOVING_STATE_STARTED() { return "started"; }
-  static get MOVING_STATE_SELECT_POSITION() { return "select_position"; }
-  static get MOVING_STATE_OVER() { return "over"; }
+  static get #MOVING_STATE_IDDLE() { return "iddle"; }
+  static get #MOVING_STATE_STARTED() { return "started"; }
+  static get #MOVING_STATE_SELECT_POSITION() { return "select_position"; }
+  static get #MOVING_STATE_OVER() { return "over"; }
 
   #movingState = BaseGameController.MOVING_STATE_IDDLE;
 
