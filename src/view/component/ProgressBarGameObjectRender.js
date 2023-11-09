@@ -24,8 +24,12 @@ export default class ProgressBarGameObjectRender extends GameObjectRender {
     const lastColor = context.fillStyle;
     context.strokeStyle = "#ffff00";
     context.fillStyle = 'transparent';
-    context.fillRect(this.position.x, this.position.y, this.dimension.width, this.dimension.height);
+    context.beginPath();
+    context.rect(this.position.x, this.position.y, this.dimension.width, this.dimension.height);
+    context.stroke();
+    context.closePath();
     const value = this.gameObject.value / this.gameObject.maxValue * this.dimension.width;
+    context.fillStyle = 'yellow';
     context.fillRect(this.position.x, this.position.y, value, this.dimension.height);
     context.fillStyle = lastColor;
   }
