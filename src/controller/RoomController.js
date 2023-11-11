@@ -1562,7 +1562,7 @@ export default class RoomController extends BaseGameController{
       this.roomData.machineWithDrinks.position = 
           this.tilesEngine.translateFromTileCoordinates(
               this.roomData.machineWithDrinks,
-              new Point(getRoomInfoResult.machineWithDrinksX, result
+              new Point(getRoomInfoResult.machineWithDrinksX, getRoomInfoResult
                   .machineWithDrinksY));
     }
     
