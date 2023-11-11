@@ -1116,7 +1116,7 @@ export default class RoomController extends BaseGameController{
   buildMachineWithDrinks(arg) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      this.roomService.buildMachineWithDrinks(work.argument);
+      return this.roomService.buildMachineWithDrinks(work.argument);
     };
     work.completed = () => {
       this.getRoomInfo();
@@ -1558,10 +1558,10 @@ export default class RoomController extends BaseGameController{
     this.roomData.machineWithDrinksId = getRoomInfoResult.machineWithDrinksId;
     if (this.roomData.machineWithDrinksId != null) {
       this.machineWithDrinksLevel = this.roomData.machineWithDrinksId - 1;
-      roomData.machineWithDrinks.visible = true;
-      roomData.machineWithDrinks.position = 
+      this.roomData.machineWithDrinks.visible = true;
+      this.roomData.machineWithDrinks.position = 
           this.tilesEngine.translateFromTileCoordinates(
-              roomData.machineWithDrinks,
+              this.roomData.machineWithDrinks,
               new Point(getRoomInfoResult.machineWithDrinksX, result
                   .machineWithDrinksY));
     }
