@@ -8,6 +8,6 @@ export default class MenuItem {
   }
     
   fireClicked(arg) {	
-    this.#clickedListeners.forEach(listener => listener.clicked(arg));
+    this.#clickedListeners.forEach(listener => listener(arg));
   }
 }

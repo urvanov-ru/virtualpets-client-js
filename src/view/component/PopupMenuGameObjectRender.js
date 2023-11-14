@@ -1,5 +1,6 @@
 import GameObjectRender from './GameObjectRender.js';
 import {mainContainerElement} from '../container.js';
+import ClickedArg from '../../domain/ClickedArg.js';
 
 export default class PopupMenuGameObjectRender extends GameObjectRender {
 
@@ -35,9 +36,11 @@ export default class PopupMenuGameObjectRender extends GameObjectRender {
     containerDiv.append(titleDiv);
     
     this.#dialogEl.append(containerDiv);
-    for (let menuItem of this.#popupMenuGameObject.menuItems) {
+    for (let index = 0; index < this.#popupMenuGameObject.menuItems.length; index++) {
+      const menuItem = this.#popupMenuGameObject.menuItems[index]
       let button = document.createElement('button');
-      button.innerText = menuItem.text;
+      button.innerText = menuItem.text
+      button.addEventListener('click', this.#menuItemClicked.bind(this, index));
       containerDiv.append(button);
     }
     mainContainerElement().append(this.#dialogEl);
@@ -46,6 +49,12 @@ export default class PopupMenuGameObjectRender extends GameObjectRender {
         this.#dialogEl.close();
         this.#popupMenuGameObject.visible = false;
     });
+  }
+  
+  #menuItemClicked(index) {
+    this.#popupMenuGameObject.menuItems[index].fireClicked(new ClickedArg());
+    this.#popupMenuGameObject.visible = false;
+    this.#dialogEl.close();
   }
 
   step() {

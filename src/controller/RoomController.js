@@ -1827,7 +1827,7 @@ export default class RoomController extends BaseGameController{
     machineWithDrinksUseItem.text = this.messageSource.getMessage(
         StringConstants.USE, null, null);
     machineWithDrinksUseItem.addClickedListener((drinkUseClickedArg) => {
-      machineWithDrinksInnerVisible = true;
+      this.machineWithDrinksInnerVisible = true;
     });
 
     machineWithDrinksMenuItems.push(machineWithDrinksUseItem);
@@ -1844,7 +1844,7 @@ export default class RoomController extends BaseGameController{
         StringConstants.MOVE, null, null);
     machineWithDrinksMoveItem.addClickedListener((drinkMoveClickedArg) => {
       this.roomData.situation =RoomData.SITUATION_MOVE_DRINK;
-      this.startMove(roomData.machineWithDrinks);
+      this.startMove(this.roomData.machineWithDrinks);
     });
     machineWithDrinksMenuItems.push(machineWithDrinksMoveItem);
     machineWithDrinksPopupMenu.menuItems = machineWithDrinksMenuItems;
@@ -2410,7 +2410,7 @@ export default class RoomController extends BaseGameController{
       }
     }
     machineWithDrinksClose.visible = b;
-    if (!roomData.machineWithDrinksInnerCountsInitialized) {
+    if (!this.roomData.machineWithDrinksInnerCountsInitialized) {
       this.showMachineWithDrinks();
     }
     this.roomData.moodProgressBar.visible = !b;
