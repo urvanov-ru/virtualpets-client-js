@@ -1078,6 +1078,7 @@ export default class BaseGameController {
   }
 
   getJournalEntries() {
+    console.error('getJournalEntries');
     const work = new BackgroundWork();
     work.failed = (ex) => {
       console.error("GetJournalEntriesBackgroundWork failed %o.", ex);
@@ -1098,7 +1099,7 @@ export default class BaseGameController {
     }
     work.view  = this.baseGameView;
     const ces = new ConnectionExceptionSettings();
-    ces.restart = true;
+    ces.restart = false;
     work.connectionExceptionSettings = ces;
     this.backgroundWorkManager.startBackgroundWork(work);
   }

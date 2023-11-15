@@ -101,10 +101,11 @@ export default class GameView extends BaseHtmlView {
       this.#independentCanvas.canvas = canvas;
       this.#independentCanvas.context = canvas.getContext('2d');
       canvas.addEventListener("mousemove", (event) => {
-      const mouseMoveArg = new MouseMoveArg();
-      mouseMoveArg.sender = this.pickObject(event.offsetX, event.offsetY);
-      mouseMoveArg.mousePosition = new Point(event.offsetX, event.offsetY);
-      this.baseGameView.mouseMoved(mouseMoveArg);
+        const mouseMoveArg = new MouseMoveArg();
+        mouseMoveArg.sender = this.pickObject(event.offsetX, event.offsetY);
+        mouseMoveArg.mousePosition = new Point(event.offsetX, event.offsetY);
+        this.baseGameView.mouseMoved(mouseMoveArg);
+      });
       canvas.addEventListener("click", (event) => {
         const clickedArg = new ClickedArg();
         clickedArg.sender = this.pickObject(event.offsetX, event.offsetY);
@@ -112,7 +113,6 @@ export default class GameView extends BaseHtmlView {
         this.baseGameView.mouseClicked(clickedArg);
       });
       this.initialized = true;
-    });
     
       //this.progressInfoPanel = new ProgressInfoPanel();
       //this.mdiMainView
