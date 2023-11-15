@@ -8,7 +8,7 @@ export default class AchievementInfoGameObject {
   static get ORIGINAL_NEW_ACHIEVEMENT_Y() { return 300; }
 
   static get ORIGINAL_ACHIEVEMENT_BACKGROUND_X() { return 0; }
-  static get ORIGINAL_ACHIEVEMENT_BACKGROUND_Y() { return 0; }
+  static get ORIGINAL_ACHIEVEMENT_BACKGROUND_Y() { return 300; }
 
   static get ORIGINAL_ACHIEVEMENT_X() { return 100; }
   static get ORIGINAL_ACHIEVEMENT_Y() { return 350; }
