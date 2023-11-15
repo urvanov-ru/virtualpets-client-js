@@ -38,7 +38,7 @@ export default class RoomService {
   
   buildMachineWithDrinks(point) {
     console.debug('buildMachineWithDrinks');
-    return this.#restClient.fetch(RoomService.SERVICE_URL + "/buildMachineWithDrinks", 'POST');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/buildMachineWithDrinks", 'POST', point);
   }
   
   moveMachineWithDrinks(point) {

@@ -1,5 +1,5 @@
 import GameObject from './GameObject.js';
-
+import Point from './Point.js';
 
 export default class CollectableGameObject extends GameObject {
 
@@ -18,14 +18,14 @@ export default class CollectableGameObject extends GameObject {
   rucksack = null;
 
   isTimeToLifeOver() {
-    return new Date().getTime() > this.createdAt + CollectagleGameObject.TIME_TO_LIFE;
+    return new Date().getTime() > this.createdAt + CollectableGameObject.TIME_TO_LIFE;
   };
     
-  isTimeToJumpOver = function() {
+  isTimeToJumpOver() {
     return new Date().getTime() > this.createdAt + CollectableGameObject.TIME_TO_JUMP_FROM_CREATION_POINT;
   };
     
-  forceTimeToLifeOver = function() {
+  forceTimeToLifeOver() {
     if (!this.isTimeToLifeOver()) {
         this.createdAt = new Date().getTime() - CollectableGameObject.TIME_TO_LIFE - 1;
     }
@@ -39,54 +39,51 @@ export default class CollectableGameObject extends GameObject {
 
     step() {
         super.step();
- // Was not adapted yet
- //       if (isTimeToLifeOver()) {
- //           
- //           if (!movingToRucksack) {
- //               this.startPosition = getPosition();
- //               movingToRucksack = true;
- //           }
- //           let startX = this.startPosition.x;
- //           let startY = this.startPosition.y;
- //           long t = new Date().getTime() - createdAt - TIME_TO_LIFE;
- //           if (t > TIME_TO_MOVE_TO_RUCKSACK) {
- //               setVisible(false);
- //           }
-  //          let sm = (double)t / (double)TIME_TO_MOVE_TO_RUCKSACK;
- //           let rucksackPosition = rucksack.getPosition();
- //           let rucksackX = rucksackPosition.x;
- //           let rucksackY = rucksackPosition.y;
- //           let newX = startX + (rucksackX - startX) * sm;
- //           let newY = startY + (rucksackY - startY) * sm;
- //           setPosition(new Point((int)newX, (int)newY)); 
- //       } else {
- //           if (!isTimeToJumpOver()) {
- //               
- //               if (!jumping) {
- //                   this.startPosition = getPosition();
- //                   let startX = this.startPosition.x;
- //                   let startY = this.startPosition.y;
- //                   jumping = true;
- //                   Random random = new Random();
- //                   int jumpEndX = startX - SM_X + random.nextInt(SM_X + SM_X);
- //                   int jumpEndY = startY - SM_Y + random.nextInt(SM_Y + SM_Y);
- //                   setJumpEnd(new Point(jumpEndX, jumpEndY));
- //               }
- //               int startX = getStartPosition().x;
- //               int startY = getStartPosition().y;
- //               long t = new Date().getTime() - createdAt;
- //               if (t <= TIME_TO_JUMP_FROM_CREATION_POINT) {
- //                   double sm = (double)t / (double)TIME_TO_JUMP_FROM_CREATION_POINT;
- //                   double sina = Math.sin(sm * Math.PI);
- //                   double jumpz = (double) (sina * SM_JUMP_Z);
- //                   int jumpEndX = jumpEnd.x;
- //                   int jumpEndY = jumpEnd.y;
- //                   double newX = startX + (jumpEndX - startX) * sm;
- //                   double newY = startY + (jumpEndY - startY) * sm - jumpz;
- //                   setPosition(new Point(newX, (int)newY));
- //               }
- //           }
- //       }
+        if (this.isTimeToLifeOver()) {
+            
+            if (!this.movingToRucksack) {
+                this.startPosition = this.position;
+                this.movingToRucksack = true;
+            }
+            let startX = this.startPosition.x;
+            let startY = this.startPosition.y;
+            let t = new Date().getTime() - this.createdAt - CollectableGameObject.TIME_TO_LIFE;
+            if (t > CollectableGameObject.TIME_TO_MOVE_TO_RUCKSACK) {
+                this.visible = false;
+            }
+            let sm = t / CollectableGameObject.TIME_TO_MOVE_TO_RUCKSACK;
+            let rucksackPosition = this.rucksack.position;
+            let rucksackX = rucksackPosition.x;
+            let rucksackY = rucksackPosition.y;
+            let newX = startX + (rucksackX - startX) * sm;
+            let newY = startY + (rucksackY - startY) * sm;
+            this.position = new Point(newX, newY); 
+        } else {
+            if (!this.isTimeToJumpOver()) {
+                if (!this.jumping) {
+                    this.startPosition = this.position;
+                    let startX = this.startPosition.x;
+                    let startY = this.startPosition.y;
+                    this.jumping = true;
+                    let jumpEndX = startX - CollectableGameObject.SM_X + Math.floor(Math.random() * (CollectableGameObject.SM_X + CollectableGameObject.SM_X));
+                    let jumpEndY = startY - CollectableGameObject.SM_Y + Math.floor(Math.random() * (CollectableGameObject.SM_Y + CollectableGameObject.SM_Y));
+                    this.jumpEnd = new Point(jumpEndX, jumpEndY);
+                }
+                let startX = this.startPosition.x;
+                let startY = this.startPosition.y;
+                let t = new Date().getTime() - this.createdAt;
+                if (t <= CollectableGameObject.TIME_TO_JUMP_FROM_CREATION_POINT) {
+                    let sm = t / CollectableGameObject.TIME_TO_JUMP_FROM_CREATION_POINT;
+                    let sina = Math.sin(sm * Math.PI);
+                    let jumpz = sina * CollectableGameObject.SM_JUMP_Z;
+                    let jumpEndX = this.jumpEnd.x;
+                    let jumpEndY = this.jumpEnd.y;
+                    let newX = startX + (jumpEndX - startX) * sm;
+                    let newY = startY + (jumpEndY - startY) * sm - jumpz;
+                    this.position = new Point(newX, newY);
+                }
+            }
+        }
     }
 
     

@@ -425,7 +425,7 @@ export default class RoomController extends BaseGameController{
       this.roomData.journalOnFloor.visible = false;
     };
     work.doInBackground = () => {
-      this.roomService.pickJournalOnFloor();
+      return this.roomService.pickJournalOnFloor();
     };
     work.view = this.roomView;
     const ces = new ConnectionExceptionSettings();
@@ -1128,7 +1128,7 @@ export default class RoomController extends BaseGameController{
 //    }
 //  }
 
-  buildMachineWithDrinks(arg) {
+  buildMachineWithDrinks(tilePosition) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
       return this.roomService.buildMachineWithDrinks(work.argument);
@@ -1143,7 +1143,7 @@ export default class RoomController extends BaseGameController{
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       this.getRoomInfo();
     };
-    work.argument = arg;
+    work.argument = tilePosition;
     work.view = this.roomView;
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;

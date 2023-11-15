@@ -16,6 +16,7 @@ import MessageBoxGameObject from '../domain/MessageBoxGameObject.js';
 import MessageBoxInnerGameObject from '../domain/MessageBoxInnerGameObject.js';
 import AchievementInfoGameObject from '../domain/AchievementInfoGameObject.js';
 import AnimationOverArg from '../domain/AnimationOverArg.js';
+import CollectableGameObject from '../domain/CollectableGameObject.js';
 
 // tiles
 import TilesEngine from '../tiles/TilesEngine.js';
@@ -577,7 +578,7 @@ export default class BaseGameController {
     }
     if (params[0] instanceof GameObject) {
       this.addCollectableGameObjectGo(params[0], params[1], params[2]);
-    } else if (params[0] instanceof String) {
+    } else if (typeof params[0] === 'string') {
       this.addCollectableBuildingMaterial(params[0], params[1], params[2]);
     } else if (params[0] instanceof Number) {
       this.addCollectableGameObjectByResourceId(params[0], params[1], params[2]);
@@ -585,14 +586,14 @@ export default class BaseGameController {
   }
 
   addCollectableBuildingMaterial(buildingMaterialType, x, y) {
-    return this.addCollectableGameObject(
+    return this.addCollectableGameObjectByResourceId(
         ResourceManager.IMAGE_BUILDING_MATERIAL_TIMBER
-            + buildingMaterialType.ordinal(), x, y);
+            + BuildingMaterialType.ordinal(buildingMaterialType), x, y);
 
   }
 
   addCollectableGameObjectGo(gameObject, x, y) {
-    return this.addCollectableGameObject(gameObject.animationImageIds[0][0], x, y);
+    return this.addCollectableGameObjectByResourceId(gameObject.animationImageIds[0][0], x, y);
   }
 
   addCollectableGameObjectByResourceId(resourceId, x, y) {
@@ -604,7 +605,7 @@ export default class BaseGameController {
       const go = mouseMoveArg.sender;
       go.forceTimeToLifeOver();
     });
-    go.rucksack = rucksack;
+    go.rucksack = this.rucksack;
     this.addGameObject(go);
     this.baseGameView.initializeCollectableGameObject(go);
     return go;

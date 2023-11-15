@@ -115,7 +115,7 @@ export default class GameEngine {
   }
 
   getGameObject(go) {
-    return gameObjects.get(go);
+    return this.gameObjects.get(go);
   }
 
   start() {
@@ -156,7 +156,9 @@ export default class GameEngine {
   }
 
   addGameObject(go) {
-    this.gameObjects.set(go, this.viewImplFactory.createGameObjectRender(go));
+    let gor = this.viewImplFactory.createGameObjectRender(go)
+    gor.scale = this.#scale;
+    this.gameObjects.set(go, gor);
   }
 
   get gameObjectRenders() {
@@ -186,11 +188,11 @@ export default class GameEngine {
   }
 
   initializeCollectableGameObject(go) {
-    reloadImages(this.getGameObject(go));
+    this.#reloadImagesGameObjectRender(this.getGameObject(go));
   }
   
   initializeExperienceGameObject(go) {
-    reloadImages(this.getGameObject(go));
+    this.#reloadImagesGameObjectRender(this.getGameObject(go));
   };
 
   mouseClicked(clickedArg) {
