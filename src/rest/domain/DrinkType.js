@@ -7,4 +7,41 @@ export default class DrinkType {
   static get ORANGE_JUICE() { return "ORANGE_JUICE"; }
   
   static get VALUES_COUNT() { return 6; }
+  
+  
+  static #values;
+  static #stringToIndexMap;
+  static #indexToStringMap;
+  
+  static {
+    this.#values = [
+        DrinkType.WATER,
+        DrinkType.MILK,
+        DrinkType.BOTTLE,
+        DrinkType.TEA,
+        DrinkType.COFFEE,
+        DrinkType.ORANGE_JUICE];
+    this.#stringToIndexMap = new Map();
+    this.#indexToStringMap = new Map();
+    for (let n = 0; n < this.#values.length; n++) {
+      this.#stringToIndexMap.set(this.#values[n], n);
+      this.#indexToStringMap.set(n, this.#values[n]);
+    }
+  }
+  
+  static ordinal(key) {
+    return this.#stringToIndexMap.get(key);
+  }
+  
+  static name(index) {
+    return this.#indexToStringMap.get(index);
+  }
+  
+  static get values() {
+    return this.#values.slice();
+  }
+  
+  static get length() {
+    return this.#values.length;
+  }
 }

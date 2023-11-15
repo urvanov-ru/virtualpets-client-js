@@ -160,12 +160,12 @@ export default class BaseGameController {
             });
         this.#buildingGameObject.visible = false;
       }
-    } else if (this.movingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION
-        && this.movingGameObject != null) {
+    } else if (this.#movingState == BaseGameController.#MOVING_STATE_SELECT_POSITION
+        && this.#movingGameObject != null) {
       clickedArg.handled = true;
-      this.movingGameObject.fireMoveEvent();
-      this.movingGameObject = null;
-      this.movingState = MovingState.IDDLE;
+      this.#movingGameObject.fireMoveEvent();
+      this.#movingGameObject = null;
+      this.#movingState = BaseGameController.#MOVING_STATE_IDDLE;
     }
   }
 
@@ -182,8 +182,8 @@ export default class BaseGameController {
         && (this.#movingState == BaseGameController.#MOVING_STATE_STARTED || this.#movingState == BaseGameController.#MOVING_STATE_SELECT_POSITION)) {
       this.#movingState = BaseGameController.#MOVING_STATE_SELECT_POSITION;
       this.#movingGameObject.position = this.tilesEngine
-          .translateFromTileCoordinates(this.movingGameObject,
-              this.tilesEngine.translateToTileCoordinates(arg
+          .translateFromTileCoordinates(this.#movingGameObject,
+              this.tilesEngine.translateToTileCoordinates(mouseMoveArg
                   .mousePosition));
       mouseMoveArg.handled = true;
     } else if (this.#upgradingGameObject != null
@@ -1458,11 +1458,11 @@ export default class BaseGameController {
   static get #MOVING_STATE_SELECT_POSITION() { return "select_position"; }
   static get #MOVING_STATE_OVER() { return "over"; }
 
-  #movingState = BaseGameController.MOVING_STATE_IDDLE;
+  #movingState = BaseGameController.#MOVING_STATE_IDDLE;
 
   startMove(buildingGameObject) {
-    this.movingGameObject = buildingGameObject;
-    this.#movingState = MOVING_STATE_STARTED;
+    this.#movingGameObject = buildingGameObject;
+    this.#movingState = BaseGameController.#MOVING_STATE_STARTED;
   }
 
   initializeLevelInfo() {

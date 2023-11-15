@@ -17,7 +17,14 @@ export default class BackgroundWorkManager {
                 if (view != null && view.stopWaitAnimation) {
                   view.stopWaitAnimation();
                 }
-                return response.json();
+                switch (response.status) {
+                case 200: // HTTP status OK
+                  return response.json();
+                  break;
+                case 204: // HTTP status No Content
+                  return null;
+                  break;
+                }
               } else {
                 throw new Error('Background work failed with HTTP status ' + response.status);
               }

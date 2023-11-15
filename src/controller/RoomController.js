@@ -787,7 +787,7 @@ export default class RoomController extends BaseGameController{
     });
     machineWithDrinks
         .addMoveListener(() => {
-          roomData.situation =RoomData.SITUATION_NORMAL;
+          this.roomData.situation = RoomData.SITUATION_NORMAL;
           const tilesPosition = new Point();
           const point = this.tilesEngine
               .translateToTileCoordinates(machineWithDrinks);
@@ -1079,13 +1079,26 @@ export default class RoomController extends BaseGameController{
 //    }
 //  }
 
-  moveMachineWithDrinks(arg) {
-    //MoveMachineWithDrinksBackgroundWork work = new MoveMachineWithDrinksBackgroundWork();
-    //work.setArgument(arg);
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //backgroundWorkManager.startBackgroundWork(work);
+  moveMachineWithDrinks(tilePosition) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.moveMachineWithDrinks(work.argument);
+    };
+    work.completed = () =>  {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("MoveMachineWithDrinksBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + exception.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    work.argument = tilePosition;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class BuildMachineWithDrinksBackgroundWork
@@ -2442,17 +2455,29 @@ export default class RoomController extends BaseGameController{
 //  }
 
   showMachineWithDrinks() {
-    //ShowMachineWithDrinksBackgroundWork work = new ShowMachineWithDrinksBackgroundWork();
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.drinkService.getPetDrinks();
+    };
+    work.completed = (getPetDrinksResult) => {
+      this.drinks = getPetDrinksResult;
+    };
+    work.failed = (exception) => {
+      console.error("ShowMachineWithDrinksBackgroundWork failed %o.", ex);
+      console.trayIcon.showTrayMessage(
+          this.messageSource.getMessage(StringConstants.ERROR, null, null),
+          MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   set drinks(result) {
     const machineWithDrinksInnerCounts = this.roomData
-        .machineWithDrinksInnerCounts();
+        .machineWithDrinksInnerCounts;
     const machineWithDrinksInner = this.roomData
         .machineWithDrinksInner;
     const machineWithDrinksInnerObjects = this.roomData
@@ -2460,9 +2485,9 @@ export default class RoomController extends BaseGameController{
     const machineWithDrinksInnerObjectLabels = this.roomData
         .machineWithDrinksInnerObjectLabels;
     const drinkCounts = result.drinkCounts;
-    for (let entry of drinkCounts.entries()) {
-      const drinkId = entry.key.ordinal();
-      const drinkCount = entry.value;
+    for (let drinkKey in drinkCounts) {
+      const drinkId = DrinkType.ordinal(drinkKey);
+      const drinkCount = drinkCounts[drinkKey];
       machineWithDrinksInnerCounts[drinkId] = drinkCount;
       if (machineWithDrinksInner.visible) {
         machineWithDrinksInnerObjects[drinkId]

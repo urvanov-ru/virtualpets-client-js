@@ -29,6 +29,7 @@ export default class RoomService {
   }
   
   moveBookcase(point) {
+    
   }
   
   buildMachineWithDrinks(point) {
@@ -37,6 +38,8 @@ export default class RoomService {
   }
   
   moveMachineWithDrinks(point) {
+    console.debug('moveMachineWithDrinks %o.', point);
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/moveMachineWithDrinks", 'POST', point);
   }
   
   getBuildMenuCosts() {
