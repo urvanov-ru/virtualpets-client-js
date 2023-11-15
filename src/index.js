@@ -132,6 +132,7 @@ function init(selectedLanguage) {
   gameController.journalEntryService = journalEntryService;
   gameController.rucksackService = rucksackService;
   gameController.drinkService = drinkService;
+  gameController.petService = petService;
   
   loginController.loginView = loginView;
   loginController.trayIcon = trayIcon;

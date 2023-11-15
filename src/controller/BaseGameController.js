@@ -1602,10 +1602,10 @@ export default class BaseGameController {
     if (achievementCodes.length > 0) {
       this.#achievementInfo.showAchievementLabel(this.messageSource.getMessage(
           "ru.urvanov.virtualpets.client.localization.achievement."
-              + achievementCodes[0].name(), null, null),
+              + achievementCodes[0], null, null),
           this.messageSource.getMessage(
               "ru.urvanov.virtualpets.client.localization.achievement."
-                  + achievementCodes[0].name()
+                  + achievementCodes[0]
                   + "_DESCRIPTION", null, null));
     }
   }

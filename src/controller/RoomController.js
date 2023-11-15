@@ -20,6 +20,7 @@ import MenuItem from '../domain/MenuItem.js';
 import FoodType from '../rest/domain/FoodType.js';
 import DrinkType from '../rest/domain/DrinkType.js';
 import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
+import DrinkArg from '../rest/domain/DrinkArg.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -1743,14 +1744,26 @@ export default class RoomController extends BaseGameController{
 //    }
 //  }
 
-  drink(arg) {
-    //DrinkBackgroundWork work = new DrinkBackgroundWork();
-    //work.setArgument(arg);
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(false);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+  drink(drinkArg) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.petService.drink(work.argument);
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("DrinkBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.argument = drinkArg;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class OpenBoxNewbieBackgroundWork extends
@@ -1934,7 +1947,7 @@ export default class RoomController extends BaseGameController{
               // refrigerator.setVisible(true);
               this.roomData.situation = RoomData.SITUATION_SELECT_REFRIGERATOR_POSITION;
               this.refrigerator = this.roomData.refrigerators[0];
-              this.startBuild(refrigerator);
+              this.startBuild(this.refrigerator);
             } else {
               const message = this.messageSource.getMessage(
                   StringConstants.INSUFFICIENT_RESOURCES,
@@ -2075,9 +2088,9 @@ export default class RoomController extends BaseGameController{
       setHighlightObject(go);
     });
     go.addBuildListener(() => {
-      roomData.situation =RoomData.SITUATION_NORMAL;
+      this.roomData.situation = RoomData.SITUATION_NORMAL;
       const point = new Point();
-      const tilesPoint = tilesEngine.translateToTileCoordinates(roomData.refrigerator);
+      const tilesPoint = this.tilesEngine.translateToTileCoordinates(this.roomData.refrigerator);
       point.x = tilesPoint.x;
       point.y = tilesPoint.y;
       this.buildRefrigerator(point);
@@ -2290,12 +2303,12 @@ export default class RoomController extends BaseGameController{
     });
     go.addClickedListener((clickedArg) => {
         const rio = clickedArg.sender;
-        const foodId = rio.drinkType.ordinal();
+        const foodId = DrinkType.ordinal(rio.drinkType);
         const machineWithDrinksInnerCounts = this.roomData
-            .getMachineWithDrinksInnerCounts();
+            .machineWithDrinksInnerCounts;
         machineWithDrinksInnerCounts[foodId]--;
         const machineWithDrinksInnerObjectLabels = this.roomData
-            .getMachineWithDrinksInnerObjectLabels();
+            .machineWithDrinksInnerObjectLabels;
         machineWithDrinksInnerObjectLabels[foodId].text = "" + machineWithDrinksInnerCounts[foodId];
         this.machineWithDrinksInnerVisible = false;
         this.roomView.showHandCursor();
@@ -2304,15 +2317,15 @@ export default class RoomController extends BaseGameController{
             RoomData.ORIGINAL_PET_Y);
         pet.move = null;
         pet.state = PetGameObject.STATE_EAT;
-        const food = roomData.food;
+        const food = this.roomData.food;
         food.state = RoomData.FOOD_DRINK + foodId;
         food.visible = true;
         food.z = pet.z + 1;
-        roomData.situation =RoomData.SITUATION_ANIMATION;
+        this.roomData.situation = RoomData.SITUATION_ANIMATION;
         this.showProgressBar(
             100,
             (animationOverArg) => {
-              this.roomData.situation =RoomData.SITUATION_NORMAL;
+              this.roomData.situation = RoomData.SITUATION_NORMAL;
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const drinkArg = new DrinkArg();
