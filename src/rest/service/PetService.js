@@ -24,6 +24,8 @@ export default class PetService {
   }
   
   satiety(satietyArg) {
+    console.debug('satiety');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/satiety", 'POST', satietyArg);
   }
   
   education() {

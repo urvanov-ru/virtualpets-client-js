@@ -55,6 +55,7 @@ export default class GameController {
     roomController.rucksackService = this.rucksackService;
     roomController.drinkService = this.drinkService;
     roomController.petService = this.petService;
+    roomController.foodService = this.foodService;
     roomController.initialize();
   }
 

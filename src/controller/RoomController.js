@@ -21,6 +21,7 @@ import FoodType from '../rest/domain/FoodType.js';
 import DrinkType from '../rest/domain/DrinkType.js';
 import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
 import DrinkArg from '../rest/domain/DrinkArg.js';
+import SatietyArg from '../rest/domain/SatietyArg.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -1002,7 +1003,7 @@ export default class RoomController extends BaseGameController{
         StringConstants.MOVE, null, null);
     refrigeratorMoveItem.addClickedListener((arg) => {
       this.roomData.situation =RoomData.SITUATION_MOVE_REFRIGERATOR;
-      this.startMove(this.roomData.getRefrigerator());
+      this.startMove(this.roomData.refrigerator);
     });
     refrigeratorPopupMenu.menuItems = refrigeratorMenuItems;
     refrigeratorMenuItems.push(refrigeratorMoveItem);
@@ -1312,13 +1313,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   buildRefrigerator(buildRefrigeratorArg) {
-    //BuildRefrigeratorBackgroundWork work = new BuildRefrigeratorBackgroundWork();
-    //work.setArgument(buildRefrigeratorArg);
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.buildRefrigerator(work.argument);
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("BuildRefrigeratorBackgroundWork failed %o.", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.argument = buildRefrigeratorArg;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class MoveRefrigeratorBackgroundWork
@@ -1345,14 +1358,26 @@ export default class RoomController extends BaseGameController{
 //    }
 //  }
 
-  moveRefrigerator(arg) {
-    //MoveRefrigeratorBackgroundWork work = new MoveRefrigeratorBackgroundWork();
-    //work.setArgument(arg);
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+  moveRefrigerator(tilePoint) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.moveRefrigerator(work.argument);
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("MoveRefrigeratorBackgroundWork failed %o.", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.argument = tilePoint;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
   
 //  getRoomBackgroundWork() {
@@ -1553,11 +1578,11 @@ export default class RoomController extends BaseGameController{
     }
     this.roomData.refrigeratorId = getRoomInfoResult.refrigeratorId;
     if (this.roomData.refrigeratorId != null) {
-      this.refrigeratorLevel = roomData.refrigeratorId - 1;
+      this.refrigeratorLevel = this.roomData.refrigeratorId - 1;
       this.roomData.refrigerator.position = 
           this.tilesEngine.translateFromTileCoordinates(
               this.roomData.refrigerator,
-              new Point(getRoomInfoResult.refrigeratorX, result
+              new Point(getRoomInfoResult.refrigeratorX, getRoomInfoResult
                   .refrigeratorY));
     }
     this.roomData.bookcaseId = getRoomInfoResult.bookcaseId;
@@ -1616,12 +1641,24 @@ export default class RoomController extends BaseGameController{
 //  }
 
   showRefrigerator() {
-    //ShowRefrigeratorBackgroundWork work = new ShowRefrigeratorBackgroundWork();
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.foodService.getPetFoods();
+    };
+    work.completed = (getPetFoodsResult) => {
+      this.foods = getPetFoodsResult;
+    };
+    work.failed = (exception) => {
+      console.error("ShowRefrigeratorBackgroundWork failed %o.", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class ShowBookcaseBackgroundWork extends
@@ -1712,13 +1749,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   satiety(satietyArg) {
-    //SatietyBackgroundWork work = new SatietyBackgroundWork();
-    //work.setView(roomView);
-    //work.setArgument(satietyArg);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(false);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.petService.satiety(work.argument);
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("SatietyBackgroundWork failed.", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + ex.toString();
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    work.argument = satietyArg;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class DrinkBackgroundWork extends
@@ -2079,13 +2128,13 @@ export default class RoomController extends BaseGameController{
         + refrigeratorLevel - 1]];
     go.animationImageIds = imgids;
     go.addClickedListener((clickedArg) => {
-      refrigeratorClicked(arg);
+      this.refrigeratorClicked(clickedArg);
     });
     go.addMouseMoveListener((mouseMoveArg) => {
-      roomView.showHandCursor();
-      roomView.setToolTipText(getMessageSource().getMessage(
-          StringConstants.FEED, null, null));
-      setHighlightObject(go);
+      this.roomView.showHandCursor();
+      this.roomView.toolTipText = this.messageSource.getMessage(
+          StringConstants.FEED, null, null);
+      this.highlightObject = go;
     });
     go.addBuildListener(() => {
       this.roomData.situation = RoomData.SITUATION_NORMAL;
@@ -2096,14 +2145,14 @@ export default class RoomController extends BaseGameController{
       this.buildRefrigerator(point);
     });
     go.addUpgradeListener(() => {
-      roomData.situation =RoomData.SITUATION_NORMAL;
+      this.roomData.situation =RoomData.SITUATION_NORMAL;
       this.upgradeRefrigerator();
     });
     go.addMoveListener(() => {
-      roomData.situation =RoomData.SITUATION_NORMAL;
+      this.roomData.situation =RoomData.SITUATION_NORMAL;
       const point = new Point();
-      const tilesPoint = tilesEngine.translateToTileCoordinates(roomData
-          .Refrigerator);
+      const tilesPoint = this.tilesEngine.translateToTileCoordinates(this.roomData
+          .refrigerator);
       point.x = tilesPoint.x;
       point.y = tilesPoint.y;
       this.moveRefrigerator(point);
@@ -2144,9 +2193,9 @@ export default class RoomController extends BaseGameController{
       go.animationImageIds = [[ ResourceManager.IMAGE_ROOM_REFRIGERATOR_INNER_ITEM ]];
       go.visible = false;
       go.addMouseMoveListener((mouseMoveArg) => {
-        roomView.showDefaultCursor();
-        setHighlightObject(null);
-        roomView.toolTipText = "";
+        this.roomView.showDefaultCursor();
+        this.highlightObject = null;
+        this.roomView.toolTipText = "";
       });
       this.addGameObject(go);
       refrigeratorInnerItems[n] = go;
@@ -2367,29 +2416,29 @@ export default class RoomController extends BaseGameController{
       this.roomView.toolTipText = "";
     });
     go.addClickedListener((clickedArg) => {
-        const rio = arg.getSender();
+        const rio = clickedArg.sender;
         const foodId = rio.id;
         const refrigeratorInnerCounts = this.roomData
-            .getRefrigeratorInnerCounts();
+            .refrigeratorInnerCounts;
         refrigeratorInnerCounts[foodId]--;
         const refrigeratorInnerObjectLabels = this.roomData.refrigeratorInnerObjectLabels;
         refrigeratorInnerObjectLabels[foodId].text = refrigeratorInnerCounts[foodId];
         this.refrigeratorInnerVisible = false;
         this.roomView.showHandCursor();
-        const pet = roomData.pet;
+        const pet = this.roomData.pet;
         pet.position = new Point(RoomData.ORIGINAL_PET_X,
             RoomData.ORIGINAL_PET_Y);
         pet.move = null;
         pet.state = PetGameObject.STATE_EAT;
-        const food = roomData.food;
+        const food = this.roomData.food;
         food.state = foodId;
         food.visible = true;
         food.z = pet.z + 1;
-        this.roomData.situation =RoomData.SITUATION_ANIMATION;
+        this.roomData.situation = RoomData.SITUATION_ANIMATION;
         this.showProgressBar(
             100,
             (animationOverArg) => {
-              this.roomData.situation =RoomData.SITUATION_NORMAL;
+              this.roomData.situation = RoomData.SITUATION_NORMAL;
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const satietyArg = new SatietyArg();
@@ -2526,12 +2575,12 @@ export default class RoomController extends BaseGameController{
         .refrigeratorClose;
 
     refrigeratorInner.visible = b;
-    for (const n = 0; n < refrigeratorInnerItems.length; n++) {
-      if (n < roomData.refrigeratorId) {
+    for (let n = 0; n < refrigeratorInnerItems.length; n++) {
+      if (n < this.roomData.refrigeratorId) {
         refrigeratorInnerItems[n].visible = b;
       }
     }
-    for (const n = 0; n < refrigeratorInnerObjects.length; n++) {
+    for (let n = 0; n < refrigeratorInnerObjects.length; n++) {
       if (refrigeratorInnerCounts[n] > 0) {
         refrigeratorInnerObjects[n].visible = b;
         refrigeratorInnerObjectLabels[n].visible = b;
@@ -2541,7 +2590,7 @@ export default class RoomController extends BaseGameController{
       }
     }
     refrigeratorClose.visible = b;
-    if (!roomData.refrigeratorInnerCountsInitialized) {
+    if (!this.roomData.refrigeratorInnerCountsInitialized) {
       this.showRefrigerator();
     }
     this.roomData.moodProgressBar.visible = !b;
@@ -2617,9 +2666,9 @@ export default class RoomController extends BaseGameController{
     const refrigeratorInnerObjectLabels = this.roomData
         .refrigeratorInnerObjectLabels;
     const foodCounts = getPetFoodResult.foodCounts;
-    for (let entry of foodCounts.entries()) {
-      const foodId = entry.key.ordinal();
-      const foodCount = entry.value;
+    for (let foodKey in foodCounts) {
+      const foodId = FoodType.ordinal(foodKey);
+      const foodCount = foodCounts[foodKey];
       refrigeratorInnerCounts[foodId] = foodCount;
       if (refrigeratorInner.visible) {
         refrigeratorInnerObjects[foodId].visible = foodCount > 0;

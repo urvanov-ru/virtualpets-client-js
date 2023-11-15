@@ -9,9 +9,13 @@ export default class RoomService {
   }
   
   buildRefrigerator(point) {
+    console.debug('buildRefrigerator');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/buildRefrigerator", 'POST', point);
   }
   
   moveRefrigerator(point) {
+  console.debug('moveRefrigerator');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/moveRefrigerator", 'POST', point);
   }
   
   upgradeRefrigerator() {

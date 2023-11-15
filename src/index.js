@@ -15,6 +15,7 @@ import RoomService from './rest/service/RoomService.js';
 import JournalEntryService from './rest/service/JournalEntryService.js';
 import RucksackService from './rest/service/RucksackService.js';
 import DrinkService from './rest/service/DrinkService.js';
+import FoodService from './rest/service/FoodService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
@@ -95,6 +96,7 @@ function init(selectedLanguage) {
   const journalEntryService = new JournalEntryService();
   const rucksackService = new RucksackService();
   const drinkService = new DrinkService();
+  const foodService = new FoodService();
   const restClient = new RestClient();
   
 
@@ -133,6 +135,7 @@ function init(selectedLanguage) {
   gameController.rucksackService = rucksackService;
   gameController.drinkService = drinkService;
   gameController.petService = petService;
+  gameController.foodService = foodService;
   
   loginController.loginView = loginView;
   loginController.trayIcon = trayIcon;
@@ -192,6 +195,8 @@ function init(selectedLanguage) {
   rucksackService.restClient = restClient;
   
   drinkService.restClient = restClient;
+  
+  foodService.restClient = restClient;
     
   viewImplFactory.resourceManager = resourceManager;
   
