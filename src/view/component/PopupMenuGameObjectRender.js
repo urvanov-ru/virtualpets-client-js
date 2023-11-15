@@ -4,13 +4,13 @@ import ClickedArg from '../../domain/ClickedArg.js';
 
 export default class PopupMenuGameObjectRender extends GameObjectRender {
 
-  #popupMenuGameObject;
+  gameObject;
   
   #dialogEl;
     
   constructor(go) {
     super(go);
-    this.#popupMenuGameObject = go;
+    this.gameObject = go;
     this.#dialogEl = document.createElement('dialog');
     
     const containerDiv = document.createElement('div');
@@ -36,8 +36,8 @@ export default class PopupMenuGameObjectRender extends GameObjectRender {
     containerDiv.append(titleDiv);
     
     this.#dialogEl.append(containerDiv);
-    for (let index = 0; index < this.#popupMenuGameObject.menuItems.length; index++) {
-      const menuItem = this.#popupMenuGameObject.menuItems[index]
+    for (let index = 0; index < this.gameObject.menuItems.length; index++) {
+      const menuItem = this.gameObject.menuItems[index]
       let button = document.createElement('button');
       button.innerText = menuItem.text
       button.addEventListener('click', this.#menuItemClicked.bind(this, index));
@@ -47,13 +47,13 @@ export default class PopupMenuGameObjectRender extends GameObjectRender {
     
     closeButton.addEventListener('click', (event) => {
         this.#dialogEl.close();
-        this.#popupMenuGameObject.visible = false;
+        this.gameObject.visible = false;
     });
   }
   
   #menuItemClicked(index) {
-    this.#popupMenuGameObject.menuItems[index].fireClicked(new ClickedArg());
-    this.#popupMenuGameObject.visible = false;
+    this.gameObject.menuItems[index].fireClicked(new ClickedArg());
+    this.gameObject.visible = false;
     this.#dialogEl.close();
   }
 
@@ -62,13 +62,13 @@ export default class PopupMenuGameObjectRender extends GameObjectRender {
   }
 
   draw(independentCanvas) {
-    if ((this.#popupMenuGameObject.visible) && (!this.#dialogEl.open)) {
+    if ((this.gameObject.visible) && (!this.#dialogEl.open)) {
       this.#dialogEl.showModal();
     }
   }
 
   get popupMenuGameObject() {
-    return this.#popupMenuGameObject;
+    return this.gameObject;
   }
   
   release() {
