@@ -24,6 +24,7 @@ export default class LabelGameObjectRender extends GameObjectRenderBase {
     const lastFont = context.font;
     const lastColor = context.fillStyle;
     context.font = "bold " + Math.floor(this.gameObject.size * scale) + 'px monospace';
+    context.textAlign = 'start';
     context.fillStyle = "#ffff00";
     const logicDimension = this.gameObject.dimension;
     
