@@ -1,7 +1,7 @@
 import GameObjectRenderBase from './GameObjectRenderBase.js';
 import Point from '../../domain/Point.js';
 import Dimension from '../../domain/Dimension.js';
-import canvasTxt from 'canvas-txt';
+import {drawText} from 'canvas-txt';
 
 export default class LabelGameObjectRender extends GameObjectRenderBase {
     
@@ -36,7 +36,15 @@ export default class LabelGameObjectRender extends GameObjectRenderBase {
         context.fillText(text, this.position.x, this.position.y + fontHeight);
     } else {
         this.dimension = new Dimension(logicDimension.width * scale, logicDimension.height * scale);
-        canvasTxt.drawText(context, text, this.position.x, this.position.y, this.dimension.width, this.dimension.height);
+        drawText(context, text, {
+                x: this.position.x,
+                y: this.position.y,
+                width: this.dimension.width,
+                height: this.dimension.height,
+                font: 'monospace',
+                fontSize: Math.floor(this.gameObject.size * scale),
+                fontStyle: 'bold'
+            });
     }
     context.font = lastFont;
     context.fillStyle = lastColor;
