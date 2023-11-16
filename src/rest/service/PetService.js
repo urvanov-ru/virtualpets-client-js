@@ -29,6 +29,8 @@ export default class PetService {
   }
   
   education() {
+    console.debug('education');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/education", 'POST');
   }
   
   mood() {

@@ -27,13 +27,16 @@ export default class RoomService {
   }
   
   buildBookcase(point) {
+    console.debug('buildBookcase');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/buildBookcase", 'POST', point);
   }
   
   upgradeBookcase() {
   }
   
   moveBookcase(point) {
-    
+    console.debug('moveBookcase %o.', point);
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/moveBookcase", 'POST', point);
   }
   
   buildMachineWithDrinks(point) {

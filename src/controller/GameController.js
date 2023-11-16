@@ -16,6 +16,7 @@ export default class GameController {
   rucksackService;
   journalEntryService;
   drinkService;
+  bookService;
 
   
   showView() {
@@ -56,6 +57,7 @@ export default class GameController {
     roomController.drinkService = this.drinkService;
     roomController.petService = this.petService;
     roomController.foodService = this.foodService;
+    roomController.bookService = this.bookService;
     roomController.initialize();
   }
 

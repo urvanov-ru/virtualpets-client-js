@@ -272,8 +272,8 @@ export default class RoomController extends BaseGameController{
 
   journalCloseClicked() {
     const work = new BackgroundWork();
-    work.failed = (ex) => {
-      console.error("journalCloseBackgroundWork failed %o.", ex);
+    work.failed = (exception) => {
+      console.error("journalCloseBackgroundWork failed %o.", exception);
       this.trayIcon.showTrayMessage(
       this.messageSource.getMessage(StringConstants.ERROR, null, null),
           MessageType.ERROR);
@@ -479,7 +479,7 @@ export default class RoomController extends BaseGameController{
       this.roomView.toolTipText = "";
     });
     bookcaseClose.addClickedListener((clickedArg) => {
-      setBookcaseInnerVisible(false);
+      this.bookcaseInnerVisible = false;
     });
     this.addGameObject(bookcaseClose);
     this.roomData.bookcaseClose = bookcaseClose;
@@ -519,23 +519,23 @@ export default class RoomController extends BaseGameController{
     const imgids = [[ resourceId ]];
     go.animationImageIds = imgids;
     go.addMouseMoveListener((mouseMoveArg) => {
-      roomView.showHandCursor();
-      roomView.toolTipText = "";
+      this.roomView.showHandCursor();
+      this.roomView.toolTipText = "";
     });
     go.addClickedListener((clickedArg) => {
       this.bookcaseInnerVisible = false;
-      const pet = roomData.pet;
+      const pet = this.roomData.pet;
       pet.position = new Point(RoomData.ORIGINAL_PET_X,
           RoomData.ORIGINAL_PET_Y);
       pet.setMove(null, null, null);
       pet.state = PetGameObject.STATE_EDUCATION;
-      const book = roomData.book;
+      const book = this.roomData.book;
       book.state = bookId;
       book.visible = true;
       book.z = pet.z + 1;
-      const food = roomData.food;
+      const food = this.roomData.food;
       food.visible = false;
-      this.roomData.situation =RoomData.SITUATION_ANIMATION;
+      this.roomData.situation = RoomData.SITUATION_ANIMATION;
       this.showProgressBar(
           100,
           (progressBarAnimationOverArg) => {
@@ -545,7 +545,7 @@ export default class RoomController extends BaseGameController{
             this.education();
             const educationProgressBar = this.roomData
                 .educationProgressBar;
-            this.educationProgressBar.value = educationProgressBar
+            educationProgressBar.value = educationProgressBar
                 .maxValue;
           });
     });
@@ -598,12 +598,12 @@ export default class RoomController extends BaseGameController{
         [ ResourceManager.IMAGE_ROOM_BOOKCASE_HIGHLIGHT_1 + bookcaseLevelId - 1]];
     bookcase.animationImageIds = imgids;
     bookcase.addClickedListener((clickedArg) => {
-      bookcaseClicked(arg);
+      this.bookcaseClicked(clickedArg);
     });
     bookcase.addMouseMoveListener((mouseMoveArg) => {
       this.roomView.showHandCursor();
-      this.roomView.setToolTipText(getMessageSource().getMessage(
-          StringConstants.TEACH, null, null));
+      this.roomView.toolTipText = this.messageSource.getMessage(
+          StringConstants.TEACH, null, null);
       this.highlightObject = bookcase;
     });
     bookcase.addBuildListener(() => {
@@ -615,16 +615,16 @@ export default class RoomController extends BaseGameController{
       this.buildBookcase(tilesPosition);
     });
     bookcase.addUpgradeListener(() => {
-      this.roomData.situation =RoomData.SITUATION_NORMAL;
+      this.roomData.situation = RoomData.SITUATION_NORMAL;
       this.upgradeBookcase();
     });
     bookcase.addMoveListener(() => {
-      roomData.situation =RoomData.SITUATION_NORMAL;
+      this.roomData.situation = RoomData.SITUATION_NORMAL;
       const tilesPosition = new Point();
       const point = this.tilesEngine.translateToTileCoordinates(bookcase);
       tilesPosition.x = point.x;
       tilesPosition.y = point.y;
-      moveBookcase(tilesPosition);
+      this.moveBookcase(tilesPosition);
     });
     bookcase.tileTypes = [[ TileType.NORMAL, TileType.NORMAL, TileType.WALL ],
         [ TileType.NORMAL, TileType.NORMAL, TileType.WALL ]];
@@ -699,8 +699,8 @@ export default class RoomController extends BaseGameController{
     bookcaseMoveItem.text = this.messageSource.getMessage(
         StringConstants.MOVE, null, null);
     bookcaseMoveItem.addClickedListener((bookcaseMoveClickedArg) => {
-      this.roomData.setSituation(SITUATION_MOVE_BOOKCASE);
-      this.startMove(roomData.getBookcase());
+      this.roomData.situation = RoomData.SITUATION_MOVE_BOOKCASE;
+      this.startMove(this.roomData.bookcase);
     });
     bookcaseMenuItems.push(bookcaseMoveItem);
     bookcasePopupMenu.menuItems = bookcaseMenuItems;
@@ -1046,7 +1046,7 @@ export default class RoomController extends BaseGameController{
     work.failed = (ex) => {
       console.error("GetBuildMenuCostsBackgroundWork failed", ex);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + ex.toString();
+          null, null) + ":" + ex;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.view = this.roomView;
@@ -1092,7 +1092,7 @@ export default class RoomController extends BaseGameController{
     work.failed = (exception) => {
       console.error("MoveMachineWithDrinksBackgroundWork failed %o.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + exception.toString();
+          null, null) + ":" + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       this.getRoomInfo();
     };
@@ -1137,7 +1137,7 @@ export default class RoomController extends BaseGameController{
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      console.error("BuildMachineWithDrinksBackgroundWork failed", ex);
+      console.error("BuildMachineWithDrinksBackgroundWork failed", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
           null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
@@ -1176,14 +1176,27 @@ export default class RoomController extends BaseGameController{
 //    }
 //  }
 
-  moveBookcase(arg) {
-    //MoveBookcaseBackgroundWork work = new MoveBookcaseBackgroundWork();
-    //work.setArgument(arg);
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+  moveBookcase(tilePosition) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.moveBookcase(work.argument);
+    };
+    work.completed = () => {
+      return this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("MoveBookcaseBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    work.argument = tilePosition;
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class BuildBookcaseBackgroundWork
@@ -1212,14 +1225,27 @@ export default class RoomController extends BaseGameController{
 //
 //  }
 
-  buildBookcase(arg) {
-    //BuildBookcaseBackgroundWork work = new BuildBookcaseBackgroundWork();
-    //work.setArgument(arg);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //work.setView(roomView);
-    //backgroundWorkManager.startBackgroundWork(work);
+  buildBookcase(tilePosition) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.buildBookcase(work.argument);
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("BuildBookcaseBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    work.argument = tilePosition;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    work.view = this.roomView;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class UpgradeRefrigeratorBackgroundWork extends
@@ -1321,9 +1347,9 @@ export default class RoomController extends BaseGameController{
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      console.error("BuildRefrigeratorBackgroundWork failed %o.", ex);
+      console.error("BuildRefrigeratorBackgroundWork failed %o.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
+          null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.argument = buildRefrigeratorArg;
@@ -1367,9 +1393,9 @@ export default class RoomController extends BaseGameController{
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      console.error("MoveRefrigeratorBackgroundWork failed %o.", ex);
+      console.error("MoveRefrigeratorBackgroundWork failed %o.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
+          null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.argument = tilePoint;
@@ -1587,7 +1613,7 @@ export default class RoomController extends BaseGameController{
     }
     this.roomData.bookcaseId = getRoomInfoResult.bookcaseId;
     if (this.roomData.bookcaseId != null) {
-      this.bookcaseLevel = roomData.bookcaseId - 1;
+      this.bookcaseLevel = this.roomData.bookcaseId - 1;
       this.roomData.bookcase.visible = true;
       this.roomData.bookcase.position = 
           this.tilesEngine.translateFromTileCoordinates(this.roomData
@@ -1649,9 +1675,9 @@ export default class RoomController extends BaseGameController{
       this.foods = getPetFoodsResult;
     };
     work.failed = (exception) => {
-      console.error("ShowRefrigeratorBackgroundWork failed %o.", ex);
+      console.error("ShowRefrigeratorBackgroundWork failed %o.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
+          null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.view = this.roomView;
@@ -1684,12 +1710,24 @@ export default class RoomController extends BaseGameController{
 //  }
 
   showBookcase() {
-    //ShowBookcaseBackgroundWork work = new ShowBookcaseBackgroundWork();
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.bookService.getPetBooks();
+    };
+    work.completed = (getPetBooksResult) => {
+      this.books = getPetBooksResult;
+    };
+    work.failed = (exception) => {
+      console.error("ShowBookcaseBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class EducationBackgroundWork extends
@@ -1716,12 +1754,24 @@ export default class RoomController extends BaseGameController{
 //  }
 
   education() {
-    //EducationBackgroundWork work = new EducationBackgroundWork();
-    //work.setView(roomView);
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(false);
-    //work.setConnectionExceptionSettings(ces);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.petService.education();
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("EducationBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ": " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class SatietyBackgroundWork extends
@@ -1757,9 +1807,9 @@ export default class RoomController extends BaseGameController{
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      console.error("SatietyBackgroundWork failed.", ex);
+      console.error("SatietyBackgroundWork failed.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
+          null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.view = this.roomView;
@@ -1804,7 +1854,7 @@ export default class RoomController extends BaseGameController{
     work.failed = (exception) => {
       console.error("DrinkBackgroundWork failed %o.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
+          null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.argument = drinkArg;
@@ -1845,10 +1895,10 @@ export default class RoomController extends BaseGameController{
     work.completed = (openBoxResult) => {
       this.createOpenBoxReward(openBoxResult);
     };
-    work.failed = (ex) => {
-      console.error("OpenBoxNewbieBackgoundWork failed %o", ex);
+    work.failed = (exception) => {
+      console.error("OpenBoxNewbieBackgoundWork failed %o", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + ex.toString();
+          null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.view = this.roomView;
@@ -1939,7 +1989,7 @@ export default class RoomController extends BaseGameController{
 
   bookcaseClicked(clickedArg) {
     if (this.roomData.situation == RoomData.SITUATION_NORMAL) {
-      roomData.bookcasePopupMenu.visible = true;
+      this.roomData.bookcasePopupMenu.visible = true;
     }
   }
 
@@ -2067,7 +2117,7 @@ export default class RoomController extends BaseGameController{
               return;
             }
             if (this.roomData.machineWithDrinks == null
-                || !this.roomData.machineWithDrinks.isVisible()
+                || !this.roomData.machineWithDrinks.visible
                 || this.roomData.refrigerator == null
                 || !this.roomData.refrigerator.visible) {
               return;
@@ -2525,7 +2575,7 @@ export default class RoomController extends BaseGameController{
       this.drinks = getPetDrinksResult;
     };
     work.failed = (exception) => {
-      console.error("ShowMachineWithDrinksBackgroundWork failed %o.", ex);
+      console.error("ShowMachineWithDrinksBackgroundWork failed %o.", exception);
       console.trayIcon.showTrayMessage(
           this.messageSource.getMessage(StringConstants.ERROR, null, null),
           MessageType.ERROR);
@@ -2680,7 +2730,7 @@ export default class RoomController extends BaseGameController{
   }
 
   set books(getPetBooksResult) {
-    this.roomData.bookcaseInnerBooks = result.books;
+    this.roomData.bookcaseInnerBooks = getPetBooksResult.books;
     const books = this.roomData.bookcaseInnerBooks;
     const bookcaseInner = this.roomData.bookcaseInner;
     const bookcaseInnerObjects = this.roomData.bookcaseInnerObjects;

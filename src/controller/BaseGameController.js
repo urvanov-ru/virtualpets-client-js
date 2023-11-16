@@ -1078,7 +1078,6 @@ export default class BaseGameController {
   }
 
   getJournalEntries() {
-    console.error('getJournalEntries');
     const work = new BackgroundWork();
     work.failed = (ex) => {
       console.error("GetJournalEntriesBackgroundWork failed %o.", ex);

@@ -1,7 +1,8 @@
 import GameObject from './GameObject.js';
+import HighlightGameObject from './HighlightGameObject.js';
 
 
-export default class BuildingGameObject extends GameObject {
+export default class BuildingGameObject extends HighlightGameObject {
   buildListeners = [];
   moveListeners = new Array();
   upgradeListeners = new Array();

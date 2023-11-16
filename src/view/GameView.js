@@ -67,6 +67,7 @@ export default class GameView extends BaseHtmlView {
         if ((x >= goX) && (x <= goX + goWidth) && (y >= goY)
             && (y <= goY + goHeight)) {
           const anim = gor.currentAnimation;
+          if (anim == null) continue;
           const img = anim.image;
           const offscreenCanvas = new OffscreenCanvas(goWidth, goHeight);
           const offscreenCanvasContext = offscreenCanvas.getContext('2d');

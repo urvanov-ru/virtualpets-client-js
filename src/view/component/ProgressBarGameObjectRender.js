@@ -33,4 +33,8 @@ export default class ProgressBarGameObjectRender extends GameObjectRender {
     context.fillRect(this.position.x, this.position.y, value, this.dimension.height);
     context.fillStyle = lastColor;
   }
+  
+  get currentAnimation() {
+    return null;
+  }
 }
