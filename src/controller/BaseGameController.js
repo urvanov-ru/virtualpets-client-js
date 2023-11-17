@@ -578,9 +578,9 @@ export default class BaseGameController {
     }
     if (params[0] instanceof GameObject) {
       this.addCollectableGameObjectGo(params[0], params[1], params[2]);
-    } else if (typeof params[0] === 'string') {
+    } else if (typeof params[0] === 'string' || params[0] instanceof String) {
       this.addCollectableBuildingMaterial(params[0], params[1], params[2]);
-    } else if (params[0] instanceof Number) {
+    } else if (typeof params[0] === 'number' || params[0] instanceof Number) {
       this.addCollectableGameObjectByResourceId(params[0], params[1], params[2]);
     }
   }
