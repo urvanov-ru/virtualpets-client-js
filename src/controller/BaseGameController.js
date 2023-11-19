@@ -1,5 +1,6 @@
 // domain
 import GameObject from '../domain/GameObject.js';
+import LevelInfoGameObject from '../domain/LevelInfoGameObject.js';
 import UpgradeInfo from './base/domain/UpgradeInfo.js';
 import ProgressBarGameObject from '../domain/ProgressBarGameObject.js';
 import Point from '../domain/Point.js';
@@ -1504,8 +1505,8 @@ export default class BaseGameController {
         LevelInfoGameObject.ORIGINAL_EXPERIENCE_TEXT_LABEL_Y);
     this.addGameObject(levelTextLabel);
     this.addGameObject(experienceTextLabel);
-    levelInfo.levelTextLabel = levelTextLabel;
-    levelInfo.experienceTextLabel = experienceTextLabel;
+    this.levelInfo.levelTextLabel = levelTextLabel;
+    this.levelInfo.experienceTextLabel = experienceTextLabel;
 
     const youHaveReachedLevelLabel = new LabelGameObject();
     youHaveReachedLevelLabel.size = 50;
@@ -1516,7 +1517,7 @@ export default class BaseGameController {
     youHaveReachedLevelLabel.visible = false;
     this.addGameObject(youHaveReachedLevelLabel);
     this.levelInfo.youHaveReachedLevelLabel = youHaveReachedLevelLabel;
-    this.addGameObject(levelInfo);
+    this.addGameObject(this.levelInfo);
   }
 
   updateLevelInfo(info, experienceCreationPoint) {

@@ -1,4 +1,5 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
+import TownLoadWorker from '../resources/TownLoadWorker.js';
 import ProgressInfo from '../resources/ProgressInfo.js';
 
 import MouseMoveArg from '../domain/MouseMoveArg.js';
@@ -14,6 +15,7 @@ import ProgressInfoPanel from './component/ProgressInfoPanel.js';
 
 import {mainContainerElement, mainContainerScale} from './container.js';
 import RoomView from './RoomView.js';
+import TownView from './TownView.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 
@@ -128,6 +130,7 @@ export default class GameView extends BaseHtmlView {
   }
 
   reloadResources() {
+  
     const scale = this.calculateScale();
     let worker = null;
     if ((this.baseGameView instanceof RoomView)
@@ -139,19 +142,15 @@ export default class GameView extends BaseHtmlView {
         this.loadResourcesDone(this);
       }.bind(this);
     }
-    //else if ((gamePanel.getBaseGameView() instanceof TownView)
-    //    && (!resourcesLoaded[TOWN_LOAD_WORKER])) {
-    //  worker = new TownLoadWorker(resourceManager, scale, PetType.CAT) {
-    //    @Override
-    //    protected void process(List<ProgressInfo> progressInfoList) {
-    //      processLoadWorker(progressInfoList);
-    //    }
-//
-  //      public void done() {
-    //      resourcesLoaded[TOWN_LOAD_WORKER] = true;
-    //      loadResourcesDone(this);
-    //    }
-    //  };
+    else if ((this.baseGameView instanceof TownView)
+        && (!this.resourcesLoaded[GameView.TOWN_LOAD_WORKER])) {
+      worker = new TownLoadWorker(this.resourceManager, scale, PetType.CAT);
+      worker.process = this.processLoadWorker.bind(this);
+      worker.done = function() {
+        this.resourcesLoaded[GameView.TOWN_LOAD_WORKER] = true;
+        this.loadResourcesDone(this);
+      }.bind(this);
+    }
     //} else if ((gamePanel.getBaseGameView() instanceof TreasuryView)
     //    && (!resourcesLoaded[TREASURY_LOAD_WORKER])) {
     //  worker = new TreasuryLoadWorker(resourceManager, scale, PetType.CAT) {
@@ -213,6 +212,7 @@ export default class GameView extends BaseHtmlView {
     this.progressInfoPanel.showView();
     this.#independentCanvas.canvas.style.display = 'none';
     if (worker != null) {
+      this.baseGameView.allowDraw = false;
       worker.loadResourcesInBackground();
     } else {
       loadResourcesDone(null);
@@ -256,7 +256,7 @@ export default class GameView extends BaseHtmlView {
    this.#independentCanvas.scale = this.scale;
    this.reloadImages();
    this.start();
-   this.allowRepaint = true;
+   this.baseGameView.allowDraw = true;
    if (this.#firstInit) {
      this.fireInitializationCompleted();
    }
@@ -349,18 +349,12 @@ export default class GameView extends BaseHtmlView {
     return this.baseGameView;
   }
 
-//  @Override
-//  public TownView showTown(TownView townView) {
-//
-//    if (gamePanel != null) {
-//      this.getContentPane().remove(gamePanel);
-//      releaseGamePanel();
-//    }
-//    gamePanel = new GamePanel(townView);
-//    gamePanel.setResourceManager(this.resourceManager);
-//    reloadResources();
-//    return (TownView) townView;
-//  }
+  showTown() {
+    this.baseGameView = new TownView();
+    this.baseGameView.viewImplFactory = this.viewImplFactory;
+    this.reloadResources();
+    return this.baseGameView;
+  }
 
 //  @Override
 //  public TreasuryView showTreasury(TreasuryView treasuryView) {

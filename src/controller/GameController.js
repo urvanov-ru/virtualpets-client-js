@@ -1,4 +1,5 @@
 import RoomController from './RoomController.js';
+import TownController from './TownController.js';
 
 export default class GameController {
 
@@ -47,6 +48,7 @@ export default class GameController {
     // rc.initialize();
     const roomController = this.createRoomController();
     this.currentController = roomController;
+    roomController.gameController = this;
     roomController.roomView = this.gameView.showRoom();
     roomController.baseGameView = roomController.roomView;
     roomController.messageSource = this.messageSource;
@@ -71,8 +73,13 @@ export default class GameController {
     // tc.initialize();
     const townController = this.createTownController();
     this.currentController = townController;
-    this.gameView.showTown(townController.getTownView());
-    this.townController.initialize();
+    townController.gameController = this;
+    townController.townView = this.gameView.showTown();
+    townController.baseGameView = townController.townView;
+    townController.messageSource = this.messageSource;
+    townController.backgroundWorkManager = this.backgroundWorkManager;
+    townController.townService = this.townService;
+    townController.initialize();
   }
 
   showTreasury() {

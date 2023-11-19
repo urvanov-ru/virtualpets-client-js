@@ -566,7 +566,7 @@ export default class RoomController extends BaseGameController{
       this.highlightObject = arrowRight;
     });
     arrowRight.addClickedListener((clickedArg) => {
-      gameController.showTown();
+      this.gameController.showTown();
     });
     this.addGameObject(arrowRight);
     this.roomData.arrowRight = arrowRight;

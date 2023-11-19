@@ -7,7 +7,7 @@ export default class GameEngine {
 
   trayIcon;
 
-//  private boolean allowDraw;
+  allowDraw;
   resourceManagerBase;
   #scale = 0.0;
   messageSource;
@@ -63,9 +63,9 @@ export default class GameEngine {
    *      Если false - то панель не должна вызывать метод repaint, так
    *      как главное окно свёрнуто или неактивно.
    */
-  set allowDraw(allowDraw) {
-//    this.allowDraw = allowDraw;
-  }
+  //set allowDraw(allowDraw) {
+  //  this.allowDraw = allowDraw;
+ // }
 
   /**
    * Инициализация объектов.
@@ -151,9 +151,9 @@ export default class GameEngine {
   }
 
 
-  get allowDraw() {
-    return true;
-  }
+  //get allowDraw() {
+  //  this.allowDraw();
+  //}
 
   addGameObject(go) {
     let gor = this.viewImplFactory.createGameObjectRender(go)
