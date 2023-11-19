@@ -3,9 +3,9 @@ export default class TownService {
   static get SERVICE_URL() { return '/rest/v1/TownService'; }
   #restClient;
   
-  getPetBooks() {
+  getTownInfo() {
     console.debug('getTownInfo');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/getTownInfo", 'GET');
+    return this.#restClient.fetch(TownService.SERVICE_URL + "/getTownInfo", 'GET');
   }
 
   set restClient(restClient) {

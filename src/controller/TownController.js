@@ -169,7 +169,7 @@ export default class TownControllerImpl extends BaseGameController {
     };
     work.completed = (getTownInfoResult) => {
       console.info("GetTownInfoBackgroundWork finished.");
-      this.townInfo =result;
+      this.townInfo =getTownInfoResult;
     };
     work.failed = (exception) => {
       console.error("GetTownInfoBackgroundWork failed %o.", exception);

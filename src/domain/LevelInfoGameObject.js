@@ -25,25 +25,25 @@ export default class LevelInfoGameObject extends GameObject {
   youHaveReachedLevelStartTime = 0;
 
   step() {
-    if (youHaveReachedLevelStartTime != 0) {
-        if (Date.now() > youHaveReachedLevelStartTime + LevelInfoGameObject.YOU_HAVE_REACHED_LEVEL_SHOW_TIME) {
-            youHaveReachedLevelLabel.visible = false;
-            youHaveReachedLevelStartTime = 0;
+    if (this.youHaveReachedLevelStartTime != 0) {
+        if (Date.now() > this.youHaveReachedLevelStartTime + LevelInfoGameObject.YOU_HAVE_REACHED_LEVEL_SHOW_TIME) {
+            this.youHaveReachedLevelLabel.visible = false;
+            this.youHaveReachedLevelStartTime = 0;
         }
     }
   }
     
   set visible(visible) {
-    levelLabel.visible = visible;
-    experienceProgressBar.visible = visible;
-    levelTextLabel.visible = visible;
-    experienceTextLabel.visible = visible;
+    this.levelLabel.visible = visible;
+    this.experienceProgressBar.visible = visible;
+    this.levelTextLabel.visible = visible;
+    this.experienceTextLabel.visible = visible;
   }
 
   showLevelHasReachedLabel(message) {
-    youHaveReachedLevelLabel.visible = true;
-    youHaveReachedLevelLabel.text = message;
-    youHaveReachedLevelStartTime = Date.now()
+    this.youHaveReachedLevelLabel.visible = true;
+    this.youHaveReachedLevelLabel.text = message;
+    this.youHaveReachedLevelStartTime = Date.now()
   }    
 }
 

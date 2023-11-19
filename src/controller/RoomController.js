@@ -566,6 +566,7 @@ export default class RoomController extends BaseGameController{
       this.highlightObject = arrowRight;
     });
     arrowRight.addClickedListener((clickedArg) => {
+      this.#stopGetRoomInfoTimer();
       this.gameController.showTown();
     });
     this.addGameObject(arrowRight);
@@ -1496,6 +1497,7 @@ export default class RoomController extends BaseGameController{
   #getRoomInfoLastTime = 0;
   #getRoomInfoForce = false;
   #getRoomInfoTimerStarted = false;
+  #getRoomInfoTimer;
   #getRoomInfoDelay = 60_000; 
 
   #getRoomInfoInner() {
@@ -1516,21 +1518,21 @@ export default class RoomController extends BaseGameController{
             const message = this.messageSource.getMessage(StringConstants.ERROR,
                 null, null) + ": " + ex;
             this.trayIcon.showTrayMessage(message, MessageType.ERROR);
-            setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+            this.#getRoomInfoTimer = setTimeout(this.#getRoomInfoInner.bind(this), 1000);
       }
       work.doInBackground = () => {
         return this.roomService.getRoomInfo();
       }
       work.completed = (getRoomInfoResult) => {
         this.roomInfo = getRoomInfoResult;
-        setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+        this.#getRoomInfoTimer = setTimeout(this.#getRoomInfoInner.bind(this), 1000);
       }
       const ces = new ConnectionExceptionSettings();
       ces.restart = true;
       work.connectionExceptionSettings = ces;
       this.backgroundWorkManager.startBackgroundWork(work);
     } else  {
-      setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+      this.#getRoomInfoTimer = setTimeout(this.#getRoomInfoInner.bind(this), 1000);
     }
     
   }
@@ -1539,9 +1541,15 @@ export default class RoomController extends BaseGameController{
     if (this.#getRoomInfoTimerStarted) {
       this.#getRoomInfoForce = true;
     } else {
-      setTimeout(this.#getRoomInfoInner.bind(this), 1000);
+      this.#getRoomInfoTimer = setTimeout(this.#getRoomInfoInner.bind(this), 1000);
       this.#getRoomInfoTimerStarted = true;
     }
+  }
+  
+  #stopGetRoomInfoTimer() {
+    this.#getRoomInfoForce = false;
+    this.#getRoomInfoLastTime = Number.MAX_SAFE_INTEGER - this.#getRoomInfoDelay;
+    clearTimeout(this.#getRoomInfoTimer);
   }
   
   getRoomInfo() {

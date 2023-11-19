@@ -130,8 +130,13 @@ export default class GameView extends BaseHtmlView {
   }
 
   reloadResources() {
-  
     const scale = this.calculateScale();
+    if (this.#firstInit) {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+    }
     let worker = null;
     if ((this.baseGameView instanceof RoomView)
         && (!this.resourcesLoaded[GameView.ROOM_LOAD_WORKER])) {
@@ -215,7 +220,7 @@ export default class GameView extends BaseHtmlView {
       this.baseGameView.allowDraw = false;
       worker.loadResourcesInBackground();
     } else {
-      loadResourcesDone(null);
+      this.loadResourcesDone(null);
     }
   }
 
@@ -345,14 +350,14 @@ export default class GameView extends BaseHtmlView {
   showRoom() {
     this.baseGameView = new RoomView();
     this.baseGameView.viewImplFactory = this.viewImplFactory;
-    this.reloadResources();
+    this.#firstInit = true;
     return this.baseGameView;
   }
 
   showTown() {
     this.baseGameView = new TownView();
     this.baseGameView.viewImplFactory = this.viewImplFactory;
-    this.reloadResources();
+    this.#firstInit = true;
     return this.baseGameView;
   }
 

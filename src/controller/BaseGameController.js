@@ -1530,8 +1530,8 @@ export default class BaseGameController {
     }
     this.levelInfo.experience = info.experience;
     const lastLevel = this.levelInfo.levelLabel.text;
-    levelInfo.levelLabel.text = "" + info.level;
-    if (!lastLevel.isEmpty()
+    this.levelInfo.levelLabel.text = "" + info.level;
+    if (!!lastLevel
         && !info.level == +lastLevel) {
         
       this.levelInfo.showLevelHasReachedLabel(this.messageSource
