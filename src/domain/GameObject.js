@@ -7,7 +7,7 @@ export default class GameObject {
   position = new Point();
   z = 0;
   dimension = new Dimension();
-  visible = true;
+  #visible = true;
   tileTypes; // TileType[][]
   state = 0;
   
@@ -61,6 +61,12 @@ export default class GameObject {
     this.#animationOverListeners.splice();
   }
   
-    
+  set visible(visible) {
+    this.#visible = visible;
+  }
+  
+  get visible() {
+    return this.#visible;
+  }
 }
 

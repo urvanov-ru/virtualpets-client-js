@@ -694,7 +694,7 @@ export default class RoomController extends BaseGameController{
     const bookcaseUpgradeItem = new MenuItem();
     bookcaseUpgradeItem.text = this.messageSource.getMessage(
         StringConstants.UPGRADE, null, null);
-    bookcaseUpgradeItem.addClickedListener((arg) => RoomControllerImpl.this
+    bookcaseUpgradeItem.addClickedListener((arg) => this
         .showUpgradeBookcase());
     bookcaseMenuItems.push(bookcaseUpgradeItem);
 
@@ -714,21 +714,20 @@ export default class RoomController extends BaseGameController{
 
   showUpgradeBookcase() {
     try {
-      this.roomData.situation =RoomData.SITUATION_UPGRADE_BOOKCASE_COST;
+      this.roomData.situation = RoomData.SITUATION_UPGRADE_BOOKCASE_COST;
       const text = this.messageSource.getMessage(StringConstants.BOOKCASE,
           null, null);
-      const newBookcaseId = roomData.bookcaseId + 1;
+      const newBookcaseId = this.roomData.bookcaseId + 1;
       const costs = this.roomData
-          .buildMenuCosts.bookcaseCosts
-          .get(newBookcaseId - 1);
-      this.showUpgrade(text, costs, (aaa) => {
+          .buildMenuCosts.bookcaseCosts[newBookcaseId - 1];
+      this.showUpgrade(text, costs, function(aaa)  {
         this.startUpgrade(roomData.bookcase);
-      }, (bbb) => {
-        roomData.setSituation(SITUATION_NORMAL);
-      });
+      }.bind(this), function(bbb) {
+        this.roomData.situation = RoomData.SITUATION_NORMAL;
+      }.bind(this));
 
     } catch (ex) {
-      console.error("showUpgradeRefrigerator failed. %o", ex);
+      console.error("showUpgradeBookcase failed. %o", ex);
       const message = this.messageSource.getMessage(
           StringConstants.ERROR, null, null);
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
@@ -737,21 +736,20 @@ export default class RoomController extends BaseGameController{
 
   showUpgradeMachineWithDrinks() {
     try {
-
       this.roomData.situation =RoomData.SITUATION_UPGRADE_MACHINE_WITH_DRINKS_COST;
       const text = this.messageSource.getMessage(StringConstants.DRINK, null, null);
       const newMachineWithDrinksId = this.roomData.machineWithDrinksId + 1;
-      const costs = roomData
-          .buildMenuCosts.machineWithDrinksCosts
-          .get(newMachineWithDrinksId - 1);
-      this.showUpgrade(text, costs, (aaa) => {
-        this.startUpgrade(roomData.machineWithDrinks);
-      }, (bbb) => {
-        this.roomData.situation =RoomData.SITUATION_NORMAL;
-      });
+      const costs = this.roomData
+          .buildMenuCosts.machineWithDrinksCosts[newMachineWithDrinksId - 1];
+      this.showUpgrade(text, costs, function (aaa) {
+          this.startUpgrade(roomData.machineWithDrinks);
+        }.bind(this),
+        function (bbb)  {
+          this.roomData.situation =RoomData.SITUATION_NORMAL;
+        }.bind(this));
 
     } catch (ex) {
-      console.error("showUpgradeRefrigerator failed. %o", ex);
+      console.error("showUpgradeMachineWithDrinks failed. %o", ex);
       const message = this.messageSource.getMessage(StringConstants.ERROR, null, null);
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     }
@@ -2814,24 +2812,23 @@ export default class RoomController extends BaseGameController{
 
   showUpgradeRefrigerator() {
     try {
-
-      this.roomData.situation =RoomData.SITUATION_UPGRADE_REFRIGERATOR_COST;
+      this.roomData.situation = RoomData.SITUATION_UPGRADE_REFRIGERATOR_COST;
       const text = this.messageSource.getMessage(
           StringConstants.REFRIGERATOR, null, null);
 
       const newRefrigeratorId = this.roomData.refrigeratorId + 1;
       const costs = this.roomData
-          .buildMenuCosts.refrigeratorCosts
-          .get(newRefrigeratorId - 1);
-      this.showUpgrade(text, costs, (aaa) => {
-        this.startUpgrade(this.roomData.refrigerator);
-      }, (bbb) => {
-        this.roomData.situation =RoomData.SITUATION_NORMAL;
-      });
+          .buildMenuCosts.refrigeratorCosts[newRefrigeratorId - 1];
+      this.showUpgrade(text, costs, function (aaa) {
+          this.startUpgrade(this.roomData.refrigerator);
+        }.bind(this),
+        function (bbb) {
+          this.roomData.situation = RoomData.SITUATION_NORMAL;
+        }.bind(this));
 
     } catch (ex) {
       console.error("showUpgradeRefrigerator failed. %o", ex);
-      const message = getMessageSource().getMessage(
+      const message = this.messageSource().getMessage(
           StringConstants.ERROR, null, null);
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     }

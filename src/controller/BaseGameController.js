@@ -652,7 +652,7 @@ export default class BaseGameController {
   }
 
   initializeBuildMenu() {
-    this.insufficientResourcesString = this.messageSource.getMessage(
+    this.#insufficientResourcesString = this.messageSource.getMessage(
         StringConstants.INSUFFICIENT_RESOURCES, null, null);
     const buildMenuInner = new GameObject();
     buildMenuInner.animationImageIds = [[ ResourceManager.IMAGE_BUILD_MENU_INNER ]];
@@ -720,7 +720,7 @@ export default class BaseGameController {
     this.addGameObject(toolTipLabel);
     this.buildMenu.toolTipLabel = toolTipLabel;
     const toolTipInsufficientResources = new LabelGameObject();
-    toolTipInsufficientResources.text = this.insufficientResourcesString;
+    toolTipInsufficientResources.text = this.#insufficientResourcesString;
     toolTipInsufficientResources.visible = false;
     this.addGameObject(toolTipInsufficientResources);
     this.buildMenu.toolTipInsufficientResources = toolTipInsufficientResources;
@@ -1227,7 +1227,7 @@ export default class BaseGameController {
     });
     messageBoxOkButton.addClickedListener((clickedArg) => {
       if (messageBoxOkClickedListener != null) {
-        messageBoxOkClickedListener.clicked(clickedArg);
+        messageBoxOkClickedListener(clickedArg);
       } else {
         this.hideMessageBox();
       }
@@ -1250,13 +1250,12 @@ export default class BaseGameController {
     messageBoxCancelButton.addClickedListener((
         cancelButtonClickedListenerArg)  => {
       this.messageBox.visible = false;
-      messageBoxOkButton.visible = false;
-      messageBoxCancelButton.visible = false;
-      messageBox.okLabel.visible = false;
-      messageBox.cancelLabel.visible = false;
+      this.messageBox.okButton.visible = false;
+      this.messageBox.cancelButton.visible = false;
+      this.messageBox.okLabel.visible = false;
+      this.messageBox.cancelLabel.visible = false;
       if (this.messageBoxCancelClickedListener != null)
-        this.messageBoxCancelClickedListener
-            .clicked(cancelButtonClickedListenerArg);
+        this.messageBoxCancelClickedListener(cancelButtonClickedListenerArg);
     });
     messageBoxCancelButton.visible = false;
     messageBoxCancelButton.z = BaseGameController.MENU_Z_ORDER;
@@ -1303,19 +1302,19 @@ export default class BaseGameController {
       messageBoxType) {
     this.messageBox.visible = true;
     this.messageBox
-        .position = new Point(messageBox.getPosition().getX(), -600);
-    const textLabels = messageBox.texts;
+        .position = new Point(this.messageBox.position.x, -600);
+    const textLabels = this.messageBox.texts;
     for (let n = 0; n < textLabels.length && n < texts.length; n++) {
-      textLabels[n].setText(texts[n] == null ? "" : texts[n]);
+      textLabels[n].text = texts[n] == null ? "" : texts[n];
     }
-    const messageBoxOkButton = messageBox.getOkButton();
-    this.messageBox.getOkLabel().setText(
-        messageSource.getMessage(StringConstants.OK, null, null));
-    this.messageBox.getCancelLabel().setText(
-        messageSource.getMessage(StringConstants.CANCEL, null, null));
+    const messageBoxOkButton = this.messageBox.okButton;
+    this.messageBox.okLabel.text = 
+        this.messageSource.getMessage(StringConstants.OK, null, null);
+    this.messageBox.cancelLabel.text = 
+        this.messageSource.getMessage(StringConstants.CANCEL, null, null);
 
-    messageBoxOkButton.setVisible(false);
-    this.messageBox.setMessageBoxType(messageBoxType);
+    messageBoxOkButton.visible = false;
+    this.messageBox.messageBoxType = messageBoxType;
     this.messageBoxOkClickedListener = okClickedListener;
     this.messageBoxCancelClickedListener = cancelClickedListener;
   }
@@ -1341,42 +1340,42 @@ export default class BaseGameController {
         StringConstants.CANCEL, null, null);
     this.messageBox.okLabel.text = messageBoxOkButtonString;
     this.messageBox.cancelLabel.text = messageBoxCancelButtonString;
-    this.messageBox.innerGameObjects.clear();
+    this.messageBox.innerGameObjects.splice(0);
 
     const startX = 25;
-    const buildingMaterialX = startX;
-    const buildingMaterialY = 130;
-    const index = 0;
+    let buildingMaterialX = startX;
+    let buildingMaterialY = 130;
+    let index = 0;
     const rucksackBuildingMaterials = this.rucksack
         .buildingMaterials;
-    for (const entry of costs.entries()) {
-      const buildingMaterialIndex = entry.key.ordinal();
+    for (const buildingMaterialKey in costs) {
+      const buildingMaterialIndex = BuildingMaterialType.ordinal(buildingMaterialKey);
       const bmgo = this.#upgradeInfo
-          .upgradeBuildingMaterialGameObjects[buildingMaterialIndex];
-      const innerGameObject = new MessageBoxInnerGameObject();
+          .upgradeBuildingMaterialGameObjects.get(buildingMaterialKey);
+      let innerGameObject = new MessageBoxInnerGameObject();
       innerGameObject.gameObject = bmgo;
       innerGameObject.position = new Point(buildingMaterialX,
           buildingMaterialY);
-      this.messageBox.innerGameObjects.add(innerGameObject);
+      this.messageBox.innerGameObjects.push(innerGameObject);
 
-      const bmgoCount = rucksackBuildingMaterials[buildingMaterialIndex]
+      const bmgoCount = rucksackBuildingMaterials.get(buildingMaterialKey)
           .buildingMaterialCount;
       const haveValue = "" + bmgoCount;
-      const costValue = "" + entry.getValue;
+      const costValue = "" + costs[buildingMaterialKey];
       const str = haveValue + "/" + costValue;
       const lbl = this.#upgradeInfo
-          .upgradeBuildingMaterialLabels[index];
+          .upgradeBuildingMaterialLabels.get(buildingMaterialKey);
       lbl.text = str;
       innerGameObject = new MessageBoxInnerGameObject();
       innerGameObject.gameObject = lbl;
       innerGameObject.position = new Point(buildingMaterialX,
           buildingMaterialY + bmgo.dimension.height
               - lbl.size);
-      messageBox.innerGameObjects.add(innerGameObject);
+      this.messageBox.innerGameObjects.push(innerGameObject);
 
       buildingMaterialX += bmgo.dimension.width;
 
-      if (entry.value <= bmgoCount) {
+      if (costValue <= bmgoCount) {
         // upgradeInfo.getUpgradeBuildingMaterialCostColors()[index] =
         // Color.GREEN;
       } else {
@@ -1387,17 +1386,17 @@ export default class BaseGameController {
       index++;
     }
 
-    const messageBoxStrings = new Array(messageBox.texts.length);
+    const messageBoxStrings = new Array(this.messageBox.texts.length);
     messageBoxStrings[0] = text;
     messageBoxStrings[1] = this.messageSource.getMessage(
         StringConstants.UPGRADE, null, null);
     if (this.#upgradeInfo.upgradeInsufficientResources) {
-      messageBoxStrings[2] = insufficientResourcesString;
+      messageBoxStrings[2] = this.#insufficientResourcesString;
     }
 
     this.showMessageBox(
         messageBoxStrings,
-        (aaaa) => {
+        function (aaaa) {
           const hide = false;
 
           if (this.#upgradeInfo.upgradeInsufficientResources) {
@@ -1417,7 +1416,7 @@ export default class BaseGameController {
             if (this.upgradeClickedListener != null)
               this.upgradeClickedListener.clicked(aaaa);
           }
-        }, cancelClickedListener,
+        }.bind(this), cancelClickedListener,
         MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON);
   }
 
@@ -1430,7 +1429,8 @@ export default class BaseGameController {
     const messageBoxInnerGameObjects = this.messageBox
         .innerGameObjects;
 
-    for (let key in BuildingMaterialType) {
+    for (let key of BuildingMaterialType.values) {
+      const buildingMaterialIndex = BuildingMaterialType.ordinal(key);
       const lgo = new LabelGameObject();
       upgradeBuildingMaterialLabels.set(key, lgo);
       lgo.z = BaseGameController.MENU_Z_ORDER;
@@ -1439,15 +1439,15 @@ export default class BaseGameController {
       let innerGameObject = new MessageBoxInnerGameObject();
       innerGameObject.gameObject = lgo;
       innerGameObject.position = new Point(100
-          + upgradeBuildingMaterialGameObjects[key].dimension
-              .width * n, 150);
+          + upgradeBuildingMaterialGameObjects.get(key).dimension
+              .width * buildingMaterialIndex, 150);
       messageBoxInnerGameObjects.push(innerGameObject);
 
       innerGameObject = new MessageBoxInnerGameObject();
-      const bmgo = upgradeBuildingMaterialGameObjects[key];
+      const bmgo = upgradeBuildingMaterialGameObjects.get(key);
       innerGameObject.gameObject = bmgo;
       innerGameObject.position = new Point(100
-          + bmgo.dimension.width * n, 150);
+          + bmgo.dimension.width * buildingMaterialIndex, 150);
       messageBoxInnerGameObjects.push(innerGameObject);
     }
     this.#upgradeInfo

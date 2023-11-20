@@ -1,4 +1,5 @@
 import GameObject from './GameObject.js';
+import Point from './Point.js';
 
 
 export default class MessageBoxGameObject extends GameObject {
@@ -30,51 +31,54 @@ export default class MessageBoxGameObject extends GameObject {
   
   innerGameObjects = []; // new ArrayList<InnerGameObject>();
 
-//  @Override
-//  public void step() {
-//    super.step();
-//    if (isVisible()) {
-//      Point position = getPosition();
-//      int x = position.getX();
-//      int y = position.getY();
-//      if (y < ORIGINAL_MESSAGE_BOX_Y) {
-//        final int newY = y += MESSAGE_BOX_MOVE_STEP;
-//        position.setY(y);
-//        innerGameObjects.stream().forEach(
-//            (item) -> {
-//              Point relativePosition = item.getPosition();
-//              item.getGameObject().setPosition(
-//                  new Point(x + relativePosition.getX(), newY
-//                      + relativePosition.getY()));
-//            });
-//        for (int n = 0; n < texts.length; n++) {
-//          LabelGameObject item = texts[n];
-//          item.setPosition(new Point(x + 50, newY+50 + n * 25));
- //       }
-//        if (y >= ORIGINAL_MESSAGE_BOX_Y) {
-//          y = ORIGINAL_MESSAGE_BOX_Y;
-//          if (messageBoxType == MessageBoxType.OK_BUTTON || messageBoxType == MessageBoxType.OK_CANCEL_BUTTON) {
-//            okButton.setVisible(true);
-//           okLabel.setVisible(true);
-//          }
-//          if (messageBoxType == MessageBoxType.CANCEL_BUTTON || messageBoxType == MessageBoxType.OK_CANCEL_BUTTON) {
-//            cancelButton.setVisible(true);
-//            cancelLabel.setVisible(true);
-//          }
-//        }
-//      }
-//    }
-//  }
+
+  step() {
+    super.step();
+    if (this.visible) {
+      const position = this.position;
+      let x = position.x;
+      let y = position.y;
+      if (y < MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_Y) {
+        const newY = y += MessageBoxGameObject.MESSAGE_BOX_MOVE_STEP;
+        position.y = y;
+        for (let item of this.innerGameObjects) {
+          const relativePosition = item.position;
+          item.gameObject.position = 
+            new Point(x + relativePosition.x, newY
+              + relativePosition.y);
+        }
+        for (let n = 0; n < this.texts.length; n++) {
+          const item = this.texts[n];
+          item.position = new Point(x + 50, newY + 50 + n * 25);
+        }
+        if (y >= MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_Y) {
+            y = MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_Y;
+          if (this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_BUTTON || this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON) {
+            this.okButton.visible = true;
+            this.okLabel.visible = true;
+          }
+          if (this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_CANCEL_BUTTON || this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON) {
+            this.cancelButton.visible = true;
+            this.cancelLabel.visible = true;
+          }
+        }
+      }
+    }
+  }
 
   set visible(visible) {
     super.visible = visible;
-    innerGameObjects.each((item) => {
+    for (let item of this.innerGameObjects) {
       item.gameObject.visible = visible;
-    });
-    if (texts != null)
-      texts.each((item) => {
+    }
+    if (this.texts != null)
+      for (let item of this.texts) {
         item.visible = visible;
-      });
+      }
+  }
+  
+  get visible() {
+    return super.visible;
   }
 
 }
