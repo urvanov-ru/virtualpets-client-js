@@ -162,6 +162,8 @@ export default class RoomController extends BaseGameController{
     
     this.initializeAchievementInfo();
     
+    this.initializeLevelInfo();
+    
     this.roomView.roomData = this.roomData;
   }
 
@@ -1640,6 +1642,7 @@ export default class RoomController extends BaseGameController{
     }
     
     this.updateAchievementInfo(getRoomInfoResult.achievements);
+    this.updateLevelInfo(getRoomInfoResult.levelInfo, new Point(400, 300));
 
   }
 

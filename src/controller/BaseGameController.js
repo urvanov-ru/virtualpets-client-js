@@ -18,6 +18,7 @@ import MessageBoxInnerGameObject from '../domain/MessageBoxInnerGameObject.js';
 import AchievementInfoGameObject from '../domain/AchievementInfoGameObject.js';
 import AnimationOverArg from '../domain/AnimationOverArg.js';
 import CollectableGameObject from '../domain/CollectableGameObject.js';
+import ExperienceGameObject from '../domain/ExperienceGameObject.js';
 
 // tiles
 import TilesEngine from '../tiles/TilesEngine.js';
@@ -621,7 +622,7 @@ export default class BaseGameController {
         const sender = mouseMoveArg.sender;
         sender.forceTimeToLifeOver();
     });
-    go.levelInfo = levelInfo;
+    go.levelInfo = this.levelInfo;
     this.addGameObject(go);
     this.baseGameView.initializeExperienceGameObject(go);
     return go;
