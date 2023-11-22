@@ -4,13 +4,10 @@ import ClickedArg from '../../domain/ClickedArg.js';
 
 export default class PopupMenuGameObjectRender extends GameObjectRender {
 
-  gameObject;
-  
   #dialogEl;
     
   constructor(go) {
     super(go);
-    this.gameObject = go;
     this.#dialogEl = document.createElement('dialog');
     
     const containerDiv = document.createElement('div');
