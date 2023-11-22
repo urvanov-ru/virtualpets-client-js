@@ -1294,7 +1294,7 @@ export default class RoomController extends BaseGameController{
     work.completed = () => {
       this.getRoomInfo();
     };
-    work.failed = (exception) = > {
+    work.failed = (exception) => {
       console.error("UpgradeRefrigeratorBackgroundWork failed", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
           null, null) + ":" + exception;
