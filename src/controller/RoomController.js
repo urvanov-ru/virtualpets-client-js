@@ -830,12 +830,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   upgradeMachineWithDrinks() {
-    //const work = new UpgradeMachineWithDrinksBackgroundWork();
-    //work.view = roomView;
-    //const ces = new ConnectionExceptionSettings();
-    //ces.restart = true;
-    //work.connectionExceptionSettings = ces;
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.upgradeMachineWithDrinks();
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("UpgradeMachineWithDrinks failed", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + exception;
+      trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    work.view = this.roomView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
   initializeFood() {
@@ -1274,12 +1287,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   upgradeRefrigerator() {
-    //UpgradeRefrigeratorBackgroundWork work = new UpgradeRefrigeratorBackgroundWork();
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //work.setView(roomView);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.upgradeRefrigerator();
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) = > {
+      console.error("UpgradeRefrigeratorBackgroundWork failed", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    work.view = this.roomView;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class UpgradeBookcaseBackgroundWork extends
@@ -1307,12 +1333,25 @@ export default class RoomController extends BaseGameController{
 //  }
 
   upgradeBookcase() {
-    //UpgradeBookcaseBackgroundWork work = new UpgradeBookcaseBackgroundWork();
-    //ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    //ces.setRestart(true);
-    //work.setConnectionExceptionSettings(ces);
-    //work.setView(roomView);
-    //backgroundWorkManager.startBackgroundWork(work);
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return this.roomService.upgradeBookcase();
+    };
+    work.completed = () => {
+      this.getRoomInfo();
+    };
+    work.failed = (exception) => {
+      console.error("UpgradeBookcaseBackgroundWork failed", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + ":" + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.getRoomInfo();
+    };
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    work.view = this.roomView;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
 //  private class BuildRefrigeratorBackgroundWork

@@ -14,11 +14,13 @@ export default class RoomService {
   }
   
   moveRefrigerator(point) {
-  console.debug('moveRefrigerator');
+    console.debug('moveRefrigerator');
     return this.#restClient.fetch(RoomService.SERVICE_URL + "/moveRefrigerator", 'POST', point);
   }
   
   upgradeRefrigerator() {
+    console.debug('upgradeRefrigerator');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/upgradeRefrigerator", 'POST');
   }
   
   openBoxNewbie(index) {
@@ -32,6 +34,8 @@ export default class RoomService {
   }
   
   upgradeBookcase() {
+    console.debug('upgradeBookcase');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/upgradeBookcase", 'POST');
   }
   
   moveBookcase(point) {
@@ -55,6 +59,8 @@ export default class RoomService {
   }
   
   upgradeMachineWithDrinks() {
+    console.debug('upgradeMachineWithDrinks');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/upgradeMachineWithDrinks", 'POST');
   }
   
   pickJournalOnFloor() {
