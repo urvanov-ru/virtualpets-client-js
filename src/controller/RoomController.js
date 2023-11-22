@@ -316,7 +316,7 @@ export default class RoomController extends BaseGameController{
 //                "JOURNAL_ENTRY_"
 //                    + String.valueOf(entries[0].getCode()),
 //                null, null));
-//      } else if (entries.length == 1) {
+//      } else if (entries.length === 1) {
 //        getJournal().getLeftText().setText(
 //            messageSource.getMessage(
 //                "JOURNAL_ENTRY_"
@@ -1597,7 +1597,7 @@ export default class RoomController extends BaseGameController{
 
   set roomInfo(getRoomInfoResult) {
     // petInfo = result;
-    if (getRoomInfoResult.journalOnFloor == false) {
+    if (getRoomInfoResult.journalOnFloor === false) {
       this.journal.visible = true;
     } else
       this.roomData.journalOnFloor.visible = true;
@@ -1626,7 +1626,7 @@ export default class RoomController extends BaseGameController{
     this.roomData.educationProgressBar.value = getRoomInfoResult.education;
     this.roomData.moodProgressBar.value = getRoomInfoResult.mood;
     this.journal.newEntriesCountLabel.text = 
-        getRoomInfoResult.newJournalEntriesCount == 0 ? "" : ""
+        getRoomInfoResult.newJournalEntriesCount === 0 ? "" : ""
             + getRoomInfoResult.newJournalEntriesCount;
     this.journal.newEntriesCountLabel.visible = 
         getRoomInfoResult.newJournalEntriesCount > 0;
@@ -2036,7 +2036,7 @@ export default class RoomController extends BaseGameController{
   }
 
   bookcaseClicked(clickedArg) {
-    if (this.roomData.situation == RoomData.SITUATION_NORMAL) {
+    if (this.roomData.situation === RoomData.SITUATION_NORMAL) {
       this.roomData.bookcasePopupMenu.visible = true;
     }
   }

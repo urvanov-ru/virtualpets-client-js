@@ -422,7 +422,7 @@ export default class BaseGameLoadWorker {
     publish[0] = new ProgressInfo(
         ((this.currentIndex * 100) / this.maxIndex), path);
     this.publish(publish);
-    if (this.currentIndex == this.maxIndex) {
+    if (this.currentIndex === this.maxIndex) {
       this.done();
     }
   }

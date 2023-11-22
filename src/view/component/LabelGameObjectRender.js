@@ -28,7 +28,7 @@ export default class LabelGameObjectRender extends GameObjectRenderBase {
     context.fillStyle = "#ffff00";
     const logicDimension = this.gameObject.dimension;
     
-    if (logicDimension == null || null == text || "" == text || logicDimension.width == 0 && logicDimension.height == 0) {
+    if (logicDimension == null || null === text || "" === text || logicDimension.width === 0 && logicDimension.height === 0) {
         const fontHeight = context.measureText(text).actualBoundingBoxAscent;
         context.fillText(text, this.position.x - 1, this.position.y + 1 + fontHeight);
         context.fillText(text, this.position.x + 1, this.position.y + 1 + fontHeight);

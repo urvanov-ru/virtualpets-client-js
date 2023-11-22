@@ -191,7 +191,7 @@ export default class TownControllerImpl extends BaseGameController {
     this.updateAchievementInfo(getTownInfoResult.achievements);
 
     this.journal.newEntriesCountLabel.text = 
-        getTownInfoResult.newJournalEntriesCount == 0 ? "" : ""
+        getTownInfoResult.newJournalEntriesCount === 0 ? "" : ""
             + getTownInfoResult.newJournalEntriesCount;
     this.journal.newEntriesCountLabel.visible = 
         getTownInfoResult.newJournalEntriesCount > 0;

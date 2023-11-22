@@ -90,7 +90,7 @@ export default class ResourceLoader {
         ((this.currentIndex * 100) / this.maxIndex), path);
     publish.message = path;
     this.publish(publish);
-    if (this.currentIndex == this.maxIndex) {
+    if (this.currentIndex === this.maxIndex) {
       this.done();
     }
   }

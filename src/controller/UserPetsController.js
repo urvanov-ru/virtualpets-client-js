@@ -40,7 +40,7 @@ export default class UserPetsController {
 //    public void completed(PetListResult result) {
 //      if (result.isSuccess()) {
 //        userPetsView.setPetsInfo(result.getPetsInfo());
-//        if (result.getPetsInfo().length == 0) {
+//        if (result.getPetsInfo().length === 0) {
 //          createPetController.showView();
 //        }
 //      } else {
@@ -68,7 +68,7 @@ export default class UserPetsController {
     work.completed = (petListResult) => {
       if (petListResult.success) {
         this.userPetsView.petsInfo = petListResult.petsInfo;
-        if (petListResult.petsInfo.length == 0) {
+        if (petListResult.petsInfo.length === 0) {
           this.createPetController.showView();
         }
       } else {

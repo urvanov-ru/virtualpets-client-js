@@ -87,7 +87,7 @@ export default class CreatePetControllerImpl {
         .addCreateListener((sender, createPetArg) => {
           try {
             if (createPetArg.name == null
-                || "" == createPetArg.name) {
+                || "" === createPetArg.name) {
               this.trayIcon.showTrayMessage(this.messageSource
                   .getMessage(StringConstants.FILL_NAME,
                       null, null), MessageType.ERROR);

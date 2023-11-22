@@ -109,7 +109,7 @@ export default class BaseGameController {
     this.#progressBar.step = function() {
       if (this.visible) {
         this.value = this.value + 1;
-        if (this.value == this.maxValue)
+        if (this.value === this.maxValue)
           this.fireAnimationOver(new AnimationOverArg());
       }
     }.bind(this.#progressBar);
@@ -121,7 +121,7 @@ export default class BaseGameController {
 
   #mouseClicked(clickedArg) {
     if (this.#buildingGameObject != null
-        && this.#buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION) {
+        && this.#buildingState === BaseGameController.#BUILDING_STATE_SELECT_POSITION) {
       clickedArg.handled = true;
       this.#buildingState = BaseGameController.#BUILDING_STATE_MOVE_PET;
       const moveTilesTarget = this.tilesEngine
@@ -163,7 +163,7 @@ export default class BaseGameController {
             });
         this.#buildingGameObject.visible = false;
       }
-    } else if (this.#movingState == BaseGameController.#MOVING_STATE_SELECT_POSITION
+    } else if (this.#movingState === BaseGameController.#MOVING_STATE_SELECT_POSITION
         && this.#movingGameObject != null) {
       clickedArg.handled = true;
       this.#movingGameObject.fireMoveEvent();
@@ -174,7 +174,7 @@ export default class BaseGameController {
 
   #mouseMoved(mouseMoveArg) {
     if (this.#buildingGameObject != null
-        && (this.#buildingState == BaseGameController.#BUILDING_STATE_STARTED || this.#buildingState == BaseGameController.#BUILDING_STATE_SELECT_POSITION)) {
+        && (this.#buildingState === BaseGameController.#BUILDING_STATE_STARTED || this.#buildingState === BaseGameController.#BUILDING_STATE_SELECT_POSITION)) {
       this.#buildingState = BaseGameController.#BUILDING_STATE_SELECT_POSITION;
       this.#buildingGameObject.position = this.tilesEngine
           .translateFromTileCoordinates(this.#buildingGameObject,
@@ -182,7 +182,7 @@ export default class BaseGameController {
                   .mousePosition));
       mouseMoveArg.handled = true;
     } else if (this.#movingGameObject != null
-        && (this.#movingState == BaseGameController.#MOVING_STATE_STARTED || this.#movingState == BaseGameController.#MOVING_STATE_SELECT_POSITION)) {
+        && (this.#movingState === BaseGameController.#MOVING_STATE_STARTED || this.#movingState === BaseGameController.#MOVING_STATE_SELECT_POSITION)) {
       this.#movingState = BaseGameController.#MOVING_STATE_SELECT_POSITION;
       this.#movingGameObject.position = this.tilesEngine
           .translateFromTileCoordinates(this.#movingGameObject,
@@ -190,7 +190,7 @@ export default class BaseGameController {
                   .mousePosition));
       mouseMoveArg.handled = true;
     } else if (this.#upgradingGameObject != null
-        && this.#upgradingState == BaseGameController.#UPGRADING_STATE_STARTED) {
+        && this.#upgradingState === BaseGameController.#UPGRADING_STATE_STARTED) {
       this.#upgradingState = UpgradingState.MOVE_PET;
       mouseMoveArg.handled = true;
     }
@@ -1064,7 +1064,7 @@ export default class BaseGameController {
           this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
                   + entries[currentPage + 1].code, null, null);
-    } else if (entries.length - currentPage == 1) {
+    } else if (entries.length - currentPage === 1) {
       this.journal.leftText.text = 
           this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
@@ -1533,7 +1533,7 @@ export default class BaseGameController {
     const lastLevel = this.levelInfo.levelLabel.text;
     this.levelInfo.levelLabel.text = "" + info.level;
     if (!!lastLevel
-        && !info.level == +lastLevel) {
+        && !info.level === +lastLevel) {
         
       this.levelInfo.showLevelHasReachedLabel(this.messageSource
           .getMessage(StringConstants.YOU_HAVE_REACHED_LEVEL, [ levelInfo.getLevelLabel().getText() ],

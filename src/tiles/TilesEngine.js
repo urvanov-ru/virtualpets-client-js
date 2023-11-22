@@ -117,14 +117,14 @@ export default class TilesEngine {
     const startY = start.y;
     const destX = dest.x;
     const destY = dest.y;
-    if (this.#tiles[destX][destY] == TileType.WALL) {
+    if (this.#tiles[destX][destY] === TileType.WALL) {
       return null;
     }
     const a = new Array(this.#tiles.length);
     ROWS: for (let n = 0; n < this.#tiles.length; n++) {
       a[n] = new Array(this.#tiles[0].length);
       COLUMNS: for (let m = 0; m < this.#tiles[0].length; m++) {
-        a[n][m] = this.#tiles[n][m] == TileType.NORMAL ? 0 : 1;
+        a[n][m] = this.#tiles[n][m] === TileType.NORMAL ? 0 : 1;
       }
     }
     const lstCurr = new Array(); //Stack<PathPoint>
@@ -194,7 +194,7 @@ export default class TilesEngine {
         // System.out.println("nx="+nx);
         // System.out.println("ny="+ny);
         // System.out.println("state="+curPos.state);
-        if ((nx == destX) && (ny == destY)) {
+        if ((nx === destX) && (ny === destY)) {
            if (nBestSteps > nCurrSteps) {
                 nBestSteps = nCurrSteps;
                 lstBest = []; //new Stack<PathPoint>();
@@ -209,11 +209,11 @@ export default class TilesEngine {
   
        switch (aPriority[curPos.x][curPos.y][curPos.state]) {
         case 0:
-            if (ny == 0) {
+            if (ny === 0) {
                 curPos.state++;
             } else {
                 ny--;
-                if (a[nx][ny] == 0) {
+                if (a[nx][ny] === 0) {
                     curPos = new PathPoint(nx, ny, 0);
                     lstCurr.push(curPos);
                     a[nx][ny] = 2;
@@ -224,11 +224,11 @@ export default class TilesEngine {
             }
             break;
         case 1:
-            if (nx == xmax) {
+            if (nx === xmax) {
                 curPos.state++;
             } else {
                 nx++;
-                if (a[nx][ny] == 0) {
+                if (a[nx][ny] === 0) {
                     curPos = new PathPoint(nx, ny, 0);
                     lstCurr.push(curPos);
                     a[nx][ny] = 2;
@@ -239,11 +239,11 @@ export default class TilesEngine {
             }
             break;
         case 2:
-            if (ny == ymax) {
+            if (ny === ymax) {
                 curPos.state++;
             } else {
                 ny++;
-                if (a[nx][ny] == 0) {
+                if (a[nx][ny] === 0) {
                     curPos = new PathPoint(nx, ny, 0);
                     lstCurr.push(curPos);
                     a[nx][ny] = 2;
@@ -254,11 +254,11 @@ export default class TilesEngine {
             }
             break;
         case 3:
-            if (nx == 0) {
+            if (nx === 0) {
                 curPos.state++;
             } else {
                 nx--;
-                if (a[nx][ny] == 0) {
+                if (a[nx][ny] === 0) {
                     curPos = new PathPoint(nx, ny, 0);
                     lstCurr.push(curPos);
                     a[nx][ny] = 2;
@@ -273,7 +273,7 @@ export default class TilesEngine {
             a[nx][ny] = 0;
             lstCurr.splice(curPos, 1);
             nCurrSteps--;
-            if (lstCurr.length == 0) {
+            if (lstCurr.length === 0) {
               if (lstBest == null) {
                 return null;
             }
@@ -415,7 +415,7 @@ export default class TilesEngine {
     let position = go.position;
     let x = position.x;
     let y = position.y - position.y % this.tileHeight;
-    if (goHeight % this.tileHeight == 0) {
+    if (goHeight % this.tileHeight === 0) {
       goHeight--;
     }
     y += goHeight;

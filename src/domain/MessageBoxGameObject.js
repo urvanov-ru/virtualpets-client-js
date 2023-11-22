@@ -53,11 +53,11 @@ export default class MessageBoxGameObject extends GameObject {
         }
         if (y >= MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_Y) {
             y = MessageBoxGameObject.ORIGINAL_MESSAGE_BOX_Y;
-          if (this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_BUTTON || this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON) {
+          if (this.messageBoxType === MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_BUTTON || this.messageBoxType === MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON) {
             this.okButton.visible = true;
             this.okLabel.visible = true;
           }
-          if (this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_CANCEL_BUTTON || this.messageBoxType == MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON) {
+          if (this.messageBoxType === MessageBoxGameObject.MESSAGE_BOX_TYPE_CANCEL_BUTTON || this.messageBoxType === MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON) {
             this.cancelButton.visible = true;
             this.cancelLabel.visible = true;
           }

@@ -122,11 +122,11 @@ export default class LoginView extends BaseHtmlView {
       const serverInfo = servers[n];
       this.#serverSelect.add(new Option(`${serverInfo.name} (${serverInfo.locale})`, serverInfo.address));
       if (this.settings.lastHost && this.settings.lastHost.length > 0) {
-        if (serverInfo.address == settings.lastHost) {
+        if (serverInfo.address === settings.lastHost) {
           this.#serverSelect.value = serverInfo.address;
         }
       } else {
-        if (serverInfo.locale == this.messageSource.getMessage(StringConstants.LANGUAGE_CODE)){
+        if (serverInfo.locale === this.messageSource.getMessage(StringConstants.LANGUAGE_CODE)){
           this.#serverSelect.value = serverInfo.address;
         }
       }
