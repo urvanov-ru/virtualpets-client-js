@@ -8,7 +8,6 @@ import PetGameObject from '../domain/PetGameObject.js';
 import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerObject.js';
 import RefrigeratorInnerObject from './room/domain/RefrigeratorInnerObject.js';
 import RoomData from '../domain/RoomData.js';
-import BaseGameController from './BaseGameController.js';
 import GameObject from '../domain/GameObject.js';
 import Point from '../domain/Point.js';
 import Dimension from '../domain/Dimension.js';
@@ -37,8 +36,10 @@ import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExcept
 // tray icon
 import MessageType from '../trayicon/MessageType.js';
 
+// controller
+import BaseGameController from './BaseGameController.js';
 
-export default class RoomController extends BaseGameController{
+export default class RoomController extends BaseGameController {
 
   roomData;
   roomView;
