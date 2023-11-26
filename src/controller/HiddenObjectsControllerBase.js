@@ -260,52 +260,51 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 
     this.initializeMessageBox();
     const waitingPlayerNameLabels = new Array(TreasuryData.MAX_PLAYERS_COUNT);
-    hiddenObjectsGameData.setWaitingPlayerNameLabels(waitingPlayerNameLabels);
-    for (int n  = 0; n < waitingPlayerNameLabels.length; n++) {
-      LabelGameObject lgo = new LabelGameObject();
-      lgo.setText(messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYER, null, null));
-      addGameObject(lgo);
-      lgo.setZ(MENU_Z_ORDER+1);
-      lgo.setVisible(false);
+    this.hiddenObjectsGameData.waitingPlayerNameLabels = waitingPlayerNameLabels;
+    for (let n  = 0; n < waitingPlayerNameLabels.length; n++) {
+      const lgo = new LabelGameObject();
+      lgo.text = this.messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYER, null, null);
+      this.addGameObject(lgo);
+      lgo.z = MENU_Z_ORDER + 1;
+      lgo.visible = false;
       waitingPlayerNameLabels[n] = lgo;
     }
     
-    initializeFoodIcons();
-    Map<Integer, ClothGameObject> clothGameObjects = this.initializeClothGameObjects();
-    for (ClothGameObject cgo : clothGameObjects.values()) {
-      cgo.setVisible(false);
-      cgo.setPosition(new Point(TreasuryData.ORIGINAL_CLOTH_REWARD_X,
-          TreasuryData.ORIGINAL_CLOTH_REWARD_Y));
-      cgo.setZ(MENU_Z_ORDER);
+    this.initializeFoodIcons();
+    const clothGameObjects = this.initializeClothGameObjects();
+    for (let [key, value] of clothGameObjects.entries()) {
+      const cgo = value;
+      cgo.visible = false;
+      cgo.position = new Point(TreasuryData.ORIGINAL_CLOTH_REWARD_X,
+          TreasuryData.ORIGINAL_CLOTH_REWARD_Y);
+      cgo.z = BaseGameController.MENU_Z_ORDER;
     }
-    hiddenObjectsGameData.setClothObjects(clothGameObjects);
-    Map<Integer, BookGameObject> bookGameObjects = this.initializeBookGameObjects();
-    for (BookGameObject bgo : bookGameObjects.values()) {
-      bgo.setVisible(false);
-      bgo.setPosition(new Point(TreasuryData.ORIGINAL_CLOTH_REWARD_X,
-          TreasuryData.ORIGINAL_CLOTH_REWARD_Y));
-      bgo.setZ(MENU_Z_ORDER);
+    this.hiddenObjectsGameData.clothObjects = clothGameObjects;
+    const bookGameObjects = this.initializeBookGameObjects();
+    for (let [key, value] of bookGameObjects.entries()) {
+      bgo.visible = false;
+      bgo.position = new Point(TreasuryData.ORIGINAL_CLOTH_REWARD_X,
+          TreasuryData.ORIGINAL_CLOTH_REWARD_Y);
+      bgo.z = BaseGameController.MENU_Z_ORDER;
     }
-    this.hiddenObjectsGameData.setBookObjects(bookGameObjects);
+    this.hiddenObjectsGameData.bookObjects = bookGameObjects;
     
-    initializeDrinkIcons();
+    this.initializeDrinkIcons();
     
-    LabelGameObject clockLabel = new LabelGameObject() {
-      @Override
-      public void step() {
-        setText(hiddenObjectsGameData.getSecondsLeftString());
-      }
+    const clockLabel = new LabelGameObject();
+    clockLabel.step = () => {
+      clockLabel.text = this. hiddenObjectsGameData.secondsLeftString;
     };
-    clockLabel.setZ(MENU_Z_ORDER);
-    addGameObject(clockLabel);
-    clockLabel.setPosition(new Point(TreasuryData.ORIGINAL_CLOCK_LABEL_X, TreasuryData.ORIGINAL_CLOCK_LABEL_Y));
-    hiddenObjectsGameData.setClockLabel(clockLabel);
+    clockLabel.z = BaseGameController.MENU_Z_ORDER;
+    this.addGameObject(clockLabel);
+    clockLabel.position = new Point(TreasuryData.ORIGINAL_CLOCK_LABEL_X, TreasuryData.ORIGINAL_CLOCK_LABEL_Y);
+    this.hiddenObjectsGameData.clockLabel = clockLabel;
     
-    initializeRucksack();
-    getRucksack().setVisible(false);
-    initializeLevelInfo();
-    getLevelInfo().setVisible(false);
-    initializeAchievementInfo();
+    this.initializeRucksack();
+    this.rucksack.visible = false;
+    this.initializeLevelInfo();
+    this.levelInfo.visible = false;
+    this.initializeAchievementInfo();
   }
 
   private class CollectObjectBackgroundWork extends BackgroundWork<CollectObjectArg, HiddenObjectsGame, Object> {
