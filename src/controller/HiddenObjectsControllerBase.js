@@ -642,57 +642,55 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     }
     
     
-    if (hiddenObjectsGameData.getSituation() != Situation.COLLECT_PLAYERS) {
-      getMessageBox().getInnerGameObjects().clear();
-      for (int n = 0; n < hiddenObjectsGameData.getWaitingPlayerNameLabels().length; n++) {
-        LabelGameObject lgo = hiddenObjectsGameData.getWaitingPlayerNameLabels()[n];
-        MessageBoxGameObject.InnerGameObject igo =  getMessageBox().new InnerGameObject();
-        igo.setGameObject(lgo);
-        igo.setPosition(new Point(10, 100 + n * lgo.getSize()));
-        lgo.setVisible(true);
-        getMessageBox().getInnerGameObjects().add(igo);
+    if (this.hiddenObjectsGameData.situation != Situation.COLLECT_PLAYERS) {
+      this.messageBox.innerGameObjects.splice(0);
+      for (let n = 0; n < this.hiddenObjectsGameData.waitingPlayerNameLabels.length; n++) {
+        const lgo = this.hiddenObjectsGameData.waitingPlayerNameLabels[n];
+        MessageBoxGameObject.InnerGameObject igo =  new MessageBoxInnerGameObject();
+        igo.gameObject = lgo;
+        igo.position = new Point(10, 100 + n * lgo.size);
+        lgo.visible = true;
+        this.messageBox.innerGameObjects.add(igo);
       }
-      showMessageBox(new String[] {
-          messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYERS_1, null, null),
-          messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYERS_2, null, null)
-      }, (clickedArg)->{
-        hideMessageBox();
-        getMessageBox().getInnerGameObjects().clear();
-        hideMessageBox();
-        showHowToPlayMessage();
-        startGame((Void)null);
-        hiddenObjectsGameData.setSituation(Situation.HOW_TO_PLAY_MESSAGE);
+      this.showMessageBox([
+          this.messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYERS_1, null, null),
+          this.messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYERS_2, null, null)
+      ], (clickedArg) => {
+        this.hideMessageBox();
+        this.messageBox.innerGameObjects.splice(0);
+        this.hideMessageBox();
+        this.showHowToPlayMessage();
+        this.startGame(null);
+        this.hiddenObjectsGameData.situation = Situation.HOW_TO_PLAY_MESSAGE;
       }, null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
-      hiddenObjectsGameData.setSituation(Situation.COLLECT_PLAYERS);
+      this.hiddenObjectsGameData.situation = Situation.COLLECT_PLAYERS;
     }
 
   }
 
-  public void updateGameInfo(HiddenObjectsGame result) {
+  updateGameInfo(hiddenObjectsGame) {
     try {
-      GameObject[] hiddenObjectsIcons = hiddenObjectsGameData.getHiddenObjectsIcons();
-      GameObject interfaceObject = hiddenObjectsGameData.getInterfaceObject();
-      GameObject[] hiddenObjects = hiddenObjectsGameData.getHiddenObjects();
-      hiddenObjectsGameData.setHiddenObjectsGame(result);
-      
-      
-      boolean gameOver = result.isGameOver();
+      const hiddenObjectsIcons = this.hiddenObjectsGameData.hiddenObjectsIcons;
+      const interfaceObject = this.hiddenObjectsGameData.interfaceObject;
+      const hiddenObjects = this.hiddenObjectsGameData.hiddenObjects;
+      this.hiddenObjectsGameData.hiddenObjectsGame(hiddenObjectsGame);
+      const gameOver = hiddenObjectsGame.gameOver;
       if (gameOver) {
-        hiddenObjectsGameData.setSituation(Situation.GAME_OVER);
+        this.hiddenObjectsGameData.situation = Situation.GAME_OVER;
       }
-      if (hiddenObjectsGameData.getSituation() == Situation.COLLECT_PLAYERS) {
-        showHowToPlayMessage();
+      if (this.hiddenObjectsGameData.situation == Situation.COLLECT_PLAYERS) {
+        this.showHowToPlayMessage();
         return;
       }
 
       //double scale = getScale();
 
-      Integer[] objects = result.getObjects();
-      GameObject[] visibleObjectsIcons = new GameObject[objects.length];
-      for (int n = 0; n < objects.length; n++) {
-        Integer objectId = objects[n];
+      const objects = result.objects;
+      const visibleObjectsIcons = new Array(objects.length);
+      for (let n = 0; n < objects.length; n++) {
+        const objectId = objects[n];
         if (objectId != null) {
-          GameObject go = hiddenObjectsIcons[objectId];
+          const go = hiddenObjectsIcons[objectId];
           go.setVisible(true);
           int x = TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_X + n
               * TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_STEP + 30
