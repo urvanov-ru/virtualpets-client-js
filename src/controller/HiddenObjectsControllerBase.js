@@ -307,341 +307,314 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     this.initializeAchievementInfo();
   }
 
-  private class CollectObjectBackgroundWork extends BackgroundWork<CollectObjectArg, HiddenObjectsGame, Object> {
-    @Override
-    public HiddenObjectsGame doInBackground() throws Exception {
-      return hiddenObjectsService.collectObject(getArgument());
-    }
-    
-    @Override
-    public void completed(HiddenObjectsGame result) {
-    }
-    
-    @Override
-    public void failed(Exception ex) {
-      HiddenObjectsControllerBaseImpl.this.hiddenObjectsGameData.getHiddenObjects()[getArgument().getObjectId()].setVisible(true);
-      logger.error("CollectObjectBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
-          + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
-  }
+//  private class CollectObjectBackgroundWork extends BackgroundWork<CollectObjectArg, HiddenObjectsGame, Object> {
+//    @Override
+//    public HiddenObjectsGame doInBackground() throws Exception {
+//      return hiddenObjectsService.collectObject(getArgument());
+//    }
+//    
+//    @Override
+//    public void completed(HiddenObjectsGame result) {
+//    }
+//    
+//    @Override
+//    public void failed(Exception ex) {
+//      HiddenObjectsControllerBaseImpl.this.hiddenObjectsGameData.getHiddenObjects()[getArgument().getObjectId()].setVisible(true);
+//      logger.error("CollectObjectBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
+//          + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
   
-  protected void collectObject(CollectObjectArg collectObjectArg) {
-    CollectObjectBackgroundWork work = new CollectObjectBackgroundWork();
-    work.setArgument(collectObjectArg);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  collectObject(collectObjectArg) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      return hiddenObjectsService.collectObject(work.argument);
+    };
+    work.completed = () => {};
+    work.failed = (exception) => {
+      this.hiddenObjectsGameData.hiddenObjects[work.argument.objectId].visible = true;
+      console.error("CollectObjectBackgroundWork failed.", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
+          + ": " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.argument = collectObjectArg;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class StartGameWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
-    @Override
-    public HiddenObjectsGame doInBackground() throws Exception {
+//  private class StartGameWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
+//    @Override
+//    public HiddenObjectsGame doInBackground() throws Exception {
+//      return hiddenObjectsService.startGame();
+//    }
+//    
+//    @Override
+//    public void completed(HiddenObjectsGame result) {
+//      startGame(result);
+//    }
+//    
+//    @Override
+//    public void failed(Exception ex) {
+//      logger.error("StartGameBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
+//          + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR);
+//    }
+//  }
+  
+  startGame(argument) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
       return hiddenObjectsService.startGame();
-    }
-    
-    @Override
-    public void completed(HiddenObjectsGame result) {
-      startGame(result);
-    }
-    
-    @Override
-    public void failed(Exception ex) {
-      logger.error("StartGameBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
-          + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
-    }
+    };
+    work.completed = (hiddenObjectsGame) => {
+      this.startGame(hiddenObjectsGame);
+    };
+    work.failed = (exception) => {
+      console.error("StartGameBackgroundWork failed.", ex);
+      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
+          + ": " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+    };
+    work.argument = argument;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
+  }
+
+//  private class GetGameInfoWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
+//    @Override
+//    public HiddenObjectsGame doInBackground() throws Exception {
+//      Thread.sleep(1000);
+//      return hiddenObjectsService.getGameInfo();
+//    }
+//    
+//    @Override
+//    public void completed(HiddenObjectsGame result) {
+//      if (result.isGameOver()) {
+//        updateGameInfo(result);
+//      } else if (result.isGameStarted()) {
+//        updateGameInfo(result);
+//        getGameInfo(getArgument());
+//      } else {
+//        showCollectPlayers(result);
+//        getGameInfo(getArgument());
+//      }
+//    }
+//    
+//    @Override
+//    public void failed(Exception ex) {
+//      logger.error("GetGameInfoWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
+//          + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR); 
+//    }
+//  }
+  
+//  private class JoinGameBackgroundWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
+//
+//    @Override
+//    public HiddenObjectsGame doInBackground() throws Exception {
+//      JoinHiddenObjectsGameArg arg = new JoinHiddenObjectsGameArg();
+//      arg.setHiddenObjectsGameType(getHiddenObjectsGameType());
+//      return hiddenObjectsService.joinGame(arg);
+//    }
+//    
+//    @Override
+//    public void completed(HiddenObjectsGame result) {
+//      showCollectPlayers(result);
+//      getGameInfo(null);
+//    }
+//    
+//    @Override
+//    public void failed(Exception ex) {
+//      logger.error("JoinGameBackgroundWork failed.", ex);
+//      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
+//          + ": " + ex.toString();
+//      trayIcon.showTrayMessage(message, MessageType.ERROR); 
+//    }
+//  }
+  
+  joinGame(argument) {
+    const work = new BackgroundWork();
+    work.doInBackground = () => {
+      const arg = new JoinHiddenObjectsGameArg();
+      arg.hiddenObjectsGameType = this.hiddenObjectsGameType;
+      return this.hiddenObjectsService.joinGame(argument);
+    };
+    work.completed = (hiddenObjectsGame) => {
+      this.showCollectPlayers(hiddenObjectsGame);
+      this.getGameInfo(null);
+    };
+    work.failed = (exception) => {
+      console.error("JoinGameBackgroundWork failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
+          + ": " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR); 
+    };
+    work.argument = argument;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = false;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
   
-  protected void startGame(Void arg) {
-    StartGameWork work = new StartGameWork();
-    work.setArgument(arg);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
+  getGameInfo(argument) {
+    //const work = new BackgroundWork();
+    //work.doInBackground = () => {
+    //  Thread.sleep(1000);
+    //  return hiddenObjectsService.getGameInfo();
+    //};
+    //work.argument = argument;
+    //const ces = new ConnectionExceptionSettings();
+    //ces.restart = true;
+    //work.connectionExceptionSettings = ces;
+    //this.backgroundWorkManager.startBackgroundWork(work);
   }
 
-  private class GetGameInfoWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
-    @Override
-    public HiddenObjectsGame doInBackground() throws Exception {
-      Thread.sleep(1000);
-      return hiddenObjectsService.getGameInfo();
-    }
-    
-    @Override
-    public void completed(HiddenObjectsGame result) {
-      if (result.isGameOver()) {
-        updateGameInfo(result);
-      } else if (result.isGameStarted()) {
-        updateGameInfo(result);
-        getGameInfo(getArgument());
-      } else {
-        showCollectPlayers(result);
-        getGameInfo(getArgument());
-      }
-    }
-    
-    @Override
-    public void failed(Exception ex) {
-      logger.error("GetGameInfoWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
-          + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR); 
-    }
-  }
-  
-  private class JoinGameBackgroundWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
-
-    @Override
-    public HiddenObjectsGame doInBackground() throws Exception {
-      JoinHiddenObjectsGameArg arg = new JoinHiddenObjectsGameArg();
-      arg.setHiddenObjectsGameType(getHiddenObjectsGameType());
-      return hiddenObjectsService.joinGame(arg);
-    }
-    
-    @Override
-    public void completed(HiddenObjectsGame result) {
-      showCollectPlayers(result);
-      getGameInfo(null);
-    }
-    
-    @Override
-    public void failed(Exception ex) {
-      logger.error("JoinGameBackgroundWork failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR, null, null)
-          + ": " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR); 
-    }
-  }
-  
-  public void joinGame(Void arg) {
-    JoinGameBackgroundWork work = new JoinGameBackgroundWork();
-    work.setArgument(arg);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(false);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
-  }
-  
-  public void getGameInfo(Void argument) {
-    GetGameInfoWork work = new GetGameInfoWork();
-    work.setArgument(argument);
-    ConnectionExceptionSettings ces = new ConnectionExceptionSettings();
-    ces.setRestart(true);
-    work.setConnectionExceptionSettings(ces);
-    backgroundWorkManager.startBackgroundWork(work);
-  }
-
-  /**
-   * @return the petService
-   */
-  public PetService getPetService() {
-    return petService;
-  }
-
-  /**
-   * @param petService the petService to set
-   */
-  public void setPetService(PetService petService) {
-    this.petService = petService;
-  }
-
-  /**
-   * @return the gameController
-   */
-  public GameController getGameController() {
-    return gameController;
-  }
-
-  /**
-   * @param gameController the gameController to set
-   */
-  public void setGameController(GameController gameController) {
-    this.gameController = gameController;
-  }
-
-  /**
-   * @return the hiddenObjectsService
-   */
-  public HiddenObjectsService getHiddenObjectsService() {
-    return hiddenObjectsService;
-  }
-
-  /**
-   * @param hiddenObjectsService the hiddenObjectsService to set
-   */
-  public void setHiddenObjectsService(HiddenObjectsService hiddenObjectsService) {
-    this.hiddenObjectsService = hiddenObjectsService;
-  }
-
-  /**
-   * @return the backgroundWorkManager
-   */
-  public BackgroundWorkManager getBackgroundWorkManager() {
-    return backgroundWorkManager;
-  }
-
-  /**
-   * @param backgroundWorkManager the backgroundWorkManager to set
-   */
-  public void setBackgroundWorkManager(BackgroundWorkManager backgroundWorkManager) {
-    this.backgroundWorkManager = backgroundWorkManager;
-  }
-  
-
-  private GameObject initializePlayerIcon(int x, int y, int resourceId) {
-    GameObject go = new GameObject();
-    go.setPosition(new Point(x, y));
-    int[][] imgids = new int[1][];
-    imgids[0] = new int[1];
-    imgids[0][0] = resourceId;
-
-    go.setAnimationImageIds(imgids);
-    go.addMouseMoveListener((mouseMoveArg)-> {
-        setHighlightObject(null);
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
+  initializePlayerIcon(x, y, resourceId) {
+    const go = new GameObject();
+    go.position = new Point(x, y);
+    go.animationImageIds = [[ resourceId ]];
+    go.addMouseMoveListener((mouseMoveArg) => {
+        this.highlightObject = null;
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
       });
-    addGameObject(go);
-    go.setVisible(false);
+    this.addGameObject(go);
+    go.visible = false;
     return go;
   }
 
-  private void initializeFoodIcons() {
-    int foodTypeCount = FoodType.values().length;
+  initializeFoodIcons() {
+    const foodTypeCount = FoodType.VALUES_COUNT;
     
-    GameObject[] foodIcons = new GameObject[foodTypeCount];
-    hiddenObjectsGameData.setFoodIcons(foodIcons);
-    foodIcons[FoodType.CARROT.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_CARROT_1);
-    foodIcons[FoodType.DRY_FOOD.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_DRY_FOOD_1);
-    foodIcons[FoodType.FISH.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_FISH_1);
-    foodIcons[FoodType.ICE_CREAM.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_ICE_CREAM_1);
-    foodIcons[FoodType.APPLE.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_APPLE_1);
-    foodIcons[FoodType.CABBAGE.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_CABBAGE_1);
-    foodIcons[FoodType.CHOCOLATE.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_CHOCOLATE_1);
-    foodIcons[FoodType.FRENCH_FRIES.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_FRENCH_FRIES_1);
-    foodIcons[FoodType.JAPANESE_ROLLS.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_JAPANESE_ROLLS_1);
-    foodIcons[FoodType.PIE.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_PIE_1);
-    foodIcons[FoodType.POTATOES.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_POTATOES_1);
-    foodIcons[FoodType.SANDWICH.ordinal()] = initFoodIcon(ResourceManagerBase.IMAGE_SANDWICH_1);
+    const foodIcons = new Array(foodTypeCount);
+    this.hiddenObjectsGameData.foodIcons = foodIcons;
+    foodIcons[FoodType.CARROT.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_CARROT_1);
+    foodIcons[FoodType.DRY_FOOD.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_DRY_FOOD_1);
+    foodIcons[FoodType.FISH.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_FISH_1);
+    foodIcons[FoodType.ICE_CREAM.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_ICE_CREAM_1);
+    foodIcons[FoodType.APPLE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_APPLE_1);
+    foodIcons[FoodType.CABBAGE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_CABBAGE_1);
+    foodIcons[FoodType.CHOCOLATE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_CHOCOLATE_1);
+    foodIcons[FoodType.FRENCH_FRIES.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_FRENCH_FRIES_1);
+    foodIcons[FoodType.JAPANESE_ROLLS.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_JAPANESE_ROLLS_1);
+    foodIcons[FoodType.PIE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_PIE_1);
+    foodIcons[FoodType.POTATOES.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_POTATOES_1);
+    foodIcons[FoodType.SANDWICH.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_SANDWICH_1);
   }
 
-  private GameObject initFoodIcon(int resourceId) {
-    GameObject go = new GameObject();
-    go.setPosition(new Point(TreasuryData.ORIGINAL_FOOD_REWARD_X, TreasuryData.ORIGINAL_FOOD_REWARD_Y));
-    go.setVisible(false);
-    setOneSizeAnimation(go, resourceId);
-    go.addMouseMoveListener((mouseMoveArg)-> {
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
+  initFoodIcon(resourceId) {
+    const go = new GameObject();
+    go.position = new Point(TreasuryData.ORIGINAL_FOOD_REWARD_X, TreasuryData.ORIGINAL_FOOD_REWARD_Y);
+    go.visible = false;
+    this.setOneSizeAnimation(go, resourceId);
+    go.addMouseMoveListener((mouseMoveArg) => {
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
       });
-    addGameObject(go);
+    this.addGameObject(go);
     return go;
   }
   
-  private void initializeDrinkIcons() {
-    int drinkTypeCount = DrinkType.values().length;
-    GameObject[] drinkIcons = new GameObject[drinkTypeCount];
-    hiddenObjectsGameData.setDrinkIcons(drinkIcons);
-    drinkIcons[0] = initDrinkIcon(ResourceManagerBase.IMAGE_WATER_1);
-    drinkIcons[1] = initDrinkIcon(ResourceManagerBase.IMAGE_MILK_1);
-    drinkIcons[2] = initDrinkIcon(ResourceManagerBase.IMAGE_BOTTLE_1);
-    drinkIcons[3] = initDrinkIcon(ResourceManagerBase.IMAGE_TEA_1);
-    drinkIcons[4] = initDrinkIcon(ResourceManagerBase.IMAGE_COFFEE_1);
-    drinkIcons[5] = initDrinkIcon(ResourceManagerBase.IMAGE_ORANGE_JUICE_1);
+  initializeDrinkIcons() {
+    const drinkTypeCount = DrinkType.VALUES_COUNT
+    const drinkIcons = new Array(drinkTypeCount);
+    this.hiddenObjectsGameData.drinkIcons = drinkIcons;
+    drinkIcons[0] = this.initDrinkIcon(ResourceManager.IMAGE_WATER_1);
+    drinkIcons[1] = this.initDrinkIcon(ResourceManager.IMAGE_MILK_1);
+    drinkIcons[2] = this.initDrinkIcon(ResourceManager.IMAGE_BOTTLE_1);
+    drinkIcons[3] = this.initDrinkIcon(ResourceManager.IMAGE_TEA_1);
+    drinkIcons[4] = this.initDrinkIcon(ResourceManager.IMAGE_COFFEE_1);
+    drinkIcons[5] = this.initDrinkIcon(ResourceManager.IMAGE_ORANGE_JUICE_1);
   }
   
-  private GameObject initDrinkIcon(int resourceId) {
-    GameObject go = new GameObject();
-    go.setPosition(new Point(0, 0));
-    go.setVisible(false);
-    setOneSizeAnimation(go, resourceId);
-    go.addMouseMoveListener((mouseMoveArg)-> {
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
+  initDrinkIcon(resourceId) {
+    const go = new GameObject();
+    go.position = new Point(0, 0);
+    go.visible = false;
+    this.setOneSizeAnimation(go, resourceId);
+    go.addMouseMoveListener((mouseMoveArg) => {
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
+      });
+    this.addGameObject(go);
+    return go;
+  }
+
+  initHiddenObjectIcon(resourceId) {
+    const go = new GameObject();
+    go.position = new Point(0, 0);
+    go.dimension = new Dimension(TreasuryData.ICON_WIDTH, TreasuryData.ICON_HEIGHT);
+    go.visible = false;
+    this.setOneSizeAnimation(go, resourceId);
+    go.addMouseMoveListener((mouseMoveArg) => {
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
+        this.highlightObject = null;
       });
     addGameObject(go);
     return go;
   }
 
-  
-  protected abstract void initializeHiddenObjectsIcons();
-
-  protected GameObject initHiddenObjectIcon(int resourceId) {
-    GameObject go = new GameObject();
-    go.setPosition(new Point(0, 0));
-    go.setDimension(new Dimension(TreasuryData.ICON_WIDTH, TreasuryData.ICON_HEIGHT));
-    go.setVisible(false);
-    setOneSizeAnimation(go, resourceId);
-    go.addMouseMoveListener((mouseMoveArg)-> {
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
-        setHighlightObject(null);
-      });
-    addGameObject(go);
-    return go;
+  setOneSizeAnimation(go, resourceId) {
+    go.animationImageIds = [[ result ]];
   }
 
-  protected void setOneSizeAnimation(GameObject go, int resourceId) {
-    int[][] result = new int[1][];
-    result[0] = new int[1];
-    result[0][0] = resourceId;
-    go.setAnimationImageIds(result);
-  }
-
-  protected GameObject initHiddenObject(int x, int y, int resourceId) {
-    GameObject go = new GameObject();
-    go.setPosition(new Point(x, y));
-    setOneSizeAnimation(go, resourceId);
-    go.addMouseMoveListener((mouseMoveArg)-> {
-        baseGameView.showDefaultCursor();
-        baseGameView.setToolTipText("");
-        setHighlightObject(null);
+  initHiddenObject(x, y, resourceId) {
+    const go = new GameObject();
+    go.position = new Point(x, y);
+    this.setOneSizeAnimation(go, resourceId);
+    go.addMouseMoveListener((mouseMoveArg) => {
+        this.baseGameView.showDefaultCursor();
+        this.baseGameView.toolTipText = "";
+        this.highlightObject = null;
       });
-    go.addClickedListener((clickedArg)-> {
-      HiddenObjectsGame hiddenObjectsGame = hiddenObjectsGameData.getHiddenObjectsGame();
-      GameObject[] hiddenObjects = hiddenObjectsGameData.getHiddenObjects();
+    go.addClickedListener((clickedArg) => {
+      const hiddenObjectsGame = this.hiddenObjectsGameData.hiddenObjectsGame;
+      const hiddenObjects = this.hiddenObjectsGameData.hiddenObjects;
         if (hiddenObjectsGame != null) {
-          Integer[] objectsForSearch = hiddenObjectsGame.getObjects();
+          const objectsForSearch = this.hiddenObjectsGame.objects;
           if (objectsForSearch != null) {
-            for (Integer objectIndex : objectsForSearch) {
+            for (let objectIndex of objectsForSearch) {
               if (objectIndex != null) {
-                GameObject object = hiddenObjects[objectIndex];
-                if (object == (GameObject) clickedArg.getSender()) {
-                  object.setVisible(false);
-                  CollectObjectArg collectObjectArg = new CollectObjectArg();
-                  collectObjectArg.setObjectId(objectIndex);
-                  HiddenObjectsControllerBaseImpl.this.collectObject(collectObjectArg);
+                const object = hiddenObjects[objectIndex];
+                if (object == clickedArg.sender) {
+                  object.visible = false;
+                  const collectObjectArg = new CollectObjectArg();
+                  collectObjectArg.objectId = objectIndex;
+                  this.collectObject(collectObjectArg);
                 }
               }
             }
           }
         }
       });
-    addGameObject(go);
+    this.addGameObject(go);
     return go;
   }
 
-  protected abstract void initializeHiddenObjects();
-
-  protected void startPlay() {
-    hiddenObjectsGameData.setSituation(Situation.GAME);
+  startPlay() {
+    this.hiddenObjectsGameData.situation = Situation.GAME;
   }
 
-  protected void showHowToPlayMessage() {
-    hiddenObjectsGameData.setSituation(Situation.HOW_TO_PLAY_MESSAGE);
-    String[] messageBoxStrings = new String[3];
-    messageBoxStrings[0] = messageSource.getMessage(
+  showHowToPlayMessage() {
+    this.hiddenObjectsGameData.situation = Situation.HOW_TO_PLAY_MESSAGE;
+    const messageBoxStrings = new Array(3);
+    messageBoxStrings[0] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_HOW_TO_PLAY_1, null, null);
-    messageBoxStrings[1] = messageSource.getMessage(
+    messageBoxStrings[1] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_HOW_TO_PLAY_2, null, null);
-    messageBoxStrings[2] = messageSource.getMessage(
+    messageBoxStrings[2] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_HOW_TO_PLAY_3, null, null);
-    showMessageBox(messageBoxStrings, (clickedArg)->{hideMessageBox();startPlay();}, null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
+    this.showMessageBox(messageBoxStrings, (clickedArg) => {this.hideMessageBox();this.startPlay();}, null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
   }
 
 
