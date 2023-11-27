@@ -691,44 +691,44 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         const objectId = objects[n];
         if (objectId != null) {
           const go = hiddenObjectsIcons[objectId];
-          go.setVisible(true);
-          int x = TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_X + n
+          go.visible = true;
+          const x = TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_X + n
               * TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_STEP + 30
-              - go.getDimension().getWidth() / 2;
-          int y = TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_Y
-              + interfaceObject.getPosition().getY()
+              - go.dimension.width / 2;
+          const y = TreasuryData.ORIGINAL_OBJECT_FOR_SEARCH_Y
+              + interfaceObject.position.y
               - TreasuryData.ORIGINAL_INTERFACE_OBJECT_Y + 30
-              - go.getDimension().getHeight() / 2;
-          go.setPosition(new Point(x, y));
+              - go.dimension.height / 2;
+          go.position = new Point(x, y);
           visibleObjectsIcons[n] = go;
         }
       }
-      GameObject[] pets = hiddenObjectsGameData.getPets();
-      HiddenObjectsPlayer[] players = result.getPlayers();
-      for (int n = 0; n < players.length; n++) {
-        HiddenObjectsPlayer player = players[n];
+      const pets = this.hiddenObjectsGameData.pets;
+      const players = hiddenObjectGame.players;
+      for (let n = 0; n < players.length; n++) {
+        const player = players[n];
         if (player != null) {
-          if (!pets[n].isVisible()) {
-            Integer hatId = player.getHatId();
-            Integer clothId = player.getClothId();
-            Integer bowId = player.getBowId();
-            PetType petType = player.getPetType();
-            pets[n].setVisible(true);
-            int resourceId = pets[n].getAnimationImageIds()[0][0];
-            updatePlayerIconResource(pets[n], resourceId, petType,
+          if (!pets[n].visible) {
+            const hatId = player.hatId;
+            const clothId = player.clothId;
+            const bowId = player.bowId;
+            const petType = player.petType;
+            pets[n].visible = true;
+            const resourceId = pets[n].animationImageIds[0][0];
+            this.updatePlayerIconResource(pets[n], resourceId, petType,
                 hatId, clothId, bowId);
           }
         } else {
-          pets[n].setVisible(false);
+          pets[n].visible = false;
         }
       }
 
-      HiddenObjectsCollected[] collected = result.getCollectedObjects();
-      for (int n = 0; n < collected.length; n++) {
-        HiddenObjectsCollected hoc = collected[n];
-        Integer objectId = hoc.getObjectId();
-        hiddenObjectsIcons[objectId].setVisible(false);
-        hiddenObjects[objectId].setVisible(false);
+      const collected = result.collectedObjects;
+      for (let n = 0; n < collected.length; n++) {
+        const hoc = collected[n];
+        const objectId = hoc.objectId;
+        hiddenObjectsIcons[objectId].visible = false;
+        hiddenObjects[objectId].visible = false;
       }
 
       if (hiddenObjectsGameData.getSituation() == Situation.GAME_OVER) {
@@ -737,124 +737,115 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         return;
       }
 
-      hiddenObjectsGameData.setSecondsLeftString(String.valueOf(result
-          .getSecondsLeft()) + "s");
-    } catch (Exception ex) {
-      logger.error("updateGameInfo failed.", ex);
-      String message = messageSource.getMessage(StringConstants.ERROR,
-          null, null) + " (updateGameInfo failed): " + ex.toString();
-      trayIcon.showTrayMessage(message, MessageType.ERROR);
+      this.hiddenObjectsGameData.secondsLeftString = hiddenObjectsGame
+          .secondsLeft + "s";
+    } catch (exception) {
+      consoler.error("updateGameInfo failed %o.", exception);
+      const message = this.messageSource.getMessage(StringConstants.ERROR,
+          null, null) + " (updateGameInfo failed): " + exception;
+      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
     }
   }
 
-  private void updatePlayerIconResource(GameObject go, int resourceId,
-      PetType petType, Integer hatId, Integer clothId, Integer bowId) {
-    Integer hatResourceId = null;
-    Integer clothResourceId = null;
-    Integer bowResourceId = null;
-    if (hatId != null) hatResourceId = hiddenObjectsGameData.getClothObjects().get(hatId).getAnimationImageIds()[0][0];
-    if (clothId != null) clothResourceId = hiddenObjectsGameData.getClothObjects().get(clothId).getAnimationImageIds()[0][0];
-    if (bowId != null) bowId = hiddenObjectsGameData.getClothObjects().get(bowId).getAnimationImageIds()[0][0];
-      baseGameView.updatePlayerIconResource(go, resourceId,
+  updatePlayerIconResource(go, resourceId,
+      petType, hatId, clothId, bowId) {
+    const hatResourceId = null;
+    const clothResourceId = null;
+    const bowResourceId = null;
+    if (hatId != null) hatResourceId = hiddenObjectsGameData.clothObjects.get(hatId).getAnimationImageIds()[0][0];
+    if (clothId != null) clothResourceId = hiddenObjectsGameData.clothObjects.get(clothId).getAnimationImageIds()[0][0];
+    if (bowId != null) bowId = hiddenObjectsGameData.clothObjects.get(bowId).animationImageIds[0][0];
+      this.baseGameView.updatePlayerIconResource(go, resourceId,
           petType, hatResourceId, 
           clothResourceId,
           bowResourceId);
   }
 
 
-  private void showGameOverMessage() {
-    getRucksack().setVisible(true);
-    getLevelInfo().setVisible(true);
-    hiddenObjectsGameData.setSituation(Situation.GAME_OVER);
-    String[] messageBoxStrings = new String[3];
-    messageBoxStrings[0] = messageSource.getMessage(
+  showGameOverMessage() {
+    this.rucksack.visible = true;
+    this.levelInfo.visible = true;
+    this.hiddenObjectsGameData.situation = Situation.GAME_OVER;
+    const messageBoxStrings = new Array[3];
+    messageBoxStrings[0] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_GAME_OVER_1, null, null);
-    messageBoxStrings[1] = messageSource.getMessage(
+    messageBoxStrings[1] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_GAME_OVER_2, null, null);
-    messageBoxStrings[2] = messageSource.getMessage(
+    messageBoxStrings[2] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_GAME_OVER_3, null, null);
 //    MessageBoxGameObject messageBox = getMessageBox();
 //    List<MessageBoxGameObject.InnerGameObject> inners = messageBox.getInnerGameObjects();
-    HiddenObjectsGame hiddenObjectsGame = hiddenObjectsGameData.getHiddenObjectsGame();
+    const hiddenObjectsGame = this.hiddenObjectsGameData.hiddenObjectsGame;
     
-    if (hiddenObjectsGame.getReward() != null) {
-      Integer clothRewardId = hiddenObjectsGame.getReward().getClothId();
-      FoodType foodReward = hiddenObjectsGame.getReward().getFood();
-      BuildingMaterialType buildingMaterialReward = hiddenObjectsGame.getReward().getBuildingMaterialType();
-      Integer bookRewardId = hiddenObjectsGame.getReward().getBookId();
-      DrinkType drinkTypeReward = hiddenObjectsGame.getReward().getDrinkType();
+    if (hiddenObjectsGame.reward != null) {
+      const clothRewardId = hiddenObjectsGame.reward.clothId;
+      const foodReward = hiddenObjectsGame.reward.food;
+      const buildingMaterialReward = hiddenObjectsGame.reward.buildingMaterialType;
+      const bookRewardId = hiddenObjectsGame.reward.getBookId;
+      const drinkTypeReward = hiddenObjectsGame.reward.drinkType;
       if (clothRewardId != null) {
-        ClothGameObject cgo = hiddenObjectsGameData.getClothObjects().get(
+        const cgo = hiddenObjectsGameData.clothObjects.get(
             clothRewardId);
-        cgo.setVisible(false);
-        cgo.setZ(MENU_Z_ORDER+2);
+        cgo.visible = false;
+        cgo.z = BaseGameController.MENU_Z_ORDER + 2;
         //MessageBoxGameObject.InnerGameObject cgoi = messageBox.new InnerGameObject();
         //cgoi.setGameObject(cgo);
         //cgoi.setPosition(new Point(
         //    TreasuryData.ORIGINAL_CLOTH_REWARD_X,
         //    TreasuryData.ORIGINAL_CLOTH_REWARD_Y));
         //inners.add(cgoi);
-        CollectableGameObject collectableGameObject = addCollectableGameObject(cgo, 400, 300);
-        collectableGameObject.setZ(MENU_Z_ORDER+2);
+        const collectableGameObject = this.addCollectableGameObject(cgo, 400, 300);
+        collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
 
       if (foodReward != null) {
-        GameObject foodIcon = hiddenObjectsGameData.getFoodIcons()[foodReward
-            .ordinal()];
-        foodIcon.setZ(MENU_Z_ORDER+2);
-        foodIcon.setVisible(false);
+        const foodIcon = this.hiddenObjectsGameData.foodIcons[FoodType.ordinal(foodReward)];
+        foodIcon.setZ(BaseGameController.MENU_Z_ORDER + 2);
+        foodIcon.visible = false;
         //MessageBoxGameObject.InnerGameObject fii = messageBox.new InnerGameObject();
         //fii.setGameObject(foodIcon);
         //fii.setPosition(new Point(TreasuryData.ORIGINAL_FOOD_REWARD_X,
         //    TreasuryData.ORIGINAL_FOOD_REWARD_Y));
         //inners.add(fii);
-        CollectableGameObject collectableGameObject = addCollectableGameObject(foodIcon, 400, 300);
-        collectableGameObject.setZ(MENU_Z_ORDER+2);
+        const collectableGameObject = this.addCollectableGameObject(foodIcon, 400, 300);
+        collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
       if (buildingMaterialReward != null) {
-        CollectableGameObject collectableGameObject = addCollectableGameObject(buildingMaterialReward, 400, 300);
-        collectableGameObject.setZ(MENU_Z_ORDER+2);
+        const collectableGameObject = this.addCollectableGameObject(buildingMaterialReward, 400, 300);
+        this.collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
       
       if (bookRewardId != null) {
-        GameObject bookIcon = hiddenObjectsGameData.getBookObjects().get(bookRewardId);
-        bookIcon.setZ(MENU_Z_ORDER+2);
-        bookIcon.setVisible(false);
-        CollectableGameObject collectableGameObject = addCollectableGameObject(bookIcon, 400, 300);
-        collectableGameObject.setZ(MENU_Z_ORDER+2);
+        const bookIcon = this.hiddenObjectsGameData.bookObjects.get(bookRewardId);
+        bookIcon.z = BaseGameController.MENU_Z_ORDER + 2;
+        bookIcon.visible = false;
+        const collectableGameObject = this.addCollectableGameObject(bookIcon, 400, 300);
+        collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
       if (drinkTypeReward != null) {
-        GameObject drinkIcon = hiddenObjectsGameData.getDrinkIcons()[drinkTypeReward.ordinal()];
-        drinkIcon.setZ(MENU_Z_ORDER+2);
-        drinkIcon.setVisible(false);
-        CollectableGameObject collectableGameObject = addCollectableGameObject(drinkIcon, 400, 300);
-        collectableGameObject.setZ(MENU_Z_ORDER+2);
+        const drinkIcon = this.hiddenObjectsGameData.drinkIcons[DrinkType.ordinal(drinkTypeReward)];
+        drinkIcon.z = BaseGameController.MENU_Z_ORDER + 2;
+        drinkIcon.visible = false;
+        const collectableGameObject = this.addCollectableGameObject(drinkIcon, 400, 300);
+        collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
-      int experienceReward = hiddenObjectsGame.getReward().getExperience();
-      for (int n = 0; n < experienceReward; n++) {
-        ExperienceGameObject experienceGameObject = addExperienceGameObject(400, 300);
-        experienceGameObject.setZ(MENU_Z_ORDER+2);
+      const experienceReward = hiddenObjectsGame.reward.experience;
+      for (let n = 0; n < experienceReward; n++) {
+        const experienceGameObject = this.addExperienceGameObject(400, 300);
+        experienceGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
-      updateLevelInfo(hiddenObjectsGame.getReward().getLevelInfo(), new Point(400, 300));
-      this.updateAchievementInfo(hiddenObjectsGame.getReward().getAchievements());
+      this.updateLevelInfo(hiddenObjectsGame.reward.levelInfo, new Point(400, 300));
+      this.updateAchievementInfo(hiddenObjectsGame.reward.achievements);
     }
     
-    showMessageBox(messageBoxStrings, (clickedArg)->{
-      hideMessageBox();
-      gameController.showTown();
+    this.showMessageBox(messageBoxStrings, (clickedArg) => {
+      this.hideMessageBox();
+      this.gameController.showTown();
     }, null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
   }
 
-  public void startGame(HiddenObjectsGame result) {
+  startGame(hiddenObjectsGame) {
     // Integer[] objects = result.getObjects();
-  }
-
-  public HiddenObjectsGameType getHiddenObjectsGameType() {
-    return hiddenObjectsGameType;
-  }
-
-  public void setHiddenObjectsGameType(HiddenObjectsGameType hiddenObjectsGameType) {
-    this.hiddenObjectsGameType = hiddenObjectsGameType;
   }
 
 }
