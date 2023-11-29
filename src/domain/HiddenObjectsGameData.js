@@ -69,7 +69,7 @@ export default class HiddenObjectsGameData {
   static get SITUATION_GAME() { return "game"; }
   static get SITUATION_GAME_OVER() { return "game_over"; }
 
-  situation = SITUATION_SHOW_INTRO;
+  situation = HiddenObjectsGameData.SITUATION_SHOW_INTRO;
 
   messageBoxStrings = [];
 

@@ -1,3 +1,30 @@
+// domain
+import LabelGameObject from '../domain/LabelGameObject.js';
+import GameObject from '../domain/GameObject.js';
+import Point from '../domain/Point.js';
+import Dimension from '../domain/Dimension.js';
+import TreasuryData from '../domain/TreasuryData.js';
+import HighlightGameObject from '../domain/HighlightGameObject.js';
+
+
+//rest
+import FoodType from '../rest/domain/FoodType.js';
+import DrinkType from '../rest/domain/DrinkType.js';
+import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
+
+// resources
+import ResourceManager from '../resources/ResourceManager.js';
+
+// localization
+import StringConstants from '../localization/StringConstants.js';
+import MessageSource from '../localization/MessageSource.js';
+
+// rest
+import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+
+// tray icon
+import MessageType from '../trayicon/MessageType.js';
 
 // controller
 import BaseGameController from './BaseGameController.js';
@@ -30,7 +57,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 
     const interfaceObject = new GameObject();
     interfaceObject.step = function() {
-        super.step();
+        GameObject.super.step();
         const position = interfaceObject.position;
         const pets = this.hiddenObjectsGameData.pets;
         const visibleObjectsIcons = this.hiddenObjectsGameData.visibleObjectsIcons;
@@ -96,10 +123,9 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
             }
           }
         }
-      }
     };
     interfaceObject.position = new Point(TreasuryData.ORIGINAL_INTERFACE_OBJECT_X, 600);
-    interfaceObject.animationImageIds = [[ ResourceManagerBase.IMAGE_TREASURY_INTERFACE ]];
+    interfaceObject.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_INTERFACE ]];
     interfaceObject.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
@@ -143,9 +169,9 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     this.hiddenObjectsGameData.hideInterfaceButton = hideInterfaceButton;
 
     const showInterfaceButton = new HighlightGameObject();
-    this.showInterfaceButton.position = new Point(TreasuryData.ORIGINAL_SHOW_INTERFACE_BUTTON_X, TreasuryData.ORIGINAL_SHOW_INTERFACE_BUTTON_Y);
+    showInterfaceButton.position = new Point(TreasuryData.ORIGINAL_SHOW_INTERFACE_BUTTON_X, TreasuryData.ORIGINAL_SHOW_INTERFACE_BUTTON_Y);
     
-    showInterfaceButton.animationImageIds = [[ ResourceManagerBase.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON], [ ResourceManagerBase.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON_HIGHLIGHT ]];
+    showInterfaceButton.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON], [ ResourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON_HIGHLIGHT ]];
     showInterfaceButton.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showHandCursor();
         this.baseGameView.toolTipText = "";
@@ -158,7 +184,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       });
     showInterfaceButton.visible = false;
     this.addGameObject(showInterfaceButton);
-    this.hiddenObjectsGameData.setShowInterfaceButton(showInterfaceButton);
+    this.hiddenObjectsGameData.showInterfaceButton = showInterfaceButton;
 
 //    GameObject messageBox = new GameObject() {
 //      @Override
@@ -255,8 +281,8 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     const waitingPlayers2Message = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_WAITING_PLAYERS_2, null, null);
 
-    hiddenObjectsGameData.waitingPlayers1Message = waitingPlayers1Message;
-    hiddenObjectsGameData.waitingPlayers2Message = waitingPlayers2Message;
+    this.hiddenObjectsGameData.waitingPlayers1Message = waitingPlayers1Message;
+    this.hiddenObjectsGameData.waitingPlayers2Message = waitingPlayers2Message;
 
     this.initializeMessageBox();
     const waitingPlayerNameLabels = new Array(TreasuryData.MAX_PLAYERS_COUNT);
@@ -265,7 +291,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       const lgo = new LabelGameObject();
       lgo.text = this.messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYER, null, null);
       this.addGameObject(lgo);
-      lgo.z = MENU_Z_ORDER + 1;
+      lgo.z = BaseGameController.MENU_Z_ORDER + 1;
       lgo.visible = false;
       waitingPlayerNameLabels[n] = lgo;
     }
@@ -281,7 +307,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     }
     this.hiddenObjectsGameData.clothObjects = clothGameObjects;
     const bookGameObjects = this.initializeBookGameObjects();
-    for (let [key, value] of bookGameObjects.entries()) {
+    for (let [key, bgo] of bookGameObjects.entries()) {
       bgo.visible = false;
       bgo.position = new Point(TreasuryData.ORIGINAL_CLOTH_REWARD_X,
           TreasuryData.ORIGINAL_CLOTH_REWARD_Y);
@@ -497,18 +523,18 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     
     const foodIcons = new Array(foodTypeCount);
     this.hiddenObjectsGameData.foodIcons = foodIcons;
-    foodIcons[FoodType.CARROT.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_CARROT_1);
-    foodIcons[FoodType.DRY_FOOD.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_DRY_FOOD_1);
-    foodIcons[FoodType.FISH.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_FISH_1);
-    foodIcons[FoodType.ICE_CREAM.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_ICE_CREAM_1);
-    foodIcons[FoodType.APPLE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_APPLE_1);
-    foodIcons[FoodType.CABBAGE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_CABBAGE_1);
-    foodIcons[FoodType.CHOCOLATE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_CHOCOLATE_1);
-    foodIcons[FoodType.FRENCH_FRIES.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_FRENCH_FRIES_1);
-    foodIcons[FoodType.JAPANESE_ROLLS.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_JAPANESE_ROLLS_1);
-    foodIcons[FoodType.PIE.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_PIE_1);
-    foodIcons[FoodType.POTATOES.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_POTATOES_1);
-    foodIcons[FoodType.SANDWICH.ordinal()] = this.initFoodIcon(ResourceManager.IMAGE_SANDWICH_1);
+    foodIcons[FoodType.ordinal(FoodType.CARROT)] = this.initFoodIcon(ResourceManager.IMAGE_CARROT_1);
+    foodIcons[FoodType.ordinal(FoodType.DRY_FOOD)] = this.initFoodIcon(ResourceManager.IMAGE_DRY_FOOD_1);
+    foodIcons[FoodType.ordinal(FoodType.FISH)] = this.initFoodIcon(ResourceManager.IMAGE_FISH_1);
+    foodIcons[FoodType.ordinal(FoodType.ICE_CREAM)] = this.initFoodIcon(ResourceManager.IMAGE_ICE_CREAM_1);
+    foodIcons[FoodType.ordinal(FoodType.APPLE)] = this.initFoodIcon(ResourceManager.IMAGE_APPLE_1);
+    foodIcons[FoodType.ordinal(FoodType.CABBAGE)] = this.initFoodIcon(ResourceManager.IMAGE_CABBAGE_1);
+    foodIcons[FoodType.ordinal(FoodType.CHOCOLATE)] = this.initFoodIcon(ResourceManager.IMAGE_CHOCOLATE_1);
+    foodIcons[FoodType.ordinal(FoodType.FRENCH_FRIES)] = this.initFoodIcon(ResourceManager.IMAGE_FRENCH_FRIES_1);
+    foodIcons[FoodType.ordinal(FoodType.JAPANESE_ROLLS)] = this.initFoodIcon(ResourceManager.IMAGE_JAPANESE_ROLLS_1);
+    foodIcons[FoodType.ordinal(FoodType.PIE)] = this.initFoodIcon(ResourceManager.IMAGE_PIE_1);
+    foodIcons[FoodType.ordinal(FoodType.POTATOES)] = this.initFoodIcon(ResourceManager.IMAGE_POTATOES_1);
+    foodIcons[FoodType.ordinal(FoodType.SANDWICH)] = this.initFoodIcon(ResourceManager.IMAGE_SANDWICH_1);
   }
 
   initFoodIcon(resourceId) {
@@ -560,12 +586,12 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         this.baseGameView.toolTipText = "";
         this.highlightObject = null;
       });
-    addGameObject(go);
+    this.addGameObject(go);
     return go;
   }
 
   setOneSizeAnimation(go, resourceId) {
-    go.animationImageIds = [[ result ]];
+    go.animationImageIds = [[ resourceId ]];
   }
 
   initHiddenObject(x, y, resourceId) {
@@ -618,26 +644,24 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   }
 
 
-  public void showCollectPlayers(HiddenObjectsGame hiddenObjectsGame) {
+  showCollectPlayers(hiddenObjectsGame) {
     hiddenObjectsGameData.setHiddenObjectsGame(hiddenObjectsGame);
     if (hiddenObjectsGameData.getSituation()  != Situation.SHOW_INTRO
       && hiddenObjectsGameData.getSituation() != Situation.COLLECT_PLAYERS) {
       return;
     }
 
-    HiddenObjectsPlayer[] players = hiddenObjectsGame.getPlayers();
-    for (int n = 0; n < players.length; n++) {
-      HiddenObjectsPlayer player = players[n];
+    const players = hiddenObjectsGame.players;
+    for (let n = 0; n < players.length; n++) {
+      const player = players[n];
       if (player != null) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(player.getUserName());
-        builder.append("(");
-        builder.append(player.getPetName());
-        builder.append(")");
-        builder.append("");
-        hiddenObjectsGameData.getWaitingPlayerNameLabels()[n].setText(builder.toString());
+        let text = player.userName;
+        text += "(";
+        text += player.petName;
+        text += ")";
+        hiddenObjectsGameData.waitingPlayerNameLabels[n].text = text;
       } else {
-        hiddenObjectsGameData.getWaitingPlayerNameLabels()[n].setText(messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYER, null, null));
+        hiddenObjectsGameData.waitingPlayerNameLabels[n].text = this.messageSource.getMessage(StringConstants.HIDDEN_OBJECTS_WAITING_PLAYER, null, null);
       }
     }
     
@@ -646,7 +670,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       this.messageBox.innerGameObjects.splice(0);
       for (let n = 0; n < this.hiddenObjectsGameData.waitingPlayerNameLabels.length; n++) {
         const lgo = this.hiddenObjectsGameData.waitingPlayerNameLabels[n];
-        MessageBoxGameObject.InnerGameObject igo =  new MessageBoxInnerGameObject();
+        const igo =  new MessageBoxInnerGameObject();
         igo.gameObject = lgo;
         igo.position = new Point(10, 100 + n * lgo.size);
         lgo.visible = true;

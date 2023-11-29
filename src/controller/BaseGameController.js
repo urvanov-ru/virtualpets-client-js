@@ -19,6 +19,7 @@ import AchievementInfoGameObject from '../domain/AchievementInfoGameObject.js';
 import AnimationOverArg from '../domain/AnimationOverArg.js';
 import CollectableGameObject from '../domain/CollectableGameObject.js';
 import ExperienceGameObject from '../domain/ExperienceGameObject.js';
+import BookGameObject from '../domain/BookGameObject.js';
 
 // tiles
 import TilesEngine from '../tiles/TilesEngine.js';
@@ -273,7 +274,7 @@ export default class BaseGameController {
   initializeBookGameObjects() {
     const map = new Map(); // new HashMap<Integer, BookGameObject>();
     for (let n = 1; n <= 18; n++)
-      map.set(n, initializeBookGameObject(n));
+      map.set(n, this.initializeBookGameObject(n));
     return map;
   }
 

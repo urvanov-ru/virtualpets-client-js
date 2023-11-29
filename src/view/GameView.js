@@ -16,6 +16,7 @@ import ProgressInfoPanel from './component/ProgressInfoPanel.js';
 import {mainContainerElement, mainContainerScale} from './container.js';
 import RoomView from './RoomView.js';
 import TownView from './TownView.js';
+import TreasuryView from './TreasuryView.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 
@@ -361,16 +362,13 @@ export default class GameView extends BaseHtmlView {
     return this.baseGameView;
   }
 
-//  @Override
-//  public TreasuryView showTreasury(TreasuryView treasuryView) {
-//    if (gamePanel != null) {
-//      this.getContentPane().remove(gamePanel);
-//      releaseGamePanel();
-//    }
-//    gamePanel = new GamePanel(treasuryView);
-//    reloadResources();
-//    return (TreasuryView) gamePanel.getBaseGameView();
-//  }
+
+  showTreasury(treasuryView) {
+    this.baseGameView = new TreasuryView();
+    this.baseGameView.viewImplFactory = this.viewImplFactory;
+    this.#firstInit = true;
+    return this.baseGameView;
+  }
 
 //  @Override
 //  public RubbishView showRubbish(RubbishView rubbishView) {

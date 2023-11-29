@@ -1,3 +1,17 @@
+// domain
+import GameObject from '../domain/GameObject.js';
+import TreasuryData from '../domain/TreasuryData.js';
+import Point from '../domain/Point.js';
+
+//rest
+import HiddenObjectsGameType from '../rest/domain/HiddenObjectsGameType.js';
+
+// resources
+import ResourceManager from '../resources/ResourceManager.js';
+
+// controller
+import HiddenObjectsControllerBase from './HiddenObjectsControllerBase.js';
+
 
 export default class TreasuryController extends HiddenObjectsControllerBase {
 
@@ -10,29 +24,29 @@ export default class TreasuryController extends HiddenObjectsControllerBase {
 
     const background = new GameObject();
     background.position = new Point(0, 0);
-    background.animationImageIds = [[ ResourceManagerBase.IMAGE_TREASURY_BACKGROUND ]];
+    background.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_BACKGROUND ]];
     background.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
         this.highlightObject = null;
       });
     this.addGameObject(background);
-    this.treasuryData.background = background;
+    treasuryData.background = background;
 
     const front = new GameObject();
     front.position = new Point(0, 0);
-    front.animationImageIds = [[ ResourceManagerBase.IMAGE_TREASURY_FRONT ]];
+    front.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_FRONT ]];
     front.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
         this.highlightObject = null;
       });
     this.addGameObject(front);
-    this.treasuryData.front = front;
+    treasuryData.front = front;
 
     const statue = new GameObject();
     statue.position = new Point(0, 0);
-    statue.animationImageIds = [[ ResourceManagerBase.IMAGE_TREASURY_STATUE ]];
+    statue.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_STATUE ]];
     statue.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
@@ -43,20 +57,20 @@ export default class TreasuryController extends HiddenObjectsControllerBase {
 
     const torch = new GameObject();
     torch.position = new Point(0, 0);
-    torch.animationImageIds = [[ ResourceManagerBase.IMAGE_TREASURY_TORCH ]];
+    torch.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_TORCH ]];
     torch.addMouseMoveListener((mouseMoveArg) => {
         this.baseGameView.showDefaultCursor();
         this.baseGameView.toolTipText = "";
         this.highlightObject = null;
       });
     this.addGameObject(torch);
-    this.treasuryData.torch = torch;
+    treasuryData.torch = torch;
     super.initialize();
   }
 
 
   initializeHiddenObjectsIcons() {
-    const hiddenObjectsIcons = new GameObject[42];
+    const hiddenObjectsIcons = new Array(42);
     this.hiddenObjectsGameData.hiddenObjectsIcons = hiddenObjectsIcons;
     hiddenObjectsIcons[0] = this.initHiddenObjectIcon(ResourceManager.IMAGE_TREASURY_SCROLL_ICON);
     hiddenObjectsIcons[1] = this.initHiddenObjectIcon(ResourceManager.IMAGE_TREASURY_TELESCOPE_ICON);
@@ -105,7 +119,7 @@ export default class TreasuryController extends HiddenObjectsControllerBase {
 
 
   initializeHiddenObjects() {
-    const hiddenObjects = new GameObject[42];
+    const hiddenObjects = new Array(42);
     this.hiddenObjectsGameData.hiddenObjects = hiddenObjects;
     hiddenObjects[0] = this.initHiddenObject(712, 165,
         ResourceManager.IMAGE_TREASURY_SCROLL);

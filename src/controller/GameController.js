@@ -106,8 +106,10 @@ export default class GameController {
     this.currentController = treasuryController;
     treasuryController.petService = this.petService;
     treasuryController.gameController = this;
-    hiddenObjectsService = this.hiddenObjectsService;
-    this.gameView.showTreasury(treasuryController.getTreasuryView());
+    treasuryController.baseGameView = this.gameView.showTreasury();
+    treasuryController.messageSource = this.messageSource;
+    treasuryController.backgroundWorkManager = this.backgroundWorkManager;
+    this.hiddenObjectsService = this.hiddenObjectsService;
     treasuryController.initialize();
     this.gameView.reloadResources();
   }
