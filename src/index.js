@@ -183,6 +183,8 @@ function init(selectedLanguage) {
   createPetController.userPetsController = userPetsController;
   
   
+  
+  
   publicService.serverUrl = SERVER_URL;
   publicService.version = VERSION;
   

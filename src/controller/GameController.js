@@ -1,5 +1,6 @@
 import RoomController from './RoomController.js';
 import TownController from './TownController.js';
+import TreasuryController from './TreasuryController.js';
 
 export default class GameController {
 
@@ -100,10 +101,15 @@ export default class GameController {
     // tc.setMessageSource(messageSource);
     // tc.setBackgroundWorkManager(backgroundWorkManager);
     // tc.initialize();
+    if (this.baseGameView) this.baseGameView.release();
     const treasuryController = this.createTreasuryController();
     this.currentController = treasuryController;
+    treasuryController.petService = this.petService;
+    treasuryController.gameController = this;
+    hiddenObjectsService = this.hiddenObjectsService;
     this.gameView.showTreasury(treasuryController.getTreasuryView());
-    this.treasuryController.initialize();
+    treasuryController.initialize();
+    this.gameView.reloadResources();
   }
 
   showRubbish() {
@@ -158,6 +164,7 @@ export default class GameController {
 
   createTreasuryController() {
     return new TreasuryController();
+    
   }
 
   createDressingRoomController() {
