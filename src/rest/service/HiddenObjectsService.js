@@ -4,6 +4,8 @@ export default class HiddenObjectsService {
   #restClient;
 
   joinGame(joinHiddenObjectsGameArg) {
+    console.debug('joinGame');
+    return this.#restClient.fetch(BookService.SERVICE_URL + "/getGameInfo", 'POST', joinHiddenObjectsGameArg);
   }
   
   getGameInfo() {
@@ -13,7 +15,7 @@ export default class HiddenObjectsService {
   
   collectObject(collectObjectArg) {
     console.debug('collectObject');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/collectObject", 'POST');
+    return this.#restClient.fetch(BookService.SERVICE_URL + "/collectObject", 'POST', collectObjectArg);
   }
   
   startGame() {
