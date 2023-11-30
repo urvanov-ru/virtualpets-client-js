@@ -1227,8 +1227,8 @@ export default class BaseGameController {
       this.highlightObject = messageBoxOkButton;
     });
     messageBoxOkButton.addClickedListener((clickedArg) => {
-      if (messageBoxOkClickedListener != null) {
-        messageBoxOkClickedListener(clickedArg);
+      if (this.messageBoxOkClickedListener != null) {
+        this.messageBoxOkClickedListener(clickedArg);
       } else {
         this.hideMessageBox();
       }

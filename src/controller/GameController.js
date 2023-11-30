@@ -109,7 +109,7 @@ export default class GameController {
     treasuryController.baseGameView = this.gameView.showTreasury();
     treasuryController.messageSource = this.messageSource;
     treasuryController.backgroundWorkManager = this.backgroundWorkManager;
-    this.hiddenObjectsService = this.hiddenObjectsService;
+    treasuryController.hiddenObjectsService = this.hiddenObjectsService;
     treasuryController.initialize();
     this.gameView.reloadResources();
   }

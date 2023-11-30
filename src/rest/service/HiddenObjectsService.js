@@ -5,27 +5,27 @@ export default class HiddenObjectsService {
 
   joinGame(joinHiddenObjectsGameArg) {
     console.debug('joinGame');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/getGameInfo", 'POST', joinHiddenObjectsGameArg);
+    return this.#restClient.fetch(HiddenObjectsService.SERVICE_URL + "/joinGame", 'POST', joinHiddenObjectsGameArg);
   }
   
   getGameInfo() {
     console.debug('getGameInfo');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/getGameInfo", 'GET');
+    return this.#restClient.fetch(HiddenObjectsService.SERVICE_URL + "/getGameInfo", 'GET');
   }
   
   collectObject(collectObjectArg) {
     console.debug('collectObject');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/collectObject", 'POST', collectObjectArg);
+    return this.#restClient.fetch(HiddenObjectsService.SERVICE_URL + "/collectObject", 'POST', collectObjectArg);
   }
   
   startGame() {
     console.debug('startGame');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/startGame", 'POST');
+    return this.#restClient.fetch(HiddenObjectsService.SERVICE_URL + "/startGame", 'POST');
   }
   
   leaveGame() {
     console.debug('leaveGame');
-    return this.#restClient.fetch(BookService.SERVICE_URL + "/leaveGame", 'POST');
+    return this.#restClient.fetch(HiddenObjectsService.SERVICE_URL + "/leaveGame", 'POST');
   }
 
   set restClient(restClient) {
