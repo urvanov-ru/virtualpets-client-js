@@ -1,5 +1,6 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
 import TownLoadWorker from '../resources/TownLoadWorker.js';
+import TreasuryLoadWorker from '../resources/TreasuryLoadWorker.js';
 import ProgressInfo from '../resources/ProgressInfo.js';
 
 import MouseMoveArg from '../domain/MouseMoveArg.js';
@@ -157,20 +158,16 @@ export default class GameView extends BaseHtmlView {
         this.loadResourcesDone(this);
       }.bind(this);
     }
-    //} else if ((gamePanel.getBaseGameView() instanceof TreasuryView)
-    //    && (!resourcesLoaded[TREASURY_LOAD_WORKER])) {
-    //  worker = new TreasuryLoadWorker(resourceManager, scale, PetType.CAT) {
-    //    @Override
-    //    protected void process(List<ProgressInfo> progressInfoList) {
-    //      processLoadWorker(progressInfoList);
-    //    }
-//
-  //      public void done() {
-  //        resourcesLoaded[TREASURY_LOAD_WORKER] = true;
-  //        loadResourcesDone(this);
-  //      }
-  //    };
-  //  } else if ((gamePanel.getBaseGameView() instanceof DressingRoomView)
+    else if ((this.baseGameView instanceof TreasuryView)
+        && (!this.resourcesLoaded[GameView.TREASURY_LOAD_WORKER])) {
+      worker = new TreasuryLoadWorker(this.resourceManager, scale, PetType.CAT);
+      worker.process = this.processLoadWorker.bind(this);
+      worker.done = function () {
+        this.resourcesLoaded[GameView.TREASURY_LOAD_WORKER] = true;
+        this.loadResourcesDone(this);
+      }.bind(this);
+    }
+    // else if ((gamePanel.getBaseGameView() instanceof DressingRoomView)
   //      && (!resourcesLoaded[DRESSING_ROOM_LOAD_WORKER])) {
 //      worker = new DressingRoomLoadWorker(resourceManager, scale,
 //          PetType.CAT) {

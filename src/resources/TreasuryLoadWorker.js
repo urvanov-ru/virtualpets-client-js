@@ -1,7 +1,17 @@
-export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
-  static get MAX_INDEX() { return 52; }
+import HiddenObjectsGameLoadWorker from './HiddenObjectsGameLoadWorker.js';
+import ResourceManager from './ResourceManager.js';
+import ResourceHolder from './ResourceHolder.js';
+import ProgressInfo from './ProgressInfo.js';
 
-  TreasuryLoadWorker(resourceManager, scale,
+// rest
+import PetType from '../rest/domain/PetType.js';
+
+
+
+export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
+  static get MAX_INDEX() { return 52 + 31; }
+
+  constructor(resourceManager, scale,
       petType) {
     super(resourceManager, scale, petType);
     this.maxIndex = TreasuryLoadWorker.MAX_INDEX + this.foodIconsCount + this.catImagesCount + this.interfaceImagesCount
@@ -9,7 +19,7 @@ export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
         + this.achievementInfoCount + this.drinkImagesCount + this.booksCount;
   }
 
-  loadResourcesInBackground() throws Exception {
+  loadResourcesInBackground() {
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/background.png",
         ResourceManager.IMAGE_TREASURY_BACKGROUND);

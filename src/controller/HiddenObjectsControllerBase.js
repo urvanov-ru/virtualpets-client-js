@@ -36,7 +36,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   hiddenObjectsService;
   
   hiddenObjectsGameData;
-  #hiddenObjectsGameType;
+  hiddenObjectsGameType;
   
   showView() {
     // TODO Auto-generated method stub
@@ -57,7 +57,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 
     const interfaceObject = new GameObject();
     interfaceObject.step = function() {
-        GameObject.super.step();
+        // GameObject.super.step();
         const position = interfaceObject.position;
         const pets = this.hiddenObjectsGameData.pets;
         const visibleObjectsIcons = this.hiddenObjectsGameData.visibleObjectsIcons;
@@ -123,7 +123,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
             }
           }
         }
-    };
+    }.bind(this);
     interfaceObject.position = new Point(TreasuryData.ORIGINAL_INTERFACE_OBJECT_X, 600);
     interfaceObject.animationImageIds = [[ ResourceManager.IMAGE_TREASURY_INTERFACE ]];
     interfaceObject.addMouseMoveListener((mouseMoveArg) => {

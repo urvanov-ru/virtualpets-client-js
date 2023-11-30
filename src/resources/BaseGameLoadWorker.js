@@ -1,6 +1,8 @@
 import ProgressInfo from './ProgressInfo.js';
 import ResourceManager from './ResourceManager.js';
 
+import FoodType from '../rest/domain/FoodType.js';
+
 export default class BaseGameLoadWorker {
 
   resourceManager;
@@ -293,7 +295,7 @@ export default class BaseGameLoadWorker {
   }
 
   get foodIconsCount() {
-    return FoodType.values().length;
+    return FoodType.VALUES_COUNT;
   }
 
   get catImagesCount() {
