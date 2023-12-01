@@ -50,7 +50,34 @@ export default class ViewImplFactory {
   createPetIconAnimation(resourceId, petType,
             scale,
             hatResourceId, clothResourceId, bowResourceId) {
-            }
+      int iconSize = (int) (57 * scale);
+      BufferedImage bi = BufferedImageCreator.createBufferedImage(iconSize,
+              iconSize, true);
+      Graphics g = bi.getGraphics();
+      try {
+          Image imgCat = resourceManager
+                  .getImage(ResourceManager.IMAGE_CAT_NORMAL_1);
+          imgCat = imgCat.getScaledInstance(iconSize, iconSize,
+                  Image.SCALE_SMOOTH);
+          g.drawImage(imgCat, 0, 0, null);
+          if (hatResourceId != null) {
+              drawClothToPlayerIcon(g, hatResourceId, iconSize);
+          }
+          if (clothResourceId != null) {
+              drawClothToPlayerIcon(g, clothResourceId, iconSize);
+          }
+          if (bowResourceId != null) {
+              drawClothToPlayerIcon(g, bowResourceId, iconSize);
+          }
+      } finally {
+          g.dispose();
+      }
+      ru.urvanov.virtualpets.client.swing.util.Animation animation = new ru.urvanov.virtualpets.client.swing.util.Animation();
+      Image[] imglst = new Image[1];
+      imglst[0] = bi;
+      animation.setImageList(imglst);
+      return new Animation[]{animation};
+  }
 
   set resourceManager(resourceManager) {
     this.#resourceManager = resourceManager;

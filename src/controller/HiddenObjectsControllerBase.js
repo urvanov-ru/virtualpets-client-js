@@ -15,6 +15,7 @@ import FoodType from '../rest/domain/FoodType.js';
 import DrinkType from '../rest/domain/DrinkType.js';
 import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
 import JoinHiddenObjectsGameArg from '../rest/domain/JoinHiddenObjectsGameArg.js';
+import CollectObjectArg from '../rest/domain/CollectObjectArg.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -400,10 +401,9 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   startGame(argument) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return hiddenObjectsService.startGame();
+      return this.hiddenObjectsService.startGame();
     };
     work.completed = (hiddenObjectsGame) => {
-      this.startGame(hiddenObjectsGame);
     };
     work.failed = (exception) => {
       console.error("StartGameBackgroundWork failed.", ex);
@@ -416,6 +416,21 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     ces.restart = false;
     work.connectionExceptionSettings = ces;
     this.backgroundWorkManager.startBackgroundWork(work);
+  }
+  
+  onTimer() {
+    return this.hiddenObjectsService.getGameInfo();
+  }
+  
+  onTimerCompleted(hiddenObjectsGame) {
+      if (hiddenObjectsGame.gameOver) {
+        this.updateGameInfo(hiddenObjectsGame);
+        this.stopTimer();
+      } else if (hiddenObjectsGame.gameStarted) {
+        this.updateGameInfo(hiddenObjectsGame);
+      } else {
+        this.showCollectPlayers(hiddenObjectsGame);
+      }
   }
 
 //  private class GetGameInfoWork extends BackgroundWork<Void, HiddenObjectsGame, Object> {
@@ -480,7 +495,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     };
     work.completed = (hiddenObjectsGame) => {
       this.showCollectPlayers(hiddenObjectsGame);
-      this.getGameInfo(null);
+      this.startTimer();
     };
     work.failed = (exception) => {
       console.error("JoinGameBackgroundWork failed %o.", exception);
@@ -495,19 +510,27 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     this.backgroundWorkManager.startBackgroundWork(work);
   }
   
-  getGameInfo(argument) {
-    //const work = new BackgroundWork();
-    //work.doInBackground = () => {
-    //  Thread.sleep(1000);
-    //  return hiddenObjectsService.getGameInfo();
-    //};
-    //work.argument = argument;
-    //const ces = new ConnectionExceptionSettings();
-    //ces.restart = true;
-    //work.connectionExceptionSettings = ces;
-    //this.backgroundWorkManager.startBackgroundWork(work);
-  }
-
+//  #getGameInfoInner(argument) {
+//    const work = new BackgroundWork();
+//    work.doInBackground = () => {
+//      this.getGameInfo();
+//    };
+//    work.completed = (getGameInfoResult) {
+//      this.showCollectPlayers(getGameInfoResult);
+//    }
+//    work.failed = (exception) => {
+//      console.error("JoinGameBackgroundWork failed %o.", exception);
+//      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
+//          + ": " + exception;
+//      this.trayIcon.showTrayMessage(message, MessageType.ERROR); 
+//    }
+//    work.argument = argument;
+//    const ces = new ConnectionExceptionSettings();
+//    ces.restart = true;
+//    work.connectionExceptionSettings = ces;
+//    this.backgroundWorkManager.startBackgroundWork(work);
+//  }
+  
   initializePlayerIcon(x, y, resourceId) {
     const go = new GameObject();
     go.position = new Point(x, y);
@@ -701,19 +724,19 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       const hiddenObjectsIcons = this.hiddenObjectsGameData.hiddenObjectsIcons;
       const interfaceObject = this.hiddenObjectsGameData.interfaceObject;
       const hiddenObjects = this.hiddenObjectsGameData.hiddenObjects;
-      this.hiddenObjectsGameData.hiddenObjectsGame(hiddenObjectsGame);
+      this.hiddenObjectsGameData.hiddenObjectsGame = hiddenObjectsGame;
       const gameOver = hiddenObjectsGame.gameOver;
       if (gameOver) {
-        this.hiddenObjectsGameData.situation = Situation.GAME_OVER;
+        this.hiddenObjectsGameData.situation = HiddenObjectsGameData.SITUATION_GAME_OVER;
       }
-      if (this.hiddenObjectsGameData.situation == Situation.COLLECT_PLAYERS) {
+      if (this.hiddenObjectsGameData.situation == HiddenObjectsGameData.SITUATION_COLLECT_PLAYERS) {
         this.showHowToPlayMessage();
         return;
       }
 
       //double scale = getScale();
 
-      const objects = result.objects;
+      const objects = hiddenObjectsGame.objects;
       const visibleObjectsIcons = new Array(objects.length);
       for (let n = 0; n < objects.length; n++) {
         const objectId = objects[n];
@@ -732,7 +755,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         }
       }
       const pets = this.hiddenObjectsGameData.pets;
-      const players = hiddenObjectGame.players;
+      const players = hiddenObjectsGame.players;
       for (let n = 0; n < players.length; n++) {
         const player = players[n];
         if (player != null) {
@@ -751,7 +774,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         }
       }
 
-      const collected = result.collectedObjects;
+      const collected = hiddenObjectsGame.collectedObjects;
       for (let n = 0; n < collected.length; n++) {
         const hoc = collected[n];
         const objectId = hoc.objectId;
@@ -759,16 +782,15 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         hiddenObjects[objectId].visible = false;
       }
 
-      if (hiddenObjectsGameData.getSituation() == Situation.GAME_OVER) {
-        
-        showGameOverMessage();
+      if (this.hiddenObjectsGameData.situation == HiddenObjectsGameData.SITUATION_GAME_OVER) {
+        this.showGameOverMessage();
         return;
       }
 
       this.hiddenObjectsGameData.secondsLeftString = hiddenObjectsGame
           .secondsLeft + "s";
     } catch (exception) {
-      consoler.error("updateGameInfo failed %o.", exception);
+      console.error("updateGameInfo failed %o.", exception);
       const message = this.messageSource.getMessage(StringConstants.ERROR,
           null, null) + " (updateGameInfo failed): " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
@@ -868,12 +890,9 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
     
     this.showMessageBox(messageBoxStrings, (clickedArg) => {
       this.hideMessageBox();
+      this.stopTimer();
       this.gameController.showTown();
     }, null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
-  }
-
-  startGame(hiddenObjectsGame) {
-    // Integer[] objects = result.getObjects();
   }
 
 }

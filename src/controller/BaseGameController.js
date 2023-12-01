@@ -1634,5 +1634,63 @@ export default class BaseGameController {
         300 - gameObject.dimension.height / 2);
     return gameObject;
   }
+  
+  #timerLastTime = 0;
+  #timerForce = false;
+  #timerTimerStarted = false;
+  #timerTimer;
+  #timerDelay = 5_000; 
+
+  #timerInner() {
+    console.debug('timer');
+    if ((new Date().getTime() >= this.#timerLastTime + this.#timerDelay)
+        || (this.#timerForce)) {
+      console.debug('Calling timer');
+      this.#timerForce = false;
+      this.#timerLastTime = new Date().getTime();
+      const work = new BackgroundWork();
+      work.view = this.baseGameView;
+      work.failed = (ex) => {
+    //      synchronized (timerMonitor) {
+    //        timerInProgress = false;
+    //        timerMonitor.notifyAll();
+    //      }
+            console.error("Timer failed %s.", ex);
+            const message = this.messageSource.getMessage(StringConstants.ERROR,
+                null, null) + ": " + ex;
+            this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+            this.#timerTimer = setTimeout(this.#timerInner.bind(this), 1000);
+      }
+      work.doInBackground = () => {
+        return this.onTimer();
+      }
+      work.completed = (timerResult) => {
+        this.onTimerCompleted(timerResult);
+        this.#timerTimer = setTimeout(this.#timerInner.bind(this), 1000);
+      }
+      const ces = new ConnectionExceptionSettings();
+      ces.restart = true;
+      work.connectionExceptionSettings = ces;
+      this.backgroundWorkManager.startBackgroundWork(work);
+    } else  {
+      this.#timerTimer = setTimeout(this.#timerInner.bind(this), 1000);
+    }
+    
+  }
+
+  startTimer() {
+    if (this.#timerTimerStarted) {
+      this.#timerForce = true;
+    } else {
+      this.#timerTimer = setTimeout(this.#timerInner.bind(this), 1000);
+      this.#timerTimerStarted = true;
+    }
+  }
+  
+  stopTimer() {
+    this.#timerForce = false;
+    this.#timerLastTime = Number.MAX_SAFE_INTEGER - this.#timerDelay;
+    clearTimeout(this.#timerTimer);
+  }
 
 }

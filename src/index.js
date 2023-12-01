@@ -134,6 +134,7 @@ function init(selectedLanguage) {
   
   
   gameController.gameView = gameView;
+  gameController.trayIcon = trayIcon;
   gameController.messageSource = messageSource;
   gameController.backgroundWorkManager = backgroundWorkManager;
   gameController.roomService = roomService;

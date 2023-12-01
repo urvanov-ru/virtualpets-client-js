@@ -54,6 +54,7 @@ export default class GameController {
     roomController.roomView = this.gameView.showRoom();
     roomController.baseGameView = roomController.roomView;
     roomController.messageSource = this.messageSource;
+    roomController.trayIcon = this.trayIcon;
     roomController.backgroundWorkManager = this.backgroundWorkManager;
     roomController.roomService = this.roomService;
     roomController.journalEntryService = this.journalEntryService;
@@ -82,6 +83,7 @@ export default class GameController {
     townController.townView = this.gameView.showTown();
     townController.baseGameView = townController.townView;
     townController.messageSource = this.messageSource;
+    townController.trayIcon = this.trayIcon;
     townController.backgroundWorkManager = this.backgroundWorkManager;
     townController.townService = this.townService;
     townController.journalEntryService = this.journalEntryService;
@@ -108,6 +110,7 @@ export default class GameController {
     treasuryController.gameController = this;
     treasuryController.baseGameView = this.gameView.showTreasury();
     treasuryController.messageSource = this.messageSource;
+    treasuryController.trayIcon = this.trayIcon;
     treasuryController.backgroundWorkManager = this.backgroundWorkManager;
     treasuryController.hiddenObjectsService = this.hiddenObjectsService;
     treasuryController.initialize();

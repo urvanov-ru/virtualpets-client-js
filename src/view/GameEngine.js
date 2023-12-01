@@ -276,8 +276,8 @@ export default class GameEngine {
   updatePlayerIconResource(go, resourceId,
       petType, hatResourceId, clothResourceId, bowResourceId) {
     const gorb = this.getGameObject(go);
-    gorb.animations = viewImplFactory.createPetIconAnimation(resourceId,
-        petType, getScale(), hatResourceId, clothResourceId, bowResourceId);
+    gorb.animations = this.viewImplFactory.createPetIconAnimation(resourceId,
+        petType, this.scale, hatResourceId, clothResourceId, bowResourceId);
   }
 
 }
