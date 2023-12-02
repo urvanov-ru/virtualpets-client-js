@@ -361,7 +361,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   collectObject(collectObjectArg) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return hiddenObjectsService.collectObject(work.argument);
+      return this.hiddenObjectsService.collectObject(work.argument);
     };
     work.completed = () => {};
     work.failed = (exception) => {
@@ -815,8 +815,8 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   showGameOverMessage() {
     this.rucksack.visible = true;
     this.levelInfo.visible = true;
-    this.hiddenObjectsGameData.situation = Situation.GAME_OVER;
-    const messageBoxStrings = new Array[3];
+    this.hiddenObjectsGameData.situation = HiddenObjectsGameData.SITUATION_GAME_OVER;
+    const messageBoxStrings = new Array(3);
     messageBoxStrings[0] = this.messageSource.getMessage(
         StringConstants.HIDDEN_OBJECTS_GAME_OVER_1, null, null);
     messageBoxStrings[1] = this.messageSource.getMessage(
@@ -834,7 +834,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       const bookRewardId = hiddenObjectsGame.reward.getBookId;
       const drinkTypeReward = hiddenObjectsGame.reward.drinkType;
       if (clothRewardId != null) {
-        const cgo = hiddenObjectsGameData.clothObjects.get(
+        const cgo = this.hiddenObjectsGameData.clothObjects.get(
             clothRewardId);
         cgo.visible = false;
         cgo.z = BaseGameController.MENU_Z_ORDER + 2;
@@ -850,7 +850,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 
       if (foodReward != null) {
         const foodIcon = this.hiddenObjectsGameData.foodIcons[FoodType.ordinal(foodReward)];
-        foodIcon.setZ(BaseGameController.MENU_Z_ORDER + 2);
+        foodIcon.z = BaseGameController.MENU_Z_ORDER + 2;
         foodIcon.visible = false;
         //MessageBoxGameObject.InnerGameObject fii = messageBox.new InnerGameObject();
         //fii.setGameObject(foodIcon);
@@ -892,7 +892,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       this.hideMessageBox();
       this.stopTimer();
       this.gameController.showTown();
-    }, null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
+    }, null, MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_BUTTON);
   }
 
 }

@@ -277,7 +277,7 @@ export default class GameEngine {
       petType, hatResourceId, clothResourceId, bowResourceId) {
     const gorb = this.getGameObject(go);
     gorb.animations = this.viewImplFactory.createPetIconAnimation(resourceId,
-        petType, this.scale, hatResourceId, clothResourceId, bowResourceId);
+        petType, this.#scale, hatResourceId, clothResourceId, bowResourceId);
   }
 
 }

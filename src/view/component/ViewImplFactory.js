@@ -2,6 +2,8 @@ import LabelGameObject from '../../domain/LabelGameObject.js';
 import ProgressBarGameObject from '../../domain/ProgressBarGameObject.js';
 import PopupMenuGameObject from '../../domain/PopupMenuGameObject.js';
 
+import ResourceManager from '../../resources/ResourceManager.js';
+
 import GameObjectRender from './GameObjectRender.js';
 import LabelGameObjectRender from './LabelGameObjectRender.js';
 import PopupMenuGameObjectRender from './PopupMenuGameObjectRender.js';
@@ -50,33 +52,32 @@ export default class ViewImplFactory {
   createPetIconAnimation(resourceId, petType,
             scale,
             hatResourceId, clothResourceId, bowResourceId) {
-      int iconSize = (int) (57 * scale);
-      BufferedImage bi = BufferedImageCreator.createBufferedImage(iconSize,
-              iconSize, true);
-      Graphics g = bi.getGraphics();
-      try {
-          Image imgCat = resourceManager
-                  .getImage(ResourceManager.IMAGE_CAT_NORMAL_1);
-          imgCat = imgCat.getScaledInstance(iconSize, iconSize,
-                  Image.SCALE_SMOOTH);
-          g.drawImage(imgCat, 0, 0, null);
-          if (hatResourceId != null) {
-              drawClothToPlayerIcon(g, hatResourceId, iconSize);
-          }
-          if (clothResourceId != null) {
-              drawClothToPlayerIcon(g, clothResourceId, iconSize);
-          }
-          if (bowResourceId != null) {
-              drawClothToPlayerIcon(g, bowResourceId, iconSize);
-          }
-      } finally {
-          g.dispose();
-      }
-      ru.urvanov.virtualpets.client.swing.util.Animation animation = new ru.urvanov.virtualpets.client.swing.util.Animation();
-      Image[] imglst = new Image[1];
-      imglst[0] = bi;
-      animation.setImageList(imglst);
-      return new Animation[]{animation};
+    const iconSize = 57 * scale;
+    
+    const offscreenCanvas = new OffscreenCanvas(iconSize, iconSize);
+     const offscreenCanvasContext = offscreenCanvas.getContext('2d');
+     
+    const imageCat = this.#resourceManager.getResource(ResourceManager.IMAGE_CAT_NORMAL_1);
+    offscreenCanvasContext.drawImage(imageCat, 0, 0, imageCat.width, imageCat.height, 0, 0, iconSize, iconSize);
+      
+    if (hatResourceId != null) {
+      this.#drawClothToPlayerIcon(offscreenCanvasContext, hatResourceId, iconSize);
+    }
+    if (clothResourceId != null) {
+      this.#drawClothToPlayerIcon(offscreenCanvasContext, clothResourceId, iconSize);
+    }
+    if (bowResourceId != null) {
+      this.#drawClothToPlayerIcon(offscreenCanvasContext, bowResourceId, iconSize);
+    }
+    const animation = new Animation();
+    animation.imageList = [ offscreenCanvas.transferToImageBitmap() ];
+    return [ animation ];
+  }
+  
+  
+  #drawClothToPlayerIcon(context, clothResourceId, iconSize) {
+    const image = this.#resourceManager.getResource(clothResourceId);
+    context.drawImage(image, 0, 0, image.with, image.height, 0, 0, iconSize, iconSize);
   }
 
   set resourceManager(resourceManager) {

@@ -580,11 +580,11 @@ export default class BaseGameController {
       throw new Error("Invalid arguments of addCollectableGameObject.");
     }
     if (params[0] instanceof GameObject) {
-      this.addCollectableGameObjectGo(params[0], params[1], params[2]);
+      return this.addCollectableGameObjectGo(params[0], params[1], params[2]);
     } else if (typeof params[0] === 'string' || params[0] instanceof String) {
-      this.addCollectableBuildingMaterial(params[0], params[1], params[2]);
+      return this.addCollectableBuildingMaterial(params[0], params[1], params[2]);
     } else if (typeof params[0] === 'number' || params[0] instanceof Number) {
-      this.addCollectableGameObjectByResourceId(params[0], params[1], params[2]);
+      return this.addCollectableGameObjectByResourceId(params[0], params[1], params[2]);
     }
   }
 
