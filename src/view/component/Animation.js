@@ -115,4 +115,16 @@ export default class Animation {
   draw(canvas, x, y) {
     canvas.drawImage(this.image, x, y);
   }
+  
+  
+  release() {
+    if (this.#imageList) {
+      this.#imageList.forEach((image) => {
+        if (image.close) {
+          image.close()
+        }
+      });
+    }
+  }
+  
 }

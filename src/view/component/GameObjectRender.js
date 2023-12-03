@@ -16,6 +16,9 @@ export default class GameObjectRender extends GameObjectRenderBase {
   }
   
   release() {
+    if (this.#animations) {
+      this.#animations.forEach((animation) => animation.release());
+    }
     this.gameObject.release();
   }
     
