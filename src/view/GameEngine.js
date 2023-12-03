@@ -78,7 +78,8 @@ export default class GameEngine {
    * Освобождение задействованных ресурсов.
    */
   release() {
-    for (const gor of gameObjects.values()) {
+    console.debug('GameEngine release');
+    for (const gor of this.gameObjects.values()) {
       gor.release();
     }
   }
@@ -276,6 +277,9 @@ export default class GameEngine {
   updatePlayerIconResource(go, resourceId,
       petType, hatResourceId, clothResourceId, bowResourceId) {
     const gorb = this.getGameObject(go);
+    if (gorb.animations) {
+      gorb.animations.forEach((animation) => animation.release());
+    }
     gorb.animations = this.viewImplFactory.createPetIconAnimation(resourceId,
         petType, this.#scale, hatResourceId, clothResourceId, bowResourceId);
   }

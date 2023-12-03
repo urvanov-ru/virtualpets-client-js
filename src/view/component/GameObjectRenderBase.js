@@ -22,6 +22,9 @@ import Dimension from '../../domain/Dimension.js';
   get scale() {
     return this.#scale;
   }
+  
+  release() {
+  }
  
 
 }

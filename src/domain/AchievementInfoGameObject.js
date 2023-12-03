@@ -1,7 +1,7 @@
 
+import GameObject from './GameObject.js';
 
-
-export default class AchievementInfoGameObject {
+export default class AchievementInfoGameObject extends GameObject {
 
 
   static get ORIGINAL_NEW_ACHIEVEMENT_X() { return 20; }

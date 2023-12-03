@@ -120,7 +120,9 @@ export default class Animation {
   release() {
     if (this.#imageList) {
       this.#imageList.forEach((image) => {
+        console.debug('check image for close method');
         if (image.close) {
+          console.debug('closing image');
           image.close()
         }
       });

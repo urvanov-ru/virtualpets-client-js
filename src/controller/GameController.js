@@ -47,7 +47,6 @@ export default class GameController {
     // rc.setRoomService(roomService);
     // rc.setRucksackService(rucksackService);
     // rc.initialize();
-    if (this.baseGameView) this.baseGameView.release();
     const roomController = this.createRoomController();
     this.currentController = roomController;
     roomController.gameController = this;
@@ -76,7 +75,6 @@ export default class GameController {
     // tc.setTownView(gameView.showTown());
     // tc.setTrayIcon(trayIcon);
     // tc.initialize();
-    if (this.baseGameView) this.baseGameView.release();
     const townController = this.createTownController();
     this.currentController = townController;
     townController.gameController = this;
@@ -103,7 +101,6 @@ export default class GameController {
     // tc.setMessageSource(messageSource);
     // tc.setBackgroundWorkManager(backgroundWorkManager);
     // tc.initialize();
-    if (this.baseGameView) this.baseGameView.release();
     const treasuryController = this.createTreasuryController();
     this.currentController = treasuryController;
     treasuryController.petService = this.petService;
@@ -183,4 +180,6 @@ export default class GameController {
   createAfternoonTeaController() {
     return new TeaController();
   }
+  
+  
 }
