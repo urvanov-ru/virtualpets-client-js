@@ -62,7 +62,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 
     const interfaceObject = new GameObject();
     interfaceObject.step = function() {
-        interfaceObject.__proto__.step()
+        Object.getPrototypeOf(interfaceObject).step()
         const position = interfaceObject.position;
         const pets = this.hiddenObjectsGameData.pets;
         const visibleObjectsIcons = this.hiddenObjectsGameData.visibleObjectsIcons;
