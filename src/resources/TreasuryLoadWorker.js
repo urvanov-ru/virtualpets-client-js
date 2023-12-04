@@ -9,7 +9,7 @@ import PetType from '../rest/domain/PetType.js';
 
 
 export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
-  static get MAX_INDEX() { return 52 + 31; }
+  static get MAX_INDEX() { return 52 + 23; }
 
   constructor(resourceManager, scale,
       petType) {
