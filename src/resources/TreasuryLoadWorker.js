@@ -2,7 +2,7 @@ import HiddenObjectsGameLoadWorker from './HiddenObjectsGameLoadWorker.js';
 import ResourceManager from './ResourceManager.js';
 
 export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
-  static get MAX_INDEX() { return 52 + 23; }
+  static get MAX_INDEX() { return 4 + 40 * 2; }
 
   constructor(resourceManager, scale,
       petType) {
@@ -22,32 +22,6 @@ export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
         ResourceManager.IMAGE_TREASURY_STATUE);
     this.loadImageWithScale(this.resourcesPath + "data/images/treasury/front.png",
         ResourceManager.IMAGE_TREASURY_FRONT);
-
-    this.loadImageWithScale(
-        this.resourcesPath + "data/images/treasury/interface.png",
-        ResourceManager.IMAGE_TREASURY_INTERFACE);
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/interfacehidebtn.png",
-        ResourceManager.IMAGE_TREASURY_HIDE_INTERFACE_BUTTON);
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/interfacehidebtn_hl.png",
-        ResourceManager.IMAGE_TREASURY_HIDE_INTERFACE_BUTTON_HIGHLIGHT);
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/interfaceshowbtn.png",
-        ResourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON);
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/interfaceshowbtn_hl.png",
-        ResourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON_HIGHLIGHT);
-
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/messagebox.png",
-        ResourceManager.IMAGE_TREASURY_MESSAGE_BOX);
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/messageboxbtn.png",
-        ResourceManager.IMAGE_TREASURY_MESSAGE_BOX_BUTTON);
-    this.loadImageWithScale(this.resourcesPath
-        + "data/images/treasury/messageboxbtn_hl.png",
-        ResourceManager.IMAGE_TREASURY_MESSAGE_BOX_BUTTON_HIGHLIGHT);
 
     this.loadImageWithIcon(this.resourcesPath + "data/images/treasury/liana.png",
         ResourceManager.IMAGE_TREASURY_LIANA,

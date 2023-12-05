@@ -18,29 +18,29 @@ export default class HiddenObjectsGameLoadWorker extends BaseGameLoadWorker {
   loadInterfaceImages() {
     this.loadImageWithScale(
         this.resourcesPath + "data/images/treasury/interface.png",
-        this.resourceManager.IMAGE_TREASURY_INTERFACE);
+        ResourceManager.IMAGE_TREASURY_INTERFACE);
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/interfacehidebtn.png",
-        this.resourceManager.IMAGE_TREASURY_HIDE_INTERFACE_BUTTON);
+        ResourceManager.IMAGE_TREASURY_HIDE_INTERFACE_BUTTON);
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/interfacehidebtn_hl.png",
-        this.resourceManager.IMAGE_TREASURY_HIDE_INTERFACE_BUTTON_HIGHLIGHT);
+        ResourceManager.IMAGE_TREASURY_HIDE_INTERFACE_BUTTON_HIGHLIGHT);
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/interfaceshowbtn.png",
-        this.resourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON);
+        ResourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON);
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/interfaceshowbtn_hl.png",
-        this.resourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON_HIGHLIGHT);
+        ResourceManager.IMAGE_TREASURY_SHOW_INTERFACE_BUTTON_HIGHLIGHT);
 
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/messagebox.png",
-        this.resourceManager.IMAGE_TREASURY_MESSAGE_BOX);
+        ResourceManager.IMAGE_TREASURY_MESSAGE_BOX);
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/messageboxbtn.png",
-        this.resourceManager.IMAGE_TREASURY_MESSAGE_BOX_BUTTON);
+        ResourceManager.IMAGE_TREASURY_MESSAGE_BOX_BUTTON);
     this.loadImageWithScale(this.resourcesPath
         + "data/images/treasury/messageboxbtn_hl.png",
-        this.resourceManager.IMAGE_TREASURY_MESSAGE_BOX_BUTTON_HIGHLIGHT);
+        ResourceManager.IMAGE_TREASURY_MESSAGE_BOX_BUTTON_HIGHLIGHT);
   }
 
   get interfaceImagesCount() {
@@ -70,36 +70,34 @@ export default class HiddenObjectsGameLoadWorker extends BaseGameLoadWorker {
   loadImageWithIcon(path, resourceId,
       resourceIconId) {
     this.resourceManager.loadImageWithScale(path, resourceId, this.scale, this.loadedCallback.bind(this, path));
-    if (this.resourceManager.getResourceHolder(resourceIconId) == null) {
       const image = this.resourceManager.loadImage(path, (callbackArg) => {
-        const w = callbackArg.image.width;
-        const h = callbackArg.image.height;
-        const max = Math.max(w, h);
-        if (max <= this.#iconSize) {
-          const resourceHolder = new ResourceHolder();
-          resourceHolder.resource = callbackArg.image;
-          resourceHolder.resetInScale = true;
-          this.resourceManager.putResource(resourceIconId, resourceHolder);
-        } else {
-          const fw = this.#iconSize / max * w;
-          const fh = this.#iconSize / max * h;
+      const w = callbackArg.image.width;
+      const h = callbackArg.image.height;
+      const max = Math.max(w, h);
+      if (max <= this.#iconSize) {
+        const resourceHolder = new ResourceHolder();
+        resourceHolder.resource = callbackArg.image;
+        resourceHolder.resetInScale = true;
+        this.resourceManager.putResource(resourceIconId, resourceHolder);
+        this.loadedCallback(path);
+      } else {
+        const fw = this.#iconSize / max * w;
+        const fh = this.#iconSize / max * h;
           
-          Promise.all([createImageBitmap(callbackArg.image, 0, 0, callbackArg.image.width, callbackArg.image.height,
-          {
-            resizeWidth: Math.round(fw),
-            resizeHeight: Math.round(fh),
-            resizeQuality: 'high'} )] )
-          .then((sprites) => {
-              console.debug("Resource %s loaded with resourceId = %i. ImageBitmap = %o.", path, resourceId, sprites[0]);
-              const resourceHolder = new ResourceHolder();
-              resourceHolder.resetInScale = true;
-              resourceHolder.resource = sprites[0];
-              this.resourceManager.putResource(resourceIconId, resourceHolder);
-              this.loadedCallback(path);
-          });
+        Promise.all([createImageBitmap(callbackArg.image, 0, 0, callbackArg.image.width, callbackArg.image.height,
+        {
+          resizeWidth: Math.round(fw),
+          resizeHeight: Math.round(fh),
+          resizeQuality: 'high'} )] )
+        .then((sprites) => {
+            console.debug("Resource %s loaded with resourceId = %i. ImageBitmap = %o.", path, resourceId, sprites[0]);
+            const resourceHolder = new ResourceHolder();
+            resourceHolder.resetInScale = true;
+            resourceHolder.resource = sprites[0];
+            this.resourceManager.putResource(resourceIconId, resourceHolder);
+            this.loadedCallback(path);
+        });
       }
-      });
-      
-    }
+    });
   }
 }

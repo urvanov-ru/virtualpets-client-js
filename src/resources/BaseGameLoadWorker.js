@@ -295,7 +295,7 @@ export default class BaseGameLoadWorker {
   }
 
   get foodIconsCount() {
-    return FoodType.VALUES_COUNT;
+    return 14;
   }
 
   get catImagesCount() {

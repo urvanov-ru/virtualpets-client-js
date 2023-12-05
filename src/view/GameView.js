@@ -1,6 +1,7 @@
 import RoomLoadWorker from '../resources/RoomLoadWorker.js';
 import TownLoadWorker from '../resources/TownLoadWorker.js';
 import TreasuryLoadWorker from '../resources/TreasuryLoadWorker.js';
+import RubbishLoadWorker from '../resources/RubbishLoadWorker.js';
 import ProgressInfo from '../resources/ProgressInfo.js';
 
 import MouseMoveArg from '../domain/MouseMoveArg.js';
@@ -18,6 +19,7 @@ import {mainContainerElement, mainContainerScale} from './container.js';
 import RoomView from './RoomView.js';
 import TownView from './TownView.js';
 import TreasuryView from './TreasuryView.js';
+import RubbishView from './RubbishView.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 
@@ -181,20 +183,16 @@ export default class GameView extends BaseHtmlView {
 //          loadResourcesDone(this);
 //        }
 //      };
-//    } else if ((gamePanel.getBaseGameView() instanceof RubbishView)
-//        && (!resourcesLoaded[RUBBISH_LOAD_WORKER])) {
-//      worker = new RubbishLoadWorker(resourceManager, scale, PetType.CAT) {
-//        @Override
-//        protected void process(List<ProgressInfo> progressInfoList) {
-//          processLoadWorker(progressInfoList);
-//        }
-//
-//        public void done() {
-//          resourcesLoaded[RUBBISH_LOAD_WORKER] = true;
-//          loadResourcesDone(this);
-//        }
-//      };
-//
+    else if ((this.baseGameView instanceof RubbishView)
+        && (!this.resourcesLoaded[GameView.RUBBISH_LOAD_WORKER])) {
+      worker = new RubbishLoadWorker(this.resourceManager, scale, PetType.CAT);
+      worker.process = this.processLoadWorker.bind(this);
+      worker.done = function() {
+        this.resourcesLoaded[GameView.RUBBISH_LOAD_WORKER] = true;
+        this.loadResourcesDone(this);
+      }.bind(this);
+    }
+
 //    } else if ((gamePanel.getBaseGameView() instanceof AfternoonTeaView)
 //        && (!resourcesLoaded[AFTERNOONTEA_LOAD_WORKER])) {
 //      worker = new AfternoonTeaLoadWorker(resourceManager, scale,

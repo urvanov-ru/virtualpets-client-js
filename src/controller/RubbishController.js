@@ -1,5 +1,7 @@
 // domain
 import GameObject from '../domain/GameObject.js';
+import HiddenObjectsGameData from '../domain/HiddenObjectsGameData.js';
+import Point from '../domain/Point.js';
 
 //rest
 import HiddenObjectsGameType from '../rest/domain/HiddenObjectsGameType.js';
@@ -16,6 +18,7 @@ export default class RubbishController extends HiddenObjectsControllerBase {
     this.hiddenObjectsGameType = HiddenObjectsGameType.RUBBISH;
     this.hiddenObjectsGameData = new HiddenObjectsGameData();
     const background = new GameObject();
+    background.position = new Point(0, 0);
     background.animationImageIds = [[ ResourceManager.IMAGE_RUBBISH_BACKGROUND ]];
     background.addMouseMoveListener(mouseMoveArg => {
       this.baseGameView.toolTipText = "";
@@ -29,64 +32,64 @@ export default class RubbishController extends HiddenObjectsControllerBase {
   
   initializeHiddenObjectsIcons() {
     const hiddenObjectsIcons = new Array(52);
-    hiddenObjectsGameData.hiddenObjectsIcons = hiddenObjectsIcons;
-    hiddenObjectsIcons[0] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_MANHOLE_ICON);
-    hiddenObjectsIcons[1] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_COCACOLA_ICON);
-    hiddenObjectsIcons[2] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLANT_ICON);
-    hiddenObjectsIcons[3] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NEWSPAPER_ICON);
-    hiddenObjectsIcons[4] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_LAMP_ICON);
-    hiddenObjectsIcons[5] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BRANCH_ICON);
-    hiddenObjectsIcons[6] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GRAMOPHONE_ICON);
-    hiddenObjectsIcons[7] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_POT_ICON);
-    hiddenObjectsIcons[8] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BOX_ICON);
-    hiddenObjectsIcons[9] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_CIGARETTE_END_ICON);
-    hiddenObjectsIcons[10] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_FEATHER_ICON);
-    hiddenObjectsIcons[11] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_HOUSE_ICON);
-    hiddenObjectsIcons[12] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_COIN_ICON);
-    hiddenObjectsIcons[13] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PUDDLE_ICON);
-    hiddenObjectsIcons[14] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GUTTER_ICON);
-    hiddenObjectsIcons[15] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE_ICON);
-    hiddenObjectsIcons[16] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_CRACK_ICON);
-    hiddenObjectsIcons[17] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TAPE_RECORDER_ICON);
-    hiddenObjectsIcons[18] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_CASSETE_ICON);
-    hiddenObjectsIcons[19] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NEWSPAPER2_ICON);
-    hiddenObjectsIcons[20] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BROOM_ICON);
-    hiddenObjectsIcons[21] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_APPLE_BIT_ICON);
-    hiddenObjectsIcons[22] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GRAMOPHONE_RECORD_ICON);
-    hiddenObjectsIcons[23] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_WHITE_BOTTLE_ICON);
-    hiddenObjectsIcons[24] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_SIR_ANTHONY_AT_THE_PIANO_ICON);
-    hiddenObjectsIcons[25] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_WALL_CLOCK_ICON);
-    hiddenObjectsIcons[26] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TUMBLER_TOY_ICON);
-    hiddenObjectsIcons[27] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTE_ICON);
-    hiddenObjectsIcons[28] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TABLE_LAMP_ICON);
-    hiddenObjectsIcons[29] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TEAPOT_ICON);
-    hiddenObjectsIcons[30] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BOOK_ICON);
-    hiddenObjectsIcons[31] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE2_ICON);
-    hiddenObjectsIcons[32] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE3_ICON);
-    hiddenObjectsIcons[33] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE4_ICON);
-    hiddenObjectsIcons[34] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_THERMOMETER_ICON);
-    hiddenObjectsIcons[35] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE5_ICON);
-    hiddenObjectsIcons[36] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BEAR_ICON);
-    hiddenObjectsIcons[37] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_OCTOPUS_ICON);
-    hiddenObjectsIcons[38] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_STONE_ICON);
-    hiddenObjectsIcons[39] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_DECANTER_ICON);
-    hiddenObjectsIcons[40] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_LIZARD_ICON);
-    hiddenObjectsIcons[41] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_ROCK_PAINTING_ICON);
-    hiddenObjectsIcons[42] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GOBLIN_ICON);
-    hiddenObjectsIcons[43] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_DRAGON_ICON);
-    hiddenObjectsIcons[44] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GAME_CONSOLE_ICON);
-    hiddenObjectsIcons[45] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PICTURE_ICON);
-    hiddenObjectsIcons[46] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GAME_CONSOLE2_ICON);
-    hiddenObjectsIcons[47] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BONE_ICON);
-    hiddenObjectsIcons[48] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLAYING_CARD_ICON);
-    hiddenObjectsIcons[49] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLAYING_CARD2_ICON);
-    hiddenObjectsIcons[50] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLAYING_CARD3_ICON);
-    hiddenObjectsIcons[51] = initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_HORSESHOE_ICON);
+    this.hiddenObjectsGameData.hiddenObjectsIcons = hiddenObjectsIcons;
+    hiddenObjectsIcons[0] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_MANHOLE_ICON);
+    hiddenObjectsIcons[1] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_COCACOLA_ICON);
+    hiddenObjectsIcons[2] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLANT_ICON);
+    hiddenObjectsIcons[3] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NEWSPAPER_ICON);
+    hiddenObjectsIcons[4] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_LAMP_ICON);
+    hiddenObjectsIcons[5] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BRANCH_ICON);
+    hiddenObjectsIcons[6] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GRAMOPHONE_ICON);
+    hiddenObjectsIcons[7] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_POT_ICON);
+    hiddenObjectsIcons[8] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BOX_ICON);
+    hiddenObjectsIcons[9] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_CIGARETTE_END_ICON);
+    hiddenObjectsIcons[10] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_FEATHER_ICON);
+    hiddenObjectsIcons[11] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_HOUSE_ICON);
+    hiddenObjectsIcons[12] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_COIN_ICON);
+    hiddenObjectsIcons[13] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PUDDLE_ICON);
+    hiddenObjectsIcons[14] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GUTTER_ICON);
+    hiddenObjectsIcons[15] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE_ICON);
+    hiddenObjectsIcons[16] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_CRACK_ICON);
+    hiddenObjectsIcons[17] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TAPE_RECORDER_ICON);
+    hiddenObjectsIcons[18] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_CASSETE_ICON);
+    hiddenObjectsIcons[19] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NEWSPAPER2_ICON);
+    hiddenObjectsIcons[20] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BROOM_ICON);
+    hiddenObjectsIcons[21] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_APPLE_BIT_ICON);
+    hiddenObjectsIcons[22] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GRAMOPHONE_RECORD_ICON);
+    hiddenObjectsIcons[23] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_WHITE_BOTTLE_ICON);
+    hiddenObjectsIcons[24] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_SIR_ANTHONY_AT_THE_PIANO_ICON);
+    hiddenObjectsIcons[25] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_WALL_CLOCK_ICON);
+    hiddenObjectsIcons[26] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TUMBLER_TOY_ICON);
+    hiddenObjectsIcons[27] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTE_ICON);
+    hiddenObjectsIcons[28] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TABLE_LAMP_ICON);
+    hiddenObjectsIcons[29] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_TEAPOT_ICON);
+    hiddenObjectsIcons[30] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BOOK_ICON);
+    hiddenObjectsIcons[31] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE2_ICON);
+    hiddenObjectsIcons[32] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE3_ICON);
+    hiddenObjectsIcons[33] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE4_ICON);
+    hiddenObjectsIcons[34] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_THERMOMETER_ICON);
+    hiddenObjectsIcons[35] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_NOTICE5_ICON);
+    hiddenObjectsIcons[36] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BEAR_ICON);
+    hiddenObjectsIcons[37] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_OCTOPUS_ICON);
+    hiddenObjectsIcons[38] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_STONE_ICON);
+    hiddenObjectsIcons[39] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_DECANTER_ICON);
+    hiddenObjectsIcons[40] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_LIZARD_ICON);
+    hiddenObjectsIcons[41] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_ROCK_PAINTING_ICON);
+    hiddenObjectsIcons[42] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GOBLIN_ICON);
+    hiddenObjectsIcons[43] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_DRAGON_ICON);
+    hiddenObjectsIcons[44] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GAME_CONSOLE_ICON);
+    hiddenObjectsIcons[45] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PICTURE_ICON);
+    hiddenObjectsIcons[46] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_GAME_CONSOLE2_ICON);
+    hiddenObjectsIcons[47] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_BONE_ICON);
+    hiddenObjectsIcons[48] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLAYING_CARD_ICON);
+    hiddenObjectsIcons[49] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLAYING_CARD2_ICON);
+    hiddenObjectsIcons[50] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_PLAYING_CARD3_ICON);
+    hiddenObjectsIcons[51] = this.initHiddenObjectIcon(ResourceManager.IMAGE_RUBBISH_HORSESHOE_ICON);
   }
 
   initializeHiddenObjects() {
     const hiddenObjects = new Array(52);
-    hiddenObjectsGameData.setHiddenObjects(hiddenObjects);
+    this.hiddenObjectsGameData.hiddenObjects = hiddenObjects;
     hiddenObjects[0] = this.initHiddenObject(289, 357,
         ResourceManager.IMAGE_RUBBISH_MANHOLE);
     hiddenObjects[1] = this.initHiddenObject(552, 246,

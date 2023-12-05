@@ -2,7 +2,7 @@ import HiddenObjectsGameLoadWorker from './HiddenObjectsGameLoadWorker.js';
 import ResourceManager from './ResourceManager.js';
 
 export default class RubbishLoadWorker extends HiddenObjectsGameLoadWorker {
-  static get MAX_INDEX() { return 53; }
+  static get MAX_INDEX() { return 1 + 52 * 2; }
 
   constructor(resourceManager, scale,
       petType) {
@@ -14,16 +14,16 @@ export default class RubbishLoadWorker extends HiddenObjectsGameLoadWorker {
   }
 
   loadResourcesInBackground() {
-    
+    this.loadImageWithScale(this.resourcesPath
+        + "data/images/rubbish/background.png",
+        ResourceManager.IMAGE_RUBBISH_BACKGROUND);
+        
     this.loadImageWithIcon(this.resourcesPath
         + "data/images/rubbish/apple_bit.png",
         ResourceManager.IMAGE_RUBBISH_APPLE_BIT,
         ResourceManager.IMAGE_RUBBISH_APPLE_BIT_ICON);
 
-    this.loadImageWithIcon(this.resourcesPath
-        + "data/images/rubbish/background.png",
-        ResourceManager.IMAGE_RUBBISH_BACKGROUND,
-        ResourceManager.IMAGE_RUBBISH_BACKGROUND_ICON);
+
     
     this.loadImageWithIcon(this.resourcesPath
         + "data/images/rubbish/bear.png",
