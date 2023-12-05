@@ -1,12 +1,5 @@
 import HiddenObjectsGameLoadWorker from './HiddenObjectsGameLoadWorker.js';
 import ResourceManager from './ResourceManager.js';
-import ResourceHolder from './ResourceHolder.js';
-import ProgressInfo from './ProgressInfo.js';
-
-// rest
-import PetType from '../rest/domain/PetType.js';
-
-
 
 export default class TreasuryLoadWorker extends HiddenObjectsGameLoadWorker {
   static get MAX_INDEX() { return 52 + 23; }
