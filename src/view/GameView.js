@@ -367,16 +367,12 @@ export default class GameView extends BaseHtmlView {
     return this.baseGameView;
   }
 
-//  @Override
-//  public RubbishView showRubbish(RubbishView rubbishView) {
-//    if (gamePanel != null) {
-//      this.getContentPane().remove(gamePanel);
-//      releaseGamePanel();
-//    }
-//    gamePanel = new GamePanel(rubbishView);
-//    reloadResources();
-//    return (RubbishView) gamePanel.getBaseGameView();
-//  }
+  showRubbish(rubbishView) {
+    this.baseGameView = new RubbishView();
+    this.baseGameView.viewImplFactory = this.viewImplFactory;
+    this.#firstInit = true;
+    return this.baseGameView;
+  }
 
 //  @Override
 //  public AfternoonTeaView showAfternoonTea(AfternoonTeaView afternoonTeaView) {

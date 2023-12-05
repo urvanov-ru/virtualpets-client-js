@@ -1,6 +1,7 @@
 import RoomController from './RoomController.js';
 import TownController from './TownController.js';
 import TreasuryController from './TreasuryController.js';
+import RubbishController from './RubbishController.js';
 
 export default class GameController {
 
@@ -117,8 +118,15 @@ export default class GameController {
   showRubbish() {
     const rubbishController = this.createRubbishController();
     this.currentController = rubbishController;
-    this.gameView.showRubbish(rubbishController.rubbishView);
-    this.rubbishController.initialize();
+    rubbishController.petService = this.petService;
+    rubbishController.gameController = this;
+    rubbishController.baseGameView = this.gameView.showRubbish();
+    rubbishController.messageSource = this.messageSource;
+    rubbishController.trayIcon = this.trayIcon;
+    rubbishController.backgroundWorkManager = this.backgroundWorkManager;
+    rubbishController.hiddenObjectsService = this.hiddenObjectsService;
+    rubbishController.initialize();
+    this.gameView.reloadResources();
   }
 
   showAfternoonTea() {
