@@ -2,6 +2,7 @@ import RoomController from './RoomController.js';
 import TownController from './TownController.js';
 import TreasuryController from './TreasuryController.js';
 import RubbishController from './RubbishController.js';
+import AfternoonTeaController from './AfternoonTeaController.js';
 
 export default class GameController {
 
@@ -132,8 +133,15 @@ export default class GameController {
   showAfternoonTea() {
     const afternoonTeaController = this.createAfternoonTeaController();
     this.currentController = afternoonTeaController;
-    this.gameView.showAfternoonTea(afternoonTeaController.afternoonTeaView);
-    this.afternoonTeaController.initialize();
+    afternoonTeaController.petService = this.petService;
+    afternoonTeaController.gameController = this;
+    afternoonTeaController.baseGameView = this.gameView.showAfternoonTea();
+    afternoonTeaController.messageSource = this.messageSource;
+    afternoonTeaController.trayIcon = this.trayIcon;
+    afternoonTeaController.backgroundWorkManager = this.backgroundWorkManager;
+    afternoonTeaController.hiddenObjectsService = this.hiddenObjectsService;
+    afternoonTeaController.initialize();
+    this.gameView.reloadResources();
   }
 
   showDressingRoom() {
@@ -186,7 +194,7 @@ export default class GameController {
   }
 
   createAfternoonTeaController() {
-    return new TeaController();
+    return new AfternoonTeaController();
   }
   
   

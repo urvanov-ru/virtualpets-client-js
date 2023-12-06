@@ -2,6 +2,7 @@ import RoomLoadWorker from '../resources/RoomLoadWorker.js';
 import TownLoadWorker from '../resources/TownLoadWorker.js';
 import TreasuryLoadWorker from '../resources/TreasuryLoadWorker.js';
 import RubbishLoadWorker from '../resources/RubbishLoadWorker.js';
+import AfternoonTeaLoadWorker from '../resources/AfternoonTeaLoadWorker.js';
 import ProgressInfo from '../resources/ProgressInfo.js';
 
 import MouseMoveArg from '../domain/MouseMoveArg.js';
@@ -20,6 +21,7 @@ import RoomView from './RoomView.js';
 import TownView from './TownView.js';
 import TreasuryView from './TreasuryView.js';
 import RubbishView from './RubbishView.js';
+import AfternoonTeaView from './AfternoonTeaView.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 
@@ -191,24 +193,16 @@ export default class GameView extends BaseHtmlView {
         this.resourcesLoaded[GameView.RUBBISH_LOAD_WORKER] = true;
         this.loadResourcesDone(this);
       }.bind(this);
+    } else if ((this.baseGameView instanceof AfternoonTeaView)
+        && (!this.resourcesLoaded[GameView.AFTERNOONTEA_LOAD_WORKER])) {
+      worker = new AfternoonTeaLoadWorker(this.resourceManager, scale,
+          PetType.CAT);
+      worker.process = this.processLoadWorker.bind(this);
+      worker.done = function() {
+        this.resourcesLoaded[GameView.AFTERNOONTEA_LOAD_WORKER] = true;
+        this.loadResourcesDone(this);
+      }.bind(this);
     }
-
-//    } else if ((gamePanel.getBaseGameView() instanceof AfternoonTeaView)
-//        && (!resourcesLoaded[AFTERNOONTEA_LOAD_WORKER])) {
-//      worker = new AfternoonTeaLoadWorker(resourceManager, scale,
-//          PetType.CAT) {
-//        @Override
-//        protected void process(List<ProgressInfo> progressInfoList) {
-//          processLoadWorker(progressInfoList);
-//        }
-//
-//        public void done() {
-//          resourcesLoaded[AFTERNOONTEA_LOAD_WORKER] = true;
-//          loadResourcesDone(this);
-//        }
-//      };
-//
-//    }
     this.progressInfoPanel.progressInfo = new ProgressInfo(0, '');
     this.progressInfoPanel.showView();
     this.#independentCanvas.canvas.style.display = 'none';
@@ -372,16 +366,12 @@ export default class GameView extends BaseHtmlView {
     return this.baseGameView;
   }
 
-//  @Override
-//  public AfternoonTeaView showAfternoonTea(AfternoonTeaView afternoonTeaView) {
-//    if (gamePanel != null) {
-//      this.getContentPane().remove(gamePanel);
-//      releaseGamePanel();
-//    }
-//    gamePanel = new GamePanel(afternoonTeaView);
-//    reloadResources();
-//    return (AfternoonTeaView) gamePanel.getBaseGameView();
-//  }
+  showAfternoonTea(afternoonTeaView) {
+    this.baseGameView = new AfternoonTeaView();
+    this.baseGameView.viewImplFactory = this.viewImplFactory;
+    this.#firstInit = true;
+    return this.baseGameView;
+  }
 
 //  @Override
 //  public DressingRoomView showDressingRoom(DressingRoomView dressingRoomView) {
