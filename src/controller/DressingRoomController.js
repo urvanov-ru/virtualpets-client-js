@@ -2,9 +2,25 @@
 import Point from '../domain/Point.js';
 import GameObject from '../domain/GameObject.js';
 import DressingRoomData from '../domain/DressingRoomData.js';
+import HighlightGameObject from '../domain/HighlightGameObject.js';
+import ClothGameObject from '../domain/ClothGameObject.js';
+import MessageBoxGameObject from '../domain/MessageBoxGameObject.js';
+
+//rest
+import SavePetClothsArg from '../rest/domain/SavePetClothsArg.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
+
+// localization
+import StringConstants from '../localization/StringConstants.js';
+
+// rest
+import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+
+// tray icon
+import MessageType from '../trayicon/MessageType.js';
 
 // controller
 import BaseGameController from './BaseGameController.js';
@@ -34,7 +50,7 @@ export default class DressingRoomController extends BaseGameController {
   initialize() {
     this.dressingRoomView
         .addInitializationCompletedListener((sender, data) => {
-          loadCloths(data);
+          this.loadCloths(data);
         });
     this.dressingRoomData = new DressingRoomData();
     const background = new GameObject();
@@ -72,7 +88,7 @@ export default class DressingRoomController extends BaseGameController {
     const pet = this.initializePetGameObject();
     pet.position = new Point(DressingRoomData.ORIGINAL_PET_X,
         DressingRoomData.ORIGINAL_PET_Y);
-    dressingRoomData.pet = pet;
+    this.dressingRoomData.pet = pet;
 
     const hatIcon = new HighlightGameObject();
     hatIcon.position = new Point(DressingRoomData.ORIGINAL_HAT_ICON_X,
@@ -86,10 +102,10 @@ export default class DressingRoomController extends BaseGameController {
     });
     hatIcon.addClickedListener((clickedArg) => {
       this.showMenu(DressingRoomData.ORIGINAL_HAT_ICON_X,
-          DressingRoomData.MenuType.HAT);
+          DressingRoomData.MENU_TYPE_HAT);
     });
     this.addGameObject(hatIcon);
-    dressingRoomData.hatIcon = hatIcon;
+    this.dressingRoomData.hatIcon = hatIcon;
 
     const clothIcon = new HighlightGameObject();
     clothIcon.position = new Point(DressingRoomData.ORIGINAL_CLOTH_ICON_X,
@@ -102,7 +118,7 @@ export default class DressingRoomController extends BaseGameController {
     });
     clothIcon.addClickedListener((clickedArg) => {
       this.showMenu(DressingRoomData.ORIGINAL_CLOTH_ICON_X,
-          DressingRoomData.MenuType.CLOTH);
+          DressingRoomData.MENU_TYPE_CLOTH);
     });
     this.addGameObject(clothIcon);
     this.dressingRoomData.clothIcon = clothIcon;
@@ -118,32 +134,32 @@ export default class DressingRoomController extends BaseGameController {
     });
     bowIcon.addClickedListener((clickedArg) => {
       this.showMenu(DressingRoomData.ORIGINAL_BOW_ICON_X,
-          DressingRoomData.MenuType.BOW);
+          DressingRoomData.MENU_TYPE_BOW);
     });
     this.addGameObject(bowIcon);
     this.dressingRoomData.betBowIcon = bowIcon;
 
     const menuClothGameObjects = new Map(); // new HashMap<Integer, ClothGameObject>();
     menuClothGameObjects.set(1,
-        initializeHat(1, ResourceManager.IMAGE_CAT_HAT_1));
+        this.initializeHat(1, ResourceManager.IMAGE_CAT_HAT_1));
     menuClothGameObjects.set(2,
-        initializeHat(2, ResourceManager.IMAGE_CAT_HAT_2));
+        this.initializeHat(2, ResourceManager.IMAGE_CAT_HAT_2));
     menuClothGameObjects.set(3,
-        initializeHat(3, ResourceManager.IMAGE_CAT_HAT_3));
+        this.initializeHat(3, ResourceManager.IMAGE_CAT_HAT_3));
     menuClothGameObjects.set(4,
-        initializeCloth(4, ResourceManager.IMAGE_CAT_CLOTH_1));
+        this.initializeCloth(4, ResourceManager.IMAGE_CAT_CLOTH_1));
     menuClothGameObjects.set(5,
-        initializeCloth(5, ResourceManager.IMAGE_CAT_CLOTH_2));
+        this.initializeCloth(5, ResourceManager.IMAGE_CAT_CLOTH_2));
     menuClothGameObjects.set(6,
-        initializeCloth(6, ResourceManager.IMAGE_CAT_CLOTH_3));
+        this.initializeCloth(6, ResourceManager.IMAGE_CAT_CLOTH_3));
     menuClothGameObjects.set(7,
-        initializeBow(7, ResourceManager.IMAGE_CAT_BOW_1));
+        this.initializeBow(7, ResourceManager.IMAGE_CAT_BOW_1));
     menuClothGameObjects.set(8,
-        initializeBow(8, ResourceManager.IMAGE_CAT_BOW_2));
+        this.initializeBow(8, ResourceManager.IMAGE_CAT_BOW_2));
     menuClothGameObjects.set(9,
-        initializeBow(9, ResourceManager.IMAGE_CAT_BOW_3));
+        this.initializeBow(9, ResourceManager.IMAGE_CAT_BOW_3));
     this.dressingRoomData
-        .setMenuClothGameObjects(menuClothGameObjects);
+        .menuClothGameObjects = menuClothGameObjects;
 
     this.initializeMessageBox();
 
@@ -154,8 +170,8 @@ export default class DressingRoomController extends BaseGameController {
         StringConstants.DRESSING_ROOM_HOW_TO_PLAY_2, null, null);
     messageBoxStrings[2] = this.messageSource.getMessage(
         StringConstants.DRESSING_ROOM_HOW_TO_PLAY_3, null, null);
-    DressingRoomControllerImpl.this.showMessageBox(messageBoxStrings, null,
-        null, MessageBoxGameObject.MessageBoxType.OK_BUTTON);
+    this.showMessageBox(messageBoxStrings, null,
+        null, MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_BUTTON);
 
     const menuItems = []; //new ArrayList<GameObject>();
     for (let n = 0; n < 3; n++) {
@@ -195,9 +211,12 @@ export default class DressingRoomController extends BaseGameController {
     this.dressingRoomData.menuItems.forEach((o) => {
       o.visible = false;
     });
-    this.dressingRoomData.menuClothGameObjects.values.forEach(o => {
-      o.visible = false;
-    });
+    const iterator = this.dressingRoomData.menuClothGameObjects.values();
+    let iteratorResult = iterator.next();
+    while (!iteratorResult.done) {
+      iteratorResult.value.visible = false;
+      iteratorResult = iterator.next();
+    }
   }
 
   showMenu(originalHatIconX, menuType) {
@@ -205,16 +224,16 @@ export default class DressingRoomController extends BaseGameController {
     let cloths = null;
     switch (menuType) {
     case DressingRoomData.MENU_TYPE_HAT:
-      cloths = dressingRoomData.getHats();
+      cloths = this.dressingRoomData.hats;
       break;
     case DressingRoomData.MENU_TYPE_CLOTH:
-      cloths = dressingRoomData.getCloths();
+      cloths = this.dressingRoomData.cloths;
       break;
     case DressingRoomData.MENU_TYPE_BOW:
-      cloths = dressingRoomData.getBows();
+      cloths = this.dressingRoomData.bows;
       break;
     }
-    const hatIterator = cloths.iterator();
+    const hatIterator = cloths[Symbol.iterator]();
     let hatIteratorResult = hatIterator.next();
     for (let mi of this.dressingRoomData.menuItems) {
       mi.visible = true;
@@ -229,8 +248,8 @@ export default class DressingRoomController extends BaseGameController {
     }
   }
 
-//  private class SaveClothBackgroundWork extends
-//      BackgroundWork<SaveClothArg, Void, Void> {
+//  private class SavePetClothsBackgroundWork extends
+//      BackgroundWork<SavePetClothsArg, Void, Void> {
 
 //    @Override
 //    public Void doInBackground() throws Exception {
@@ -245,7 +264,7 @@ export default class DressingRoomController extends BaseGameController {
 
 //    @Override
 //    public void failed(Exception ex) {
-//      logger.error("SaveClothBackgroundWork failed.", ex);
+//      logger.error("SavePetClothsBackgroundWork failed.", ex);
 //      String message = messageSource.getMessage(StringConstants.ERROR,
 //          null, null) + ": " + ex.toString();
 //      trayIcon.showTrayMessage(message, MessageType.ERROR);
@@ -261,7 +280,7 @@ export default class DressingRoomController extends BaseGameController {
       this.gameController.showTown();
     };
     work.failed = (exception) => {
-      console.error("SaveClothBackgroundWork failed %o.", exception);
+      console.error("SavePetClothsBackgroundWork failed %o.", exception);
       const message = messageSource.getMessage(StringConstants.ERROR,
           null, null) + ": " + exception;
       this.trayIcon.showTrayMessage(message, MessageType.ERROR);
@@ -442,7 +461,7 @@ export default class DressingRoomController extends BaseGameController {
 
       const pet = this.dressingRoomData.pet;
       
-      const saveClothArg = new SaveClothArg();
+      const saveClothArg = new SavePetClothsArg();
       if (pet.hat != null) {
         this.saveClothArg.hatId = pet.hat.clothId;
       }
@@ -499,7 +518,7 @@ export default class DressingRoomController extends BaseGameController {
     const menuClothGameObjects = this.dressingRoomData
         .menuClothGameObjects;
 
-    const arr = result.cloths;
+    const arr = getPetClothsResult.cloths;
     for (let cloth of arr) {
       const clothType = cloth.clothType;
       switch (clothType) {

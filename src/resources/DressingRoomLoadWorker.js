@@ -1,3 +1,7 @@
+import BaseGameLoadWorker from './BaseGameLoadWorker.js';
+import ResourceManager from './ResourceManager.js';
+
+
 export default class DressingRoomLoadWorker extends BaseGameLoadWorker {
 
   static get MAX_INDEX() { return 13; }
@@ -7,7 +11,7 @@ export default class DressingRoomLoadWorker extends BaseGameLoadWorker {
     this.maxIndex = DressingRoomLoadWorker.MAX_INDEX + this.catImagesCount;
   }
 
-  loadResourcesInBackground() throws Exception {
+  loadResourcesInBackground() {
     this.loadImageWithScale(this.resourcesPath + "data/images/dressingroom/background.png",
         ResourceManager.IMAGE_DRESSING_ROOM_BACKGROUND);
     
@@ -40,6 +44,6 @@ export default class DressingRoomLoadWorker extends BaseGameLoadWorker {
     this.loadImageWithScale(this.resourcesPath + "data/images/dressingroom/menuitem.png",
         ResourceManager.IMAGE_DRESSING_ROOM_MENU_ITEM);
     
-    loadCatImages();
+    this.loadCatImages();
   }
 }

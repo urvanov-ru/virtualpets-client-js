@@ -3,6 +3,7 @@ import TownLoadWorker from '../resources/TownLoadWorker.js';
 import TreasuryLoadWorker from '../resources/TreasuryLoadWorker.js';
 import RubbishLoadWorker from '../resources/RubbishLoadWorker.js';
 import AfternoonTeaLoadWorker from '../resources/AfternoonTeaLoadWorker.js';
+import DressingRoomLoadWorker from '../resources/DressingRoomLoadWorker.js';
 import ProgressInfo from '../resources/ProgressInfo.js';
 
 import MouseMoveArg from '../domain/MouseMoveArg.js';
@@ -171,21 +172,16 @@ export default class GameView extends BaseHtmlView {
         this.resourcesLoaded[GameView.TREASURY_LOAD_WORKER] = true;
         this.loadResourcesDone(this);
       }.bind(this);
+    } if ((this.baseGameView instanceof DressingRoomView)
+        && (!this.resourcesLoaded[GameView.DRESSING_ROOM_LOAD_WORKER])) {
+      worker = new DressingRoomLoadWorker(this.resourceManager, scale,
+          PetType.CAT);
+      worker.process = this.processLoadWorker.bind(this);
+      worker.done = function() {
+        this.resourcesLoaded[GameView.DRESSING_ROOM_LOAD_WORKER] = true;
+        this.loadResourcesDone(this);
+      }.bind(this);
     }
-    // else if ((gamePanel.getBaseGameView() instanceof DressingRoomView)
-  //      && (!resourcesLoaded[DRESSING_ROOM_LOAD_WORKER])) {
-//      worker = new DressingRoomLoadWorker(resourceManager, scale,
-//          PetType.CAT) {
-//        @Override
-//        protected void process(List<ProgressInfo> progressInfoList) {
-//          processLoadWorker(progressInfoList);
-//        }
-//
-//        public void done() {
- //         resourcesLoaded[DRESSING_ROOM_LOAD_WORKER] = true;
-//          loadResourcesDone(this);
-//        }
-//      };
     else if ((this.baseGameView instanceof RubbishView)
         && (!this.resourcesLoaded[GameView.RUBBISH_LOAD_WORKER])) {
       worker = new RubbishLoadWorker(this.resourceManager, scale, PetType.CAT);

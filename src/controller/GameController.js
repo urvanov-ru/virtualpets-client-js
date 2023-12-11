@@ -151,6 +151,7 @@ export default class GameController {
     dressingRoomController.gameController = this;
     dressingRoomController.petService = this.petService; 
     dressingRoomController.dressingRoomView = this.gameView.showDressingRoom();
+    dressingRoomController.baseGameView = dressingRoomController.dressingRoomView;
     dressingRoomController.trayIcon = this.trayIcon;
     dressingRoomController.messageSource = this.messageSource;
     dressingRoomController.backgroundWorkManager = this.backgroundWorkManager;
