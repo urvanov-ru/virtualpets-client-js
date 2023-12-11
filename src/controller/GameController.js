@@ -3,6 +3,7 @@ import TownController from './TownController.js';
 import TreasuryController from './TreasuryController.js';
 import RubbishController from './RubbishController.js';
 import AfternoonTeaController from './AfternoonTeaController.js';
+import DressingRoomController from './DressingRoomController.js';
 
 export default class GameController {
 
@@ -145,22 +146,17 @@ export default class GameController {
   }
 
   showDressingRoom() {
-    // currentController = new DressingRoomControllerImpl();
-    // DressingRoomControllerImpl drc = (DressingRoomControllerImpl)
-    // currentController;
-    // drc.setGameController(this);
-    // drc.setPetService(petService);
-    // drc.setDressingRoomView(gameView.showDressingRoom());
-    // drc.setTrayIcon(trayIcon);
-    // drc.setHiddenObjectsService(hiddenObjectsService);
-    // drc.setMessageSource(messageSource);
-    // drc.setBackgroundWorkManager(backgroundWorkManager);
-    // drc.setClothService(clothService);
-    // drc.initialize();
     const dressingRoomController = this.createDressingRoomController();
     this.currentController = dressingRoomController;
-    this.gameView.showDressingRoom(dressingRoomController.dressingRoomView);
-    this.dressingRoomController.initialize();
+    dressingRoomController.gameController = this;
+    dressingRoomController.petService = this.petService; 
+    dressingRoomController.dressingRoomView = this.gameView.showDressingRoom();
+    dressingRoomController.trayIcon = this.trayIcon;
+    dressingRoomController.messageSource = this.messageSource;
+    dressingRoomController.backgroundWorkManager = this.backgroundWorkManager;
+    dressingRoomController.clothService = this.clothService;
+    dressingRoomController.initialize();
+    this.gameView.reloadResources();
   }
 
   get mainView() {

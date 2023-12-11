@@ -1,4 +1,16 @@
-export default class DressingRoomController extends BaseGameControllerImpl {
+// domain
+import Point from '../domain/Point.js';
+import GameObject from '../domain/GameObject.js';
+import DressingRoomData from '../domain/DressingRoomData.js';
+
+// resources
+import ResourceManager from '../resources/ResourceManager.js';
+
+// controller
+import BaseGameController from './BaseGameController.js';
+
+
+export default class DressingRoomController extends BaseGameController {
 
   petService;
   dressingRoomView;
@@ -28,7 +40,7 @@ export default class DressingRoomController extends BaseGameControllerImpl {
     const background = new GameObject();
     background.position = new Point(0, 0);
     background.animationImageIds = [[ ResourceManager.IMAGE_DRESSING_ROOM_BACKGROUND ]];
-    background.addMouseMoveListener((mouseMoveArg) -> {
+    background.addMouseMoveListener((mouseMoveArg) => {
       this.dressingRoomView.showDefaultCursor();
       this.dressingRoomView.toolTipText = "";
       this.highlightObject = null;
@@ -49,7 +61,7 @@ export default class DressingRoomController extends BaseGameControllerImpl {
     arrowLeft.addMouseMoveListener((mouseMoveArg) => {
       this.dressingRoomView.showHandCursor();
       this.dressingRoomView.toolTipText = "";
-      this.highlightObject = arrowLeft = ;
+      this.highlightObject = arrowLeft;
     });
     arrowLeft.addClickedListener((clickedArg) => {
       this.fireTownEvent();
@@ -180,7 +192,7 @@ export default class DressingRoomController extends BaseGameControllerImpl {
   }
 
   hideMenu() {
-    this.dressingRoomData.menuItems.forEach( => {
+    this.dressingRoomData.menuItems.forEach((o) => {
       o.visible = false;
     });
     this.dressingRoomData.menuClothGameObjects.values.forEach(o => {
@@ -516,5 +528,9 @@ export default class DressingRoomController extends BaseGameControllerImpl {
     }
   }
 
+  set dressingRoomView(dressingRoomView) {
+    super.baseGameView = dressingRoomView;
+    this.dressingRoomView = dressingRoomView;
+  }
 
 }

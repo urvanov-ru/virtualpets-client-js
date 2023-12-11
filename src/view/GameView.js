@@ -22,6 +22,7 @@ import TownView from './TownView.js';
 import TreasuryView from './TreasuryView.js';
 import RubbishView from './RubbishView.js';
 import AfternoonTeaView from './AfternoonTeaView.js';
+import DressingRoomView from './DressingRoomView.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 
@@ -352,7 +353,7 @@ export default class GameView extends BaseHtmlView {
   }
 
 
-  showTreasury(treasuryView) {
+  showTreasury() {
     this.baseGameView = new TreasuryView();
     this.baseGameView.viewImplFactory = this.viewImplFactory;
     this.#firstInit = true;
@@ -373,16 +374,14 @@ export default class GameView extends BaseHtmlView {
     return this.baseGameView;
   }
 
-//  @Override
-//  public DressingRoomView showDressingRoom(DressingRoomView dressingRoomView) {
-//    if (gamePanel != null) {
-//      this.getContentPane().remove(gamePanel);
-//      releaseGamePanel();
-//    }
-//    gamePanel = new GamePanel(dressingRoomView);
-//    reloadResources();
-//    return (DressingRoomView) gamePanel.getBaseGameView();
-//  }
+  showDressingRoom(dressingRoomView) {
+    this.baseGameView = new DressingRoomView();
+    this.baseGameView.viewImplFactory = this.viewImplFactory;
+    this.#firstInit = true;
+    return this.baseGameView;
+  }
+
+
 
 //  private void releaseGamePanel() {
 //    final GamePanel lastGamePanel = gamePanel;

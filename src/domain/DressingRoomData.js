@@ -21,9 +21,9 @@ export default class DressingRoomData {
   static get MESSAGE_BOX_MOVE_STEP() { return 30; }
   static get MENU_ITEM_HEIGHT() { return 150; }
 
-  static get MENU_TYPE_HAT() = "hat";
-  static get MENU_TYPE_CLOTH() = "cloth";
-  static get MENU_TYPE_BOW() = "bow";
+  static get MENU_TYPE_HAT() { return "hat"; }
+  static get MENU_TYPE_CLOTH() { return "cloth"; }
+  static get MENU_TYPE_BOW() { return "bow"; }
 
   background = null;
   arrowLeft = null;
