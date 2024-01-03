@@ -36,7 +36,6 @@ import BaseGameController from './BaseGameController.js';
 
 export default class HiddenObjectsControllerBaseImpl extends BaseGameController {
 
-  petService;
   gameController;
   hiddenObjectsService;
   

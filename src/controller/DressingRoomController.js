@@ -28,12 +28,9 @@ import BaseGameController from './BaseGameController.js';
 
 export default class DressingRoomController extends BaseGameController {
 
-  petService;
   dressingRoomView;
   gameController;
-  hiddenObjectsService;
   backgroundWorkManager;
-  clothService;
 
   dressingRoomData;
 
@@ -253,7 +250,7 @@ export default class DressingRoomController extends BaseGameController {
 
 //    @Override
 //    public Void doInBackground() throws Exception {
-//      clothService.saveCloth(getArgument());
+//      petService.saveCloth(getArgument());
 //      return null;
 //    }
 
@@ -274,7 +271,7 @@ export default class DressingRoomController extends BaseGameController {
   saveCloth(saveClothArg) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return this.clothService.saveCloth(work.argument);
+      return this.petService.saveCloth(work.argument);
     };
     work.completed = () => {
       this.gameController.showTown();
@@ -297,7 +294,7 @@ export default class DressingRoomController extends BaseGameController {
 //      BackgroundWork<Void, GetPetClothsResult, Void> {
 //    @Override
 //    public GetPetClothsResult doInBackground() throws Exception {
-//      return clothService.getPetCloths();
+//      return petService.getPetCloths();
 //    }
 //
 //    @Override
@@ -324,7 +321,7 @@ export default class DressingRoomController extends BaseGameController {
   loadCloths() {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return this.clothService.getPetCloths();
+      return this.petService.getPetCloths();
     };
     work.completed = (getPetClothsResult) => {
       try {

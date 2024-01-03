@@ -20,7 +20,6 @@ import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExcept
 // tray icon
 import MessageType from '../trayicon/MessageType.js';
 export default class TownControllerImpl extends BaseGameController {
-  petService;
   townView;
   gameController;
 

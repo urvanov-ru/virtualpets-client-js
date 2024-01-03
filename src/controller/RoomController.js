@@ -43,11 +43,7 @@ export default class RoomController extends BaseGameController {
 
   roomData;
   roomView;
-  petService;
-  foodService;
   roomService;
-  bookService;
-  drinkService;
 
   gameController;
   
@@ -1698,7 +1694,7 @@ export default class RoomController extends BaseGameController {
 //
 //    @Override
 //    public GetPetFoodsResult doInBackground() throws Exception {
-//      return foodService.getPetFoods();
+//      return petService.getPetFoods();
 //    }
 //
 //    @Override
@@ -1718,7 +1714,7 @@ export default class RoomController extends BaseGameController {
   showRefrigerator() {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return this.foodService.getPetFoods();
+      return this.petService.getPetFoods();
     };
     work.completed = (getPetFoodsResult) => {
       this.foods = getPetFoodsResult;
@@ -1741,7 +1737,7 @@ export default class RoomController extends BaseGameController {
 //
 //    @Override
 //    public GetPetBooksResult doInBackground() throws Exception {
-//      return bookService.getPetBooks();
+//      return petService.getPetBooks();
 //    }
 //
 //    @Override
@@ -1761,7 +1757,7 @@ export default class RoomController extends BaseGameController {
   showBookcase() {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return this.bookService.getPetBooks();
+      return this.petService.getPetBooks();
     };
     work.completed = (getPetBooksResult) => {
       this.books = getPetBooksResult;
@@ -2598,7 +2594,7 @@ export default class RoomController extends BaseGameController {
 //
 //    @Override
 //    public GetPetDrinksResult doInBackground() throws Exception {
-//      return drinkService.getPetDrinks();
+//      return petService.getPetDrinks();
 //    }
 //
 //    @Override
@@ -2618,7 +2614,7 @@ export default class RoomController extends BaseGameController {
   showMachineWithDrinks() {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return this.drinkService.getPetDrinks();
+      return this.petService.getPetDrinks();
     };
     work.completed = (getPetDrinksResult) => {
       this.drinks = getPetDrinksResult;

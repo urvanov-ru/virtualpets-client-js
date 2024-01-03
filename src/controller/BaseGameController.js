@@ -44,9 +44,8 @@ export default class BaseGameController {
   messageSource;
   backgroundWorkManager;
   baseGameView;
-  rucksackService;
-  journalEntryService;
   trayIcon;
+  petService;
 
   static get ORIGINAL_RUCKSACK_X() { return 700; }
   static get ORIGINAL_RUCKSACK_Y() { return 500; }
@@ -202,7 +201,7 @@ export default class BaseGameController {
 //
 //    @Override
 //    public GetPetRucksackInnerResult doInBackground() throws Exception {
-//      return rucksackService.getPetRucksackInner();
+//      return petService.getPetRucksackInner();
 //    }
 //
 //    @Override
@@ -228,7 +227,7 @@ export default class BaseGameController {
       trayIcon.showTrayMessage(message, MessageType.ERROR);
     };
     work.doInBackground = () => {
-      return this.rucksackService.getPetRucksackInner();
+      return this.petService.getPetRucksackInner();
     };
     work.completed = (getPetRucksackInnerResult) => {
       this.rucksackInner = getPetRucksackInnerResult;
@@ -1031,7 +1030,7 @@ export default class BaseGameController {
 //
 //    @Override
 //    public GetPetJournalEntriesResult doInBackground() throws Exception {
-//      return journalEntryService.getPetJournalEntries(99999999);
+//      return petService.getPetJournalEntries(99999999);
 //    }
 //
 //    @Override
@@ -1089,7 +1088,7 @@ export default class BaseGameController {
           MessageType.ERROR);
     }
     work.doInBackground = () => {
-      return this.journalEntryService.getPetJournalEntries(99999999);
+      return this.petService.getPetJournalEntries(99999999);
     }
     work.completed = (getJournalEntriesResult) => {
       const entries = getJournalEntriesResult.entries;

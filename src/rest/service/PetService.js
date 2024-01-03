@@ -34,6 +34,43 @@ export default class PetService {
   }
   
   mood() {
+    console.debug('mood');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/mood", 'POST');
+  }
+  
+  getPetBooks() {
+    console.debug('getPetBooks');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/getPetBooks", 'GET');
+  }
+  
+  getPetCloths() {
+    console.debug('getPetCloths');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/getPetCloths", 'GET');
+  }
+  
+  saveCloth(savePetClothsArg) {
+    console.debug('savePetCloths');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/savePetCloths", 'POST', savePetClothsArg);
+  }
+  
+  getPetDrinks() {
+    console.debug('getPetDrinks');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/getPetDrinks", 'GET');
+  }
+  
+  getPetFoods() {
+    console.debug('getPetFoods');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/getPetFoods", 'GET');
+  }
+  
+  getPetJournalEntries(count) {
+    console.debug('getPetJournalEntries');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/getPetJournalEntries?count=" + count, 'GET');
+  }
+  
+  getPetRucksackInner() {
+    console.debug('getPetRucksackInner');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/getPetRucksackInner", 'GET');
   }
   
   set restClient(restClient) {

@@ -12,14 +12,8 @@ import PublicService from './rest/service/PublicService.js';
 import UserService from './rest/service/UserService.js';
 import PetService from './rest/service/PetService.js';
 import RoomService from './rest/service/RoomService.js';
-import JournalEntryService from './rest/service/JournalEntryService.js';
-import RucksackService from './rest/service/RucksackService.js';
-import DrinkService from './rest/service/DrinkService.js';
-import FoodService from './rest/service/FoodService.js';
-import BookService from './rest/service/BookService.js';
 import TownService from './rest/service/TownService.js';
 import HiddenObjectsService from './rest/service/HiddenObjectsService.js';
-import ClothService from './rest/service/ClothService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
@@ -97,14 +91,8 @@ function init(selectedLanguage) {
   const userService = new UserService();
   const petService = new PetService();
   const roomService = new RoomService();
-  const journalEntryService = new JournalEntryService();
-  const rucksackService = new RucksackService();
-  const drinkService = new DrinkService();
-  const foodService = new FoodService();
-  const bookService = new BookService();
   const townService = new TownService();
   const hiddenObjectsService = new HiddenObjectsService();
-  const clothService = new ClothService();
   const restClient = new RestClient();
   
 
@@ -140,15 +128,9 @@ function init(selectedLanguage) {
   gameController.messageSource = messageSource;
   gameController.backgroundWorkManager = backgroundWorkManager;
   gameController.roomService = roomService;
-  gameController.journalEntryService = journalEntryService;
-  gameController.rucksackService = rucksackService;
-  gameController.drinkService = drinkService;
   gameController.petService = petService;
-  gameController.foodService = foodService;
-  gameController.bookService = bookService;
   gameController.townService = townService;
   gameController.hiddenObjectsService = hiddenObjectsService;
-  gameController.clothService = clothService;
   
   loginController.loginView = loginView;
   loginController.trayIcon = trayIcon;
@@ -189,9 +171,6 @@ function init(selectedLanguage) {
   createPetController.backgroundWorkManager = backgroundWorkManager;
   createPetController.userPetsController = userPetsController;
   
-  
-  
-  
   publicService.serverUrl = SERVER_URL;
   publicService.version = VERSION;
   
@@ -205,22 +184,10 @@ function init(selectedLanguage) {
   
   roomService.restClient = restClient;
   
-  journalEntryService.restClient = restClient;
-  
-  rucksackService.restClient = restClient;
-  
-  drinkService.restClient = restClient;
-  
-  foodService.restClient = restClient;
-  
-  bookService.restClient = restClient;
-  
   townService.restClient = restClient;
   
   hiddenObjectsService.restClient = restClient;
   
-  clothService.restClient = restClient;
-    
   viewImplFactory.resourceManager = resourceManager;
   
   resourceLoader.resourceManager = resourceManager;
