@@ -7,6 +7,7 @@ import BoxGameObject from '../domain/BoxGameObject.js';
 import PetGameObject from '../domain/PetGameObject.js';
 import MachineWithDrinksInnerObject from './room/domain/MachineWithDrinksInnerObject.js';
 import RefrigeratorInnerObject from './room/domain/RefrigeratorInnerObject.js';
+import BookcaseInnerObject from './room/domain/BookcaseInnerObject.js';
 import RoomData from '../domain/RoomData.js';
 import GameObject from '../domain/GameObject.js';
 import Point from '../domain/Point.js';
@@ -145,8 +146,8 @@ export default class RoomController extends BaseGameController {
 
     this.initializeJournalOnFloor();
 
-    this.roomData.refrigeratorInnerCounts = new Array(FoodType.VALUES_COUNT);
-    this.roomData.machineWithDrinksInnerCounts = new Array(DrinkType.VALUES_COUNT);
+    this.roomData.refrigeratorInnerCounts = new Map();
+    this.roomData.machineWithDrinksInnerCounts = new Map();
 
     this.initializeMessageBox();
     this.initializeUpgrade();
@@ -449,7 +450,7 @@ export default class RoomController extends BaseGameController {
     this.roomData.bookcaseInner = bookcaseInner;
 
     const bookcaseInnerItems = new Array(RoomData.BOOKCASE_MAX_LEVEL);
-    this.roomData.bookcaseInnerBooks = new Array(RoomData.MAX_BOOKS_COUNT);
+    this.roomData.bookcaseInnerBooks = new Set();
     for (let n = 0; n < RoomData.BOOKCASE_MAX_LEVEL; n++) {
       const go = new GameObject();
       go.position = new Point(RoomData.ORIGINAL_BOOKCASE_INNER_X, n * 100);
@@ -483,37 +484,32 @@ export default class RoomController extends BaseGameController {
     this.addGameObject(bookcaseClose);
     this.roomData.bookcaseClose = bookcaseClose;
 
-    const bookcaseInnerObjects = new Array(18);
+    const bookcaseInnerObjects = new Map();
     this.roomData.bookcaseInnerObjects = bookcaseInnerObjects;
-    this.initializeBookcaseInnerObject(0, ResourceManager.IMAGE_BOOK_1);
-    this.initializeBookcaseInnerObject(1, ResourceManager.IMAGE_BOOK_2);
-    this.initializeBookcaseInnerObject(2, ResourceManager.IMAGE_BOOK_3);
-    this.initializeBookcaseInnerObject(3, ResourceManager.IMAGE_BOOK_4);
-    this.initializeBookcaseInnerObject(4, ResourceManager.IMAGE_BOOK_5);
-    this.initializeBookcaseInnerObject(5, ResourceManager.IMAGE_BOOK_6);
-    this.initializeBookcaseInnerObject(6, ResourceManager.IMAGE_BOOK_7);
-    this.initializeBookcaseInnerObject(7, ResourceManager.IMAGE_BOOK_8);
-    this.initializeBookcaseInnerObject(8, ResourceManager.IMAGE_BOOK_9);
-    this.initializeBookcaseInnerObject(9, ResourceManager.IMAGE_BOOK_10);
-    this.initializeBookcaseInnerObject(10, ResourceManager.IMAGE_BOOK_11);
-    this.initializeBookcaseInnerObject(11, ResourceManager.IMAGE_BOOK_12);
-    this.initializeBookcaseInnerObject(12, ResourceManager.IMAGE_BOOK_13);
-    this.initializeBookcaseInnerObject(13, ResourceManager.IMAGE_BOOK_14);
-    this.initializeBookcaseInnerObject(14, ResourceManager.IMAGE_BOOK_15);
-    this.initializeBookcaseInnerObject(15, ResourceManager.IMAGE_BOOK_16);
-    this.initializeBookcaseInnerObject(16, ResourceManager.IMAGE_BOOK_17);
-    this.initializeBookcaseInnerObject(17, ResourceManager.IMAGE_BOOK_18);
+    this.initializeBookcaseInnerObject('DESTINY', RoomData.BOOK_DESTINY_STATE, ResourceManager.IMAGE_BOOK_1);
+    this.initializeBookcaseInnerObject('SQL', RoomData.BOOK_SQL_STATE, ResourceManager.IMAGE_BOOK_2);
+    this.initializeBookcaseInnerObject('PURPLE', RoomData.BOOK_PURPLE_STATE, ResourceManager.IMAGE_BOOK_3);
+    this.initializeBookcaseInnerObject('PLAID', RoomData.BOOK_PLAID_STATE, ResourceManager.IMAGE_BOOK_4);
+    this.initializeBookcaseInnerObject('PUSHKIN', RoomData.BOOK_PUSHKIN_STATE, ResourceManager.IMAGE_BOOK_5);
+    this.initializeBookcaseInnerObject('BLACK', RoomData.BOOK_BLACK_STATE, ResourceManager.IMAGE_BOOK_6);
+    this.initializeBookcaseInnerObject('WHITE', RoomData.BOOK_WHITE_STATE, ResourceManager.IMAGE_BOOK_7);
+    this.initializeBookcaseInnerObject('DIRTY', RoomData.BOOK_DIRTY_STATE, ResourceManager.IMAGE_BOOK_8);
+    this.initializeBookcaseInnerObject('EARTH', RoomData.BOOK_EARTH_STATE, ResourceManager.IMAGE_BOOK_9);
+    this.initializeBookcaseInnerObject('MOON_AND_STAR', RoomData.BOOK_MOON_AND_STAR_STATE, ResourceManager.IMAGE_BOOK_10);
+    this.initializeBookcaseInnerObject('GIRL', RoomData.BOOK_GIRL_STATE, ResourceManager.IMAGE_BOOK_11);
+    this.initializeBookcaseInnerObject('SUNSET', RoomData.BOOK_SUNSET_STATE, ResourceManager.IMAGE_BOOK_12);
+    this.initializeBookcaseInnerObject('SAGA', RoomData.BOOK_SAGA_STATE, ResourceManager.IMAGE_BOOK_13);
+    this.initializeBookcaseInnerObject('NONAME', RoomData.BOOK_NONAME_STATE, ResourceManager.IMAGE_BOOK_14);
+    this.initializeBookcaseInnerObject('CATS', RoomData.BOOK_CATS_STATE, ResourceManager.IMAGE_BOOK_15);
+    this.initializeBookcaseInnerObject('GOLD_TITLE', RoomData.BOOK_GOLD_TITLE_STATE, ResourceManager.IMAGE_BOOK_16);
+    this.initializeBookcaseInnerObject('DARK', RoomData.BOOK_DARK_STATE, ResourceManager.IMAGE_BOOK_17);
+    this.initializeBookcaseInnerObject('SCHEME', RoomData.BOOK_SCHEME_STATE, ResourceManager.IMAGE_BOOK_18);
   }
 
-  initializeBookcaseInnerObject(bookId, resourceId) {
-    const go = new GameObject();
-
-    const x = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_X + (bookId % 3)
-        * RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_STEP_X;
-    const y = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_Y + bookId / 3
-        * RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_STEP_Y;
-    go.position = new Point(x, y);
-
+  initializeBookcaseInnerObject(bookId, readState, resourceId) {
+    const go = new BookcaseInnerObject();
+    go.id = bookId;
+    go.readState = readState;
     go.z = BaseGameController.MENU_Z_ORDER + 1;
     const imgids = [[ resourceId ]];
     go.animationImageIds = imgids;
@@ -529,7 +525,7 @@ export default class RoomController extends BaseGameController {
       pet.setMove(null, null, null);
       pet.state = PetGameObject.STATE_EDUCATION;
       const book = this.roomData.book;
-      book.state = bookId;
+      book.state = clickedArg.sender.readState;
       book.visible = true;
       book.z = pet.z + 1;
       const food = this.roomData.food;
@@ -550,7 +546,7 @@ export default class RoomController extends BaseGameController {
     });
     go.visible = false;
     this.addGameObject(go);
-    this.roomData.bookcaseInnerObjects[bookId] = go;
+    this.roomData.bookcaseInnerObjects.set(bookId, go);
   }
 
   initializeArrowRight() {
@@ -951,28 +947,28 @@ export default class RoomController extends BaseGameController {
         ResourceManager.IMAGE_WATERMELON_6,
         ResourceManager.IMAGE_WATERMELON_7,
         ResourceManager.IMAGE_WATERMELON_8);
-    imgids[RoomData.FOOD_DRINK] = this.initializeFoodImageIds(
+    imgids[RoomData.DRINK_WATER] = this.initializeFoodImageIds(
         ResourceManager.IMAGE_WATER_1,
         ResourceManager.IMAGE_WATER_2,
         ResourceManager.IMAGE_WATER_3,
         ResourceManager.IMAGE_WATER_4,
         ResourceManager.IMAGE_WATER_5);
-    imgids[RoomData.FOOD_DRINK + 1] = this.initializeFoodImageIds(
+    imgids[RoomData.DRINK_MILK] = this.initializeFoodImageIds(
         ResourceManager.IMAGE_MILK_1,
         ResourceManager.IMAGE_MILK_2,
         ResourceManager.IMAGE_MILK_3,
         ResourceManager.IMAGE_MILK_4,
         ResourceManager.IMAGE_MILK_5);
-    imgids[RoomData.FOOD_DRINK + 2] = this.initializeFoodImageIds(ResourceManager.IMAGE_BOTTLE_1);
-    imgids[RoomData.FOOD_DRINK + 3] = this.initializeFoodImageIds(
+    imgids[RoomData.DRINK_BOTTLE] = this.initializeFoodImageIds(ResourceManager.IMAGE_BOTTLE_1);
+    imgids[RoomData.DRINK_TEA] = this.initializeFoodImageIds(
         ResourceManager.IMAGE_TEA_1,
         ResourceManager.IMAGE_TEA_2,
         ResourceManager.IMAGE_TEA_3);
-    imgids[RoomData.FOOD_DRINK + 4] = this.initializeFoodImageIds(
+    imgids[RoomData.DRINK_COFFEE] = this.initializeFoodImageIds(
         ResourceManager.IMAGE_COFFEE_1,
         ResourceManager.IMAGE_COFFEE_2,
         ResourceManager.IMAGE_COFFEE_3);
-    imgids[RoomData.FOOD_DRINK + 5] = this.initializeFoodImageIds(
+    imgids[RoomData.DRINK_ORANGE_JUICE] = this.initializeFoodImageIds(
         ResourceManager.IMAGE_ORANGE_JUICE_1,
         ResourceManager.IMAGE_ORANGE_JUICE_2,
         ResourceManager.IMAGE_ORANGE_JUICE_3,
@@ -2315,39 +2311,38 @@ export default class RoomController extends BaseGameController {
     this.addGameObject(refrigeratorClose);
     this.roomData.refrigeratorClose = refrigeratorClose;
 
-    const refrigeratorInnerObjects = new Array(14);
-    const refrigeratorInnerObjectLabels = new Array(14);
+    const refrigeratorInnerObjects = new Map();
+    const refrigeratorInnerObjectLabels = new Map();
     this.roomData.refrigeratorInnerObjects = refrigeratorInnerObjects;
     this.roomData.refrigeratorInnerObjectLabels = refrigeratorInnerObjectLabels;
-    let refrigeratorInnerObjectId = 0;
-    this.initRefrigeratoInnerObject(FoodType.CARROT,
-        ResourceManager.IMAGE_CARROT_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.DRY_FOOD,
-        ResourceManager.IMAGE_DRY_FOOD_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.FISH,
-        ResourceManager.IMAGE_FISH_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.ICE_CREAM,
-        ResourceManager.IMAGE_ICE_CREAM_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.APPLE,
-        ResourceManager.IMAGE_APPLE_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.CABBAGE,
-        ResourceManager.IMAGE_CABBAGE_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.CHOCOLATE,
-        ResourceManager.IMAGE_CHOCOLATE_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.FRENCH_FRIES,
-        ResourceManager.IMAGE_FRENCH_FRIES_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.JAPANESE_ROLLS,
-        ResourceManager.IMAGE_JAPANESE_ROLLS_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.PIE,
-        ResourceManager.IMAGE_PIE_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.POTATOES,
-        ResourceManager.IMAGE_POTATOES_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.SANDWICH,
-        ResourceManager.IMAGE_SANDWICH_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.BANANA,
-        ResourceManager.IMAGE_BANANA_1, refrigeratorInnerObjectId++);
-    this.initRefrigeratoInnerObject(FoodType.WATERMELON,
-        ResourceManager.IMAGE_WATERMELON_1, refrigeratorInnerObjectId++);
+    this.initializeRefrigeratorInnerObject(FoodType.CARROT,
+        RoomData.FOOD_CARROT, ResourceManager.IMAGE_CARROT_1);
+    this.initializeRefrigeratorInnerObject(FoodType.DRY_FOOD,
+        RoomData.FOOD_DRY_FOOD, ResourceManager.IMAGE_DRY_FOOD_1);
+    this.initializeRefrigeratorInnerObject(FoodType.FISH,
+        RoomData.FOOD_FISH, ResourceManager.IMAGE_FISH_1);
+    this.initializeRefrigeratorInnerObject(FoodType.ICE_CREAM,
+        RoomData.FOOD_ICE_CREAM, ResourceManager.IMAGE_ICE_CREAM_1);
+    this.initializeRefrigeratorInnerObject(FoodType.APPLE,
+        RoomData.FOOD_APPLE, ResourceManager.IMAGE_APPLE_1);
+    this.initializeRefrigeratorInnerObject(FoodType.CABBAGE,
+        RoomData.FOOD_CABBAGE, ResourceManager.IMAGE_CABBAGE_1);
+    this.initializeRefrigeratorInnerObject(FoodType.CHOCOLATE,
+        RoomData.FOOD_CHOCOLATE, ResourceManager.IMAGE_CHOCOLATE_1);
+    this.initializeRefrigeratorInnerObject(FoodType.FRENCH_FRIES,
+        RoomData.FOOD_FRIES, ResourceManager.IMAGE_FRENCH_FRIES_1);
+    this.initializeRefrigeratorInnerObject(FoodType.JAPANESE_ROLLS,
+        RoomData.FOOD_JAPANESE_ROLLS, ResourceManager.IMAGE_JAPANESE_ROLLS_1);
+    this.initializeRefrigeratorInnerObject(FoodType.PIE,
+        RoomData.FOOD_PIE, ResourceManager.IMAGE_PIE_1);
+    this.initializeRefrigeratorInnerObject(FoodType.POTATOES,
+        RoomData.FOOD_POTATOES, ResourceManager.IMAGE_POTATOES_1);
+    this.initializeRefrigeratorInnerObject(FoodType.SANDWICH,
+        RoomData.FOOD_SANDWITCH, ResourceManager.IMAGE_SANDWICH_1);
+    this.initializeRefrigeratorInnerObject(FoodType.BANANA,
+        RoomData.FOOD_BANANA, ResourceManager.IMAGE_BANANA_1);
+    this.initializeRefrigeratorInnerObject(FoodType.WATERMELON,
+        RoomData.FOOD_WATERMELON, ResourceManager.IMAGE_WATERMELON_1);
   }
 
   initializeMachineWithDrinksInnerObjects() {
@@ -2405,35 +2400,35 @@ export default class RoomController extends BaseGameController {
     this.addGameObject(machineWithDrinksClose);
     this.roomData.machineWithDrinksClose = machineWithDrinksClose;
 
-    this.roomData.machineWithDrinksInnerObjects = new Array(6);
-    this.roomData.machineWithDrinksInnerObjectLabels = new Array(6);
-    let machineWithDrinksInnerObjectId = 0;
+    this.roomData.machineWithDrinksInnerObjects = new Map();
+    this.roomData.machineWithDrinksInnerObjectLabels = new Map();
     this.initializeMachineWithDrinksInnerObject(DrinkType.WATER,
-        ResourceManager.IMAGE_WATER_1, machineWithDrinksInnerObjectId++);
+        RoomData.DRINK_WATER, ResourceManager.IMAGE_WATER_1);
     this.initializeMachineWithDrinksInnerObject(DrinkType.MILK,
-        ResourceManager.IMAGE_MILK_1, machineWithDrinksInnerObjectId++);
+        RoomData.DRINK_MILK, ResourceManager.IMAGE_MILK_1);
     this.initializeMachineWithDrinksInnerObject(DrinkType.BOTTLE,
-        ResourceManager.IMAGE_BOTTLE_1, machineWithDrinksInnerObjectId++);
+        RoomData.DRINK_BOTTLE, ResourceManager.IMAGE_BOTTLE_1);
     this.initializeMachineWithDrinksInnerObject(DrinkType.TEA,
-        ResourceManager.IMAGE_TEA_1, machineWithDrinksInnerObjectId++);
+        RoomData.DRINK_TEA, ResourceManager.IMAGE_TEA_1);
     this.initializeMachineWithDrinksInnerObject(DrinkType.COFFEE,
-        ResourceManager.IMAGE_COFFEE_1, machineWithDrinksInnerObjectId++);
+        RoomData.DRINK_COFFEE, ResourceManager.IMAGE_COFFEE_1);
     this.initializeMachineWithDrinksInnerObject(DrinkType.ORANGE_JUICE,
-        ResourceManager.IMAGE_ORANGE_JUICE_1, machineWithDrinksInnerObjectId++);
+        RoomData.DRINK_ORANGE_JUICE, ResourceManager.IMAGE_ORANGE_JUICE_1);
   }
 
-  initializeMachineWithDrinksInnerObject(drinkType, resourceId, machineWithDrinksInnerObjectId) {
+  initializeMachineWithDrinksInnerObject(id, drinkState, resourceId) {
     const go = new MachineWithDrinksInnerObject();
     const gol = new LabelGameObject();
 
-    go.drinkType = drinkType;
-    const x = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_X
-        + (machineWithDrinksInnerObjectId % 2)
-        * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_X;
-    const y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y + machineWithDrinksInnerObjectId
-       / 2 * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
-    go.position = new Point(x, y);
-    gol.position = new Point(x, y + 40);
+    go.id = id;
+    go.drinkState = drinkState;
+    //const x = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_X
+    //    + (machineWithDrinksInnerObjectId % 2)
+    //    * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_X;
+    //const y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y + machineWithDrinksInnerObjectId
+    //   / 2 * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
+    //go.position = new Point(0, 0);
+    //gol.position = new Point(x, y + 40);
     gol.visible = false;
     gol.z = BaseGameController.MENU_Z_ORDER + 2;
     this.addGameObject(gol);
@@ -2446,23 +2441,23 @@ export default class RoomController extends BaseGameController {
         this.roomView.toolTipText = "";
     });
     go.addClickedListener((clickedArg) => {
-        const rio = clickedArg.sender;
-        const foodId = DrinkType.ordinal(rio.drinkType);
+        const sender = clickedArg.sender;
+        const drinkId = sender.id;
         const machineWithDrinksInnerCounts = this.roomData
             .machineWithDrinksInnerCounts;
-        machineWithDrinksInnerCounts[foodId]--;
+        machineWithDrinksInnerCounts.set(drinkId, machineWithDrinksInnerCounts.get(drinkId) - 1);
         const machineWithDrinksInnerObjectLabels = this.roomData
             .machineWithDrinksInnerObjectLabels;
-        machineWithDrinksInnerObjectLabels[foodId].text = "" + machineWithDrinksInnerCounts[foodId];
+        machineWithDrinksInnerObjectLabels.get(drinkId).text = "" + machineWithDrinksInnerCounts.get(drinkId);
         this.machineWithDrinksInnerVisible = false;
         this.roomView.showHandCursor();
         const pet = this.roomData.pet;
         pet.position = new Point(RoomData.ORIGINAL_PET_X,
             RoomData.ORIGINAL_PET_Y);
-        pet.move = null;
+        pet.setMove(null, null ,null);
         pet.state = PetGameObject.STATE_EAT;
         const food = this.roomData.food;
-        food.state = RoomData.FOOD_DRINK + foodId;
+        food.state = sender.drinkState;
         food.visible = true;
         food.z = pet.z + 1;
         this.roomData.situation = RoomData.SITUATION_ANIMATION;
@@ -2473,7 +2468,7 @@ export default class RoomController extends BaseGameController {
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const drinkArg = new DrinkArg();
-              drinkArg.drinkType = rio.drinkType;
+              drinkArg.drinkType = drinkId;
               this.drink(drinkArg);
               const drinkProgressBar = this.roomData
                   .drinkProgressBar;
@@ -2483,22 +2478,17 @@ export default class RoomController extends BaseGameController {
     });
     go.visible = false;
     this.addGameObject(go);
-    this.roomData.machineWithDrinksInnerObjects[machineWithDrinksInnerObjectId] = go;
-    this.roomData.machineWithDrinksInnerObjectLabels[machineWithDrinksInnerObjectId] = gol;
+    this.roomData.machineWithDrinksInnerObjects.set(id, go);
+    this.roomData.machineWithDrinksInnerObjectLabels.set(id, gol);
   }
 
-  initRefrigeratoInnerObject(foodType, resourceId, refrigeratorInnerObjectId) {
+  initializeRefrigeratorInnerObject(id, eatState, resourceId) {
     const go = new RefrigeratorInnerObject();
     const gol = new LabelGameObject();
 
-    go.foodType = foodType;
-    go.id = refrigeratorInnerObjectId;
-    const x = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_X + (refrigeratorInnerObjectId % 3)
-        * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_X;
-    const y = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_Y + refrigeratorInnerObjectId / 3
-        * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_Y;
-    go.position = new Point(x, y);
-    gol.position = new Point(x, y + 40);
+    go.id = id;
+    go.eatState = eatState;
+    
     gol.visible = false;
     gol.z = BaseGameController.MENU_Z_ORDER + 2;
     this.addGameObject(gol);
@@ -2511,22 +2501,22 @@ export default class RoomController extends BaseGameController {
       this.roomView.toolTipText = "";
     });
     go.addClickedListener((clickedArg) => {
-        const rio = clickedArg.sender;
-        const foodId = rio.id;
+        const sender = clickedArg.sender;
+        const foodId = sender.id;
         const refrigeratorInnerCounts = this.roomData
             .refrigeratorInnerCounts;
-        refrigeratorInnerCounts[foodId]--;
+        refrigeratorInnerCounts.set(foodId, refrigeratorInnerCounts.get(foodId) - 1);
         const refrigeratorInnerObjectLabels = this.roomData.refrigeratorInnerObjectLabels;
-        refrigeratorInnerObjectLabels[foodId].text = refrigeratorInnerCounts[foodId];
+        refrigeratorInnerObjectLabels.get(foodId).text = refrigeratorInnerCounts.get(foodId);
         this.refrigeratorInnerVisible = false;
         this.roomView.showHandCursor();
         const pet = this.roomData.pet;
         pet.position = new Point(RoomData.ORIGINAL_PET_X,
             RoomData.ORIGINAL_PET_Y);
-        pet.move = null;
+        pet.setMove(null);
         pet.state = PetGameObject.STATE_EAT;
         const food = this.roomData.food;
-        food.state = foodId;
+        food.state = sender.eatState;
         food.visible = true;
         food.z = pet.z + 1;
         this.roomData.situation = RoomData.SITUATION_ANIMATION;
@@ -2537,7 +2527,7 @@ export default class RoomController extends BaseGameController {
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const satietyArg = new SatietyArg();
-              satietyArg.foodType = foodType;
+              satietyArg.foodType = foodId;
               this.satiety(satietyArg);
               this.roomData.satietyProgressBar.value = 
                   this.roomData.satietyProgressBar
@@ -2546,8 +2536,8 @@ export default class RoomController extends BaseGameController {
     });
     go.visible = false;
     this.addGameObject(go);
-    this.roomData.refrigeratorInnerObjects[refrigeratorInnerObjectId] = go;
-    this.roomData.refrigeratorInnerObjectLabels[refrigeratorInnerObjectId] = gol;
+    this.roomData.refrigeratorInnerObjects.set(id, go);
+    this.roomData.refrigeratorInnerObjectLabels.set(id, gol);
   }
 
   set machineWithDrinksInnerVisible(b) {
@@ -2570,13 +2560,14 @@ export default class RoomController extends BaseGameController {
         machineWithDrinksInnerItems[n].visible = b;
       }
     }
-    for (let n = 0; n < machineWithDrinksInnerObjects.length; n++) {
-      if (machineWithDrinksInnerCounts[n] > 0) {
-        machineWithDrinksInnerObjects[n].visible = b;
-        machineWithDrinksInnerObjectLabels[n].visible = b;
+    for (let drinkId of DrinkType.values) {
+    
+      if (machineWithDrinksInnerCounts.get(drinkId) > 0) {
+        machineWithDrinksInnerObjects.get(drinkId).visible = b;
+        machineWithDrinksInnerObjectLabels.get(drinkId).visible = b;
       } else {
-        machineWithDrinksInnerObjects[n].visible = false;
-        machineWithDrinksInnerObjectLabels[n].visible = false;
+        machineWithDrinksInnerObjects.get(drinkId).visible = false;
+        machineWithDrinksInnerObjectLabels.get(drinkId).visible = false;
       }
     }
     machineWithDrinksClose.visible = b;
@@ -2632,7 +2623,7 @@ export default class RoomController extends BaseGameController {
     this.backgroundWorkManager.startBackgroundWork(work);
   }
 
-  set drinks(result) {
+  set drinks(getPetDrinksResult) {
     const machineWithDrinksInnerCounts = this.roomData
         .machineWithDrinksInnerCounts;
     const machineWithDrinksInner = this.roomData
@@ -2641,17 +2632,21 @@ export default class RoomController extends BaseGameController {
         .machineWithDrinksInnerObjects;
     const machineWithDrinksInnerObjectLabels = this.roomData
         .machineWithDrinksInnerObjectLabels;
-    const drinkCounts = result.drinkCounts;
-    for (let drinkKey in drinkCounts) {
-      const drinkId = DrinkType.ordinal(drinkKey);
-      const drinkCount = drinkCounts[drinkKey];
-      machineWithDrinksInnerCounts[drinkId] = drinkCount;
+    for (let drink of getPetDrinksResult.drinks) {
+      machineWithDrinksInnerCounts.set(drink.id, drink.count);
+      const go = machineWithDrinksInnerObjects.get(drink.id);
+      const gol = machineWithDrinksInnerObjectLabels.get(drink.id);  
+      const x = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_X
+          + (drink.machineWithDrinksOrder % 2)
+          * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_X;
+      const y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y + drink.machineWithDrinksLevel
+         / 2 * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
+      go.position = new Point(x, y);
+      gol.position = new Point(x, y + 40);
       if (machineWithDrinksInner.visible) {
-        machineWithDrinksInnerObjects[drinkId]
-            .visible = drinkCount > 0;
-        machineWithDrinksInnerObjectLabels[drinkId]
-            .visible = drinkCount > 0;
-        machineWithDrinksInnerObjectLabels[drinkId].text = "" + drinkCount;
+        go.visible = drink.count > 0;
+        gol.visible = drink.count > 0;
+        gol.text = "" + drink.count;
       }
     }
     this.roomData.machineWithDrinksInnerCountsInitialized = true;
@@ -2675,13 +2670,13 @@ export default class RoomController extends BaseGameController {
         refrigeratorInnerItems[n].visible = b;
       }
     }
-    for (let n = 0; n < refrigeratorInnerObjects.length; n++) {
-      if (refrigeratorInnerCounts[n] > 0) {
-        refrigeratorInnerObjects[n].visible = b;
-        refrigeratorInnerObjectLabels[n].visible = b;
+    for (let foodId of FoodType.values) {
+      if (refrigeratorInnerCounts.get(foodId) > 0) {
+        refrigeratorInnerObjects.get(foodId).visible = b;
+        refrigeratorInnerObjectLabels.get(foodId).visible = b;
       } else {
-        refrigeratorInnerObjects[n].visible = false;
-        refrigeratorInnerObjectLabels[n].visible = false;
+        refrigeratorInnerObjects.get(foodId).visible = false;
+        refrigeratorInnerObjectLabels.get(foodId).visible = false;
       }
     }
     refrigeratorClose.visible = b;
@@ -2707,12 +2702,12 @@ export default class RoomController extends BaseGameController {
         bookcaseInnerItems[n].visible = b;
       }
     }
-    for (let n = 0; n < bookcaseInnerObjects.length; n++) {
-      bookcaseInnerObjects[n].visible = b;
-      if (books[n]) {
-        bookcaseInnerObjects[n].visible = b;
+    for (let bookId of bookcaseInnerObjects.keys()) {
+      bookcaseInnerObjects.get(bookId).visible = b;
+      if (books.has(bookId)) {
+        bookcaseInnerObjects.get(bookId).visible = b;
       } else {
-        bookcaseInnerObjects[n].visible = false;
+        bookcaseInnerObjects.get(bookId).visible = false;
       }
     }
     bookcaseClose.visible = b;
@@ -2760,29 +2755,43 @@ export default class RoomController extends BaseGameController {
         .refrigeratorInnerObjects;
     const refrigeratorInnerObjectLabels = this.roomData
         .refrigeratorInnerObjectLabels;
-    const foodCounts = getPetFoodResult.foodCounts;
-    for (let foodKey in foodCounts) {
-      const foodId = FoodType.ordinal(foodKey);
-      const foodCount = foodCounts[foodKey];
-      refrigeratorInnerCounts[foodId] = foodCount;
+    for (let food of getPetFoodResult.foods) {
+      refrigeratorInnerCounts.set(food.id, food.count);
+      const go = refrigeratorInnerObjects.get(food.id);
+      const gol = refrigeratorInnerObjectLabels.get(food.id);
+      const x = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_X + (food.refrigeratorOrder % 3)
+          * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_X;
+      const y = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_Y + food.refrigeratorLevel / 3
+          * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_Y;
+      go.position = new Point(x, y);
+      gol.position = new Point(x, y + 40); 
       if (refrigeratorInner.visible) {
-        refrigeratorInnerObjects[foodId].visible = foodCount > 0;
-        refrigeratorInnerObjectLabels[foodId].visible = foodCount > 0;
-        refrigeratorInnerObjectLabels[foodId].text = "" + foodCount;
+        go.visible = food.count > 0;
+        gol.visible = food.count > 0;
+        gol.text = "" + food.count;
       }
     }
     this.roomData.refrigeratorInnerCountsInitialized = true;
   }
 
   set books(getPetBooksResult) {
-    this.roomData.bookcaseInnerBooks = getPetBooksResult.books;
+    
+    
     const books = this.roomData.bookcaseInnerBooks;
     const bookcaseInner = this.roomData.bookcaseInner;
     const bookcaseInnerObjects = this.roomData.bookcaseInnerObjects;
-    for (let n = 0; n < books.length; n++) {
-      if (bookcaseInner.visible) {
-        bookcaseInnerObjects[n].visible = books[n];
-      }
+    for (let bookcaseInnerObject of bookcaseInnerObjects.values()){
+      bookcaseInnerObject.visible = false;
+    }
+    for (let book of getPetBooksResult.books) {
+      this.roomData.bookcaseInnerBooks.add(book.id);
+      const go = bookcaseInnerObjects.get(book.id);
+      const x = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_X + (book.bookcaseOrder % 3)
+          * RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_STEP_X;
+      const y = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_Y + book.bookcaseLevel / 3
+          * RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_STEP_Y;
+      go.position = new Point(x, y);
+      go.visible = true;
     }
     this.roomData.bookcaseInnerBooksInitialized = true;
   }

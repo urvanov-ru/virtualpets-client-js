@@ -47,7 +47,33 @@ export default class RoomData {
   static get FOOD_BANANA() { return 12; }
   static get FOOD_WATERMELON() { return 13; }
 
-  static get FOOD_DRINK() { return 14; }
+  static get DRINK_WATER() { return 14; }
+  static get DRINK_MILK() { return 15; }
+  static get DRINK_BOTTLE() { return 16; }
+  static get DRINK_TEA() { return 17; }
+  static get DRINK_COFFEE() { return 18; }
+  static get DRINK_ORANGE_JUICE() { return 19; }
+
+
+  static get BOOK_DESTINY_STATE() { return 0; }
+  static get BOOK_SQL_STATE() { return 1; }
+  static get BOOK_PURPLE_STATE() { return 2; }
+  static get BOOK_PLAID_STATE() { return 3; }
+  static get BOOK_PUSHKIN_STATE() { return 4; }
+  static get BOOK_BLACK_STATE() { return 5; }
+  static get BOOK_WHITE_STATE() { return 6; }
+  static get BOOK_DIRTY_STATE() { return 7; }
+  static get BOOK_EARTH_STATE() { return 8; }
+  static get BOOK_MOON_AND_STAR_STATE() { return 9; }
+  static get BOOK_GIRL_STATE() { return 10; }
+  static get BOOK_SUNSET_STATE() { return 11; }
+  static get BOOK_SAGA_STATE() { return 12; }
+  static get BOOK_NONAME_STATE() { return 13; }
+  static get BOOK_CATS_STATE() { return 14; }
+  static get BOOK_GOLD_TITLE_STATE() { return 15; }
+  static get BOOK_DARK_STATE() { return 16; }
+  static get BOOK_SCHEME_STATE() { return 17; }
+
 
   static get ORIGINAL_REFRIGERATOR_INNER_X() { return 250; }
   static get ORIGINAL_REFRIGERATOR_INNER_OBJECT_X() { return 250; }
@@ -135,8 +161,8 @@ export default class RoomData {
   bookcases = null; // []
   pet = null;
   food = null;
-  refrigeratorInnerObjects = null; // []
-  refrigeratorInnerObjectLabels = null; // []
+  refrigeratorInnerObjects = null; // Map
+  refrigeratorInnerObjectLabels = null; // Map
   refrigeratorInnerCounts = null // [];
   refrigeratorInnerCountsInitialized = false;
   refrigeratorClose = null;
@@ -144,13 +170,13 @@ export default class RoomData {
   machineWithDrinks = null;
   machineWithDrinksArray = null; // []
     
-  machineWithDrinksInnerObjects = null; // []
-  machineWithDrinksInnerObjectLabels = null; // []
-  machineWithDrinksInnerCounts = null; // []
+  machineWithDrinksInnerObjects = null; // Map
+  machineWithDrinksInnerObjectLabels = null; // Map
+  machineWithDrinksInnerCounts = null; // Map
   machineWithDrinksInnerCountsInitialized = false;
   machineWithDrinksClose = null;
   machineWithDrinksInner = null;
-  machineWithDrinksInnerItems = null; // []
+  machineWithDrinksInnerItems = null; // Map
     
   arrowRight = null;
   refrigeratorInner = null;

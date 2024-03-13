@@ -136,27 +136,18 @@ export default class DressingRoomController extends BaseGameController {
     this.addGameObject(bowIcon);
     this.dressingRoomData.betBowIcon = bowIcon;
 
-    const menuClothGameObjects = new Map(); // new HashMap<Integer, ClothGameObject>();
-    menuClothGameObjects.set(1,
-        this.initializeHat(1, ResourceManager.IMAGE_CAT_HAT_1));
-    menuClothGameObjects.set(2,
-        this.initializeHat(2, ResourceManager.IMAGE_CAT_HAT_2));
-    menuClothGameObjects.set(3,
-        this.initializeHat(3, ResourceManager.IMAGE_CAT_HAT_3));
-    menuClothGameObjects.set(4,
-        this.initializeCloth(4, ResourceManager.IMAGE_CAT_CLOTH_1));
-    menuClothGameObjects.set(5,
-        this.initializeCloth(5, ResourceManager.IMAGE_CAT_CLOTH_2));
-    menuClothGameObjects.set(6,
-        this.initializeCloth(6, ResourceManager.IMAGE_CAT_CLOTH_3));
-    menuClothGameObjects.set(7,
-        this.initializeBow(7, ResourceManager.IMAGE_CAT_BOW_1));
-    menuClothGameObjects.set(8,
-        this.initializeBow(8, ResourceManager.IMAGE_CAT_BOW_2));
-    menuClothGameObjects.set(9,
-        this.initializeBow(9, ResourceManager.IMAGE_CAT_BOW_3));
     this.dressingRoomData
-        .menuClothGameObjects = menuClothGameObjects;
+        .menuClothGameObjects = new Map(); // new HashMap<Integer, ClothGameObject>();
+    this.initializeHat(DressingRoomData.CLOTH_RED_HAT, ResourceManager.IMAGE_CAT_HAT_1);
+    this.initializeHat(DressingRoomData.CLOTH_COWBOY_HAT, ResourceManager.IMAGE_CAT_HAT_2);
+    this.initializeHat(DressingRoomData.TIARA, ResourceManager.IMAGE_CAT_HAT_3);
+    this.initializeCloth(DressingRoomData.COLORED_BODY, ResourceManager.IMAGE_CAT_CLOTH_1);
+    this.initializeCloth(DressingRoomData.SUIT_JACKET, ResourceManager.IMAGE_CAT_CLOTH_2)
+    this.initializeCloth(DressingRoomData.PINKY_WINGS, ResourceManager.IMAGE_CAT_CLOTH_3);
+    this.initializeBow(DressingRoomData.RED_BOW, ResourceManager.IMAGE_CAT_BOW_1);
+    this.initializeBow(DressingRoomData.BLUE_BOW, ResourceManager.IMAGE_CAT_BOW_2);
+    this.initializeBow(DressingRoomData.BLUE_FLOWER, ResourceManager.IMAGE_CAT_BOW_3);
+    
 
     this.initializeMessageBox();
 
@@ -348,6 +339,8 @@ export default class DressingRoomController extends BaseGameController {
 
   initializeBow(clothId, resourceId) {
     const go = new ClothGameObject();
+    this.dressingRoomData
+        .menuClothGameObjects.set(clothId, go);
     go.clothId = clothId;
     go.position = new Point(DressingRoomData.ORIGINAL_PET_X,
         DressingRoomData.ORIGINAL_PET_Y);
@@ -382,6 +375,8 @@ export default class DressingRoomController extends BaseGameController {
 
   initializeCloth(clothId, resourceId) {
     const go = new ClothGameObject();
+    this.dressingRoomData
+        .menuClothGameObjects.set(clothId, go);
     go.clothId = clothId;
     go.position = new Point(DressingRoomData.ORIGINAL_PET_X,
         DressingRoomData.ORIGINAL_PET_Y);
@@ -419,6 +414,8 @@ export default class DressingRoomController extends BaseGameController {
 
   initializeHat(clothId, resourceId) {
     const go = new ClothGameObject();
+    this.dressingRoomData
+        .menuClothGameObjects.set(clothId, go);
     go.clothId = clothId;
     go.position = new Point(DressingRoomData.ORIGINAL_PET_X,
         DressingRoomData.ORIGINAL_PET_Y);
@@ -519,13 +516,13 @@ export default class DressingRoomController extends BaseGameController {
     for (let cloth of arr) {
       const clothType = cloth.clothType;
       switch (clothType) {
-      case HAT:
+      case 'HAT':
         hats.add(menuClothGameObjects.get(cloth.id));
         break;
-      case CLOTH:
+      case 'CLOTH':
         cloths.add(menuClothGameObjects.get(cloth.id));
         break;
-      case BOW:
+      case 'BOW':
         bows.add(menuClothGameObjects.get(cloth.id));
         break;
       }
