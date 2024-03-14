@@ -5,6 +5,7 @@ export default class GameObject {
   static get TILE_Z_STEP() { return 5; }
   
   position = new Point();
+  
   z = 0;
   dimension = new Dimension();
   #visible = true;

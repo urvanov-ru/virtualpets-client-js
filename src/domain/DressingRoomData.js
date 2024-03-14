@@ -26,23 +26,15 @@ export default class DressingRoomData {
   static get MENU_TYPE_BOW() { return "bow"; }
 
 
-  static get CLOTH_RED_HAT() { return 'RED_HAT'; }
-  static get CLOTH_COWBOY_HAT() { return 'COWBOY_HAT'; }
-  static get CLOTH_TIARA() { return 'TIARA'; }
-  static get CLOTH_COLORED_BODY() { return 'COLORED_BODY'; }
-  static get CLOTH_SUIT_JACKET() { return 'SUIT_JACKET'; }
-  static get CLOTH_PINKY_WINGS() { return 'PINKY_WINGS'; }
-  static get CLOTH_RED_BOW() { return 'RED_BOW'; }
-  static get CLOTH_BLUE_BOW() { return 'BLUE_BOW'; }
-  static get CLOTH_BLUE_FLOWER() { return 'BLUE_FLOWER'; }
+
     
 
   background = null;
   arrowLeft = null;
   pet = null;
-  hats = new Set();
-  cloths = new Set();
-  bows = new Set();
+  hats = [];
+  cloths = [];
+  bows = [];
   menuItems = [];
   hatIcon = null;
   clothIcon = null;

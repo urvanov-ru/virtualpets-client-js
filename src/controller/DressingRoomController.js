@@ -138,15 +138,15 @@ export default class DressingRoomController extends BaseGameController {
 
     this.dressingRoomData
         .menuClothGameObjects = new Map(); // new HashMap<Integer, ClothGameObject>();
-    this.initializeHat(DressingRoomData.CLOTH_RED_HAT, ResourceManager.IMAGE_CAT_HAT_1);
-    this.initializeHat(DressingRoomData.CLOTH_COWBOY_HAT, ResourceManager.IMAGE_CAT_HAT_2);
-    this.initializeHat(DressingRoomData.TIARA, ResourceManager.IMAGE_CAT_HAT_3);
-    this.initializeCloth(DressingRoomData.COLORED_BODY, ResourceManager.IMAGE_CAT_CLOTH_1);
-    this.initializeCloth(DressingRoomData.SUIT_JACKET, ResourceManager.IMAGE_CAT_CLOTH_2)
-    this.initializeCloth(DressingRoomData.PINKY_WINGS, ResourceManager.IMAGE_CAT_CLOTH_3);
-    this.initializeBow(DressingRoomData.RED_BOW, ResourceManager.IMAGE_CAT_BOW_1);
-    this.initializeBow(DressingRoomData.BLUE_BOW, ResourceManager.IMAGE_CAT_BOW_2);
-    this.initializeBow(DressingRoomData.BLUE_FLOWER, ResourceManager.IMAGE_CAT_BOW_3);
+    this.initializeHat(BaseGameController.HAT_RED_HAT, ResourceManager.IMAGE_CAT_HAT_1);
+    this.initializeHat(BaseGameController.HAT_COWBOY_HAT, ResourceManager.IMAGE_CAT_HAT_2);
+    this.initializeHat(BaseGameController.HAT_TIARA, ResourceManager.IMAGE_CAT_HAT_3);
+    this.initializeCloth(BaseGameController.CLOTH_COLORED_BODY, ResourceManager.IMAGE_CAT_CLOTH_1);
+    this.initializeCloth(BaseGameController.CLOTH_SUIT_JACKET, ResourceManager.IMAGE_CAT_CLOTH_2)
+    this.initializeCloth(BaseGameController.CLOTH_PINKY_WINGS, ResourceManager.IMAGE_CAT_CLOTH_3);
+    this.initializeBow(BaseGameController.BOW_RED_BOW, ResourceManager.IMAGE_CAT_BOW_1);
+    this.initializeBow(BaseGameController.BOW_BLUE_BOW, ResourceManager.IMAGE_CAT_BOW_2);
+    this.initializeBow(BaseGameController.BOW_BLUE_FLOWER, ResourceManager.IMAGE_CAT_BOW_3);
     
 
     this.initializeMessageBox();
@@ -185,13 +185,12 @@ export default class DressingRoomController extends BaseGameController {
     this.dressingRoomData.menuItems = menuItems;
     const clothGameObjects = this
         .initializeClothGameObjects();
-    clothGameObjects.forEach(
-            o => {
-              o.position = new Point(
-                  DressingRoomData.ORIGINAL_PET_X,
-                  DressingRoomData.ORIGINAL_PET_Y);
-              o.visible = false;
-            });
+    for (let o of clothGameObjects.values()) {
+      o.position = new Point(
+          DressingRoomData.ORIGINAL_PET_X,
+          DressingRoomData.ORIGINAL_PET_Y);
+      o.visible = false;
+    }
     this.dressingRoomData.clothGameObjects = clothGameObjects;
   }
 
@@ -457,7 +456,7 @@ export default class DressingRoomController extends BaseGameController {
       
       const saveClothArg = new SavePetClothsArg();
       if (pet.hat != null) {
-        this.saveClothArg.hatId = pet.hat.clothId;
+        saveClothArg.hatId = pet.hat.clothId;
       }
       if (pet.cloth != null) {
         saveClothArg.clothId = pet.cloth.clothId;
@@ -477,31 +476,28 @@ export default class DressingRoomController extends BaseGameController {
 
   set currentCloth(clothId) {
     const pet = this.dressingRoomData.pet;
-    const co = this.dressingRoomData.menuClothGameObjects.get(clothId);
     if (pet.cloth != null) {
       pet.cloth.visible = false;
     }
-    pet.cloth = this.dressingRoomData.clothGameObjects.get(co.clothId);
+    pet.cloth = this.dressingRoomData.clothGameObjects.get(clothId);
     pet.cloth.visible = true;
   }
 
   set currentBow(bowId) {
     const pet = this.dressingRoomData.pet;
-    const co = this.dressingRoomData.menuClothGameObjects.get(bowId);
     if (pet.bow != null) {
       pet.bow.visible = false;
     }
-    pet.bow = this.dressingRoomData.clothGameObjects.get(co.clothId);
+    pet.bow = this.dressingRoomData.clothGameObjects.get(bowId);
     pet.bow.visible = true;
   }
 
   set currentHat(hatId) {
     const pet = this.dressingRoomData.pet;
-    const co = this.dressingRoomData.menuClothGameObjects.get(hatId);
     if (pet.hat != null) {
       pet.hat.visible = false;
     }
-    pet.hat = this.dressingRoomData.clothGameObjects.get(co.clothId);
+    pet.hat = this.dressingRoomData.clothGameObjects.get(hatId);
     pet.hat.visible = true;
   }
 
@@ -517,13 +513,13 @@ export default class DressingRoomController extends BaseGameController {
       const clothType = cloth.clothType;
       switch (clothType) {
       case 'HAT':
-        hats.add(menuClothGameObjects.get(cloth.id));
+        hats.push(menuClothGameObjects.get(cloth.id));
         break;
       case 'CLOTH':
-        cloths.add(menuClothGameObjects.get(cloth.id));
+        cloths.push(menuClothGameObjects.get(cloth.id));
         break;
       case 'BOW':
-        bows.add(menuClothGameObjects.get(cloth.id));
+        bows.push(menuClothGameObjects.get(cloth.id));
         break;
       }
     }

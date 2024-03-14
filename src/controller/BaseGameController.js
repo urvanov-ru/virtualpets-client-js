@@ -68,6 +68,16 @@ export default class BaseGameController {
 
   static get ORIGINAL_JOURNAL_CLOSE_X() { return 700; }
   static get ORIGINAL_JOURNAL_CLOSE_Y() { return 10; }
+  
+  static get HAT_RED_HAT() { return 'RED_HAT'; }
+  static get HAT_COWBOY_HAT() { return 'COWBOY_HAT'; }
+  static get HAT_TIARA() { return 'TIARA'; }
+  static get CLOTH_COLORED_BODY() { return 'COLORED_BODY'; }
+  static get CLOTH_SUIT_JACKET() { return 'SUIT_JACKET'; }
+  static get CLOTH_PINKY_WINGS() { return 'PINKY_WINGS'; }
+  static get BOW_RED_BOW() { return 'RED_BOW'; }
+  static get BOW_BLUE_BOW() { return 'BLUE_BOW'; }
+  static get BOW_BLUE_FLOWER() { return 'BLUE_FLOWER'; }
 
   rucksack;
 
@@ -241,30 +251,25 @@ export default class BaseGameController {
 
   initializeClothGameObjects() {
     const map = new Map(); // new HashMap<Integer, ClothGameObject>();
-    map.set(1, this.initializeClothGameObject(1));
-    map.set(2, this.initializeClothGameObject(2));
-    map.set(3, this.initializeClothGameObject(3));
-    map.set(4, this.initializeClothGameObject(4));
-    map.set(5, this.initializeClothGameObject(5));
-    map.set(6, this.initializeClothGameObject(6));
-    map.set(7, this.initializeClothGameObject(7));
-    map.set(8, this.initializeClothGameObject(8));
-    map.set(9, this.initializeClothGameObject(9));
+    this.initializeClothGameObjectAndPut(BaseGameController.HAT_RED_HAT, ResourceManager.IMAGE_CAT_HAT_1, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.HAT_COWBOY_HAT, ResourceManager.IMAGE_CAT_HAT_2, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.HAT_TIARA, ResourceManager.IMAGE_CAT_HAT_3, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.CLOTH_COLORED_BODY, ResourceManager.IMAGE_CAT_CLOTH_1, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.CLOTH_SUIT_JACKET, ResourceManager.IMAGE_CAT_CLOTH_2, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.CLOTH_PINKY_WINGS, ResourceManager.IMAGE_CAT_CLOTH_3, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.BOW_RED_BOW, ResourceManager.IMAGE_CAT_BOW_1, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.BOW_BLUE_BOW, ResourceManager.IMAGE_CAT_BOW_2, map);
+    this.initializeClothGameObjectAndPut(BaseGameController.BOW_BLUE_FLOWER, ResourceManager.IMAGE_CAT_BOW_3, map);
     return map;
   }
+  
+  initializeClothGameObjectAndPut(clothId, resourceId, map) {
+    map.set(clothId, this.initializeClothGameObject(clothId, resourceId));
+  }
 
-  initializeClothGameObject(clothId) {
-    const resourceIds = [ 0, ResourceManager.IMAGE_CAT_HAT_1,
-        ResourceManager.IMAGE_CAT_HAT_2,
-        ResourceManager.IMAGE_CAT_HAT_3,
-        ResourceManager.IMAGE_CAT_CLOTH_1,
-        ResourceManager.IMAGE_CAT_CLOTH_2,
-        ResourceManager.IMAGE_CAT_CLOTH_3,
-        ResourceManager.IMAGE_CAT_BOW_1,
-        ResourceManager.IMAGE_CAT_BOW_2,
-        ResourceManager.IMAGE_CAT_BOW_3 ];
+  initializeClothGameObject(clothId, resourceId) {
     const go = new ClothGameObject();
-    go.animationImageIds = [[ resourceIds[clothId] ]];
+    go.animationImageIds = [[ resourceId ]];
     go.clothId = clothId;
     this.addGameObject(go);
     return go;

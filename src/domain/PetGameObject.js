@@ -73,7 +73,7 @@ export default class PetGameObject extends GameObject {
     if (this.hat != null) {
       this.hat.position = this.position;
       if (this.hat.z != clothZ) {
-        this.hat.position = clothZ;
+        this.hat.z = clothZ;
       }
     }
     if (this.cloth != null) {
