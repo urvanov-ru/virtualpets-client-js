@@ -79,6 +79,26 @@ export default class BaseGameController {
   static get BOW_BLUE_BOW() { return 'BLUE_BOW'; }
   static get BOW_BLUE_FLOWER() { return 'BLUE_FLOWER'; }
 
+  
+  static get BOOK_DESTINY() { return 'DESTINY'; }
+  static get BOOK_SQL() { return 'SQL'; }
+  static get BOOK_PURPLE() { return 'PURPLE'; }
+  static get BOOK_PLAID() { return 'PLAID'; }
+  static get BOOK_PUSHKIN() { return 'PUSHKIN'; }
+  static get BOOK_BLACK() { return 'BLACK'; }
+  static get BOOK_WHITE() { return 'WHITE'; }
+  static get BOOK_DIRTY() { return 'DIRTY'; }
+  static get BOOK_EARTH() { return 'EARTH'; }
+  static get BOOK_MOON_AND_STAR() { return 'MOON_AND_STAR'; }
+  static get BOOK_GIRL() { return 'GIRL'; }
+  static get BOOK_SUNSET() { return 'SUNSET'; }
+  static get BOOK_SAGA() { return 'SAGA'; }
+  static get BOOK_NONAME() { return 'NONAME'; }
+  static get BOOK_CATS() { return 'CATS'; }
+  static get BOOK_GOLD_TITLE() { return 'GOLD_TITLE'; }
+  static get BOOK_DARK() { return 'DARK'; }
+  static get BOOK_SCHEME() { return 'SCHEME'; }
+  
   rucksack;
 
   buildMenu;
@@ -251,19 +271,19 @@ export default class BaseGameController {
 
   initializeClothGameObjects() {
     const map = new Map(); // new HashMap<Integer, ClothGameObject>();
-    this.initializeClothGameObjectAndPut(BaseGameController.HAT_RED_HAT, ResourceManager.IMAGE_CAT_HAT_1, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.HAT_COWBOY_HAT, ResourceManager.IMAGE_CAT_HAT_2, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.HAT_TIARA, ResourceManager.IMAGE_CAT_HAT_3, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.CLOTH_COLORED_BODY, ResourceManager.IMAGE_CAT_CLOTH_1, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.CLOTH_SUIT_JACKET, ResourceManager.IMAGE_CAT_CLOTH_2, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.CLOTH_PINKY_WINGS, ResourceManager.IMAGE_CAT_CLOTH_3, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.BOW_RED_BOW, ResourceManager.IMAGE_CAT_BOW_1, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.BOW_BLUE_BOW, ResourceManager.IMAGE_CAT_BOW_2, map);
-    this.initializeClothGameObjectAndPut(BaseGameController.BOW_BLUE_FLOWER, ResourceManager.IMAGE_CAT_BOW_3, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.HAT_RED_HAT, ResourceManager.IMAGE_CAT_HAT_1, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.HAT_COWBOY_HAT, ResourceManager.IMAGE_CAT_HAT_2, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.HAT_TIARA, ResourceManager.IMAGE_CAT_HAT_3, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.CLOTH_COLORED_BODY, ResourceManager.IMAGE_CAT_CLOTH_1, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.CLOTH_SUIT_JACKET, ResourceManager.IMAGE_CAT_CLOTH_2, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.CLOTH_PINKY_WINGS, ResourceManager.IMAGE_CAT_CLOTH_3, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.BOW_RED_BOW, ResourceManager.IMAGE_CAT_BOW_1, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.BOW_BLUE_BOW, ResourceManager.IMAGE_CAT_BOW_2, map);
+    this.#initializeClothGameObjectAndPut(BaseGameController.BOW_BLUE_FLOWER, ResourceManager.IMAGE_CAT_BOW_3, map);
     return map;
   }
   
-  initializeClothGameObjectAndPut(clothId, resourceId, map) {
+  #initializeClothGameObjectAndPut(clothId, resourceId, map) {
     map.set(clothId, this.initializeClothGameObject(clothId, resourceId));
   }
 
@@ -277,31 +297,34 @@ export default class BaseGameController {
 
   initializeBookGameObjects() {
     const map = new Map(); // new HashMap<Integer, BookGameObject>();
-    for (let n = 1; n <= 18; n++)
-      map.set(n, this.initializeBookGameObject(n));
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_DESTINY, ResourceManager.IMAGE_BOOK_1, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_SQL, ResourceManager.IMAGE_BOOK_2, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_PURPLE, ResourceManager.IMAGE_BOOK_3, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_PLAID, ResourceManager.IMAGE_BOOK_4, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_PUSHKIN, ResourceManager.IMAGE_BOOK_5, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_BLACK, ResourceManager.IMAGE_BOOK_6, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_WHITE, ResourceManager.IMAGE_BOOK_7, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_DIRTY, ResourceManager.IMAGE_BOOK_8, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_EARTH, ResourceManager.IMAGE_BOOK_9, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_MOON_AND_STAR, ResourceManager.IMAGE_BOOK_10, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_GIRL, ResourceManager.IMAGE_BOOK_11, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_SUNSET, ResourceManager.IMAGE_BOOK_12, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_SAGA, ResourceManager.IMAGE_BOOK_13, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_NONAME, ResourceManager.IMAGE_BOOK_14, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_CATS, ResourceManager.IMAGE_BOOK_15, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_GOLD_TITLE, ResourceManager.IMAGE_BOOK_16, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_DARK, ResourceManager.IMAGE_BOOK_17, map);
+    this.#initializeBookGameObjectAndPut(BaseGameController.BOOK_SCHEME, ResourceManager.IMAGE_BOOK_18, map);
+  
     return map;
   }
+  
+  #initializeBookGameObjectAndPut(bookId, resourceId, map) {
+    map.set(bookId, this.initializeBookGameObject(bookId, resourceId));
+  }
 
-  initializeBookGameObject(bookId) {
-    const resourceIds = [ 0, ResourceManager.IMAGE_BOOK_1,
-        ResourceManager.IMAGE_BOOK_2,
-        ResourceManager.IMAGE_BOOK_3,
-        ResourceManager.IMAGE_BOOK_4,
-        ResourceManager.IMAGE_BOOK_5,
-        ResourceManager.IMAGE_BOOK_6,
-        ResourceManager.IMAGE_BOOK_7,
-        ResourceManager.IMAGE_BOOK_8,
-        ResourceManager.IMAGE_BOOK_9,
-        ResourceManager.IMAGE_BOOK_10,
-        ResourceManager.IMAGE_BOOK_11,
-        ResourceManager.IMAGE_BOOK_12,
-        ResourceManager.IMAGE_BOOK_13,
-        ResourceManager.IMAGE_BOOK_14,
-        ResourceManager.IMAGE_BOOK_15,
-        ResourceManager.IMAGE_BOOK_16,
-        ResourceManager.IMAGE_BOOK_17,
-        ResourceManager.IMAGE_BOOK_18 ];
-    const imgids = [[ resourceIds[bookId] ]];
+  initializeBookGameObject(bookId, resourceId) {
+    const imgids = [[ resourceId ]];
     const bookGameObject = new BookGameObject();
     bookGameObject.animationImageIds = imgids;
     bookGameObject.bookId = bookId;

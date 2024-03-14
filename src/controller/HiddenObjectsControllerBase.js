@@ -830,7 +830,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       const clothRewardId = hiddenObjectsGame.reward.clothId;
       const foodReward = hiddenObjectsGame.reward.food;
       const buildingMaterialReward = hiddenObjectsGame.reward.buildingMaterialType;
-      const bookRewardId = hiddenObjectsGame.reward.getBookId;
+      const bookRewardId = hiddenObjectsGame.reward.bookId;
       const drinkTypeReward = hiddenObjectsGame.reward.drinkType;
       if (clothRewardId != null) {
         const cgo = this.hiddenObjectsGameData.clothObjects.get(
