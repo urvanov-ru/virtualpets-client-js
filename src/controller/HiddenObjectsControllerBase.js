@@ -798,12 +798,12 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 
   updatePlayerIconResource(go, resourceId,
       petType, hatId, clothId, bowId) {
-    const hatResourceId = null;
-    const clothResourceId = null;
-    const bowResourceId = null;
-    if (hatId != null) hatResourceId = hiddenObjectsGameData.clothObjects.get(hatId).getAnimationImageIds()[0][0];
-    if (clothId != null) clothResourceId = hiddenObjectsGameData.clothObjects.get(clothId).getAnimationImageIds()[0][0];
-    if (bowId != null) bowId = hiddenObjectsGameData.clothObjects.get(bowId).animationImageIds[0][0];
+    let hatResourceId = null;
+    let clothResourceId = null;
+    let bowResourceId = null;
+    if (hatId != null) hatResourceId = this.hiddenObjectsGameData.clothObjects.get(hatId).animationImageIds[0][0];
+    if (clothId != null) clothResourceId = this.hiddenObjectsGameData.clothObjects.get(clothId).animationImageIds[0][0];
+    if (bowId != null) bowResourceId = this.hiddenObjectsGameData.clothObjects.get(bowId).animationImageIds[0][0];
       this.baseGameView.updatePlayerIconResource(go, resourceId,
           petType, hatResourceId, 
           clothResourceId,
@@ -861,7 +861,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       }
       if (buildingMaterialReward != null) {
         const collectableGameObject = this.addCollectableGameObject(buildingMaterialReward, 400, 300);
-        this.collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
+        collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
       
       if (bookRewardId != null) {
