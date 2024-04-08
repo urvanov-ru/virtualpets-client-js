@@ -63,6 +63,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 function init(selectedLanguage) {
 
   const VERSION = '0.21';
+  
+  // virtualpets-server-spring-boot
+  // const SERVER_URL = 'http://localhost:8080';
+  
+  // virtualpets-server-spring-framework
   const SERVER_URL = 'http://localhost:8080/virtualpets-server-springframework';
   
   const settings = new LocalStorageSettings();
