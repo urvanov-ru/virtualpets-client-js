@@ -128,6 +128,26 @@
     "ru.urvanov.virtualpets.client.localization.achievement.TEACH_1": "Первый урок.",
     "EXP": "Exp",
     "INSTALL": "Установить",
-    "CAT" : "Кошка"
+    "CAT" : "Кошка",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_1" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_2" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_3" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_4" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_5" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_6" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_7" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_8" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_9" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_10" : "Верный игрок",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_1_DESCRIPTION" : "Зайти в игру один раз.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_2_DESCRIPTION" : "Зайти в игру два дня подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_3_DESCRIPTION" : "Зайти в игру три дня подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_4_DESCRIPTION" : "Зайти в игру четыре дня подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_5_DESCRIPTION" : "Зайти в игру пять дней подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_6_DESCRIPTION" : "Зайти в игру шесть дней подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_7_DESCRIPTION" : "Зайти в игру семь дней подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_8_DESCRIPTION" : "Зайти в игру восемь дней подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_9_DESCRIPTION" : "Зайти в игру девять дней подряд.",
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_10_DESCRIPTION" : "Зайти в игру десять дней подряд."
   }
 }
