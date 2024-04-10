@@ -85,6 +85,8 @@
     "JOURNAL_ENTRY_EAT_SOMETHING": "We have built the refrigerator. The refrigerator is containing all food you have. I'm hungry. Give me something from it.",
     "INCOMPATIBLE_VERSION": "You need to download client version %{serverVersion}.",
     "CREATE_PET": "Create pet",
+    "PREVIOUS_PET": "Previous pet",
+    "NEXT_PET": "Next pet",
     "ru.urvanov.virtualpets.client.localization.achievement.TEACH_1_DESCRIPTION": "Teach your pet 1 time.",
     "SEX_MAN": "Man",
     "ru.urvanov.virtualpets.client.localization.achievement.HIDDEN_OBJECTS_GAME_1": "Dog.",

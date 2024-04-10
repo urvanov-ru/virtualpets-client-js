@@ -60,7 +60,9 @@ static get PROXY_SERVER() { return "PROXY_SERVER"; }
 static get PROXY_PORT() { return "PROXY_PORT"; }
 
 static get CREATE_PET() { return "CREATE_PET"; }
+static get PREVIOUS_PET() { return "PREVIOUS_PET"; }
 static get DELETE_PET() { return "DELETE_PET"; }
+static get NEXT_PET() { return "NEXT_PET"; }
 static get CLOSE_CHAT_TAB() { return "CLOSE_CHAT_TAB"; }
 static get ERASE_CHAT_TAB() { return "ERASE_CHAT_TAB"; }
 static get TYPE() { return "TYPE"; }

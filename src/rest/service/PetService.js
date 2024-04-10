@@ -18,6 +18,11 @@ export default class PetService {
     return this.#restClient.fetch(PetService.SERVICE_URL + "/select", 'POST', selectPetArg);
   }
   
+  delete(deletePetArg) {
+    console.debug('delete');
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/delete", 'POST', selectPetArg);
+  }
+  
   drink(drinkArg) {
     console.debug('drink');
     return this.#restClient.fetch(PetService.SERVICE_URL + "/drink", 'POST', drinkArg);
