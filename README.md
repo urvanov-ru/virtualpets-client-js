@@ -18,15 +18,15 @@
 
 Сборка с указанием URL сервера для Linux:
 
-    export SERVER_URL=my_server_url
+    export VIRTUALPETS_SERVER_URL=my_server_url
     npm run build
     docker compose up
 
 Сборка с указанием URL сервера для Windows:
 
-    set SERVER_URL=my_server_url
+    set VIRTUALPETS_SERVER_URL=my_server_url
     npm run build
     docker compose up
 
 
-Имейте в виду. что адрес сервера, указанный в переменной окружения SERVER_URL имеет приоритет над скриптами build-development-springframework и build-development-springboot.
+Имейте в виду. что адрес сервера, указанный в переменной окружения VIRTUALPETS_SERVER_URL имеет приоритет над скриптами build-development-springframework и build-development-springboot.

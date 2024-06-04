@@ -65,14 +65,14 @@ function init(selectedLanguage) {
   const VERSION = '0.21';
   
   // virtualpets-server-springboot
-  // const SERVER_URL = 'http://localhost:8080';
+  // const VIRTUALPETS_SERVER_URL = 'http://localhost:8080';
   
   // virtualpets-server-spring-framework
-  // const SERVER_URL = 'http://localhost:8080/virtualpets-server-springframework';
+  // const VIRTUALPETS_SERVER_URL = 'http://localhost:8080/virtualpets-server-springframework';
   
   // virtualpets.urvanov.ru
-  // const SERVER_URL = 'http://virtualpets.urvanov.ru/virtualpets-server-springframework';
-  const SERVER_URL = process.env.SERVER_URL;
+  // const VIRTUALPETS_SERVER_URL = 'http://virtualpets.urvanov.ru/virtualpets-server-springframework';
+  const VIRTUALPETS_SERVER_URL = process.env.VIRTUALPETS_SERVER_URL;
   
   const settings = new LocalStorageSettings();
   settings.language = selectedLanguage;
@@ -148,7 +148,7 @@ function init(selectedLanguage) {
   loginController.publicService = publicService;
   loginController.settings = settings;
   loginController.messageSource = messageSource;
-  loginController.serverAddress = SERVER_URL;
+  loginController.serverAddress = VIRTUALPETS_SERVER_URL;
   loginController.registerController = registerController;
   loginController.authenticationController = authenticationController;
   loginController.userService = userService;
@@ -180,10 +180,10 @@ function init(selectedLanguage) {
   createPetController.backgroundWorkManager = backgroundWorkManager;
   createPetController.userPetsController = userPetsController;
   
-  publicService.serverUrl = SERVER_URL;
+  publicService.serverUrl = VIRTUALPETS_SERVER_URL;
   publicService.version = VERSION;
   
-  restClient.serverUrl = SERVER_URL;
+  restClient.serverUrl = VIRTUALPETS_SERVER_URL;
   restClient.version = VERSION;
   restClient.settings = settings;
   

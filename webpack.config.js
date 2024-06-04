@@ -19,7 +19,7 @@ module.exports =  (env) => {
         ],
       }),
       new webpack.EnvironmentPlugin({
-        SERVER_URL : env.SERVER_URL
+        VIRTUALPETS_SERVER_URL : env.VIRTUALPETS_SERVER_URL
       })
       
     ],
