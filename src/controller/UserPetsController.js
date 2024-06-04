@@ -98,7 +98,7 @@ export default class UserPetsController {
     this.backgroundWorkManager.startBackgroundWork(work);
   }
   
-  delete(deletePetArg) {
+  delete(petId) {
     const work = new BackgroundWork();
     work.failed = () => {
       console.error("DeleteBackgroundWork failed %o.", ex);
@@ -108,11 +108,7 @@ export default class UserPetsController {
     }
     work.completed = (result) => {
       try {
-        if (result.success) {
-          this.refresh();
-        } else {
-          this.trayIcon.showTrayMessage(selectPetArg.message, MessageType.ERROR);
-        }
+        this.refresh();
       } catch (ex) {
         console.error("DeleteBackgroundWork %o.", ex);
         const message = this.messageSource.getMessage(StringConstants.ERROR, null, null) 
@@ -123,7 +119,7 @@ export default class UserPetsController {
     work.doInBackground = () => {
       return this.petService.delete(work.argument);
     }
-    work.argument = deletePetArg;
+    work.argument = petId;
     work.view = this.userPetsView;
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;

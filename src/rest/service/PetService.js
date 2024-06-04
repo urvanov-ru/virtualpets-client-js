@@ -18,9 +18,9 @@ export default class PetService {
     return this.#restClient.fetch(PetService.SERVICE_URL + "/select", 'POST', selectPetArg);
   }
   
-  delete(deletePetArg) {
+  delete(petId) {
     console.debug('delete');
-    return this.#restClient.fetch(PetService.SERVICE_URL + "/delete", 'POST', selectPetArg);
+    return this.#restClient.fetch(PetService.SERVICE_URL + "/delete/" + petId, 'DELETE');
   }
   
   drink(drinkArg) {

@@ -2,19 +2,17 @@
 
 # VirtualPets Client JS
 
+Сборка и запуск для [virtualpets-server-springframework](https://github.com/urvanov-ru/virtualpets-server-springframework):
 
 
-## Usage
-
-
-
-## Developing
+    npm run build-development-springframework
+    docker compose up
 
 
 
-### Tools
+Сборка и запуск для [virtualpets-server-springboot](https://github.com/urvanov-ru/virtualpets-server-springboot):
 
-Created with [Nodeclipse](https://github.com/Nodeclipse/nodeclipse-1)
- ([Eclipse Marketplace](http://marketplace.eclipse.org/content/nodeclipse), [site](http://www.nodeclipse.org))   
 
-Nodeclipse is free open-source project that grows with your contributions.
+    npm run build-development-springboot
+    docker compose up
+

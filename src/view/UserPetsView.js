@@ -208,6 +208,9 @@ export default class UserPetsView extends BaseHtmlView{
   }
 
   #refreshPetDiv() {
+    if (this.#selectedPetIndex >= this.#petsInfo.length) {
+      this.#selectedPetIndex = this.#petsInfo.length - 1;
+    }
     let petInfo  = this.#petsInfo[this.#selectedPetIndex];
     this.#idDiv.innerText = petInfo.id;
     this.#nameDiv.innerText = petInfo.name;
@@ -229,8 +232,10 @@ export default class UserPetsView extends BaseHtmlView{
   }
   
   #deleteClicked() {
-    for (let listener of this.#deleteListeners) {
-      listener(this);
+    if (confirm(this.messageSource.getMessage(StringConstants.DELETE_PET))) {
+      for (let listener of this.#deleteListeners) {
+        listener(this, this.#petsInfo[this.#selectedPetIndex].id);
+      }
     }
   }
 
