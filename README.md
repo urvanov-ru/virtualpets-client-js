@@ -29,4 +29,4 @@
     docker compose up
 
 
-Имейте в виду. что адрес сервера, указанный в переменной окружения VIRTUALPETS_SERVER_URL имеет приоритет над скриптами build-development-springframework и build-development-springboot.
+Имейте в виду, что адрес сервера, указанный в переменной окружения VIRTUALPETS_SERVER_URL имеет приоритет над скриптами build-development-springframework и build-development-springboot.
