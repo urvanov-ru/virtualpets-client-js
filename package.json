@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "test": "tape test/*.js",
-    "build": "webpack"
+    "build-development-springframework": "webpack --env SERVER_URL=http://localhost:8080/virtualpets-server-springframework",
+    "build-development-springboot": "webpack --env SERVER_URL=http://localhost:8080",
+    "build-production-springframework": "webpack --env SERVER_URL=http://virtualpets.urvanov.ru/virtualpets-server-springframework"
   },
   "keywords": [],
   "author": "",

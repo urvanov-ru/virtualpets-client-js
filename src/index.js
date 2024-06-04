@@ -64,11 +64,15 @@ function init(selectedLanguage) {
 
   const VERSION = '0.21';
   
-  // virtualpets-server-spring-boot
+  // virtualpets-server-springboot
   // const SERVER_URL = 'http://localhost:8080';
   
   // virtualpets-server-spring-framework
-  const SERVER_URL = 'http://localhost:8080/virtualpets-server-springframework';
+  // const SERVER_URL = 'http://localhost:8080/virtualpets-server-springframework';
+  
+  // virtualpets.urvanov.ru
+  // const SERVER_URL = 'http://virtualpets.urvanov.ru/virtualpets-server-springframework';
+  const SERVER_URL = process.env.SERVER_URL;
   
   const settings = new LocalStorageSettings();
   settings.language = selectedLanguage;
