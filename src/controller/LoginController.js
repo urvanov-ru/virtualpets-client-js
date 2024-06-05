@@ -113,7 +113,7 @@ export default class LoginController {
         console.debug('serversResponse = %o', serversResponse);
         const servers = [];
         for (let serverInfo of serversResponse) {
-          serverInfo.address = serverInfo.address;
+          serverInfo.url = serverInfo.url;
           serverInfo.locale = serverInfo.locale;
           serverInfo.name = serverInfo.name;
           servers.push(serverInfo);

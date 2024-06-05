@@ -120,14 +120,14 @@ export default class LoginView extends BaseHtmlView {
     this.#servers = servers;
     for (let n = 0; n < servers.length; n++) {
       const serverInfo = servers[n];
-      this.#serverSelect.add(new Option(`${serverInfo.name} (${serverInfo.locale})`, serverInfo.address));
+      this.#serverSelect.add(new Option(`${serverInfo.name} (${serverInfo.locale})`, serverInfo.url));
       if (this.settings.lastHost && this.settings.lastHost.length > 0) {
-        if (serverInfo.address === settings.lastHost) {
-          this.#serverSelect.value = serverInfo.address;
+        if (serverInfo.url === settings.lastHost) {
+          this.#serverSelect.value = serverInfo.url;
         }
       } else {
         if (serverInfo.locale === this.messageSource.getMessage(StringConstants.LANGUAGE_CODE)){
-          this.#serverSelect.value = serverInfo.address;
+          this.#serverSelect.value = serverInfo.url;
         }
       }
     }
@@ -136,7 +136,7 @@ export default class LoginView extends BaseHtmlView {
   #registerClicked(event) {
     try {
       const selectedIndex = this.#serverSelect.selectedIndex;
-      const host = this.#servers[selectedIndex].address;
+      const host = this.#servers[selectedIndex].url;
       for (let simpleEvent of this.#registerListeners) {
         simpleEvent(this, host);
       }
@@ -151,7 +151,7 @@ export default class LoginView extends BaseHtmlView {
   #loginClicked(event) {
     try {
       const selectedIndex = this.#serverSelect.selectedIndex;
-      const host = this.#servers[selectedIndex].address;
+      const host = this.#servers[selectedIndex].url;
       for (let loginEvent of this.#loginListeners) {
         const arg = new LoginArg();
         arg.host = host;

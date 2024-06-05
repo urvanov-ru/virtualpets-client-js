@@ -1,5 +1,5 @@
 export default class ServerInfo {
-  address;
+  url;
   locale;
   name;
 }
