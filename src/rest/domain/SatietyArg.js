@@ -1,3 +1,3 @@
 export default class SatietyArg {
-  foodType; // DrinkId
+  foodId; // DrinkId
 }

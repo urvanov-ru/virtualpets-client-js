@@ -2527,7 +2527,7 @@ export default class RoomController extends BaseGameController {
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const satietyArg = new SatietyArg();
-              satietyArg.foodType = foodId;
+              satietyArg.foodId = foodId;
               this.satiety(satietyArg);
               this.roomData.satietyProgressBar.value = 
                   this.roomData.satietyProgressBar

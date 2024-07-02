@@ -204,10 +204,10 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 //              if (situation == Situation.GAME_OVER) {
 //                logger.info("reward = "
 //                    + hiddenObjectsGame.getReward());
-//                FoodId foodType = hiddenObjectsGame
+//                FoodId foodId = hiddenObjectsGame
 //                    .getReward().getFood();
-//                logger.info("foodType = " + foodType);
-//                int foodIndex = foodType.ordinal();
+//                logger.info("foodId = " + foodId);
+//                int foodIndex = foodId.ordinal();
 //                logger.info("foodIndex = " + foodIndex);
 //                logger.info("foodIcons[foodIndex] = "
 //                    + foodIcons[foodIndex]);
@@ -545,9 +545,9 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   }
 
   initializeFoodIcons() {
-    const foodTypeCount = FoodId.VALUES_COUNT;
+    const foodIdCount = FoodId.VALUES_COUNT;
     
-    const foodIcons = new Array(foodTypeCount);
+    const foodIcons = new Array(foodIdCount);
     this.hiddenObjectsGameData.foodIcons = foodIcons;
     foodIcons[FoodId.ordinal(FoodId.CARROT)] = this.initFoodIcon(ResourceManager.IMAGE_CARROT_1);
     foodIcons[FoodId.ordinal(FoodId.DRY_FOOD)] = this.initFoodIcon(ResourceManager.IMAGE_DRY_FOOD_1);
