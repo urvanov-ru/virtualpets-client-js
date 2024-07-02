@@ -577,8 +577,8 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   }
   
   initializeDrinkIcons() {
-    const drinkTypeCount = DrinkId.VALUES_COUNT
-    const drinkIcons = new Array(drinkTypeCount);
+    const drinkIdCount = DrinkId.VALUES_COUNT
+    const drinkIcons = new Array(drinkIdCount);
     this.hiddenObjectsGameData.drinkIcons = drinkIcons;
     drinkIcons[0] = this.initDrinkIcon(ResourceManager.IMAGE_WATER_1);
     drinkIcons[1] = this.initDrinkIcon(ResourceManager.IMAGE_MILK_1);
@@ -831,7 +831,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       const foodReward = hiddenObjectsGame.reward.food;
       const buildingMaterialReward = hiddenObjectsGame.reward.buildingMaterialType;
       const bookRewardId = hiddenObjectsGame.reward.bookId;
-      const drinkTypeReward = hiddenObjectsGame.reward.drinkType;
+      const drinkIdReward = hiddenObjectsGame.reward.drinkId;
       if (clothRewardId != null) {
         const cgo = this.hiddenObjectsGameData.clothObjects.get(
             clothRewardId);
@@ -871,8 +871,8 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         const collectableGameObject = this.addCollectableGameObject(bookIcon, 400, 300);
         collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
-      if (drinkTypeReward != null) {
-        const drinkIcon = this.hiddenObjectsGameData.drinkIcons[DrinkId.ordinal(drinkTypeReward)];
+      if (drinkIdReward != null) {
+        const drinkIcon = this.hiddenObjectsGameData.drinkIcons[DrinkId.ordinal(drinkIdReward)];
         drinkIcon.z = BaseGameController.MENU_Z_ORDER + 2;
         drinkIcon.visible = false;
         const collectableGameObject = this.addCollectableGameObject(drinkIcon, 400, 300);

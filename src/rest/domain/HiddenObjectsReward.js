@@ -7,6 +7,6 @@ export default class HiddenObjectsReward {
   buildingMaterialType;
   achievements; // AchievementCode[]
   bookId;
-  drinkType;
+  drinkId;
 
 }

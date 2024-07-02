@@ -2468,7 +2468,7 @@ export default class RoomController extends BaseGameController {
               food.visible = false;
               pet.state = PetGameObject.STATE_NORMAL;
               const drinkArg = new DrinkArg();
-              drinkArg.drinkType = drinkId;
+              drinkArg.drinkId = drinkId;
               this.drink(drinkArg);
               const drinkProgressBar = this.roomData
                   .drinkProgressBar;
