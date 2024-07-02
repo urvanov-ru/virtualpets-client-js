@@ -1,3 +1,3 @@
 export default class GetPetFoodsResult {
-  foodCounts; // Map<FoodType, Integer>
+  foodCounts; // Map<FoodId, Integer>
 }

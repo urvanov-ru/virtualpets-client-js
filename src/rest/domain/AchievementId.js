@@ -1,4 +1,4 @@
-export default class AchievementCode {
+export default class AchievementId {
   static get BUILD_1() { return "BUILD_1"; }
   static get FEED_1() { return "FEED_1"; }
   static get FEED_10() { return "FEED_10"; }

@@ -17,8 +17,8 @@ import PopupMenuGameObject from '../domain/PopupMenuGameObject.js';
 import MenuItem from '../domain/MenuItem.js';
 
 //rest
-import FoodType from '../rest/domain/FoodType.js';
-import DrinkType from '../rest/domain/DrinkType.js';
+import FoodId from '../rest/domain/FoodId.js';
+import DrinkId from '../rest/domain/DrinkId.js';
 import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
 import DrinkArg from '../rest/domain/DrinkArg.js';
 import SatietyArg from '../rest/domain/SatietyArg.js';
@@ -2315,33 +2315,33 @@ export default class RoomController extends BaseGameController {
     const refrigeratorInnerObjectLabels = new Map();
     this.roomData.refrigeratorInnerObjects = refrigeratorInnerObjects;
     this.roomData.refrigeratorInnerObjectLabels = refrigeratorInnerObjectLabels;
-    this.initializeRefrigeratorInnerObject(FoodType.CARROT,
+    this.initializeRefrigeratorInnerObject(FoodId.CARROT,
         RoomData.FOOD_CARROT, ResourceManager.IMAGE_CARROT_1);
-    this.initializeRefrigeratorInnerObject(FoodType.DRY_FOOD,
+    this.initializeRefrigeratorInnerObject(FoodId.DRY_FOOD,
         RoomData.FOOD_DRY_FOOD, ResourceManager.IMAGE_DRY_FOOD_1);
-    this.initializeRefrigeratorInnerObject(FoodType.FISH,
+    this.initializeRefrigeratorInnerObject(FoodId.FISH,
         RoomData.FOOD_FISH, ResourceManager.IMAGE_FISH_1);
-    this.initializeRefrigeratorInnerObject(FoodType.ICE_CREAM,
+    this.initializeRefrigeratorInnerObject(FoodId.ICE_CREAM,
         RoomData.FOOD_ICE_CREAM, ResourceManager.IMAGE_ICE_CREAM_1);
-    this.initializeRefrigeratorInnerObject(FoodType.APPLE,
+    this.initializeRefrigeratorInnerObject(FoodId.APPLE,
         RoomData.FOOD_APPLE, ResourceManager.IMAGE_APPLE_1);
-    this.initializeRefrigeratorInnerObject(FoodType.CABBAGE,
+    this.initializeRefrigeratorInnerObject(FoodId.CABBAGE,
         RoomData.FOOD_CABBAGE, ResourceManager.IMAGE_CABBAGE_1);
-    this.initializeRefrigeratorInnerObject(FoodType.CHOCOLATE,
+    this.initializeRefrigeratorInnerObject(FoodId.CHOCOLATE,
         RoomData.FOOD_CHOCOLATE, ResourceManager.IMAGE_CHOCOLATE_1);
-    this.initializeRefrigeratorInnerObject(FoodType.FRENCH_FRIES,
+    this.initializeRefrigeratorInnerObject(FoodId.FRENCH_FRIES,
         RoomData.FOOD_FRIES, ResourceManager.IMAGE_FRENCH_FRIES_1);
-    this.initializeRefrigeratorInnerObject(FoodType.JAPANESE_ROLLS,
+    this.initializeRefrigeratorInnerObject(FoodId.JAPANESE_ROLLS,
         RoomData.FOOD_JAPANESE_ROLLS, ResourceManager.IMAGE_JAPANESE_ROLLS_1);
-    this.initializeRefrigeratorInnerObject(FoodType.PIE,
+    this.initializeRefrigeratorInnerObject(FoodId.PIE,
         RoomData.FOOD_PIE, ResourceManager.IMAGE_PIE_1);
-    this.initializeRefrigeratorInnerObject(FoodType.POTATOES,
+    this.initializeRefrigeratorInnerObject(FoodId.POTATOES,
         RoomData.FOOD_POTATOES, ResourceManager.IMAGE_POTATOES_1);
-    this.initializeRefrigeratorInnerObject(FoodType.SANDWICH,
+    this.initializeRefrigeratorInnerObject(FoodId.SANDWICH,
         RoomData.FOOD_SANDWITCH, ResourceManager.IMAGE_SANDWICH_1);
-    this.initializeRefrigeratorInnerObject(FoodType.BANANA,
+    this.initializeRefrigeratorInnerObject(FoodId.BANANA,
         RoomData.FOOD_BANANA, ResourceManager.IMAGE_BANANA_1);
-    this.initializeRefrigeratorInnerObject(FoodType.WATERMELON,
+    this.initializeRefrigeratorInnerObject(FoodId.WATERMELON,
         RoomData.FOOD_WATERMELON, ResourceManager.IMAGE_WATERMELON_1);
   }
 
@@ -2402,17 +2402,17 @@ export default class RoomController extends BaseGameController {
 
     this.roomData.machineWithDrinksInnerObjects = new Map();
     this.roomData.machineWithDrinksInnerObjectLabels = new Map();
-    this.initializeMachineWithDrinksInnerObject(DrinkType.WATER,
+    this.initializeMachineWithDrinksInnerObject(DrinkId.WATER,
         RoomData.DRINK_WATER, ResourceManager.IMAGE_WATER_1);
-    this.initializeMachineWithDrinksInnerObject(DrinkType.MILK,
+    this.initializeMachineWithDrinksInnerObject(DrinkId.MILK,
         RoomData.DRINK_MILK, ResourceManager.IMAGE_MILK_1);
-    this.initializeMachineWithDrinksInnerObject(DrinkType.BOTTLE,
+    this.initializeMachineWithDrinksInnerObject(DrinkId.BOTTLE,
         RoomData.DRINK_BOTTLE, ResourceManager.IMAGE_BOTTLE_1);
-    this.initializeMachineWithDrinksInnerObject(DrinkType.TEA,
+    this.initializeMachineWithDrinksInnerObject(DrinkId.TEA,
         RoomData.DRINK_TEA, ResourceManager.IMAGE_TEA_1);
-    this.initializeMachineWithDrinksInnerObject(DrinkType.COFFEE,
+    this.initializeMachineWithDrinksInnerObject(DrinkId.COFFEE,
         RoomData.DRINK_COFFEE, ResourceManager.IMAGE_COFFEE_1);
-    this.initializeMachineWithDrinksInnerObject(DrinkType.ORANGE_JUICE,
+    this.initializeMachineWithDrinksInnerObject(DrinkId.ORANGE_JUICE,
         RoomData.DRINK_ORANGE_JUICE, ResourceManager.IMAGE_ORANGE_JUICE_1);
   }
 
@@ -2560,7 +2560,7 @@ export default class RoomController extends BaseGameController {
         machineWithDrinksInnerItems[n].visible = b;
       }
     }
-    for (let drinkId of DrinkType.values) {
+    for (let drinkId of DrinkId.values) {
     
       if (machineWithDrinksInnerCounts.get(drinkId) > 0) {
         machineWithDrinksInnerObjects.get(drinkId).visible = b;
@@ -2670,7 +2670,7 @@ export default class RoomController extends BaseGameController {
         refrigeratorInnerItems[n].visible = b;
       }
     }
-    for (let foodId of FoodType.values) {
+    for (let foodId of DrinkId.values) {
       if (refrigeratorInnerCounts.get(foodId) > 0) {
         refrigeratorInnerObjects.get(foodId).visible = b;
         refrigeratorInnerObjectLabels.get(foodId).visible = b;

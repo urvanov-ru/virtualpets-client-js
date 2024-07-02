@@ -1,4 +1,4 @@
-export default class FoodType {
+export default class DrinkId {
   static get CARROT() { return "CARROT"; }
   static get DRY_FOOD() { return "DRY_FOOD"; }
   static get FISH() { return "FISH"; }
@@ -24,20 +24,20 @@ export default class FoodType {
   
   static {
     this.#values = [
-          FoodType.CARROT,
-          FoodType.DRY_FOOD,
-          FoodType.FISH,
-          FoodType.ICE_CREAM,
-          FoodType.APPLE,
-          FoodType.CABBAGE,
-          FoodType.CHOCOLATE,
-          FoodType.FRENCH_FRIES,
-          FoodType.JAPANESE_ROLLS,
-          FoodType.PIE,
-          FoodType.POTATOES,
-          FoodType.SANDWICH,
-          FoodType.BANANA,
-          FoodType.WATERMELON];
+          DrinkId.CARROT,
+          DrinkId.DRY_FOOD,
+          DrinkId.FISH,
+          DrinkId.ICE_CREAM,
+          DrinkId.APPLE,
+          DrinkId.CABBAGE,
+          DrinkId.CHOCOLATE,
+          DrinkId.FRENCH_FRIES,
+          DrinkId.JAPANESE_ROLLS,
+          DrinkId.PIE,
+          DrinkId.POTATOES,
+          DrinkId.SANDWICH,
+          DrinkId.BANANA,
+          DrinkId.WATERMELON];
     this.#stringToIndexMap = new Map();
     this.#indexToStringMap = new Map();
     for (let n = 0; n < this.#values.length; n++) {

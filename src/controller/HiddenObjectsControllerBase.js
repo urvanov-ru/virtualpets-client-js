@@ -11,8 +11,8 @@ import MessageBoxInnerGameObject from '../domain/MessageBoxInnerGameObject.js';
 
 
 //rest
-import FoodType from '../rest/domain/FoodType.js';
-import DrinkType from '../rest/domain/DrinkType.js';
+import FoodId from '../rest/domain/FoodId.js';
+import DrinkId from '../rest/domain/DrinkId.js';
 import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
 import JoinHiddenObjectsGameArg from '../rest/domain/JoinHiddenObjectsGameArg.js';
 import CollectObjectArg from '../rest/domain/CollectObjectArg.js';
@@ -204,7 +204,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
 //              if (situation == Situation.GAME_OVER) {
 //                logger.info("reward = "
 //                    + hiddenObjectsGame.getReward());
-//                FoodType foodType = hiddenObjectsGame
+//                FoodId foodType = hiddenObjectsGame
 //                    .getReward().getFood();
 //                logger.info("foodType = " + foodType);
 //                int foodIndex = foodType.ordinal();
@@ -545,22 +545,22 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   }
 
   initializeFoodIcons() {
-    const foodTypeCount = FoodType.VALUES_COUNT;
+    const foodTypeCount = FoodId.VALUES_COUNT;
     
     const foodIcons = new Array(foodTypeCount);
     this.hiddenObjectsGameData.foodIcons = foodIcons;
-    foodIcons[FoodType.ordinal(FoodType.CARROT)] = this.initFoodIcon(ResourceManager.IMAGE_CARROT_1);
-    foodIcons[FoodType.ordinal(FoodType.DRY_FOOD)] = this.initFoodIcon(ResourceManager.IMAGE_DRY_FOOD_1);
-    foodIcons[FoodType.ordinal(FoodType.FISH)] = this.initFoodIcon(ResourceManager.IMAGE_FISH_1);
-    foodIcons[FoodType.ordinal(FoodType.ICE_CREAM)] = this.initFoodIcon(ResourceManager.IMAGE_ICE_CREAM_1);
-    foodIcons[FoodType.ordinal(FoodType.APPLE)] = this.initFoodIcon(ResourceManager.IMAGE_APPLE_1);
-    foodIcons[FoodType.ordinal(FoodType.CABBAGE)] = this.initFoodIcon(ResourceManager.IMAGE_CABBAGE_1);
-    foodIcons[FoodType.ordinal(FoodType.CHOCOLATE)] = this.initFoodIcon(ResourceManager.IMAGE_CHOCOLATE_1);
-    foodIcons[FoodType.ordinal(FoodType.FRENCH_FRIES)] = this.initFoodIcon(ResourceManager.IMAGE_FRENCH_FRIES_1);
-    foodIcons[FoodType.ordinal(FoodType.JAPANESE_ROLLS)] = this.initFoodIcon(ResourceManager.IMAGE_JAPANESE_ROLLS_1);
-    foodIcons[FoodType.ordinal(FoodType.PIE)] = this.initFoodIcon(ResourceManager.IMAGE_PIE_1);
-    foodIcons[FoodType.ordinal(FoodType.POTATOES)] = this.initFoodIcon(ResourceManager.IMAGE_POTATOES_1);
-    foodIcons[FoodType.ordinal(FoodType.SANDWICH)] = this.initFoodIcon(ResourceManager.IMAGE_SANDWICH_1);
+    foodIcons[FoodId.ordinal(FoodId.CARROT)] = this.initFoodIcon(ResourceManager.IMAGE_CARROT_1);
+    foodIcons[FoodId.ordinal(FoodId.DRY_FOOD)] = this.initFoodIcon(ResourceManager.IMAGE_DRY_FOOD_1);
+    foodIcons[FoodId.ordinal(FoodId.FISH)] = this.initFoodIcon(ResourceManager.IMAGE_FISH_1);
+    foodIcons[FoodId.ordinal(FoodId.ICE_CREAM)] = this.initFoodIcon(ResourceManager.IMAGE_ICE_CREAM_1);
+    foodIcons[FoodId.ordinal(FoodId.APPLE)] = this.initFoodIcon(ResourceManager.IMAGE_APPLE_1);
+    foodIcons[FoodId.ordinal(FoodId.CABBAGE)] = this.initFoodIcon(ResourceManager.IMAGE_CABBAGE_1);
+    foodIcons[FoodId.ordinal(FoodId.CHOCOLATE)] = this.initFoodIcon(ResourceManager.IMAGE_CHOCOLATE_1);
+    foodIcons[FoodId.ordinal(FoodId.FRENCH_FRIES)] = this.initFoodIcon(ResourceManager.IMAGE_FRENCH_FRIES_1);
+    foodIcons[FoodId.ordinal(FoodId.JAPANESE_ROLLS)] = this.initFoodIcon(ResourceManager.IMAGE_JAPANESE_ROLLS_1);
+    foodIcons[FoodId.ordinal(FoodId.PIE)] = this.initFoodIcon(ResourceManager.IMAGE_PIE_1);
+    foodIcons[FoodId.ordinal(FoodId.POTATOES)] = this.initFoodIcon(ResourceManager.IMAGE_POTATOES_1);
+    foodIcons[FoodId.ordinal(FoodId.SANDWICH)] = this.initFoodIcon(ResourceManager.IMAGE_SANDWICH_1);
   }
 
   initFoodIcon(resourceId) {
@@ -577,7 +577,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
   }
   
   initializeDrinkIcons() {
-    const drinkTypeCount = DrinkType.VALUES_COUNT
+    const drinkTypeCount = DrinkId.VALUES_COUNT
     const drinkIcons = new Array(drinkTypeCount);
     this.hiddenObjectsGameData.drinkIcons = drinkIcons;
     drinkIcons[0] = this.initDrinkIcon(ResourceManager.IMAGE_WATER_1);
@@ -848,7 +848,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
       }
 
       if (foodReward != null) {
-        const foodIcon = this.hiddenObjectsGameData.foodIcons[FoodType.ordinal(foodReward)];
+        const foodIcon = this.hiddenObjectsGameData.foodIcons[FoodId.ordinal(foodReward)];
         foodIcon.z = BaseGameController.MENU_Z_ORDER + 2;
         foodIcon.visible = false;
         //MessageBoxGameObject.InnerGameObject fii = messageBox.new InnerGameObject();
@@ -872,7 +872,7 @@ export default class HiddenObjectsControllerBaseImpl extends BaseGameController 
         collectableGameObject.z = BaseGameController.MENU_Z_ORDER + 2;
       }
       if (drinkTypeReward != null) {
-        const drinkIcon = this.hiddenObjectsGameData.drinkIcons[DrinkType.ordinal(drinkTypeReward)];
+        const drinkIcon = this.hiddenObjectsGameData.drinkIcons[DrinkId.ordinal(drinkTypeReward)];
         drinkIcon.z = BaseGameController.MENU_Z_ORDER + 2;
         drinkIcon.visible = false;
         const collectableGameObject = this.addCollectableGameObject(drinkIcon, 400, 300);

@@ -1087,16 +1087,16 @@ export default class BaseGameController {
       this.journal.leftText.text = 
           this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
-                  + entries[currentPage].code, null, null);
+                  + entries[currentPage].id, null, null);
       this.journal.rightText.text = 
           this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
-                  + entries[currentPage + 1].code, null, null);
+                  + entries[currentPage + 1].id, null, null);
     } else if (entries.length - currentPage === 1) {
       this.journal.leftText.text = 
           this.messageSource.getMessage(
               "JOURNAL_ENTRY_"
-                  + entries[currentPage].code, null, null);
+                  + entries[currentPage].id, null, null);
       this.journal.rightText.text = "";
     } else {
       this.journal.leftText.text = "";
@@ -1629,14 +1629,14 @@ export default class BaseGameController {
     this.#achievementInfo.newAchievementLabel = newAchievementLabel;
   }
 
-  updateAchievementInfo(achievementCodes) {
-    if (achievementCodes.length > 0) {
+  updateAchievementInfo(achievementIds) {
+    if (achievementIds.length > 0) {
       this.#achievementInfo.showAchievementLabel(this.messageSource.getMessage(
           "ru.urvanov.virtualpets.client.localization.achievement."
-              + achievementCodes[0], null, null),
+              + achievementIds[0], null, null),
           this.messageSource.getMessage(
               "ru.urvanov.virtualpets.client.localization.achievement."
-                  + achievementCodes[0]
+                  + achievementIds[0]
                   + "_DESCRIPTION", null, null));
     }
   }

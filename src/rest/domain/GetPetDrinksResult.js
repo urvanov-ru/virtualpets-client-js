@@ -1,3 +1,3 @@
 export default class GetPetDrinksResult {
-  drinkCounts; // Map<DrinkType, Integer> 
+  drinkCounts; // Map<DrinkId, Integer> 
 }

@@ -1,4 +1,4 @@
-export default class DrinkType {
+export default class DrinkId {
   static get WATER() { return "WATER"; }
   static get MILK() { return "MILK"; }
   static get BOTTLE() { return "BOTTLE"; }
@@ -15,12 +15,12 @@ export default class DrinkType {
   
   static {
     this.#values = [
-        DrinkType.WATER,
-        DrinkType.MILK,
-        DrinkType.BOTTLE,
-        DrinkType.TEA,
-        DrinkType.COFFEE,
-        DrinkType.ORANGE_JUICE];
+        DrinkId.WATER,
+        DrinkId.MILK,
+        DrinkId.BOTTLE,
+        DrinkId.TEA,
+        DrinkId.COFFEE,
+        DrinkId.ORANGE_JUICE];
     this.#stringToIndexMap = new Map();
     this.#indexToStringMap = new Map();
     for (let n = 0; n < this.#values.length; n++) {

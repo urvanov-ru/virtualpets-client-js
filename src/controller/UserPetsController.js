@@ -38,13 +38,9 @@ export default class UserPetsController {
       this.trayIcon.showTrayMessage(message, MessageType.ERROR); 
     }
     work.completed = (petListResult) => {
-      if (petListResult.success) {
-        this.userPetsView.petsInfo = petListResult.petsInfo;
-        if (petListResult.petsInfo.length === 0) {
-          this.createPetController.showView();
-        }
-      } else {
-        this.trayIcon.showTrayMessage(petListResult.message, MessageType.ERROR);
+      this.userPetsView.petsInfo = petListResult.petsInfo;
+      if (petListResult.petsInfo.length === 0) {
+        this.createPetController.showView();
       }
     }
     work.doInBackground = () => {
@@ -72,14 +68,10 @@ export default class UserPetsController {
     }
     work.completed = (result) => {
       try {
-        if (result.success) {
-          this.settings.petId = work.argument.petId;
-          this.settings.save();
-          this.userPetsView.hideView();
-          this.gameController.showView();
-        } else {
-          this.trayIcon.showTrayMessage(selectPetArg.message, MessageType.ERROR);
-        }
+        this.settings.petId = work.argument.petId;
+        this.settings.save();
+        this.userPetsView.hideView();
+        this.gameController.showView();
       } catch (ex) {
         console.error("SelectBackgroundWork %o.", ex);
         const message = this.messageSource.getMessage(StringConstants.ERROR, null, null) 
