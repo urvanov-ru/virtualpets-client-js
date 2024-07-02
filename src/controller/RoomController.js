@@ -2670,7 +2670,7 @@ export default class RoomController extends BaseGameController {
         refrigeratorInnerItems[n].visible = b;
       }
     }
-    for (let foodId of DrinkId.values) {
+    for (let foodId of FoodId.values) {
       if (refrigeratorInnerCounts.get(foodId) > 0) {
         refrigeratorInnerObjects.get(foodId).visible = b;
         refrigeratorInnerObjectLabels.get(foodId).visible = b;
