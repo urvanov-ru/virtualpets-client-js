@@ -10,6 +10,10 @@ import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExcept
 import GetServersArg from '../rest/domain/GetServersArg.js';
 import ServerInfo from '../rest/domain/ServerInfo.js';
 
+// rest exception
+import IncompatibleVersionException from '../rest/exception/IncompatibleVersionException.js';
+import ForbiddenException from '../rest/exception/ForbiddenException.js';
+
 // tray icon
 import MessageType from '../trayicon/MessageType.js';
 
@@ -293,6 +297,10 @@ export default class LoginController {
             StringConstants.INCOMPATIBLE_VERSION, {
               serverVersion: serverVersion
             });
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      } else if (ex instanceof ForbiddenException) {
+        const message = this.messageSource.getMessage(
+            StringConstants.FORBIDDEN);
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       } else {
         console.error("LoginBackgroundWork failed %o.", ex);

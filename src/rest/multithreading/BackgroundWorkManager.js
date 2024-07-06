@@ -1,6 +1,7 @@
 import ServiceException from '../exception/ServiceException.js';
 import NameIsBusyException from '../exception/NameIsBusyException.js';
 import IncompatibleVersionException from '../exception/IncompatibleVersionException.js';
+import ForbiddenException from '../exception/ForbiddenException.js';
 
 export default class BackgroundWorkManager {
 
@@ -22,14 +23,16 @@ export default class BackgroundWorkManager {
                 }
                 switch (response.status) {
                 case 200: // HTTP status OK
-                  return response.json();
+                  return response.json().then((responseJson) => {
+                    backgroundWork.completed(responseJson)
+                  });
                   break;
                 case 204: // HTTP status No Content
-                  return null;
+                  backgroundWork.completed(null)
                   break;
                 }
               } else {
-                return response.json()
+                response.json()
                   .then((responseJson) => {
                     let responseErrorCode;
 	                try {
@@ -46,18 +49,21 @@ export default class BackgroundWorkManager {
 	                  backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
 	                  break;
 	                default:
-	                  backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
+	                  switch (response.status) {
+	                  case 403:
+                        backgroundWork.failed(new ForbiddenException());
+	                    break;
+	                  default:
+	                    backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
+	                    break;
+	                  }
+	                  
 	                  break;
 	                }
                   });
-                
               }
-          })
-          .then((responseJson) => {
-            backgroundWork.completed(responseJson);
           });
     } catch (error) {
-      console.debug('ERROR CHAIN 3');
       console.error(error);
       const ces = backgroundWork.connectionExceptionSettings;
       if (ces.restart) {

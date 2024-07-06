@@ -84,6 +84,7 @@
     "REFRIGERATOR": "refrigerator",
     "JOURNAL_ENTRY_EAT_SOMETHING": "We have built the refrigerator. The refrigerator is containing all food you have. I'm hungry. Give me something from it.",
     "INCOMPATIBLE_VERSION": "You need to download client version %{serverVersion}.",
+    "FORBIDDEN": "Forbidden",
     "CREATE_PET": "Create pet",
     "PREVIOUS_PET": "Previous pet",
     "NEXT_PET": "Next pet",

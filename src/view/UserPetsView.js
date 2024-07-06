@@ -211,9 +211,14 @@ export default class UserPetsView extends BaseHtmlView{
     if (this.#selectedPetIndex >= this.#petsInfo.length) {
       this.#selectedPetIndex = this.#petsInfo.length - 1;
     }
-    let petInfo  = this.#petsInfo[this.#selectedPetIndex];
-    this.#idDiv.innerText = petInfo.id;
-    this.#nameDiv.innerText = petInfo.name;
+    if (this.#selectedPetIndex >= 0) {
+      let petInfo  = this.#petsInfo[this.#selectedPetIndex];
+      this.#idDiv.innerText = petInfo.id;
+      this.#nameDiv.innerText = petInfo.name;
+    } else {
+      this.#idDiv.innerText = '';
+      this.#nameDiv.innerText = '';
+    }
     
   }
   
