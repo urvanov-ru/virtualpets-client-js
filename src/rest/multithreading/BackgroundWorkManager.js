@@ -15,7 +15,7 @@ export default class BackgroundWorkManager {
     }
     try {
       const delayms = backgroundWork.connectionExceptionSettings.attemptNumber > 0 ?  backgroundWork.connectionExceptionSettings.delay : 0;
-      this.delay(delayms).then(() => backgroundWork.doInBackground())
+      this.#delay(delayms).then(() => backgroundWork.doInBackground())
           .then((response) => {
               if (response.ok) {
                 if (view != null && view.stopWaitAnimation) {
@@ -49,15 +49,7 @@ export default class BackgroundWorkManager {
                       backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
                       break;
                     default:
-                      switch (response.status) {
-                      case 403:
-                        backgroundWork.failed(new ForbiddenException());
-                        break;
-                      default:
-                        backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
-                        break;
-                      }
-                      
+                      this.#exceptionByStatus(responseStatus, backgroundWork);
                       break;
                     }
                   });
@@ -78,7 +70,18 @@ export default class BackgroundWorkManager {
     }
   }
   
-  delay(ms) {
+  #delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  #exceptionByStatus(status, backgroundWork) {
+    switch (response.status) {
+    case 403:
+      backgroundWork.failed(new ForbiddenException());
+      break;
+    default:
+      backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
+      break;
+    }
   }
 }
