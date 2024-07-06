@@ -23,8 +23,7 @@ export default class BackgroundWorkManager {
               if (response.ok) {
                 this.#processOkResponse(response, backgroundWork);
               } else {
-                response.json()
-                  .then((responseJson) => {this.#processFailureResponse(response, responseJson, backgroundWork);});
+                this.#processFailureResponse(response, backgroundWork);
               }
           });
     } catch (error) {
@@ -59,34 +58,36 @@ export default class BackgroundWorkManager {
     }
   }
   
-  #processFailureResponse(response, responseJson, backgroundWork) {
-    let responseErrorCode;
-    try {
-      const problemDetail = responseJson;
-      responseErrorCode = problemDetail.detail;
-    } catch (problemDetailParseError) {
-      responseErrorCode = "unknown";
-    }
-    switch (responseErrorCode) {
-    case 'name_is_busy':
-      backgroundWork.failed(new NameIsBusyException());
-      break;
-    case 'incompatible_version':
-      backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
-      break;
-    default:
-      this.#exceptionByStatus(responseStatus, backgroundWork);
-      break;
-    }
+  #processFailureResponse(response, backgroundWork) {
+    response.json().then((responseJson) => {
+      let responseErrorCode;
+      try {
+        const problemDetail = responseJson;
+        responseErrorCode = problemDetail.detail;
+      } catch (problemDetailParseError) {
+        responseErrorCode = "unknown";
+      }
+      switch (responseErrorCode) {
+      case 'name_is_busy':
+        backgroundWork.failed(new NameIsBusyException());
+        break;
+      case 'incompatible_version':
+        backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
+        break;
+      default:
+        this.#exceptionByStatus(response.status, backgroundWork);
+        break;
+      }
+    });
   }
   
   #exceptionByStatus(status, backgroundWork) {
-    switch (response.status) {
+    switch (status) {
     case 403:
       backgroundWork.failed(new ForbiddenException());
       break;
     default:
-      backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
+      backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + status));
       break;
     }
   }
