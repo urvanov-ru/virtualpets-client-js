@@ -35,31 +35,31 @@ export default class BackgroundWorkManager {
                 response.json()
                   .then((responseJson) => {
                     let responseErrorCode;
-	                try {
-	                  const problemDetail = responseJson;
-	                  responseErrorCode = problemDetail.detail;
-	                } catch (problemDetailParseError) {
-	                  responseErrorCode = "unknown";
-	                }
-	                switch (responseErrorCode) {
-	                case 'name_is_busy':
-	                  backgroundWork.failed(new NameIsBusyException());
-	                  break;
-	                case 'incompatible_version':
-	                  backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
-	                  break;
-	                default:
-	                  switch (response.status) {
-	                  case 403:
+                    try {
+                      const problemDetail = responseJson;
+                      responseErrorCode = problemDetail.detail;
+                    } catch (problemDetailParseError) {
+                      responseErrorCode = "unknown";
+                    }
+                    switch (responseErrorCode) {
+                    case 'name_is_busy':
+                      backgroundWork.failed(new NameIsBusyException());
+                      break;
+                    case 'incompatible_version':
+                      backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
+                      break;
+                    default:
+                      switch (response.status) {
+                      case 403:
                         backgroundWork.failed(new ForbiddenException());
-	                    break;
-	                  default:
-	                    backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
-	                    break;
-	                  }
-	                  
-	                  break;
-	                }
+                        break;
+                      default:
+                        backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
+                        break;
+                      }
+                      
+                      break;
+                    }
                   });
               }
           });
