@@ -17,42 +17,14 @@ export default class BackgroundWorkManager {
       const delayms = backgroundWork.connectionExceptionSettings.attemptNumber > 0 ?  backgroundWork.connectionExceptionSettings.delay : 0;
       this.#delay(delayms).then(() => backgroundWork.doInBackground())
           .then((response) => {
+              if (view != null && view.stopWaitAnimation) {
+                view.stopWaitAnimation();
+              }
               if (response.ok) {
-                if (view != null && view.stopWaitAnimation) {
-                  view.stopWaitAnimation();
-                }
-                switch (response.status) {
-                case 200: // HTTP status OK
-                  return response.json().then((responseJson) => {
-                    backgroundWork.completed(responseJson)
-                  });
-                  break;
-                case 204: // HTTP status No Content
-                  backgroundWork.completed(null)
-                  break;
-                }
+                this.#processOkResponse(response, backgroundWork);
               } else {
                 response.json()
-                  .then((responseJson) => {
-                    let responseErrorCode;
-                    try {
-                      const problemDetail = responseJson;
-                      responseErrorCode = problemDetail.detail;
-                    } catch (problemDetailParseError) {
-                      responseErrorCode = "unknown";
-                    }
-                    switch (responseErrorCode) {
-                    case 'name_is_busy':
-                      backgroundWork.failed(new NameIsBusyException());
-                      break;
-                    case 'incompatible_version':
-                      backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
-                      break;
-                    default:
-                      this.#exceptionByStatus(responseStatus, backgroundWork);
-                      break;
-                    }
-                  });
+                  .then((responseJson) => {this.#processFailureResponse(response, responseJson, backgroundWork);});
               }
           });
     } catch (error) {
@@ -72,6 +44,40 @@ export default class BackgroundWorkManager {
   
   #delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  #processOkResponse(response, backgroundWork) {
+    switch (response.status) {
+    case 200: // HTTP status OK
+      response.json().then((responseJson) => {
+        backgroundWork.completed(responseJson)
+      });
+      break;
+    case 204: // HTTP status No Content
+      backgroundWork.completed(null)
+      break;
+    }
+  }
+  
+  #processFailureResponse(response, responseJson, backgroundWork) {
+    let responseErrorCode;
+    try {
+      const problemDetail = responseJson;
+      responseErrorCode = problemDetail.detail;
+    } catch (problemDetailParseError) {
+      responseErrorCode = "unknown";
+    }
+    switch (responseErrorCode) {
+    case 'name_is_busy':
+      backgroundWork.failed(new NameIsBusyException());
+      break;
+    case 'incompatible_version':
+      backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
+      break;
+    default:
+      this.#exceptionByStatus(responseStatus, backgroundWork);
+      break;
+    }
   }
   
   #exceptionByStatus(status, backgroundWork) {
