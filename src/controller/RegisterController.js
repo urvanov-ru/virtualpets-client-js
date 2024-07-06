@@ -1,5 +1,8 @@
 // multithreading
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import NameIsBusyException from '../rest/exception/NameIsBusyException.js';
+import IncompatibleVersionException from '../rest/exception/IncompatibleVersionException.js';
 
 // localization
 import StringConstants from '../localization/StringConstants.js';
@@ -72,9 +75,8 @@ export default class RegisterController {
     this.authenticationController.clearCredentials();
     
     const work = new BackgroundWork();
-    work.doInBackground = () => {
-      this.publicService.register(registerArgument);
-    };
+    work.argument = registerArgument;
+    work.doInBackground = this.publicService.register.bind(this.publicService, work.argument);
     work.completed = () => {
       this.registerView.hideView();
     };
@@ -96,8 +98,8 @@ export default class RegisterController {
       }
     }; 
     
-    work.argument = registerArgument;
-    work.view = registerView;
+
+    work.view = this.registerView;
     const ces = new ConnectionExceptionSettings();
     ces.restart = true;
     work.connectionExceptionSettings = ces;

@@ -95,7 +95,7 @@ export default class RegisterView extends BaseHtmlView {
     registerArgument.email = this.#emailInput.value;
     registerArgument.version = this.version;  
     for (let listener of this.#registerListeners) {
-      listener();
+      listener(this, registerArgument);
     }
   }
   

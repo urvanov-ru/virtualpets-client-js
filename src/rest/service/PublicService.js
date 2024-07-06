@@ -21,7 +21,17 @@ export default class PublicService {
     return fetch(this.#serviceUrl + "/servers?version="+this.#version);
   }
   
-  register(registerArgument) {}
+  register(registerArgument) {
+    console.debug('register');
+    const options = {};
+    options.method = 'POST';
+    options.headers = new Headers();
+    options.headers.append('Content-Type', 'application/json');
+    options.body = JSON.stringify(registerArgument);
+    options.cache = 'no-cache';
+    options.credentials = 'omit';
+    return fetch(this.#serviceUrl + "/register", options);
+  }
   
   recoverPassword(recoverPasswordArg) {}
   recoverSession(recoverSessionArg) {}

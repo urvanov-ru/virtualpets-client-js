@@ -1,3 +1,6 @@
+import ServiceException from '../exception/ServiceException.js';
+import NameIsBusyException from '../exception/NameIsBusyException.js';
+import IncompatibleVersionException from '../exception/IncompatibleVersionException.js';
 
 export default class BackgroundWorkManager {
 
@@ -26,13 +29,35 @@ export default class BackgroundWorkManager {
                   break;
                 }
               } else {
-                throw new Error('Background work failed with HTTP status ' + response.status);
+                return response.json()
+                  .then((responseJson) => {
+                    let responseErrorCode;
+	                try {
+	                  const problemDetail = responseJson;
+	                  responseErrorCode = problemDetail.detail;
+	                } catch (problemDetailParseError) {
+	                  responseErrorCode = "unknown";
+	                }
+	                switch (responseErrorCode) {
+	                case 'name_is_busy':
+	                  backgroundWork.failed(new NameIsBusyException());
+	                  break;
+	                case 'incompatible_version':
+	                  backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
+	                  break;
+	                default:
+	                  backgroundWork.failed(new ServiceException('Background work failed with HTTP status ' + response.status));
+	                  break;
+	                }
+                  });
+                
               }
           })
           .then((responseJson) => {
             backgroundWork.completed(responseJson);
           });
     } catch (error) {
+      console.debug('ERROR CHAIN 3');
       console.error(error);
       const ces = backgroundWork.connectionExceptionSettings;
       if (ces.restart) {
