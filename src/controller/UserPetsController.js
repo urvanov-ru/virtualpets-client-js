@@ -92,7 +92,7 @@ export default class UserPetsController {
   
   delete(petId) {
     const work = new BackgroundWork();
-    work.failed = () => {
+    work.failed = (ex) => {
       console.error("DeleteBackgroundWork failed %o.", ex);
       const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null) 
           + ": " + ex.toString();
