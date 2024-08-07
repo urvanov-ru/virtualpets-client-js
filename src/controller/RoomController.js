@@ -2069,7 +2069,7 @@ export default class RoomController extends BaseGameController {
     buildObjects[RoomData.BUILD_MENU_REFRIGERATOR]
         .addClickedListener((clickedArg) => {
             const refrigerator = this.roomData.refrigerator;
-            if (refrigerator != null) {
+            if (refrigerator != null && refrigerator.visible) {
               return;
             }
             if (this.roomData.machineWithDrinks == null
@@ -2902,5 +2902,22 @@ export default class RoomController extends BaseGameController {
           : machineWithDrinksCost[machineWithDrinksCostKey];
     }
   }
+
+
+  showBuildMenuInner(buildMenu) {
+    super.showBuildMenuInner(buildMenu);
+    const buildMenuItems = this.buildMenu.menuItems;
+    const buildMenuInner = this.buildMenu.inner;
+    const buildObjects = this.buildMenu.buildObjects;
+    if (!this.roomData.machineWithDrinksId) {
+      //buildMenuItems[0].visible = false
+      buildObjects[RoomData.BUILD_MENU_REFRIGERATOR].visible = false;
+    }
+    if (!this.roomData.refrigeratorId) {
+      //buildMenuItems[2].visible = false;
+      buildObjects[RoomData.BUILD_MENU_BOOKCASE].visible = false;
+    }
+  }
+
 
 }
