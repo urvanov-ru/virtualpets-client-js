@@ -1244,7 +1244,7 @@ export default class RoomController extends BaseGameController {
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      if (ex instanceof NotNowException) {
+      if (exception instanceof NotNowException) {
         const message = this.messageSource.getMessage(StringConstants.NOT_NOW);
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       } else {
