@@ -53,8 +53,6 @@ export default class LoginView extends BaseHtmlView {
   showView() {
     super.showView();
     if (!this.#initialized) {
-      this.#serverLabel = document.createElement('label');
-      this.#serverSelect = document.createElement('select');
       this.#loginLabel = document.createElement('label');
       this.#loginInput = document.createElement('input');
       this.#passwordLabel = document.createElement('label');
@@ -68,15 +66,12 @@ export default class LoginView extends BaseHtmlView {
       this.#loginLabel.for = this.#loginInput;
       this.#passwordLabel.for = this.#passwordInput;
       
-      this.#serverLabel.innerText = this.messageSource.getMessage(StringConstants.SERVER);
-      this.#loginLabel.innerText = this.messageSource.getMessage(StringConstants.NAME);
+      this.#loginLabel.innerText = this.messageSource.getMessage(StringConstants.USERNAME);
       this.#passwordLabel.innerText = this.messageSource.getMessage(StringConstants.PASSWORD);
       this.#registerButton.innerText = this.messageSource.getMessage(StringConstants.REGISTER);
       this.#loginButton.innerText = this.messageSource.getMessage(StringConstants.LOGIN);
       this.#revivePasswordButton.innerText = this.messageSource.getMessage(StringConstants.REVIVE_PASSWORD);
       
-      this.containerDiv.append(this.#serverLabel);
-      this.containerDiv.append(this.#serverSelect);
       this.containerDiv.append(this.#loginLabel);
       this.containerDiv.append(this.#loginInput);
       this.containerDiv.append(this.#passwordLabel);
@@ -90,7 +85,7 @@ export default class LoginView extends BaseHtmlView {
       
       this.closeable = false;
       this.#initialized = true;
-      
+      this.title = this.messageSource.getMessage(StringConstants.LOGIN_VIEW_TITLE);
     }
     this.containerDiv.style.display = 'flex';
   }
@@ -135,10 +130,8 @@ export default class LoginView extends BaseHtmlView {
 
   #registerClicked(event) {
     try {
-      const selectedIndex = this.#serverSelect.selectedIndex;
-      const host = this.#servers[selectedIndex].url;
       for (let simpleEvent of this.#registerListeners) {
-        simpleEvent(this, host);
+        simpleEvent(this);
       }
     } catch (ex) {
       console.error("RegisterClicked processing error %o.", ex);
@@ -150,11 +143,11 @@ export default class LoginView extends BaseHtmlView {
   
   #loginClicked(event) {
     try {
-      const selectedIndex = this.#serverSelect.selectedIndex;
-      const host = this.#servers[selectedIndex].url;
+      //const selectedIndex = this.#serverSelect.selectedIndex;
+      //const host = this.#servers[selectedIndex].url;
       for (let loginEvent of this.#loginListeners) {
         const arg = new LoginArg();
-        arg.host = host;
+        //arg.host = host;
         arg.login = this.#loginInput.value;
         arg.password = this.#passwordInput.value;
         arg.version = this.version;

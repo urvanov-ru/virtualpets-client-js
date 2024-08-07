@@ -16,10 +16,11 @@
     "ru.urvanov.virtualpets.client.localization.achievement.DRINK_100": "More water! For God of Water!",
     "PROXY_SERVER": "Proxy server",
     "ERROR": "Error",
-    "LOGIN": "Login",
+    "USERNAME": "Username",
     "APPLICATION_NAME": "PrettyPets",
     "TYPE": "Type",
     "ru.urvanov.virtualpets.client.localization.achievement.DRINK_1": "No thirst ",
+    "LOGIN": "Login",
     "REGISTER": "Register",
     "LOOK_AND_FEEL": "Look and feel",
     "ru.urvanov.virtualpets.client.localization.achievement.BUILD_1": "Builder 1.",
@@ -151,6 +152,11 @@
     "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_7_DESCRIPTION" : "Login seven days in a row.",
     "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_8_DESCRIPTION" : "Login eight days in a row.",
     "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_9_DESCRIPTION" : "Login nine days in a row.",
-    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_10_DESCRIPTION" : "Login ten days in a row."
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_10_DESCRIPTION" : "Login ten days in a row.",
+    "LOGIN_AS_ALREADY_LOGGED_USER": "Login as %{name}?",
+    "LOGIN_VIEW_TITLE": "Enter login and password",
+    "USER_PETS_VIEW_TITLE": "Select pet",
+    "CREATE_PET_VIEW_TITLE": "Create pet",
+    "REGISTER_VIEW_TITLE": "Register new user"
   }
 }

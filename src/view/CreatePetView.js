@@ -61,6 +61,7 @@ export default class CreatePetView extends BaseHtmlView {
       this.#createPetButton.addEventListener('click', this.#createPetClicked.bind(this));
       
       this.#initialized = true;
+      this.title = this.messageSource.getMessage(StringConstants.CREATE_PET_VIEW_TITLE);
     }
   }
   

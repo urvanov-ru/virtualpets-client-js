@@ -15,10 +15,11 @@
     "ru.urvanov.virtualpets.client.localization.achievement.DRINK_100": "Больше воды! Для Бога Воды!",
     "PROXY_SERVER": "Прокси сервер",
     "ERROR": "Ошибка",
-    "LOGIN": "Войти",
+    "USERNAME": "Логин",
     "APPLICATION_NAME": "PrettyPets",
     "TYPE": "Тип",
     "ru.urvanov.virtualpets.client.localization.achievement.DRINK_1": "Нет жажде.",
+    "LOGIN": "Войти",
     "REGISTER": "Зарегистрироваться",
     "LOOK_AND_FEEL": "Внешний вид",
     "ru.urvanov.virtualpets.client.localization.achievement.BUILD_1": "Строитель",
@@ -151,6 +152,11 @@
     "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_7_DESCRIPTION" : "Зайти в игру семь дней подряд.",
     "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_8_DESCRIPTION" : "Зайти в игру восемь дней подряд.",
     "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_9_DESCRIPTION" : "Зайти в игру девять дней подряд.",
-    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_10_DESCRIPTION" : "Зайти в игру десять дней подряд."
+    "ru.urvanov.virtualpets.client.localization.achievement.EVERY_DAY_LOGIN_10_DESCRIPTION" : "Зайти в игру десять дней подряд.",
+    "LOGIN_AS_ALREADY_LOGGED_USER": "Зайти как %{name}?",
+    "LOGIN_VIEW_TITLE": "Ввод логина и пароля",
+    "USER_PETS_VIEW_TITLE": "Список питомцев",
+    "CREATE_PET_VIEW_TITLE": "Создание питомца",
+    "REGISTER_VIEW_TITLE": "Регистрация нового игрока"
   }
 }

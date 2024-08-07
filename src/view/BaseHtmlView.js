@@ -72,4 +72,8 @@ export default class BaseHtmlView {
   set titleBarVisible(titleBarVisible) {
     this.#titleDiv.style.display = 'none';
   }
+  
+  set title(title) {
+    this.#titleText.innerText = title;
+  }
 }

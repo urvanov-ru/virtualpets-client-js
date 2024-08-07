@@ -23,10 +23,6 @@ export default class RegisterController {
   showView() {
     this.registerView.showView();
   }
-
-  set host(host) {
-    this.registerView.host = host;
-  }
   
   set callback(callback) {
     this.registerView.callback = callback;

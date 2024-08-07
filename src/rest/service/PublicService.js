@@ -9,39 +9,37 @@ import ServerInfo from '../domain/ServerInfo.js';
 import ServerTechnicalInfo from '../domain/ServerTechnicalInfo.js';
 
 export default class PublicService {
-
-  #serviceUrl;
-  #version;
+  static get SERVICE_URL() { return '/rest/v1/PublicService'; }
+  #restClient;
   
-  /**
-   * @return Promise ServerInfo[]
-   */
-  getServers(getServersArg) {
-    console.debug('fetch servers');
-    return fetch(this.#serviceUrl + "/servers?version="+this.#version);
+  ///**
+  // * @return Promise ServerInfo[]
+  // */
+  //getServers(getServersArg) {
+  //  console.debug('fetch servers');
+  //  return fetch(this.#serviceUrl + "/servers?version="+this.#version);
+  //}
+  
+  login(loginArg) {
+    console.debug('login');
+    return this.#restClient.fetch(PublicService.SERVICE_URL + "/login", 'POST', loginArg);
+  }
+  
+  checkSession() {
+    console.debug('checkSession');
+    return this.#restClient.fetch(PublicService.SERVICE_URL + "/checkSession", 'GET');
   }
   
   register(registerArgument) {
     console.debug('register');
-    const options = {};
-    options.method = 'POST';
-    options.headers = new Headers();
-    options.headers.append('Content-Type', 'application/json');
-    options.body = JSON.stringify(registerArgument);
-    options.cache = 'no-cache';
-    options.credentials = 'omit';
-    return fetch(this.#serviceUrl + "/register", options);
+    return this.#restClient.fetch(PublicService.SERVICE_URL + "/register", 'POST', registerArgument);
   }
   
   recoverPassword(recoverPasswordArg) {}
   recoverSession(recoverSessionArg) {}
   getServerTechnicalInfo(){};
   
-  set serverUrl(serverUrl) {
-    this.#serviceUrl = serverUrl + '/rest/v1/PublicService';
-  }
-  
-  set version(version) {
-    this.#version = version;
+  set restClient(restClient) {
+    this.#restClient = restClient;
   }
 }

@@ -5,7 +5,7 @@
 export default class Settings {
   host = "";
   login = "";
-  unid;
+  name = "";
   petId = 0;
   userId = 0;
   language;

@@ -155,6 +155,7 @@ export default class UserPetsView extends BaseHtmlView{
       this.#nextPetButton.addEventListener('click', this.#nextClicked.bind(this));
       
       this.#initialized = true;
+      this.title = this.messageSource.getMessage(StringConstants.USER_PETS_VIEW_TITLE);
     }
     this.containerDiv.style.display = 'flex';
   }
@@ -208,7 +209,7 @@ export default class UserPetsView extends BaseHtmlView{
   }
 
   #refreshPetDiv() {
-    if (this.#selectedPetIndex >= this.#petsInfo.length) {
+    if (this.#selectedPetIndex >= this.#petsInfo.length || this.#selectedPetIndex === -1) {
       this.#selectedPetIndex = this.#petsInfo.length - 1;
     }
     if (this.#selectedPetIndex >= 0) {

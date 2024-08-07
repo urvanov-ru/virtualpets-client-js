@@ -32,7 +32,7 @@ export default class LocalStorageSettings extends Settings {
   load() {
     this.host = this.#getFromLocalStorage("host", "");
     this.login = this.#getFromLocalStorage("login", "");
-    this.unid = this.#getFromLocalStorage("unid", "");
+    this.name = this.#getFromLocalStorage("name", "");
     this.petId = this.#getFromLocalStorage("petId", 0);
     this.userId = this.#getFromLocalStorage("userId", 0);
     this.language = this.#getFromLocalStorage("language", null);
@@ -44,7 +44,7 @@ export default class LocalStorageSettings extends Settings {
   save() {
     this.#setToLocalStorage("host", this.host);
     this.#setToLocalStorage("login", this.login);
-    this.#setToLocalStorage("unid", this.unid);
+    this.#setToLocalStorage("name", this.name);
     this.#setToLocalStorage("petId", this.petId);
     this.#setToLocalStorage("userId", this.userId);
     this.#setToLocalStorage("language", this.language);

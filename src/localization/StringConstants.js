@@ -16,9 +16,10 @@ static get USERS_ONLINE() { return "USERS_ONLINE"; }
 static get AUTHOR() { return "AUTHOR"; }
 static get EXIT() { return "EXIT"; }
 static get CLOSE_SESSION_AND_EXIT() { return "CLOSE_SESSION_AND_EXIT"; }
-static get LOGIN() { return "LOGIN"; }
+static get USERNAME() { return "USERNAME"; }
 static get PASSWORD() { return "PASSWORD"; }
 static get NAME() { return "NAME"; }
+static get LOGIN() { return "LOGIN"; }
 static get REGISTER() { return "REGISTER"; }
 static get SERVER() { return "SERVER"; }
 static get REFRESH() { return "REFRESH"; }
@@ -131,4 +132,10 @@ static get THIS_BUILDING_IS_MAX_LEVEL() { return "THIS_BUILDING_IS_MAX_LEVEL"; }
 static get FILL_NAME() { return "FILL_NAME"; }
 
 static get CAT() { return "CAT"; }
+
+static get LOGIN_AS_ALREADY_LOGGED_USER() { return "LOGIN_AS_ALREADY_LOGGED_USER"; }
+static get LOGIN_VIEW_TITLE() { return "LOGIN_VIEW_TITLE"; }
+static get USER_PETS_VIEW_TITLE() { return "USER_PETS_VIEW_TITLE"; }
+static get CREATE_PET_VIEW_TITLE() { return "CREATE_PET_VIEW_TITLE"; }
+static get REGISTER_VIEW_TITLE() { return "REGISTER_VIEW_TITLE"; }
 }

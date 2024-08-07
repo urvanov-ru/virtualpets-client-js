@@ -18,6 +18,8 @@ export default class RegisterView extends BaseHtmlView {
   #loginInput;
   #passwordLabel;
   #passwordInput;
+  #nameLabel;
+  #nameInput;
   #emailLabel;
   #emailInput;
   #registerButton;
@@ -42,6 +44,8 @@ export default class RegisterView extends BaseHtmlView {
       this.#loginInput = document.createElement('input');
       this.#passwordLabel = document.createElement('label');
       this.#passwordInput = document.createElement('input');
+      this.#nameLabel = document.createElement('label');
+      this.#nameInput = document.createElement('input');
       this.#emailLabel = document.createElement('label');
       this.#emailInput = document.createElement('input');
       this.#registerButton = document.createElement('button');
@@ -50,9 +54,11 @@ export default class RegisterView extends BaseHtmlView {
       this.#emailInput.type = 'email';
       
       this.#loginLabel.innerText = this.messageSource.getMessage(
-                    StringConstants.NAME, null, null);
+                    StringConstants.USERNAME, null, null);
       this.#passwordLabel.innerText = this.messageSource.getMessage(
                     StringConstants.PASSWORD, null, null);
+      this.#nameLabel.innerText = this.messageSource.getMessage(
+                    StringConstants.NAME, null, null);
       this.#emailLabel.innerText = this.messageSource.getMessage(
                     StringConstants.EMAIL, null, null);
       this.#registerButton.innerText = this.messageSource.getMessage(
@@ -63,6 +69,8 @@ export default class RegisterView extends BaseHtmlView {
       this.containerDiv.append(this.#loginInput);
       this.containerDiv.append(this.#passwordLabel);
       this.containerDiv.append(this.#passwordInput);
+      this.containerDiv.append(this.#nameLabel);
+      this.containerDiv.append(this.#nameInput);
       this.containerDiv.append(this.#emailLabel);
       this.containerDiv.append(this.#emailInput);
       this.containerDiv.append(this.#registerButton);
@@ -74,6 +82,7 @@ export default class RegisterView extends BaseHtmlView {
       
       
       this.#initialized = true;
+      this.title = this.messageSource.getMessage(StringConstants.REGISTER_VIEW_TITLE);
     }
     
     this.containerDiv.style.display = 'flex';
@@ -92,6 +101,7 @@ export default class RegisterView extends BaseHtmlView {
     registerArgument.host = this.#host;
     registerArgument.login = this.#loginInput.value;
     registerArgument.password = this.#passwordInput.value;
+    registerArgument.name = this.#nameInput.value;
     registerArgument.email = this.#emailInput.value;
     registerArgument.version = this.version;  
     for (let listener of this.#registerListeners) {

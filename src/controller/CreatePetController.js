@@ -62,12 +62,8 @@ export default class CreatePetControllerImpl {
       return this.petService.create(work.argument);
     };
     work.completed = (createPetResult) => {
-      if (createPetResult.success) {
-        this.createPetView.hideView();
-        this.userPetsController.refresh();
-      } else {
-        this.trayIcon.showTrayMessage(result.getMessage(), MessageType.ERROR);
-      }
+      this.createPetView.hideView();
+      this.userPetsController.refresh();
     };
     work.failed = (ex) => {
       console.error("CreateBackgroundWork failed %o.", ex);

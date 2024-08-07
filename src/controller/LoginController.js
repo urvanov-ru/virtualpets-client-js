@@ -39,8 +39,9 @@ export default class LoginController {
 
   showView() {
     this.loginView.showView();
-    this.loadServers();
-    this.getServerTechnicalInfo();
+    //this.loadServers();
+    //this.getServerTechnicalInfo();
+    this.checkSession();
   }
 
 //  private class LoadServersBackgroundWork extends
@@ -287,7 +288,7 @@ export default class LoginController {
   #login(loginArg) {
     const work = new BackgroundWork();
     work.doInBackground = () => {
-      return this.userService.login(work.argument);
+      return this.publicService.login(work.argument);
     }
     work.completed = this.#loginCompleted.bind(this);
     work.failed = (ex) => {
@@ -331,8 +332,10 @@ export default class LoginController {
       //this.chatController.showView();
       //this.usersOnlineController.showView();
       //this.loginView.hideView();
-      this.settings.unid = loginResult.unid;
+      this.settings.login = loginResult.login;
+      this.settings.name = loginResult.name;
       this.settings.userId = loginResult.userId;
+      this.settings
     } else {
       this.trayIcon.showTrayMessage(loginResult.message, MessageType.ERROR);
     }
@@ -352,9 +355,8 @@ export default class LoginController {
       }
     });
 
-    this.loginView.addRegisterListener((sender, data) => {
+    this.loginView.addRegisterListener((sender) => {
       this.registerController.showView();
-      this.registerController.host = data;
     });
 
     this.loginView
@@ -424,5 +426,51 @@ export default class LoginController {
     work.completed = function(info) {
       console.log(info);
     }
+  }
+  
+  checkSession() {
+    const work = new BackgroundWork();
+    work.doInBackground = this.publicService.checkSession.bind(this.publicService, work.argument);
+    work.failed = (function(ex) {
+      if (ex instanceof IncompatibleVersionException) {
+        const serverVersion = ex.serverVersion;
+        const message = this.messageSource.getMessage(
+            StringConstants.INCOMPATIBLE_VERSION, serverVersion, null);
+        trayIcon.showTrayMessage(message, MessageType.ERROR);
+      } else {
+        console.error("CheckSessionBackgroundWork failed %s. ", ex);
+        const message = this.messageSource.getMessage(
+            StringConstants.ERROR)
+            + ": "
+            + ex.toString();
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      }
+    }).bind(this);
+    work.completed = (loginResult) => {
+    try {
+        console.debug('checkSession response = %o', loginResult);
+        if (loginResult.success
+                && confirm(this.messageSource.getMessage(StringConstants.LOGIN_AS_ALREADY_LOGGED_USER, {
+                    name : loginResult.name
+            }))) {
+            this.#loginCompleted(loginResult);
+        }
+      } catch (ex) {
+        console.error(ex.toString());
+        const message = this.messageSource.getMessage(
+            StringConstants.ERROR)
+            + ": "
+            + ex.toString();
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      }
+    }
+    const arg = new GetServersArg();
+    arg.version = this.version;
+    work.argument = arg;
+    work.view = this.loginView;
+    const ces = new ConnectionExceptionSettings();
+    ces.restart = true;
+    work.connectionExceptionSettings = ces;
+    this.backgroundWorkManager.startBackgroundWork(work);
   }
 }

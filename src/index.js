@@ -180,12 +180,12 @@ function init(selectedLanguage) {
   createPetController.backgroundWorkManager = backgroundWorkManager;
   createPetController.userPetsController = userPetsController;
   
-  publicService.serverUrl = VIRTUALPETS_SERVER_URL;
-  publicService.version = VERSION;
   
   restClient.serverUrl = VIRTUALPETS_SERVER_URL;
   restClient.version = VERSION;
   restClient.settings = settings;
+  
+  publicService.restClient = restClient;
   
   userService.restClient = restClient;
   
