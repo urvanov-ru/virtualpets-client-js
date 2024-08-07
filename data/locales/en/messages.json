@@ -157,6 +157,7 @@
     "LOGIN_VIEW_TITLE": "Enter login and password",
     "USER_PETS_VIEW_TITLE": "Select pet",
     "CREATE_PET_VIEW_TITLE": "Create pet",
-    "REGISTER_VIEW_TITLE": "Register new user"
+    "REGISTER_VIEW_TITLE": "Register new user",
+    "NOT_NOW": "Not now."
   }
 }

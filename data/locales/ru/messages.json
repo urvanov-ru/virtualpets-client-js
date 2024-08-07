@@ -157,6 +157,7 @@
     "LOGIN_VIEW_TITLE": "Ввод логина и пароля",
     "USER_PETS_VIEW_TITLE": "Список питомцев",
     "CREATE_PET_VIEW_TITLE": "Создание питомца",
-    "REGISTER_VIEW_TITLE": "Регистрация нового игрока"
+    "REGISTER_VIEW_TITLE": "Регистрация нового игрока",
+    "NOT_NOW": "Не сейчас."
   }
 }

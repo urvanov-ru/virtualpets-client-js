@@ -138,4 +138,6 @@ static get LOGIN_VIEW_TITLE() { return "LOGIN_VIEW_TITLE"; }
 static get USER_PETS_VIEW_TITLE() { return "USER_PETS_VIEW_TITLE"; }
 static get CREATE_PET_VIEW_TITLE() { return "CREATE_PET_VIEW_TITLE"; }
 static get REGISTER_VIEW_TITLE() { return "REGISTER_VIEW_TITLE"; }
+
+static get NOT_NOW() { return "NOT_NOW"; }
 }

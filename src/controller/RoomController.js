@@ -33,12 +33,15 @@ import MessageSource from '../localization/MessageSource.js';
 // rest
 import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
 import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import NotNowException from '../rest/exception/NotNowException.js';
 
 // tray icon
 import MessageType from '../trayicon/MessageType.js';
 
 // controller
 import BaseGameController from './BaseGameController.js';
+
+
 
 export default class RoomController extends BaseGameController {
 
@@ -1241,10 +1244,15 @@ export default class RoomController extends BaseGameController {
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      console.error("BuildBookcaseBackgroundWork failed %o.", exception);
-      const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ":" + exception;
-      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      if (ex instanceof NotNowException) {
+        const message = this.messageSource.getMessage(StringConstants.NOT_NOW);
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      } else {
+        console.error("BuildBookcaseBackgroundWork failed %o.", exception);
+        const message = this.messageSource.getMessage(StringConstants.ERROR,
+            null, null) + ":" + exception;
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      }
       this.getRoomInfo();
     };
     work.argument = tilePosition;
@@ -1380,10 +1388,15 @@ export default class RoomController extends BaseGameController {
       this.getRoomInfo();
     };
     work.failed = (exception) => {
-      console.error("BuildRefrigeratorBackgroundWork failed %o.", exception);
-      const message = this.messageSource.getMessage(StringConstants.ERROR,
-          null, null) + ": " + exception;
-      this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      if (exception instanceof NotNowException) {
+        const message = this.messageSource.getMessage(StringConstants.NOT_NOW);
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      } else {
+        console.error("BuildRefrigeratorBackgroundWork failed %o.", exception);
+        const message = this.messageSource.getMessage(StringConstants.ERROR,
+            null, null) + ": " + exception;
+        this.trayIcon.showTrayMessage(message, MessageType.ERROR);
+      }
     };
     work.argument = buildRefrigeratorArg;
     work.view = this.roomView;

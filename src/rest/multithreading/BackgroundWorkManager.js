@@ -1,4 +1,5 @@
 import ServiceException from '../exception/ServiceException.js';
+import NotNowException from '../exception/NotNowException.js';
 import NameIsBusyException from '../exception/NameIsBusyException.js';
 import IncompatibleVersionException from '../exception/IncompatibleVersionException.js';
 import ForbiddenException from '../exception/ForbiddenException.js';
@@ -70,6 +71,9 @@ export default class BackgroundWorkManager {
       switch (responseErrorCode) {
       case 'name_is_busy':
         backgroundWork.failed(new NameIsBusyException());
+        break;
+      case 'not_now':
+        backgroundWork.failed(new NotNowException());
         break;
       case 'incompatible_version':
         backgroundWork.failed(new IncompatibleVersionException(problemDetail.properties.serverVersion, problemDetail.properties.clientVersion));
