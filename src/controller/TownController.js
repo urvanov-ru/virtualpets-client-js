@@ -14,8 +14,8 @@ import StringConstants from '../localization/StringConstants.js';
 import MessageSource from '../localization/MessageSource.js';
 
 // rest
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
 
 // tray icon
 import MessageType from '../trayicon/MessageType.js';

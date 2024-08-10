@@ -17,11 +17,11 @@ import PopupMenuGameObject from '../domain/PopupMenuGameObject.js';
 import MenuItem from '../domain/MenuItem.js';
 
 //rest
-import FoodId from '../rest/domain/FoodId.js';
-import DrinkId from '../rest/domain/DrinkId.js';
-import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
-import DrinkArg from '../rest/domain/DrinkArg.js';
-import SatietyArg from '../rest/domain/SatietyArg.js';
+import FoodId from '../api/domain/FoodId.js';
+import DrinkId from '../api/domain/DrinkId.js';
+import BuildingMaterialType from '../api/domain/BuildingMaterialType.js';
+import DrinkArg from '../api/domain/DrinkArg.js';
+import SatietyArg from '../api/domain/SatietyArg.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -31,9 +31,9 @@ import StringConstants from '../localization/StringConstants.js';
 import MessageSource from '../localization/MessageSource.js';
 
 // rest
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
-import NotNowException from '../rest/exception/NotNowException.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
+import NotNowException from '../api/exception/NotNowException.js';
 
 // tray icon
 import MessageType from '../trayicon/MessageType.js';

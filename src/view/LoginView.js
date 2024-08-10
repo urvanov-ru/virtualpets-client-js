@@ -8,7 +8,7 @@ import MessageType from '../trayicon/MessageType.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 // rest domain
-import LoginArg from '../rest/domain/LoginArg.js';
+import LoginArg from '../api/domain/LoginArg.js';
 
 
 import {mainContainerElement} from './container.js';

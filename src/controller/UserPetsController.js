@@ -3,8 +3,8 @@ import StringConstants from '../localization/StringConstants.js';
 import MessageSource from '../localization/MessageSource.js';
 
 // rest
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
 
 // tray icon
 import MessageType from '../trayicon/MessageType.js';
@@ -60,9 +60,9 @@ export default class UserPetsController {
 
   select(selectPetArg) {
     const work = new BackgroundWork();
-    work.failed = () => {
+    work.failed = (ex) => {
       console.error("SelectBackgroundWork failed %o.", ex);
-      const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null) 
+      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null) 
           + ": " + ex.toString();
       this.trayIcon.showTrayMessage(message,  MessageType.ERROR);
     }
@@ -74,7 +74,7 @@ export default class UserPetsController {
         this.gameController.showView();
       } catch (ex) {
         console.error("SelectBackgroundWork %o.", ex);
-        const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null) 
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null) 
             + ": " + ex.toString();
         this.trayIcon.showTrayMessage(message,  MessageType.ERROR);
       }
@@ -94,7 +94,7 @@ export default class UserPetsController {
     const work = new BackgroundWork();
     work.failed = (ex) => {
       console.error("DeleteBackgroundWork failed %o.", ex);
-      const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null) 
+      const message = this.messageSource.getMessage(StringConstants.ERROR, null, null) 
           + ": " + ex.toString();
       this.trayIcon.showTrayMessage(message,  MessageType.ERROR);
     }
@@ -103,7 +103,7 @@ export default class UserPetsController {
         this.refresh();
       } catch (ex) {
         console.error("DeleteBackgroundWork %o.", ex);
-        const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null) 
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null) 
             + ": " + ex.toString();
         this.trayIcon.showTrayMessage(message,  MessageType.ERROR);
       }
@@ -126,7 +126,7 @@ export default class UserPetsController {
         this.refresh();
       } catch (ex) {
         console.error("RefreshListener %o.",ex);
-        const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null)
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
             + ": " + ex.toString();
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       }
@@ -138,7 +138,7 @@ export default class UserPetsController {
         this.create(arg);
       } catch(ex) {
         console.error("CreateListener %o.", ex);
-        const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null)
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
             +": " + ex.toString();
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       }
@@ -148,7 +148,7 @@ export default class UserPetsController {
         this.select(selectPetArg);
       } catch(ex) {
         console.error("SelectListener %o.", ex);
-        const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null)
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
             +": " + ex.toString();
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       }
@@ -158,7 +158,7 @@ export default class UserPetsController {
         this.delete(deletePetArg);
       } catch (ex) {
         console.error("DeleteListener %o.", ex);
-        const message = this.this.messageSource.getMessage(StringConstants.ERROR, null, null)
+        const message = this.messageSource.getMessage(StringConstants.ERROR, null, null)
             +": " + ex.toString();
         this.trayIcon.showTrayMessage(message, MessageType.ERROR);
       }

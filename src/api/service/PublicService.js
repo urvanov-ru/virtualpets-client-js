@@ -9,7 +9,7 @@ import ServerInfo from '../domain/ServerInfo.js';
 import ServerTechnicalInfo from '../domain/ServerTechnicalInfo.js';
 
 export default class PublicService {
-  static get SERVICE_URL() { return '/rest/v1/PublicService'; }
+  static get SERVICE_URL() { return '/api/v1/PublicService'; }
   #restClient;
   
   ///**

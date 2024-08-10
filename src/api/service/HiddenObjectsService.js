@@ -1,6 +1,6 @@
 
 export default class HiddenObjectsService {
-  static get SERVICE_URL() { return '/rest/v1/HiddenObjectsService'; }
+  static get SERVICE_URL() { return '/api/v1/HiddenObjectsService'; }
   #restClient;
 
   joinGame(joinHiddenObjectsGameArg) {

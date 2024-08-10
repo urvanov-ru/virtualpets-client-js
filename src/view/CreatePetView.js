@@ -5,8 +5,8 @@ import StringConstants from '../localization/StringConstants.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 // rest
-import PetType from '../rest/domain/PetType.js';
-import CreatePetArg from '../rest/domain/CreatePetArg.js';
+import PetType from '../api/domain/PetType.js';
+import CreatePetArg from '../api/domain/CreatePetArg.js';
 
 
 export default class CreatePetView extends BaseHtmlView {

@@ -4,7 +4,7 @@ import ResourceHolder from './ResourceHolder.js';
 import ProgressInfo from './ProgressInfo.js';
 
 // rest
-import PetType from '../rest/domain/PetType.js';
+import PetType from '../api/domain/PetType.js';
 
 export default class RoomLoadWorker extends BaseGameLoadWorker {
   static get MAX_INDEX() { return 150; }

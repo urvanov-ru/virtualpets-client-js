@@ -25,7 +25,7 @@ import BookGameObject from '../domain/BookGameObject.js';
 import TilesEngine from '../tiles/TilesEngine.js';
 
 // rest
-import BuildingMaterialType from '../rest/domain/BuildingMaterialType.js';
+import BuildingMaterialType from '../api/domain/BuildingMaterialType.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -35,8 +35,8 @@ import StringConstants from '../localization/StringConstants.js';
 import MessageSource from '../localization/MessageSource.js';
 
 // rest
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
 
 
 export default class BaseGameController {

@@ -1,8 +1,8 @@
 // multithreading
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
-import NameIsBusyException from '../rest/exception/NameIsBusyException.js';
-import IncompatibleVersionException from '../rest/exception/IncompatibleVersionException.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
+import NameIsBusyException from '../api/exception/NameIsBusyException.js';
+import IncompatibleVersionException from '../api/exception/IncompatibleVersionException.js';
 
 // localization
 import StringConstants from '../localization/StringConstants.js';

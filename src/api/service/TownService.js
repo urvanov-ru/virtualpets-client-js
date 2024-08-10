@@ -1,6 +1,6 @@
 
 export default class TownService {
-  static get SERVICE_URL() { return '/rest/v1/TownService'; }
+  static get SERVICE_URL() { return '/api/v1/TownService'; }
   #restClient;
   
   getTownInfo() {

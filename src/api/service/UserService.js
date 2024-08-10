@@ -1,5 +1,5 @@
 export default class UserService {
-  static get SERVICE_URL() { return '/rest/v1/UserService'; }
+  static get SERVICE_URL() { return '/api/v1/UserService'; }
   #version
   #restClient;
 

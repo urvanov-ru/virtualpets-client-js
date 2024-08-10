@@ -1,7 +1,7 @@
 import ProgressInfo from './ProgressInfo.js';
 import ResourceManager from './ResourceManager.js';
 
-import FoodId from '../rest/domain/FoodId.js';
+import FoodId from '../api/domain/FoodId.js';
 
 export default class BaseGameLoadWorker {
 

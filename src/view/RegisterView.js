@@ -7,7 +7,7 @@ import {mainContainerElement} from './container.js';
 import BaseHtmlView from './BaseHtmlView.js';
 
 // rest
-import RegisterArgument from '../rest/domain/RegisterArgument.js';
+import RegisterArgument from '../api/domain/RegisterArgument.js';
 
 export default class RegisterView extends BaseHtmlView {
   #registerListeners =[];

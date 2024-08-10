@@ -1,6 +1,6 @@
 
 export default class RoomService {
-  static get SERVICE_URL() { return '/rest/v1/RoomService'; }
+  static get SERVICE_URL() { return '/api/v1/RoomService'; }
   #restClient;
   
   getRoomInfo() {

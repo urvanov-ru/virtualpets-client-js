@@ -3,16 +3,16 @@ import StringConstants from '../localization/StringConstants.js';
 import MessageSource from '../localization/MessageSource.js';
 
 // rest
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
 
 // rest domain
-import GetServersArg from '../rest/domain/GetServersArg.js';
-import ServerInfo from '../rest/domain/ServerInfo.js';
+import GetServersArg from '../api/domain/GetServersArg.js';
+import ServerInfo from '../api/domain/ServerInfo.js';
 
 // rest exception
-import IncompatibleVersionException from '../rest/exception/IncompatibleVersionException.js';
-import ForbiddenException from '../rest/exception/ForbiddenException.js';
+import IncompatibleVersionException from '../api/exception/IncompatibleVersionException.js';
+import ForbiddenException from '../api/exception/ForbiddenException.js';
 
 // tray icon
 import MessageType from '../trayicon/MessageType.js';

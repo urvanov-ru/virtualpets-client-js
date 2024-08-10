@@ -11,8 +11,8 @@ import BaseHtmlView from './BaseHtmlView.js';
 import ResourceManager from '../resources/ResourceManager.js';
 
 // rest
-import PetType from '../rest/domain/PetType.js';
-import SelectPetArg from '../rest/domain/SelectPetArg.js';
+import PetType from '../api/domain/PetType.js';
+import SelectPetArg from '../api/domain/SelectPetArg.js';
 
 export default class UserPetsView extends BaseHtmlView{
   #petsDiv;

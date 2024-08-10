@@ -11,7 +11,7 @@ import ClickedArg from '../domain/ClickedArg.js';
 import Point from '../domain/Point.js';
 import HighlightGameObject from '../domain/HighlightGameObject.js';
 
-import PetType from '../rest/domain/PetType.js';
+import PetType from '../api/domain/PetType.js';
 
 import IndependentCanvas from './component/IndependentCanvas.js';
 import GameObjectRender from './component/GameObjectRender.js';

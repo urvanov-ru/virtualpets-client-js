@@ -4,7 +4,7 @@ import TreasuryData from '../domain/TreasuryData.js';
 import Point from '../domain/Point.js';
 
 //rest
-import HiddenObjectsGameType from '../rest/domain/HiddenObjectsGameType.js';
+import HiddenObjectsGameType from '../api/domain/HiddenObjectsGameType.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';

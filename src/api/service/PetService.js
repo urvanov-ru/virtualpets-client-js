@@ -1,6 +1,6 @@
 
 export default class PetService {
-  static get SERVICE_URL() { return '/rest/v1/PetService'; }
+  static get SERVICE_URL() { return '/api/v1/PetService'; }
   #restClient;
   
   getUserPets() {

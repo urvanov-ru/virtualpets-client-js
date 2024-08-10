@@ -7,7 +7,7 @@ import ClothGameObject from '../domain/ClothGameObject.js';
 import MessageBoxGameObject from '../domain/MessageBoxGameObject.js';
 
 //rest
-import SavePetClothsArg from '../rest/domain/SavePetClothsArg.js';
+import SavePetClothsArg from '../api/domain/SavePetClothsArg.js';
 
 // resources
 import ResourceManager from '../resources/ResourceManager.js';
@@ -16,8 +16,8 @@ import ResourceManager from '../resources/ResourceManager.js';
 import StringConstants from '../localization/StringConstants.js';
 
 // rest
-import BackgroundWork from '../rest/multithreading/BackgroundWork.js';
-import ConnectionExceptionSettings from '../rest/multithreading/ConnectionExceptionSettings.js';
+import BackgroundWork from '../api/multithreading/BackgroundWork.js';
+import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
 
 // tray icon
 import MessageType from '../trayicon/MessageType.js';

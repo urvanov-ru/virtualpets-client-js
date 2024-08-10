@@ -1,19 +1,19 @@
 import i18n from 'roddeh-i18n';
 
 // rest
-import RestClient from './rest/service/RestClient.js';
-import BackgroundWorkManager from './rest/multithreading/BackgroundWorkManager.js';
+import RestClient from './api/service/RestClient.js';
+import BackgroundWorkManager from './api/multithreading/BackgroundWorkManager.js';
 
 // rest domain
-import PetType from './rest/domain/PetType.js';
+import PetType from './api/domain/PetType.js';
 
 // rest service
-import PublicService from './rest/service/PublicService.js';
-import UserService from './rest/service/UserService.js';
-import PetService from './rest/service/PetService.js';
-import RoomService from './rest/service/RoomService.js';
-import TownService from './rest/service/TownService.js';
-import HiddenObjectsService from './rest/service/HiddenObjectsService.js';
+import PublicService from './api/service/PublicService.js';
+import UserService from './api/service/UserService.js';
+import PetService from './api/service/PetService.js';
+import RoomService from './api/service/RoomService.js';
+import TownService from './api/service/TownService.js';
+import HiddenObjectsService from './api/service/HiddenObjectsService.js';
 
 // domain
 import RoomData from './domain/RoomData.js';
