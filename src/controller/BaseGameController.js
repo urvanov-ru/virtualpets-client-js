@@ -809,7 +809,7 @@ export default class BaseGameController {
 
     const buildingMaterials = this.buildMenu.buildingMaterialObjects;
     const costLabels = this.buildMenu.toolTipCostLabels;
-    const costs = this.buildMenu.costs[i];
+    const costs = this.buildMenu.costs[i]
     const toolTipX = toolTip.position.x;
     const buildingMaterialY = toolTipPosition.y + toolTipLabel.size;
     this.buildMenu.toolTipLabel.position = 
@@ -844,6 +844,7 @@ export default class BaseGameController {
               .visible = true;
       } else {
         buildingMaterialGameObject.visible = false;
+        costLabels[n].visible = false;
       }
     }
   }

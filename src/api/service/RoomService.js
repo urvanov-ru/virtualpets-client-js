@@ -55,7 +55,7 @@ export default class RoomService {
   
   getBuildMenuCosts() {
     console.debug('getBuildMenuCosts');
-    return this.#restClient.fetch(RoomService.SERVICE_URL + "/getBuildMenuCosts", 'POST');
+    return this.#restClient.fetch(RoomService.SERVICE_URL + "/getBuildMenuCosts", 'GET');
   }
   
   upgradeMachineWithDrinks() {
