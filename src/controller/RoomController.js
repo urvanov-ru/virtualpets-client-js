@@ -717,7 +717,7 @@ export default class RoomController extends BaseGameController {
       const costs = this.roomData
           .buildMenuCosts.bookcaseCosts[newBookcaseId - 1];
       this.showUpgrade(text, costs, function(aaa)  {
-        this.startUpgrade(roomData.bookcase);
+        this.startUpgrade(this.roomData.bookcase);
       }.bind(this), function(bbb) {
         this.roomData.situation = RoomData.SITUATION_NORMAL;
       }.bind(this));
@@ -2711,7 +2711,7 @@ export default class RoomController extends BaseGameController {
 
     bookcaseInner.visible = b;
     for (let n = 0; n < bookcaseInnerItems.length; n++) {
-      if (n < this.roomData.refrigeratorId) {
+      if (n < this.roomData.bookcaseId) {
         bookcaseInnerItems[n].visible = b;
       }
     }

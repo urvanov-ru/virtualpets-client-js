@@ -38,6 +38,8 @@ import MessageSource from '../localization/MessageSource.js';
 import BackgroundWork from '../api/multithreading/BackgroundWork.js';
 import ConnectionExceptionSettings from '../api/multithreading/ConnectionExceptionSettings.js';
 
+// tray icon
+import MessageType from '../trayicon/MessageType.js';
 
 export default class BaseGameController {
 
@@ -1185,16 +1187,16 @@ export default class BaseGameController {
   static get #START_UPGRADE_RESULT_NO_PATH() { return "no_path"; }
 
   startUpgrade(go) {
-    const tilesStart = this.tilesEngine.translateToTileCoordinates(pet);
+    const tilesStart = this.tilesEngine.translateToTileCoordinates(this.pet);
     const tilesEnd = this.tilesEngine.translateToTileCoordinates(go);
     tilesEnd.y = go.tileTypes[0].length + tilesEnd.y;
     const tilesPath = this.tilesEngine.findPath(tilesStart, tilesEnd);
 
     if (tilesPath != null) {
-      const movePath = new Point[tilesPath.length];
+      const movePath = new Array(tilesPath.length);
       for (let n = 0; n < tilesPath.length; n++) {
         const tilesPoint = tilesPath[n];
-        movePath[n] = this.tilesEngine.translateFromTileCoordinates(pet,
+        movePath[n] = this.tilesEngine.translateFromTileCoordinates(this.pet,
             tilesPoint);
       }
       this.pet.setMove(
@@ -1442,8 +1444,8 @@ export default class BaseGameController {
             this.messageBox.cancelButton.visible = false;
             this.messageBox.okLabel.visible = false;
             this.messageBox.cancelLabel.visible = false;
-            if (this.upgradeClickedListener != null)
-              this.upgradeClickedListener.clicked(aaaa);
+            if (upgradeClickedListener != null)
+              upgradeClickedListener(aaaa);
           }
         }.bind(this), cancelClickedListener,
         MessageBoxGameObject.MESSAGE_BOX_TYPE_OK_CANCEL_BUTTON);
