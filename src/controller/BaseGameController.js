@@ -1426,7 +1426,7 @@ export default class BaseGameController {
     this.showMessageBox(
         messageBoxStrings,
         function (aaaa) {
-          const hide = false;
+          let hide = false;
 
           if (this.#upgradeInfo.upgradeInsufficientResources) {
             this.trayIcon.showTrayMessage(
