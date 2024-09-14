@@ -1,14 +1,15 @@
 {
   "background_color": "purple",
-  "description": "Virtual pets JS client",
-  "display" : "standalone",
+  "description": "Urvanov's Pretty Virtual Pets JavaScript Client",
+  "display" : "fullscreen",
+  "orientation": "landscape",
   "icons": [
     {
       "src": "data/images/cat/cat1.png",
       "sizes": "150x150"
     }
   ],
-  "name": "VirtualPets JS Client",
+  "name": "Urvanov's Pretty Virtual Pets'",
   "short_name": "VirtualPets",
-  "start_url": "http://virtualpets.urvanov.ru/virtualpets-client-js/"
+  "start_url": "index.html"
 }

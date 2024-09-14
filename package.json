@@ -7,7 +7,7 @@
     "test": "tape test/*.js",
     "build-development-springframework": "webpack --env VIRTUALPETS_SERVER_URL=http://localhost:8080/virtualpets-server-springframework",
     "build-development-springboot": "webpack --env VIRTUALPETS_SERVER_URL=http://localhost:8080",
-    "build-production-springframework": "webpack --env VIRTUALPETS_SERVER_URL=http://virtualpets.urvanov.ru/virtualpets-server-springframework",
+    "build-production-springframework": "webpack --env VIRTUALPETS_SERVER_URL=https://virtualpets.urvanov.ru/virtualpets-server-springframework",
     "build": "webpack"
   },
   "keywords": [],
