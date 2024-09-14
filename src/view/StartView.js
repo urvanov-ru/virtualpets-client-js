@@ -60,7 +60,7 @@ export default class StartView  {
   
   #choosePreferredLanguage() {
     const userLang = navigator.language || navigator.userLanguage;
-    console.debug('User langage is %s (https://datatracker.ietf.org/doc/html/rfc5646).', userLang);
+    console.debug('User language is %s (https://datatracker.ietf.org/doc/html/rfc5646).', userLang);
     const translations = new Set(['en', 'ru']);
     let preferredLanguage = 'en';
     if (translations.has(userLang)) {
