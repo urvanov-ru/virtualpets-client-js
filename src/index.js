@@ -228,7 +228,7 @@ function init(selectedLanguage) {
    
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
-      .register('/projects/games/virtualpets/sw.js')
+      .register('sw.js')
       .then((registration) => { console.log('Service worker registered:', registration); });
   }
   window.addEventListener('beforeinstallprompt', (e) => {
