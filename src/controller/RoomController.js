@@ -2377,11 +2377,11 @@ export default class RoomController extends BaseGameController {
       const go = new GameObject();
       go.position = new Point(
           RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_X
-              + RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y
+              + RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_X
               * (n % 2),
           RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_Y
               + RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y
-              * (n / 2));
+              * Math.floor(n / 2));
       go.z = BaseGameController.MENU_Z_ORDER;
       go.animationImageIds = [[ ResourceManager.IMAGE_ROOM_MACHINE_WITH_DRINKS_INNER_ITEM ]];
       go.visible = false;
@@ -2652,8 +2652,9 @@ export default class RoomController extends BaseGameController {
       const x = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_X
           + (drink.machineWithDrinksOrder % 2)
           * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_X;
-      const y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y + drink.machineWithDrinksLevel
-         / 2 * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
+      const y = RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_Y
+          + Math.floor(drink.machineWithDrinksLevel / 2)
+          * RoomData.ORIGINAL_MACHINE_WITH_DRINKS_INNER_OBJECT_STEP_Y;
       go.position = new Point(x, y);
       gol.position = new Point(x, y + 40);
       if (machineWithDrinksInner.visible) {
@@ -2772,9 +2773,11 @@ export default class RoomController extends BaseGameController {
       refrigeratorInnerCounts.set(food.id, food.count);
       const go = refrigeratorInnerObjects.get(food.id);
       const gol = refrigeratorInnerObjectLabels.get(food.id);
-      const x = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_X + (food.refrigeratorOrder % 3)
+      const x = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_X
+          + (food.refrigeratorOrder % 3)
           * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_X;
-      const y = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_Y + food.refrigeratorLevel / 3
+      const y = RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_Y
+          + Math.floor(food.refrigeratorLevel / 3)
           * RoomData.ORIGINAL_REFRIGERATOR_INNER_OBJECT_STEP_Y;
       go.position = new Point(x, y);
       gol.position = new Point(x, y + 40); 
@@ -2788,8 +2791,6 @@ export default class RoomController extends BaseGameController {
   }
 
   set books(getPetBooksResult) {
-    
-    
     const books = this.roomData.bookcaseInnerBooks;
     const bookcaseInner = this.roomData.bookcaseInner;
     const bookcaseInnerObjects = this.roomData.bookcaseInnerObjects;
@@ -2799,9 +2800,11 @@ export default class RoomController extends BaseGameController {
     for (let book of getPetBooksResult.books) {
       this.roomData.bookcaseInnerBooks.add(book.id);
       const go = bookcaseInnerObjects.get(book.id);
-      const x = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_X + (book.bookcaseOrder % 3)
+      const x = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_X
+          + (book.bookcaseOrder % 3)
           * RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_STEP_X;
-      const y = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_Y + book.bookcaseLevel / 3
+      const y = RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_Y
+          + Math.floor(book.bookcaseLevel / 3)
           * RoomData.ORIGINAL_BOOKCASE_INNER_OBJECT_STEP_Y;
       go.position = new Point(x, y);
       go.visible = true;
